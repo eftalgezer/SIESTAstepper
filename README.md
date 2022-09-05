@@ -6,6 +6,7 @@
 [![PyPI download day](https://img.shields.io/pypi/dd/SIESTAstepper.svg)](https://pypi.python.org/pypi/SIESTAstepper/)
 ![GitHub all releases](https://img.shields.io/github/downloads/eftalgezer/SIESTAstepper/total?style=flat)
 [![GitHub contributors](https://img.shields.io/github/contributors/eftalgezer/SIESTAstepper.svg)](https://github.com/eftalgezer/SIESTAstepper/graphs/contributors/)
+[![CodeFactor](https://www.codefactor.io/repository/github/eftalgezer/siestastepper/badge)](https://www.codefactor.io/repository/github/eftalgezer/siestastepper)
 [![PyPI license](https://img.shields.io/pypi/l/SIESTAstepper.svg)](https://pypi.python.org/pypi/SIESTAstepper/)
 [![DOI](https://zenodo.org/badge/532944393.svg)](https://zenodo.org/badge/latestdoi/532944393)
 
