@@ -1,5 +1,7 @@
 # SIESTAstepper
 
+[![DOI](https://zenodo.org/badge/532944393.svg)](https://zenodo.org/badge/latestdoi/532944393)
+
 SIESTAstepper runs SIESTA step by step, designed for constrained calculations.
 
 ## Installation
