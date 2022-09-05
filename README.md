@@ -77,5 +77,19 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 
 Please make sure to update tests as appropriate.
 
+## Citation
+```bibtex
+@software{eftal_gezer_2022_7051272,
+  author       = {Eftal Gezer},
+  title        = {eftalgezer/SIESTAstepper: v0.1.0},
+  month        = sep,
+  year         = 2022,
+  publisher    = {Zenodo},
+  version      = {v0.1.0},
+  doi          = {10.5281/zenodo.7051272},
+  url          = {https://doi.org/10.5281/zenodo.7051272}
+}
+```
+
 ## License
 [GNU General Public License v3.0](https://github.com/eftalgezer/SIESTAstepper/blob/master/LICENSE) 
