@@ -5,6 +5,8 @@ function = sys.argv[1]
 for arg in sys.argv:
     if arg.startswith("mpirun="):
         cores = int(arg.split("=")[1])
+    if arg.startswith("conda="):
+        conda = arg.split("=")[1]
 
 if function not in ["run", "run_next", "ani_to_fdf", "xyz_to_fdf", "analysis"]:
     raise AttributeError("Command not found. Please use 'run', 'run_next', 'ani_to_fdf', 'xyz_to_fdf', 'analysis'")

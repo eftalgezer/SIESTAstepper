@@ -9,13 +9,20 @@ from .helpers import create_fdf, read_energy
 cwd = os.getcwd()
 log = "log"
 cores = None
+conda = None
 
 
 def run_next(i, label):
     """Run SIESTA for given step"""
     os.chdir(f"{cwd}/i{i}")
     print(f"Changed directory to {os.getcwd()}")
-    print(f"Running SIESTA for i{i}{f' in parallel with {cores} cores' if cores is not None else ''}")
+    print(
+        f"""Running SIESTA for i{i}
+        {f' in parallel with {cores} cores' if cores is not None else ''}
+        {' in conda' if conda else ''}"""
+    )
+    if conda:
+        os.system(f"conda activate {conda}")
     os.system(f"{f'mpirun -np {cores} ' if cores is not None else ''}siesta {label}.fdf > {log} &")
     for line in tail("-f", log, _iter=True):
         print(line)
@@ -94,6 +101,8 @@ def run(label):
                 time.sleep(900)
                 run(label)
     print("All iterations are completed")
+    if conda:
+        os.system("conda deactivate")
 
 
 def analysis(path=None, missing=None, plot_=True):
