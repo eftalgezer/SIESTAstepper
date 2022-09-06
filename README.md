@@ -34,6 +34,9 @@ SIESTAstepper.cwd = "path/to/working/directory"
 #Sets the name of SIESTA log files (default is "log")
 SIESTAstepper.log = "log"
 
+#Sets number of cores for parallel run
+SIESTAstepper.cores = 4
+
 # Runs SIESTA step by step
 SIESTAstepper.run("graphene")
 
@@ -64,7 +67,11 @@ SIESTAstepper.analysis(missing = "path/to/missing/log/files")
 
 python -m SIESTAstepper run log
 
+python -m SIESTAstepper run log mpirun=4
+
 python -m SIESTAstepper run_next log 1 graphene
+
+python -m SIESTAstepper run_next log 1 graphene mpirun=4
 
 python -m SIESTAstepper ani_to_fdf path/to/ANI path/to/FDF path/to/newFDF
 
