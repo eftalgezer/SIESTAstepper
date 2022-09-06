@@ -8,13 +8,15 @@ from .helpers import create_fdf, read_energy
 
 cwd = os.getcwd()
 log = "log"
+cores = None
+
 
 def run_next(i, label):
     """Run SIESTA for given step"""
     os.chdir(f"{cwd}/i{i}")
     print(f"Changed directory to {os.getcwd()}")
-    print(f"Running SIESTA for i{i}")
-    os.system(f"siesta {label}.fdf > {log} &")
+    print(f"Running SIESTA for i{i}{f' in parallel with {cores} cores' if cores is not None else ''}")
+    os.system(f"{f'mpirun -np {cores} ' if cores is not None else ''}siesta {label}.fdf > {log} &")
     for line in tail("-f", log, _iter=True):
         print(line)
         if line == "Job completed\n":
