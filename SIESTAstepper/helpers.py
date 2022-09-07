@@ -2,6 +2,7 @@ import re
 
 
 def get_it(files):
+    """Get a list of iterations"""
     try:
         return [int(re.search("/i[0-9]+", f)[0].strip("/i")) for f in files]
     except AttributeError:
