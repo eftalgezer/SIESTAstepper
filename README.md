@@ -49,6 +49,15 @@ SIESTAstepper.ani_to_fdf("path/to/ANI", "path/to/FDF", "path/to/newFDF")
 # Converts XYZ to FDF by using the previous FDF and XYZ files
 SIESTAstepper.xyz_to_fdf("path/to/XYZ", "path/to/FDF", "path/to/newFDF")
 
+#Merges ANI files
+SIESTAstepper.merge_ani(label = "graphene")
+
+#Merges ANI files by setting a path
+SIESTAstepper.merge_ani(label = "graphene", path = "path/to/i*/ANI/files")
+
+#Merges ANI files by setting a missing files path
+SIESTAstepper.merge_ani(label = "graphene", missing="path/to/i*/missing/ANI/files")
+
 # Runs SIESTA a for given step
 SIESTAstepper.run_next("1", "graphene")
 
@@ -62,7 +71,7 @@ SIESTAstepper.analysis(plot_ = False)
 SIESTAstepper.analysis(path = "path/to/i*/log/files")
 
 # Plots and returns energies from log files by setting a missing files path
-SIESTAstepper.analysis(missing = "path/to/missing/log/files")
+SIESTAstepper.analysis(missing = "path/to/i*/missing/log/files")
 ```
 
 ### In terminal
@@ -84,13 +93,19 @@ python -m SIESTAstepper ani_to_fdf path/to/ANI path/to/FDF path/to/newFDF
 
 python -m SIESTAstepper xyz_to_fdf path/to/XYZ path/to/FDF path/to/newFDF
 
+python -m SIESTAstepper merge_ani graphene
+
+python -m SIESTAstepper merge_ani graphene path=path/to/i*/ANI/files
+
+python -m SIESTAstepper merge_ani graphene missing=path/to/i*/missing/ANI/files
+
 python -m SIESTAstepper analysis log
 
 python -m SIESTAstepper analysis log noplot
 
 python -m SIESTAstepper analysis log path=path/to/i*/log/files
 
-python -m SIESTAstepper analysis log missing=path/to/missing/log/files
+python -m SIESTAstepper analysis log missing=path/to/i*/missing/log/files
 
 ```
 
@@ -103,13 +118,13 @@ Please make sure to update tests as appropriate.
 ```bibtex
 @software{eftal_gezer_2022_7055134,
   author       = {Eftal Gezer},
-  title        = {eftalgezer/SIESTAstepper: v0.3.0},
+  title        = {eftalgezer/SIESTAstepper: v0.2.0},
   month        = sep,
   year         = 2022,
   publisher    = {Zenodo},
-  version      = {v0.3.0},
-  doi          = {10.5281/zenodo.7055578},
-  url          = {https://doi.org/10.5281/zenodo.7055578}
+  version      = {v0.2.0},
+  doi          = {10.5281/zenodo.7055134},
+  url          = {https://doi.org/10.5281/zenodo.7055134}
 }
 ```
 

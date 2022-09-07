@@ -4,7 +4,8 @@ import time
 import matplotlib.pyplot as plt
 from sh import tail
 from itertools import zip_longest
-from .helpers import create_fdf, read_energy
+import re
+from .helpers import create_fdf, read_energy, get_it
 
 cwd = os.getcwd()
 log = "log"
@@ -72,6 +73,34 @@ def xyz_to_fdf(xyzpath, fdfpath, newfdfpath):
                         geo[geo.index(g)] = geo[geo.index(g)].strip(i[-1])
             create_fdf(fdf, geo, newfdfpath)
         xyzfile.close()
+
+
+def merge_ani(label=None, path=None, missing=None):
+    """Merge ANI files"""
+    if path is None:
+        path = "i*"
+    if label is None:
+        raise ValueError("ERROR: Please set a label")
+    files = list(glob.glob(f"{cwd}/{path}/{label}.ANI"))
+    if missing is not None:
+        files += list(glob.glob(f"{cwd}/{path}/{missing}/{label}.ANI"))
+    files.sort(key=lambda _: int(re.sub("\D""", "", _)))
+    if files:
+        it = get_it(files)
+        if it != list(range(min(it), max(it) + 1)):
+            print("WARNING: There are missing ANI files!")
+        with open(f"{cwd}/{label}-merged.ANI", "w") as outfile:
+            print(f"{cwd}/{label}-merged.ANI is opened")
+            for f in files:
+                with open(f) as infile:
+                    print(f"Writing {f}")
+                    content = infile.read()
+                    outfile.write(content)
+                    infile.close()
+            outfile.close()
+        print("All ANI files are merged")
+    else:
+        print("No ANI files found")
 
 
 def run(label):
