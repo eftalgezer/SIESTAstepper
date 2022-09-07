@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from sh import tail
 from itertools import zip_longest
 import re
-from .helpers import create_fdf, read_energy, get_it
+from .helpers import create_fdf, read_fdf, read_energy, get_it
 
 cwd = os.getcwd()
 log = "log"
@@ -39,18 +39,8 @@ def ani_to_fdf(anipath, fdfpath, newfdfpath):
         number = geo.split("\n", 1)[0].strip()
         geo = geo.split(number + "\n \n")[-1]
         geo = geo.splitlines()
-        print(f"Reading {fdfpath}")
-        with open(fdfpath, "r") as fdffile:
-            fdf = fdffile.read()
-            ind = fdf.split("%block ChemicalSpeciesLabel\n")[1].split("%endblock ChemicalSpeciesLabel\n")[0]
-            ind = ind.splitlines()
-            for i in ind:
-                for g in geo:
-                    if g[0] == i[-1]:
-                        geo[geo.index(g)] = f"{g}  " + i.split("    ")[0]
-                        g = f"{g}  " + i.split("    ")[0]
-                        geo[geo.index(g)] = geo[geo.index(g)].strip(i[-1])
-                create_fdf(fdf, geo, newfdfpath)
+        fdf, geo = read_fdf(fdfpath, geo)
+        create_fdf(fdf, geo, newfdfpath)
         anifile.close()
 
 
@@ -60,18 +50,8 @@ def xyz_to_fdf(xyzpath, fdfpath, newfdfpath):
     with open(xyzpath, "r") as xyzfile:
         geo = xyzfile.read()
         geo = geo.splitlines()[2:]
-        print(f"Reading {fdfpath}")
-        with open(fdfpath, "r") as fdffile:
-            fdf = fdffile.read()
-            ind = fdf.split("%block ChemicalSpeciesLabel\n")[1].split("%endblock ChemicalSpeciesLabel\n")[0]
-            ind = ind.splitlines()
-            for i in ind:
-                for g in geo:
-                    if g[0] == i[-1]:
-                        geo[geo.index(g)] = f"{g}  " + i.split("    ")[0]
-                        g = f"{g}  " + i.split("    ")[0]
-                        geo[geo.index(g)] = geo[geo.index(g)].strip(i[-1])
-            create_fdf(fdf, geo, newfdfpath)
+        fdf, geo = read_fdf(fdfpath, geo)
+        create_fdf(fdf, geo, newfdfpath)
         xyzfile.close()
 
 

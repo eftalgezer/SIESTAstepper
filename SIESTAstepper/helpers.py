@@ -8,6 +8,21 @@ def get_it(files):
     except AttributeError:
         print("ERROR: The path must be in format of 'path/to/i1'")
 
+def read_fdf(fdfpath, geo):
+    """Read FDF file"""
+    print(f"Reading {fdfpath}")
+    with open(fdfpath, "r") as fdffile:
+        fdf = fdffile.read()
+        ind = fdf.split("%block ChemicalSpeciesLabel\n")[1].split("%endblock ChemicalSpeciesLabel\n")[0]
+        ind = ind.splitlines()
+        for i in ind:
+            for g in geo:
+                if g[0] == i[-1]:
+                    geo[geo.index(g)] = f"{g}  " + i.split("    ")[0]
+                    g = f"{g}  " + i.split("    ")[0]
+                    geo[geo.index(g)] = geo[geo.index(g)].strip(i[-1])
+    return fdf, geo
+
 
 def create_fdf(fdf, geo, newfdfpath):
     """Create new FDF file"""
