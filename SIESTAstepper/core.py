@@ -1,11 +1,10 @@
 import glob
 import os
-import time
 import matplotlib.pyplot as plt
 from sh import tail
 from itertools import zip_longest
 import re
-from .helpers import create_fdf, read_fdf, read_energy, get_it
+from .helpers import create_fdf, read_fdf, read_energy, get_it, copy_files
 
 cwd = os.getcwd()
 log = "log"
@@ -15,6 +14,7 @@ conda = None
 
 def run_next(i, label):
     """Run SIESTA for given step"""
+    copy_files(["psf"], label, f"{cwd}/i{int(i) - 1}", f"{cwd}/i{i}")
     os.chdir(f"{cwd}/i{i}")
     print(f"Changed directory to {os.getcwd()}")
     print(
@@ -96,7 +96,8 @@ def run(label):
             if lines[-1] == "Job completed\n":
                 print(f"{logs[-1]}: Job completed")
                 if not os.path.isfile(
-                        f"{cwd}/i" + str(int(logs[-1].split("/")[0].strip("i")) + 1) + "/" + label + ".fdf"):
+                        f"{cwd}/i" + str(int(logs[-1].split("/")[0].strip("i")) + 1) + "/" + label + ".fdf"
+                ):
                     ani_to_fdf(
                         logs[-1].split("/")[0] + "/" + label + ".ANI",
                         logs[-1].split("/")[0] + "/" + label + ".fdf",
@@ -105,13 +106,41 @@ def run(label):
                 file.close()
                 run_next(str(int(logs[-1].split("/")[0].strip("i")) + 1), label)
             else:
-                print(f"{logs[-1]}: Job is not completed")
-                print("Snoozing for 15 minutes")
-                time.sleep(900)
-                run(label)
+                run_interrupted(str(int(logs[-1].split("/")[0].strip("i"))), label, "continue")
     print("All iterations are completed")
     if conda:
         os.system("conda deactivate")
+
+
+def run_interrupted(i, label, cont):
+    """Continue to an interrupted calculation"""
+    if not os.path.exists(f"{cwd}/i{i}/{cont}"):
+        print(f"Making directory {cont} under i{i}")
+        os.mkdir(f"{cwd}/i{i}/{cont}")
+    copy_files(["psf", "fdf", "XV", "DM"], label, f"{cwd}/i{i}", f"{cwd}/i{i}/{cont}")
+    os.chdir(f"{cwd}/i{i}/{cont}")
+    print(f"Changed directory to {os.getcwd()}")
+    print(
+        f"""Running SIESTA for i{i}/{cont}
+            {f' in parallel with {cores} cores' if cores is not None else ''}
+            {' in conda' if conda else ''}"""
+    )
+    if conda:
+        os.system(f"conda activate {conda}")
+    os.system(f"{f'mpirun -np {cores} ' if cores is not None else ''}siesta {label}.fdf > {log} &")
+    for line in tail("-f", log, _iter=True):
+        print(line)
+        if line == "Job completed\n":
+            run_next(int(i) + 1, label)
+
+
+def make_directories(n):
+    for i in range(1, n):
+        if not os.path.exists(f"{cwd}/i{i}"):
+            print(f"Making directory i{i} under {cwd.split('/')[-1]}")
+            os.mkdir(f"{cwd}/i{i}")
+        else:
+            print(f"Directory i{i} exists")
 
 
 def analysis(path=None, missing=None, plot_=True):

@@ -1,5 +1,5 @@
 import sys
-from .core import run, run_next, ani_to_fdf, xyz_to_fdf, merge_ani, analysis, log, cores
+from .core import run, run_next, run_interrupted, make_directories, ani_to_fdf, xyz_to_fdf, merge_ani, analysis, log, cores
 
 function = sys.argv[1]
 for arg in sys.argv:
@@ -8,9 +8,11 @@ for arg in sys.argv:
     if arg.startswith("conda="):
         conda = arg.split("=")[1]
 
-if function not in ["run", "run_next", "ani_to_fdf", "xyz_to_fdf", "merge_ani", "analysis"]:
+if function not in ["run", "run_next", "run_interrupted", "make_directories",
+                    "ani_to_fdf", "xyz_to_fdf", "merge_ani", "analysis"]:
     raise AttributeError(
-        "Command not found. Please use 'run', 'run_next', 'ani_to_fdf', 'xyz_to_fdf', 'merge_ani', 'analysis'"
+        """Command not found. Please use 'run', 'run_next', 'run_interrupted', 'make_directories', 'ani_to_fdf', 
+        'xyz_to_fdf', 'merge_ani', 'analysis'"""
     )
 elif function == "run":
     log = sys.argv[2]
@@ -18,6 +20,11 @@ elif function == "run":
 elif function == "run_next":
     log = sys.argv[2]
     run_next(sys.argv[3], sys.argv[4])
+elif function == "run_interrupted":
+    log = sys.argv[2]
+    run_interrupted(sys.argv[3], sys.argv[4], sys.argv[5])
+elif function == "make_directories":
+    make_directories(int(sys.argv[2]))
 elif function == "ani_to_fdf":
     ani_to_fdf(sys.argv[2], sys.argv[3], sys.argv[4])
 elif function == "xyz_to_fdf":
