@@ -2,7 +2,6 @@ import glob
 import os
 import matplotlib.pyplot as plt
 from subprocess import run as sprun
-from subprocess import check_output
 from itertools import zip_longest
 import re
 from .helpers import create_fdf, read_fdf, read_energy, get_it, copy_files, print_run, command
