@@ -7,7 +7,7 @@ long_description = (here / "README.md").read_text(encoding="utf-8")
 
 setup(
     name="SIESTAstepper",
-    version="0.4.1",
+    version="0.4.2",
     description="SIESTAstepper runs SIESTA step by step, designed for constrained calculations.",
     long_description=long_description,
     long_description_content_type="text/markdown",
