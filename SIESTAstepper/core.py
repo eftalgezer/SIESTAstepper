@@ -2,6 +2,8 @@ import glob
 import os
 import matplotlib.pyplot as plt
 from sh import tail
+from subprocess import Popen
+import shlex
 from itertools import zip_longest
 import re
 from .helpers import create_fdf, read_fdf, read_energy, get_it, copy_files
@@ -23,12 +25,16 @@ def run_next(i, label):
         {' in conda' if conda else ''}"""
     )
     if conda:
-        os.system(f"conda activate {conda}")
-    os.system(f"{f'mpirun -np {cores} ' if cores is not None else ''}siesta {label}.fdf > {log} &")
-    for line in tail("-f", log, _iter=True):
-        print(line)
-        if line == "Job completed\n":
-            run(label)
+        Popen(["conda", "activate", conda])
+    with open(log, "w") as logger:
+        Popen(
+            shlex.split(f"{f'mpirun -np {cores} ' if cores is not None else ''}siesta {label}.fdf > {log}"),
+            stdout=logger
+        )
+        for line in tail("-f", log, _iter=True):
+            print(line)
+            if line == "Job completed\n":
+                run(label)
 
 
 def ani_to_fdf(anipath, fdfpath, newfdfpath):
@@ -109,7 +115,7 @@ def run(label):
                 run_interrupted(str(int(logs[-1].split("/")[0].strip("i"))), label, "continue")
     print("All iterations are completed")
     if conda:
-        os.system("conda deactivate")
+        Popen(["conda", "deactivate"])
 
 
 def run_interrupted(i, label, cont):
@@ -126,12 +132,16 @@ def run_interrupted(i, label, cont):
             {' in conda' if conda else ''}"""
     )
     if conda:
-        os.system(f"conda activate {conda}")
-    os.system(f"{f'mpirun -np {cores} ' if cores is not None else ''}siesta {label}.fdf > {log} &")
-    for line in tail("-f", log, _iter=True):
-        print(line)
-        if line == "Job completed\n":
-            run_next(int(i) + 1, label)
+        Popen(["conda", "activate", conda])
+    with open(log, "w") as logger:
+        Popen(
+            shlex.split(f"{f'mpirun -np {cores} ' if cores is not None else ''}siesta {label}.fdf > {log}"),
+            stdout=logger
+        )
+        for line in tail("-f", log, _iter=True):
+            print(line)
+            if line == "Job completed\n":
+                run_next(int(i) + 1, label)
 
 
 def make_directories(n):
