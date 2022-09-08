@@ -1,13 +1,11 @@
 import glob
 import os
 import matplotlib.pyplot as plt
-from sh import tail
-from subprocess import Popen
 from subprocess import run as sprun
-import shlex
+from subprocess import check_output
 from itertools import zip_longest
 import re
-from .helpers import create_fdf, read_fdf, read_energy, get_it, copy_files
+from .helpers import create_fdf, read_fdf, read_energy, get_it, copy_files, print_run, command
 
 cwd = os.getcwd()
 log = "log"
@@ -20,22 +18,8 @@ def run_next(i, label):
     copy_files(["psf"], label, f"{cwd}/i{int(i) - 1}", f"{cwd}/i{i}")
     os.chdir(f"{cwd}/i{i}")
     print(f"Changed directory to {os.getcwd()}")
-    print(
-        f"""Running SIESTA for i{i}
-        {f' in parallel with {cores} cores' if cores is not None else ''}
-        {' in conda' if conda else ''}"""
-    )
-    if conda:
-        sprun(["conda", "activate", conda])
-    with open(log, "w") as logger:
-        Popen(
-            shlex.split(f"{f'mpirun -np {cores} ' if cores is not None else ''}siesta {label}.fdf > {log}"),
-            stdout=logger
-        )
-        for line in tail("-f", log, _iter=True):
-            print(line)
-            if line == "Job completed\n":
-                run(label)
+    print_run(f"i{i}", cores, conda)
+    command(runtype="run", label=label, log=log, conda=conda, cores=cores)
 
 
 def ani_to_fdf(anipath, fdfpath, newfdfpath):
@@ -116,7 +100,7 @@ def run(label):
                 run_interrupted(str(int(logs[-1].split("/")[0].strip("i"))), label, "continue")
     print("All iterations are completed")
     if conda:
-        sprun(["conda", "deactivate"])
+        sprun([check_output(["which", "conda"]), "deactivate"])
 
 
 def run_interrupted(i, label, cont):
@@ -127,22 +111,8 @@ def run_interrupted(i, label, cont):
     copy_files(["psf", "fdf", "XV", "DM"], label, f"{cwd}/i{i}", f"{cwd}/i{i}/{cont}")
     os.chdir(f"{cwd}/i{i}/{cont}")
     print(f"Changed directory to {os.getcwd()}")
-    print(
-        f"""Running SIESTA for i{i}/{cont}
-            {f' in parallel with {cores} cores' if cores is not None else ''}
-            {' in conda' if conda else ''}"""
-    )
-    if conda:
-        sprun(["conda", "activate", conda])
-    with open(log, "w") as logger:
-        Popen(
-            shlex.split(f"{f'mpirun -np {cores} ' if cores is not None else ''}siesta {label}.fdf > {log}"),
-            stdout=logger
-        )
-        for line in tail("-f", log, _iter=True):
-            print(line)
-            if line == "Job completed\n":
-                run_next(int(i) + 1, label)
+    print_run(f"i{i}/{cont}", cores, conda)
+    command(runtype="run_next", label=label, log=log, conda=conda, cores=cores, i=i)
 
 
 def make_directories(n):

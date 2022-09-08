@@ -1,6 +1,12 @@
 import re
 import shutil
 import glob
+from sh import tail
+from subprocess import Popen
+from subprocess import run as sprun
+from subprocess import check_output
+import shlex
+from .core import run, run_next
 
 
 def get_it(files):
@@ -82,3 +88,30 @@ def copy_files(extensions, label, source_, destination):
                 print(f"ERROR: Permission denied while copying {source_}/{label}.{ext} to {destination}/{label}.{ext}")
             except Exception:
                 print(f"ERROR: An error occurred while copying {source_}/{label}.{ext} to {destination}/{label}.{ext}")
+
+
+def print_run(for_, cores, conda):
+    """Print SIESTA's run information"""
+    print(
+        f"""Running SIESTA for {for_}
+                {f' in parallel with {cores} cores' if cores is not None else ''}
+                {' in conda' if conda else ''}"""
+    )
+
+
+def command(runtype=None, label=None, log=None, conda=None, cores=None, i=None):
+    """SIESTA's run command"""
+    if conda:
+        sprun([check_output(["which", "conda"]), "activate", conda])
+    with open(log, "w") as logger:
+        Popen(
+            shlex.split(f"{f'mpirun -np {cores} ' if cores is not None else ''}siesta {label}.fdf > {log}"),
+            stdout=logger
+        )
+        for line in tail("-f", log, _iter=True):
+            print(line)
+            if line == "Job completed\n":
+                if runtype == "run":
+                    run(label)
+                if runtype == "run_next":
+                    run_next(int(i) + 1, label)
