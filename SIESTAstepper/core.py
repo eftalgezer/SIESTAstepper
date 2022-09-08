@@ -3,6 +3,7 @@ import os
 import matplotlib.pyplot as plt
 from sh import tail
 from subprocess import Popen
+from subprocess import run as sprun
 import shlex
 from itertools import zip_longest
 import re
@@ -25,7 +26,7 @@ def run_next(i, label):
         {' in conda' if conda else ''}"""
     )
     if conda:
-        Popen(["conda", "activate", conda])
+        sprun(["conda", "activate", conda])
     with open(log, "w") as logger:
         Popen(
             shlex.split(f"{f'mpirun -np {cores} ' if cores is not None else ''}siesta {label}.fdf > {log}"),
@@ -115,7 +116,7 @@ def run(label):
                 run_interrupted(str(int(logs[-1].split("/")[0].strip("i"))), label, "continue")
     print("All iterations are completed")
     if conda:
-        Popen(["conda", "deactivate"])
+        sprun(["conda", "deactivate"])
 
 
 def run_interrupted(i, label, cont):
@@ -132,7 +133,7 @@ def run_interrupted(i, label, cont):
             {' in conda' if conda else ''}"""
     )
     if conda:
-        Popen(["conda", "activate", conda])
+        sprun(["conda", "activate", conda])
     with open(log, "w") as logger:
         Popen(
             shlex.split(f"{f'mpirun -np {cores} ' if cores is not None else ''}siesta {label}.fdf > {log}"),
