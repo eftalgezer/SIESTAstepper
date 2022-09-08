@@ -7,7 +7,7 @@ long_description = (here / "README.md").read_text(encoding="utf-8")
 
 setup(
     name="SIESTAstepper",
-    version="0.4.0",
+    version="0.4.1",
     description="SIESTAstepper runs SIESTA step by step, designed for constrained calculations.",
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -41,7 +41,6 @@ setup(
     install_requires=[
         "sh",
         "matplotlib",
-        "re",-
         ],
     project_urls={
         "Bug Reports": "https://github.com/eftalgezer/SIESTAstepper/issues",
