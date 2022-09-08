@@ -8,6 +8,7 @@ def get_it(files):
     except AttributeError:
         print("ERROR: The path must be in format of 'path/to/i1'")
 
+
 def read_fdf(fdfpath, geo):
     """Read FDF file"""
     print(f"Reading {fdfpath}")
@@ -45,7 +46,7 @@ def read_energy(energies=[], files=None, it=[]):
         print(f)
         with open(f, "r") as file:
             lines = file.readlines()
-            for l in lines:
-                if l.startswith("siesta:         Total =  "):
-                    energies.append(float(l.split("=  ")[1]))
-                    print(l.split("=  ")[1])
+            for line in lines:
+                if line.startswith("siesta:         Total =  "):
+                    energies.append(float(line.split("=  ")[1]))
+                    print(line.split("=  ")[1])
