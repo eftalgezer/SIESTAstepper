@@ -100,7 +100,7 @@ def run(label):
                 run_interrupted(str(int(logs[-1].split("/")[0].strip("i"))), label, "continue")
     print("All iterations are completed")
     if conda:
-        sprun([check_output(["which", "conda"]), "deactivate"])
+        sprun(["conda", "deactivate"])
 
 
 def run_interrupted(i, label, cont):
@@ -112,7 +112,7 @@ def run_interrupted(i, label, cont):
     os.chdir(f"{cwd}/i{i}/{cont}")
     print(f"Changed directory to {os.getcwd()}")
     print_run(f"i{i}/{cont}", cores, conda)
-    command(runtype="run_next", label=label, log=log, conda=conda, cores=cores, i=i)
+    command(runtype="run_next", label=label, log=log, conda=conda, cores=cores, i=str(int(i) + 1))
 
 
 def make_directories(n):

@@ -102,7 +102,7 @@ def print_run(for_, cores, conda):
 def command(runtype=None, label=None, log=None, conda=None, cores=None, i=None):
     """SIESTA's run command"""
     if conda:
-        sprun([check_output(["which", "conda"]), "activate", conda])
+        sprun(["conda", "activate", conda])
     with open(log, "w") as logger:
         Popen(
             shlex.split(f"{f'mpirun -np {cores} ' if cores is not None else ''}siesta {label}.fdf > {log}"),
@@ -114,4 +114,4 @@ def command(runtype=None, label=None, log=None, conda=None, cores=None, i=None):
                 if runtype == "run":
                     run(label)
                 if runtype == "run_next":
-                    run_next(int(i) + 1, label)
+                    run_next(i, label)
