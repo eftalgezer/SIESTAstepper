@@ -39,14 +39,9 @@ setup(
     keywords="SIESTA, DFT, molecular calculations, chemistry, physics",
     packages=["SIESTAstepper"],
     install_requires=[
-        "glob",
-        "os",
-        "time",
         "sh",
         "matplotlib",
-        "re",
-        "itertools",
-        "sys",
+        "re",-
         ],
     project_urls={
         "Bug Reports": "https://github.com/eftalgezer/SIESTAstepper/issues",
