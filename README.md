@@ -116,15 +116,15 @@ Please make sure to update tests as appropriate.
 
 ## Citation
 ```bibtex
-@software{eftal_gezer_2022_7058750,
+@software{eftal_gezer_2022_7058952,
   author       = {Eftal Gezer},
-  title        = {eftalgezer/SIESTAstepper: v0.4.0},
+  title        = {eftalgezer/SIESTAstepper: v0.4.1},
   month        = sep,
   year         = 2022,
   publisher    = {Zenodo},
-  version      = {v0.4.0},
-  doi          = {10.5281/zenodo.7058750},
-  url          = {https://doi.org/10.5281/zenodo.7058750}
+  version      = {v0.4.1},
+  doi          = {10.5281/zenodo.7058952},
+  url          = {https://doi.org/10.5281/zenodo.7058952}
 }
 ```
 
