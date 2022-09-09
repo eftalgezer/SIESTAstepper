@@ -5,14 +5,16 @@ from sh import tail
 from subprocess import Popen
 from subprocess import run as sprun
 import shlex
+import shutil
 from itertools import zip_longest
 import re
-from .helpers import create_fdf, read_fdf, read_energy, get_it, copy_files, print_run
+from .helpers import create_fdf, read_fdf, read_energy, get_it, print_run
 
 cwd = os.getcwd()
 log = "log"
 cores = None
 conda = None
+cont = "continue"
 
 
 def run_next(i, label):
@@ -99,7 +101,7 @@ def run(label):
                     )
                 file.close()
                 run_next(str(int(logs[-1].split("/")[0].strip("i")) + 1), label)
-            elif not run_interrupted(str(int(logs[-1].split("/")[0].strip("i"))), label, "continue"):
+            elif not run_interrupted(str(int(logs[-1].split("/")[0].strip("i"))), label):
                 run_next(str(int(logs[-1].split("/")[0].strip("i")) + 1), label)
 
     print("All iterations are completed")
@@ -107,7 +109,7 @@ def run(label):
         sprun(["conda", "deactivate"])
 
 
-def run_interrupted(i, label, cont):
+def run_interrupted(i, label):
     """Continue to an interrupted calculation"""
     if not os.path.exists(f"{cwd}/i{i}/{cont}"):
         print(f"Making directory {cont} under i{i}")
@@ -122,12 +124,42 @@ def run_interrupted(i, label, cont):
 
 
 def make_directories(n):
-    for i in range(1, n):
+    for i in range(1, n + 1):
         if not os.path.exists(f"{cwd}/i{i}"):
             print(f"Making directory i{i} under {cwd.split('/')[-1]}")
             os.mkdir(f"{cwd}/i{i}")
         else:
             print(f"Directory i{i} exists")
+
+
+def copy_files(extensions, label, source_, destination):
+    """Copy and paste files"""
+    for ext in extensions:
+        if ext == "psf":
+            files = glob.glob(f"{source_}/*.psf")
+            for f in files:
+                file = f.split("/")[-1]
+                try:
+                    print(f"Copying {f} to {destination}/{file}")
+                    shutil.copy(f"{f}", f"{destination}/{file}")
+                    print(f"{f} is copied to {destination}/{file} successfully")
+                except shutil.SameFileError:
+                    print(f"ERROR: {f} and {destination}/{file} represents the same file")
+                except PermissionError:
+                    print(f"ERROR: Permission denied while copying {f} to {destination}/{file}")
+                except Exception:
+                    print(f"ERROR: An error occurred while copying {f} to {destination}/{file}")
+        else:
+            try:
+                print(f"Copying {source_}/{label}.{ext} to {destination}/{label}.{ext}")
+                shutil.copy(f"{source_}/{label}.{ext}", f"{destination}/{label}.{ext}")
+                print(f"{source_}/{label}.{ext} is copied to {destination}/{label}.{ext} successfully")
+            except shutil.SameFileError:
+                print(f"ERROR: {source_}/{label}.{ext} and {destination}/{label}.{ext} represents the same file")
+            except PermissionError:
+                print(f"ERROR: Permission denied while copying {source_}/{label}.{ext} to {destination}/{label}.{ext}")
+            except Exception:
+                print(f"ERROR: An error occurred while copying {source_}/{label}.{ext} to {destination}/{label}.{ext}")
 
 
 def analysis(path=None, missing=None, plot_=True):

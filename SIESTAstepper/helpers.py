@@ -1,6 +1,4 @@
 import re
-import shutil
-import glob
 
 
 def get_it(files):
@@ -53,36 +51,6 @@ def read_energy(energies=[], files=None, it=[]):
                 if line.startswith("siesta:         Total =  "):
                     energies.append(float(line.split("=  ")[1]))
                     print(line.split("=  ")[1])
-
-
-def copy_files(extensions, label, source_, destination):
-    """Copy and paste files"""
-    for ext in extensions:
-        if ext == "psf":
-            files = glob.glob(f"{source_}/*.psf")
-            for f in files:
-                file = f.split("/")[-1]
-                try:
-                    print(f"Copying {f} to {destination}/{file}")
-                    shutil.copy(f"{f}", f"{destination}/{file}")
-                    print(f"{f} is copied to {destination}/{file} successfully")
-                except shutil.SameFileError:
-                    print(f"ERROR: {f} and {destination}/{file} represents the same file")
-                except PermissionError:
-                    print(f"ERROR: Permission denied while copying {f} to {destination}/{file}")
-                except Exception:
-                    print(f"ERROR: An error occurred while copying {f} to {destination}/{file}")
-        else:
-            try:
-                print(f"Copying {source_}/{label}.{ext} to {destination}/{label}.{ext}")
-                shutil.copy(f"{source_}/{label}.{ext}", f"{destination}/{label}.{ext}")
-                print(f"{source_}/{label}.{ext} is copied to {destination}/{label}.{ext} successfully")
-            except shutil.SameFileError:
-                print(f"ERROR: {source_}/{label}.{ext} and {destination}/{label}.{ext} represents the same file")
-            except PermissionError:
-                print(f"ERROR: Permission denied while copying {source_}/{label}.{ext} to {destination}/{label}.{ext}")
-            except Exception:
-                print(f"ERROR: An error occurred while copying {source_}/{label}.{ext} to {destination}/{label}.{ext}")
 
 
 def print_run(for_, cores, conda):
