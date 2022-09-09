@@ -1,11 +1,6 @@
 import re
 import shutil
 import glob
-from sh import tail
-from subprocess import Popen
-from subprocess import run as sprun
-import shlex
-from .core import run, run_next
 
 
 def get_it(files):
@@ -41,7 +36,7 @@ def create_fdf(fdf, geo, newfdfpath, number):
         for g in geo:
             newfdf += g + "\n"
         newfdf += "%endblock AtomicCoordinatesAndAtomicSpecies\n"
-        newfdf.replace(re.search("(NumberOfAtoms +[0-9]+)")[0], f"NumberOfAtoms   {number}")
+        newfdf.replace(re.search("(NumberOfAtoms +[0-9]+)", newfdf)[0], f"NumberOfAtoms   {number}")
         newfdffile.write(newfdf)
         print(f"{newfdfpath} is created")
         newfdffile.close()
@@ -97,21 +92,3 @@ def print_run(for_, cores, conda):
                 {f' in parallel with {cores} cores' if cores is not None else ''}
                 {' in conda' if conda else ''}"""
     )
-
-
-def command(runtype=None, label=None, log=None, conda=None, cores=None, i=None):
-    """SIESTA's run command"""
-    if conda:
-        sprun(["conda", "activate", conda])
-    with open(log, "w") as logger:
-        Popen(
-            shlex.split(f"{f'mpirun -np {cores} ' if cores is not None else ''}siesta {label}.fdf > {log}"),
-            stdout=logger
-        )
-        for line in tail("-f", log, _iter=True):
-            print(line)
-            if line == "Job completed\n":
-                if runtype == "run":
-                    run(label)
-                if runtype == "run_next":
-                    run_next(i, label)

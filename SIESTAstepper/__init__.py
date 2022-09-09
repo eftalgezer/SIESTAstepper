@@ -7,6 +7,6 @@ __title__ = "SIESTAstepper"
 __author__ = "Eftal Gezer"
 __license__ = "GNU GPL v3"
 __copyright__ = "Copyright 2022, Eftal Gezer"
-__version__ = "0.4.2"
+__version__ = "1.0.0"
 
 from .core import run, run_next, run_interrupted, make_directories, ani_to_fdf, xyz_to_fdf, merge_ani, cwd, analysis, log, cores, conda

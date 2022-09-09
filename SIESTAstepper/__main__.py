@@ -1,5 +1,6 @@
 import sys
-from .core import run, run_next, run_interrupted, make_directories, ani_to_fdf, xyz_to_fdf, merge_ani, analysis, log, cores
+from .core import run, run_next, run_interrupted, make_directories, ani_to_fdf, xyz_to_fdf, merge_ani, analysis, log, \
+    cores
 
 function = sys.argv[1]
 for arg in sys.argv:
