@@ -30,7 +30,7 @@ def ani_to_fdf(anipath, fdfpath, newfdfpath):
         geo = geo.split(number + "\n \n")[-1]
         geo = geo.splitlines()
         fdf, geo = read_fdf(fdfpath, geo)
-        create_fdf(fdf, geo, newfdfpath)
+        create_fdf(fdf, geo, newfdfpath, number)
         anifile.close()
 
 
@@ -39,9 +39,10 @@ def xyz_to_fdf(xyzpath, fdfpath, newfdfpath):
     print(f"Reading {xyzpath}")
     with open(xyzpath, "r") as xyzfile:
         geo = xyzfile.read()
+        number = geo.split("\n", 1)[0].strip()
         geo = geo.splitlines()[2:]
         fdf, geo = read_fdf(fdfpath, geo)
-        create_fdf(fdf, geo, newfdfpath)
+        create_fdf(fdf, geo, newfdfpath, number)
         xyzfile.close()
 
 

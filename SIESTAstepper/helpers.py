@@ -4,7 +4,6 @@ import glob
 from sh import tail
 from subprocess import Popen
 from subprocess import run as sprun
-from subprocess import check_output
 import shlex
 from .core import run, run_next
 
@@ -27,13 +26,13 @@ def read_fdf(fdfpath, geo):
         for i in ind:
             for g in geo:
                 if g[0] == i[-1]:
-                    geo[geo.index(g)] = f"{g}  " + i.split("    ")[0]
-                    g = f"{g}  " + i.split("    ")[0]
+                    geo[geo.index(g)] = f"{g}  " + re.split(" +", i)[0]
+                    g = f"{g}  " + re.split(" +", i)[0]
                     geo[geo.index(g)] = geo[geo.index(g)].strip(i[-1])
     return fdf, geo
 
 
-def create_fdf(fdf, geo, newfdfpath):
+def create_fdf(fdf, geo, newfdfpath, number):
     """Create new FDF file"""
     print(f"Creating {newfdfpath}")
     with open(newfdfpath, "w") as newfdffile:
@@ -42,6 +41,7 @@ def create_fdf(fdf, geo, newfdfpath):
         for g in geo:
             newfdf += g + "\n"
         newfdf += "%endblock AtomicCoordinatesAndAtomicSpecies\n"
+        newfdf.replace(re.search("(NumberOfAtoms +[0-9]+)")[0], f"NumberOfAtoms   {number}")
         newfdffile.write(newfdf)
         print(f"{newfdfpath} is created")
         newfdffile.close()
