@@ -99,8 +99,9 @@ def run(label):
                     )
                 file.close()
                 run_next(str(int(logs[-1].split("/")[0].strip("i")) + 1), label)
-            else:
-                run_interrupted(str(int(logs[-1].split("/")[0].strip("i"))), label, "continue")
+            elif not run_interrupted(str(int(logs[-1].split("/")[0].strip("i"))), label, "continue"):
+                run_next(str(int(logs[-1].split("/")[0].strip("i")) + 1), label)
+
     print("All iterations are completed")
     if conda:
         sprun(["conda", "deactivate"])
@@ -111,11 +112,13 @@ def run_interrupted(i, label, cont):
     if not os.path.exists(f"{cwd}/i{i}/{cont}"):
         print(f"Making directory {cont} under i{i}")
         os.mkdir(f"{cwd}/i{i}/{cont}")
-    copy_files(["psf", "fdf", "XV", "DM"], label, f"{cwd}/i{i}", f"{cwd}/i{i}/{cont}")
-    os.chdir(f"{cwd}/i{i}/{cont}")
-    print(f"Changed directory to {os.getcwd()}")
-    print_run(f"i{i}/{cont}", cores, conda)
-    _command(runtype="run_next", label=label, i=str(int(i) + 1))
+        copy_files(["psf", "fdf", "XV", "DM"], label, f"{cwd}/i{i}", f"{cwd}/i{i}/{cont}")
+        os.chdir(f"{cwd}/i{i}/{cont}")
+        print(f"Changed directory to {os.getcwd()}")
+        print_run(f"i{i}/{cont}", cores, conda)
+        _command(runtype="run_next", label=label, i=str(int(i) + 1))
+        return True
+    return False
 
 
 def make_directories(n):
@@ -165,7 +168,7 @@ def _command(runtype=None, label=None, i=None):
         sprun(["conda", "activate", conda])
     with open(log, "w") as logger:
         Popen(
-            shlex.split(f"{f'mpirun -np {cores} ' if cores is not None else ''}siesta {label}.fdf > {log}"),
+            shlex.split(f"{f'mpirun -np {cores} ' if cores is not None else ''}siesta {label}.fdf"),
             stdout=logger
         )
         for line in tail("-f", log, _iter=True):

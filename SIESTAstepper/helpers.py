@@ -6,7 +6,7 @@ import glob
 def get_it(files):
     """Get a list of iterations"""
     try:
-        return [int(re.search("/i[0-9]+", f)[0].strip("/i")) for f in files]
+        return [int(re.search("/i([0-9]+)", f)[0]) for f in files]
     except AttributeError:
         print("ERROR: The path must be in format of 'path/to/i1'")
 
