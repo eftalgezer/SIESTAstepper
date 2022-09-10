@@ -8,7 +8,7 @@ import shlex
 import shutil
 from itertools import zip_longest
 import re
-from .helpers import create_fdf, read_fdf, read_energy, get_it, print_run
+from .helpers import create_fdf, read_fdf, read_energy, get_it, print_run, check_dm_xv
 
 cwd = os.getcwd()
 log = "log"
@@ -111,16 +111,18 @@ def run(label):
 
 def run_interrupted(i, label):
     """Continue to an interrupted calculation"""
-    if not os.path.exists(f"{cwd}/i{i}/{cont}"):
-        print(f"Making directory {cont} under i{i}")
-        os.mkdir(f"{cwd}/i{i}/{cont}")
-        copy_files(["psf", "fdf", "XV", "DM"], label, f"{cwd}/i{i}", f"{cwd}/i{i}/{cont}")
-        os.chdir(f"{cwd}/i{i}/{cont}")
-        print(f"Changed directory to {os.getcwd()}")
-        print_run(f"i{i}/{cont}", cores, conda)
-        _command(runtype="run_next", label=label, i=str(int(i) + 1))
-        return True
-    return False
+    if os.path.exists(f"{cwd}/i{i}/{cont}"):
+        return False
+    print(f"Making directory {cont} under i{i}")
+    os.mkdir(f"{cwd}/i{i}/{cont}")
+    copy_files(["psf", "fdf", "XV", "DM"], label, f"{cwd}/i{i}", f"{cwd}/i{i}/{cont}")
+    os.chdir(f"{cwd}/i{i}/{cont}")
+    with open(f"{label}.fdf", "w") as fdffile:
+        check_dm_xv(fdffile, i, label, cwd, cont)
+    print(f"Changed directory to {os.getcwd()}")
+    print_run(f"i{i}/{cont}", cores, conda)
+    _command(runtype="run_next", label=label, i=str(int(i) + 1))
+    return True
 
 
 def make_directories(n):
@@ -180,7 +182,6 @@ def analysis(path=None, missing=None, plot_=True):
                         re.search("/i[0-9]+", f1)[0] == re.search("/i[0-9]+", f2)[0] \
                         and f1 == match1.groups(0)[0] and f2 == match2.groups(0)[0]:
                     files.remove(f2)
-
     read_energy(energies=energies, files=files, it=it)
     if (sorted(it) != list(range(min(it), max(it) + 1)) or None in energies) and missing is None:
         print("WARNING: There are missing values! Please set 'missing' parameter.")
