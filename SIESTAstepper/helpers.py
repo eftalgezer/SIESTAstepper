@@ -63,7 +63,7 @@ def print_run(for_, cores, conda):
 
 
 def check_dm_xv(fdffile, i, label, cwd, cont):
-    """Check DM and XV parameters in a FDF file"""
+    """Check DM and XV parameters in an FDF file"""
     fdf = fdffile.read()
     matchdm = re.search("#DM.UseSaveDM +.true.", fdf)
     matchxv = re.search("#MD.UseSaveXV +.true.", fdf)
@@ -79,6 +79,8 @@ def check_dm_xv(fdffile, i, label, cwd, cont):
         fdf += "\nMD.UseSaveXV        .true.\n"
     else:
         fdf.replace(matchdm.groups(0)[0], "MD.UseSaveXV        .true.")
+    print(f"Setting 'DM.UseSaveDM' and 'MD.UseSaveXV' as '.true.' in {cwd}/i{i}/{cont}/{label}.fdf")
+    fdffile.write(fdf)
     if re.search("WriteDM +.true.", fdf) is None or re.search("#WriteDM +.true.", fdf) is not None \
             or re.search("WriteDM +.false.", fdf) is not None:
         print(f"WARNING: 'WriteDM             .true.' not found in {cwd}/i{i}/{cont}/{label}.fdf")

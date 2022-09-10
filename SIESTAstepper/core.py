@@ -117,8 +117,10 @@ def run_interrupted(i, label):
     os.mkdir(f"{cwd}/i{i}/{cont}")
     copy_files(["psf", "fdf", "XV", "DM"], label, f"{cwd}/i{i}", f"{cwd}/i{i}/{cont}")
     os.chdir(f"{cwd}/i{i}/{cont}")
+    print(f"Opening {cwd}/i{i}/{cont}/{label}.fdf")
     with open(f"{label}.fdf", "w") as fdffile:
         check_dm_xv(fdffile, i, label, cwd, cont)
+        fdffile.close()
     print(f"Changed directory to {os.getcwd()}")
     print_run(f"i{i}/{cont}", cores, conda)
     _command(runtype="run_next", label=label, i=str(int(i) + 1))
@@ -200,10 +202,11 @@ def _command(runtype=None, label=None, i=None):
     if conda:
         sprun(["conda", "activate", conda])
     with open(log, "w") as logger:
-        Popen(
+        job = Popen(
             shlex.split(f"{f'mpirun -np {cores} ' if cores is not None else ''}siesta {label}.fdf"),
             stdout=logger
         )
+        print(f"PID is {job.pid}")
         for line in tail("-f", log, _iter=True):
             print(line)
             if line == "Job completed\n":
