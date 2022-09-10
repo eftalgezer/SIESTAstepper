@@ -1,10 +1,11 @@
 import re
+import shutil
 
 
 def get_it(files):
     """Get a list of iterations"""
     try:
-        return [int(re.search("/i([0-9]+)", f)[0]) for f in files]
+        return [int(re.search("/i([0-9]+)", f).groups(0)[0]) for f in files]
     except AttributeError:
         print("ERROR: The path must be in format of 'path/to/i1'")
 
@@ -65,22 +66,35 @@ def print_run(for_, cores, conda):
 def check_dm_xv(fdffile, i, label, cwd, cont):
     """Check DM and XV parameters in an FDF file"""
     fdf = fdffile.read()
-    matchdm = re.search("#DM.UseSaveDM +.true.", fdf)
-    matchxv = re.search("#MD.UseSaveXV +.true.", fdf)
+    matchdm = re.search(r"#DM\.UseSaveDM +\.true\.", fdf)
+    matchxv = re.search(r"#MD\.UseSaveXV +\.true\.", fdf)
     if matchdm is None:
-        matchdm = re.search("DM.UseSaveDM +.false.", fdf)
+        matchdm = re.search(r"DM\.UseSaveDM +\.false\.", fdf)
     if matchxv is None:
-        matchxv = re.search("MD.UseSaveXV +.false.", fdf)
+        matchxv = re.search(r"MD\.UseSaveXV +\.false\.", fdf)
     if matchdm is None:
         fdf += "\nDM.UseSaveDM        .true.\n"
     else:
-        fdf.replace(matchdm.groups(0)[0], "DM.UseSaveDM        .true.")
+        fdf.replace(matchdm[0], "DM.UseSaveDM        .true.")
     if matchxv is None:
         fdf += "\nMD.UseSaveXV        .true.\n"
     else:
-        fdf.replace(matchdm.groups(0)[0], "MD.UseSaveXV        .true.")
+        fdf.replace(matchxv[0], "MD.UseSaveXV        .true.")
     print(f"Setting 'DM.UseSaveDM' and 'MD.UseSaveXV' as '.true.' in {cwd}/i{i}/{cont}/{label}.fdf")
     fdffile.write(fdf)
     if re.search("WriteDM +.true.", fdf) is None or re.search("#WriteDM +.true.", fdf) is not None \
             or re.search("WriteDM +.false.", fdf) is not None:
         print(f"WARNING: 'WriteDM             .true.' not found in {cwd}/i{i}/{cont}/{label}.fdf")
+
+def copy_file(sourcefile, destinationfile):
+    """Copy and paste a file"""
+    try:
+        print(f"Copying {sourcefile} to {destinationfile}")
+        shutil.copy(sourcefile, destinationfile)
+        print(f"{sourcefile} is copied to {destinationfile} successfully")
+    except shutil.SameFileError:
+        print(f"ERROR: {sourcefile} and {destinationfile} represents the same file")
+    except PermissionError:
+        print(f"ERROR: Permission denied while copying {sourcefile} to {destinationfile}")
+    except Exception:
+        print(f"ERROR: An error occurred while copying {sourcefile} to {destinationfile}")

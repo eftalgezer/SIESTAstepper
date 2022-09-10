@@ -10,4 +10,4 @@ __copyright__ = "Copyright 2022, Eftal Gezer"
 __version__ = "1.0.0"
 
 from .core import run, run_next, run_interrupted, make_directories, copy_files, ani_to_fdf, xyz_to_fdf, merge_ani, \
-    cwd, analysis, log, cores, conda
+    cwd, analysis, log, cores, conda, contfiles

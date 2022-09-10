@@ -5,16 +5,16 @@ from sh import tail
 from subprocess import Popen
 from subprocess import run as sprun
 import shlex
-import shutil
 from itertools import zip_longest
 import re
-from .helpers import create_fdf, read_fdf, read_energy, get_it, print_run, check_dm_xv
+from .helpers import create_fdf, read_fdf, read_energy, get_it, print_run, check_dm_xv, copy_file
 
 cwd = os.getcwd()
 log = "log"
 cores = None
 conda = None
 cont = "continue"
+contfiles = None
 
 
 def run_next(i, label):
@@ -113,12 +113,12 @@ def run_interrupted(i, label):
     """Continue to an interrupted calculation"""
     if os.path.exists(f"{cwd}/i{i}/{cont}"):
         return False
-    print(f"Making directory {cont} under i{i}")
+    print(f"Making directory '{cont}' under i{i}")
     os.mkdir(f"{cwd}/i{i}/{cont}")
     copy_files(["psf", "fdf", "XV", "DM"], label, f"{cwd}/i{i}", f"{cwd}/i{i}/{cont}")
     os.chdir(f"{cwd}/i{i}/{cont}")
     print(f"Opening {cwd}/i{i}/{cont}/{label}.fdf")
-    with open(f"{label}.fdf", "w") as fdffile:
+    with open(f"{label}.fdf", "r+") as fdffile:
         check_dm_xv(fdffile, i, label, cwd, cont)
         fdffile.close()
     print(f"Changed directory to {os.getcwd()}")
@@ -138,32 +138,18 @@ def make_directories(n):
 
 def copy_files(extensions, label, source_, destination):
     """Copy and paste files"""
-    for ext in extensions:
-        if ext == "psf":
-            files = glob.glob(f"{source_}/*.psf")
-            for f in files:
-                file = f.split("/")[-1]
-                try:
-                    print(f"Copying {f} to {destination}/{file}")
-                    shutil.copy(f"{f}", f"{destination}/{file}")
-                    print(f"{f} is copied to {destination}/{file} successfully")
-                except shutil.SameFileError:
-                    print(f"ERROR: {f} and {destination}/{file} represents the same file")
-                except PermissionError:
-                    print(f"ERROR: Permission denied while copying {f} to {destination}/{file}")
-                except Exception:
-                    print(f"ERROR: An error occurred while copying {f} to {destination}/{file}")
-        else:
-            try:
-                print(f"Copying {source_}/{label}.{ext} to {destination}/{label}.{ext}")
-                shutil.copy(f"{source_}/{label}.{ext}", f"{destination}/{label}.{ext}")
-                print(f"{source_}/{label}.{ext} is copied to {destination}/{label}.{ext} successfully")
-            except shutil.SameFileError:
-                print(f"ERROR: {source_}/{label}.{ext} and {destination}/{label}.{ext} represents the same file")
-            except PermissionError:
-                print(f"ERROR: Permission denied while copying {source_}/{label}.{ext} to {destination}/{label}.{ext}")
-            except Exception:
-                print(f"ERROR: An error occurred while copying {source_}/{label}.{ext} to {destination}/{label}.{ext}")
+    if extensions is not None:
+        for ext in extensions:
+            if ext == "psf":
+                files = glob.glob(f"{source_}/*.psf")
+                for f in files:
+                    file = f.split("/")[-1]
+                    copy_file(f, f"{destination}/{file}")
+            else:
+                copy_file(f"{source_}/{label}.{ext}", f"{destination}/{label}.{ext}")
+    if contfiles is not None and len(contfiles) != 0:
+        for cf in contfiles:
+            copy_file(f"{source_}/{cf}", f"{destination}/{cf}")
 
 
 def analysis(path=None, missing=None, plot_=True):

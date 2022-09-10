@@ -101,13 +101,15 @@ python -m SIESTAstepper run_next log 1 graphene mpirun=4
 
 python -m SIESTAstepper run_next log 1 graphene conda=envir
 
-python -m SIESTAstepper run_interrupted log 1 graphene
+python -m SIESTAstepper run_interrupted log 1 graphene cont=continue
 
-python -m SIESTAstepper run_interrupted log 1 graphene mpirun=4
+python -m SIESTAstepper run_interrupted log 1 graphene mpirun=4 cont=continue
 
-python -m SIESTAstepper run_interrupted log 1 graphene conda=envir
+python -m SIESTAstepper run_interrupted log 1 graphene conda=envir cont=continue
 
 python -m SIESTAstepper make_directories 5
+
+python -m SIESTAstepper copy_files graphene path/to/i1 path/to/i2 psf fdf XV DM
 
 python -m SIESTAstepper copy_files graphene path/to/i1 path/to/i2 psf fdf XV DM
 

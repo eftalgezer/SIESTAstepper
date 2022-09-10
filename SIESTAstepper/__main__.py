@@ -1,6 +1,6 @@
 import sys
 from .core import run, run_next, run_interrupted, make_directories, copy_files, ani_to_fdf, xyz_to_fdf, merge_ani, \
-    analysis, log, cores
+    analysis, log, cores, conda, contfiles
 
 function = sys.argv[1]
 for arg in sys.argv:
@@ -8,6 +8,10 @@ for arg in sys.argv:
         cores = int(arg.split("=")[1])
     if arg.startswith("conda="):
         conda = arg.split("=")[1]
+    if arg.startswith("cont="):
+        cont = arg.split("=")[1]
+    if arg.startswith("contfiles="):
+        contfiles = arg.split("=")[1].split(",")
 
 if function not in ["run", "run_next", "run_interrupted", "make_directories", "copy_files",
                     "ani_to_fdf", "xyz_to_fdf", "merge_ani", "analysis"]:
@@ -23,12 +27,11 @@ elif function == "run_next":
     run_next(sys.argv[3], sys.argv[4])
 elif function == "run_interrupted":
     log = sys.argv[2]
-    cont = sys.argv[5]
     run_interrupted(sys.argv[3], sys.argv[4])
 elif function == "make_directories":
     make_directories(int(sys.argv[2]))
 elif function == "copy_files":
-    copy_files(sys.argv[5:], sys.argv[2], sys.argv[3], sys.argv[4])
+    copy_files([_ for _ in sys.argv[5:] if not _.startswith("contfiles=")], sys.argv[2], sys.argv[3], sys.argv[4])
 elif function == "ani_to_fdf":
     ani_to_fdf(sys.argv[2], sys.argv[3], sys.argv[4])
 elif function == "xyz_to_fdf":
@@ -58,6 +61,6 @@ elif function == "analysis":
                 missing = arg.split("=")[1]
             if arg == "noplot":
                 plot_ = False
-        analysis(path=None, missing=None, plot_=True)
+        analysis(path=path, missing=missing, plot_=plot_)
     else:
         analysis()
