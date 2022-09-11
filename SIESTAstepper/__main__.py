@@ -11,7 +11,7 @@ for arg in sys.argv:
     if arg.startswith("cont="):
         cont = arg.split("=")[1]
     if arg.startswith("contfiles="):
-        contfiles = arg.split("=")[1].split(",")
+        contfiles.extend(arg.split("=")[1].split(","))
 
 if function not in ["run", "run_next", "run_interrupted", "make_directories", "copy_files",
                     "ani_to_fdf", "xyz_to_fdf", "merge_ani", "analysis"]:

@@ -1,3 +1,4 @@
+import os.path
 import re
 import shutil
 
@@ -86,8 +87,11 @@ def check_dm_xv(fdffile, i, label, cwd, cont):
             or re.search("WriteDM +.false.", fdf) is not None:
         print(f"WARNING: 'WriteDM             .true.' not found in {cwd}/i{i}/{cont}/{label}.fdf")
 
+
 def copy_file(sourcefile, destinationfile):
     """Copy and paste a file"""
+    if not os.path.isfile(sourcefile):
+        raise FileNotFoundError(f"ERROR: {sourcefile} is not found")
     try:
         print(f"Copying {sourcefile} to {destinationfile}")
         shutil.copy(sourcefile, destinationfile)

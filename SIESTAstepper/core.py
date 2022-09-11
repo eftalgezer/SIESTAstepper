@@ -7,14 +7,15 @@ from subprocess import run as sprun
 import shlex
 from itertools import zip_longest
 import re
+from natsort import natsorted
 from .helpers import create_fdf, read_fdf, read_energy, get_it, print_run, check_dm_xv, copy_file
 
-cwd = os.getcwd()
-log = "log"
+cwd: str = os.getcwd()
+log: str = "log"
 cores = None
 conda = None
-cont = "continue"
-contfiles = None
+cont: str = "continue"
+contfiles: list = []
 
 
 def run_next(i, label):
@@ -59,8 +60,8 @@ def merge_ani(label=None, path=None, missing=None):
         raise ValueError("ERROR: Please set a label")
     files = glob.glob(f"{cwd}/{path}/{label}.ANI")
     if missing is not None:
-        files += glob.glob(f"{cwd}/{path}/{missing}/{label}.ANI")
-    files.sort(key=lambda _: int(re.sub(r"\D""", "", _)))
+        files += glob.glob(f"{cwd}/{path}/{missing}*/{label}.ANI")
+    files = natsorted(files)
     if files:
         it = get_it(files)
         if [*set(it)] != list(range(min(it), max(it) + 1)):
@@ -84,9 +85,13 @@ def run(label):
     os.chdir(cwd)
     folders = glob.glob("i*/")
     logs = glob.glob(f"i*/{log}")
+    folders += glob.glob(f"i*/{cont}*")
+    logs += glob.glob(f"i*/{cont}*/{log}")
+    folders = natsorted(folders)
+    logs = natsorted(logs)
     if len(logs) == 0:
         run_next("1", label)
-    elif len(folders) != len(logs) != 0 or folders[-1] != logs[-1].split("/")[0] + "/":
+    elif len(folders) != len(logs) != 0 or folders[-1] != logs[-1].rsplit("/")[0] + "/":
         with open(logs[-1], "r") as file:
             lines = file.readlines()
             if lines[-1] == "Job completed\n":
@@ -103,7 +108,6 @@ def run(label):
                 run_next(str(int(logs[-1].split("/")[0].strip("i")) + 1), label)
             elif not run_interrupted(str(int(logs[-1].split("/")[0].strip("i"))), label):
                 run_next(str(int(logs[-1].split("/")[0].strip("i")) + 1), label)
-
     print("All iterations are completed")
     if conda:
         sprun(["conda", "deactivate"])
@@ -111,19 +115,21 @@ def run(label):
 
 def run_interrupted(i, label):
     """Continue to an interrupted calculation"""
-    if os.path.exists(f"{cwd}/i{i}/{cont}"):
-        return False
-    print(f"Making directory '{cont}' under i{i}")
-    os.mkdir(f"{cwd}/i{i}/{cont}")
-    copy_files(["psf", "fdf", "XV", "DM"], label, f"{cwd}/i{i}", f"{cwd}/i{i}/{cont}")
-    os.chdir(f"{cwd}/i{i}/{cont}")
-    print(f"Opening {cwd}/i{i}/{cont}/{label}.fdf")
-    with open(f"{label}.fdf", "r+") as fdffile:
-        check_dm_xv(fdffile, i, label, cwd, cont)
-        fdffile.close()
-    print(f"Changed directory to {os.getcwd()}")
-    print_run(f"i{i}/{cont}", cores, conda)
-    _command(runtype="run_next", label=label, i=str(int(i) + 1))
+    folders = glob.glob(f"i*/{cont}*")
+    folders = natsorted(folders)
+    if len(folders) != 0:
+        with open(f"{folders[-1]}/{log}") as file:
+            lines = file.readlines()
+            if lines[-1] == "Job completed\n":
+                print(f"i{i}/{cont}/{log}: Job completed")
+                return False
+            match = re.search(f"i[0-9]+/{cont}_*[0-9]*", folders[-1])
+            if match[0].endswith(cont):
+                _cont_step(f"{cont}_2", i, label)
+                return True
+            contnum = re.search(f"/{cont}_([0-9]+)", match[0])[1]
+            _cont_step(f"{cont}_{int(contnum) + 1}", i, label)
+    _cont_step(cont, i, label)
     return True
 
 
@@ -147,9 +153,8 @@ def copy_files(extensions, label, source_, destination):
                     copy_file(f, f"{destination}/{file}")
             else:
                 copy_file(f"{source_}/{label}.{ext}", f"{destination}/{label}.{ext}")
-    if contfiles is not None and len(contfiles) != 0:
-        for cf in contfiles:
-            copy_file(f"{source_}/{cf}", f"{destination}/{cf}")
+    for cf in contfiles:
+        copy_file(f"{source_}/{cf}", f"{destination}/{cf}")
 
 
 def analysis(path=None, missing=None, plot_=True):
@@ -160,12 +165,12 @@ def analysis(path=None, missing=None, plot_=True):
     energies = []
     it = []
     if missing is not None:
-        files += glob.glob(f"{cwd}/{path}/{missing}/{log}")
-        files.sort(key=lambda _: int(re.sub(r"\D""", "", _)))
+        files += glob.glob(f"{cwd}/{path}/{missing}*/{log}")
+        files = natsorted(files)
         for f1 in files:
             for f2 in reversed(files):
-                match1 = re.search(f'({cwd}/{path}/{missing}/{log})'.replace('*', '[0-9]+'), f1)
-                match2 = re.search(f'({cwd}/{path}/{log})'.replace('*', '[0-9]+'), f2)
+                match1 = re.search(f"({cwd}/{path}/{missing}_*[0-9]*/{log})".replace("*", "[0-9]+"), f1)
+                match2 = re.search(f"({cwd}/{path}/{log})".replace("*", "[0-9]+"), f2)
                 if match1 is not None and match2 is not None and \
                         re.search("/i[0-9]+", f1)[0] == re.search("/i[0-9]+", f2)[0] \
                         and f1 == match1.groups(0)[0] and f2 == match2.groups(0)[0]:
@@ -200,3 +205,34 @@ def _command(runtype=None, label=None, i=None):
                     run(label)
                 if runtype == "run_next":
                     run_next(i, label)
+
+
+def _cont_step(contfolder, i, label):
+    print(f"Making directory '{contfolder}' under i{i}")
+    os.mkdir(f"{cwd}/i{i}/{contfolder}")
+    contnummatch = re.search(f"{cont}_([0-9]+)", contfolder)
+    contnum = contnummatch[1] if contnummatch is not None else "-1"
+    if int(contnum) == 2:
+        copy_files(
+            ["psf", "fdf", "XV", "DM"],
+            label,
+            f"{cwd}/i{i}/{cont}",
+            f"{cwd}/i{i}/{contfolder}"
+        )
+    elif int(contnum) > 2:
+        copy_files(
+            ["psf", "fdf", "XV", "DM"],
+            label,
+            f"{cwd}/i{i}/{cont}_{int(contnum) - 1}",
+            f"{cwd}/i{i}/{contfolder}"
+        )
+    elif contnummatch is None:
+        copy_files(["psf", "fdf", "XV", "DM"], label, f"{cwd}/i{i}", f"{cwd}/i{i}/{contfolder}")
+    os.chdir(f"{cwd}/i{i}/{contfolder}")
+    print(f"Changed directory to {os.getcwd()}")
+    print(f"Opening {cwd}/i{i}/{contfolder}/{label}.fdf")
+    with open(f"{label}.fdf", "r+") as fdffile:
+        check_dm_xv(fdffile, i, label, cwd, contfolder)
+        fdffile.close()
+    print_run(f"i{i}/{contfolder}", cores, conda)
+    _command(runtype="run_next", label=label, i=str(int(i) + 1))
