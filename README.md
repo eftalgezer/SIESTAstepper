@@ -89,11 +89,11 @@ SIESTAstepper.analysis(missing = "path/to/i*/missing/log/files")
 ### In terminal
 ```sh
 
-python -m SIESTAstepper run log
+python -m SIESTAstepper run log graphene
 
-python -m SIESTAstepper run log mpirun=4
+python -m SIESTAstepper run log graphene mpirun=4
 
-python -m SIESTAstepper run log conda=envir
+python -m SIESTAstepper run log graphene conda=envir
 
 python -m SIESTAstepper run_next log 1 graphene
 
