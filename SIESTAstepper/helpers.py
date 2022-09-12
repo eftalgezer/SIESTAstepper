@@ -94,8 +94,11 @@ def copy_file(sourcefile, destinationfile):
         raise FileNotFoundError(f"ERROR: {sourcefile} is not found")
     try:
         print(f"Copying {sourcefile} to {destinationfile}")
-        shutil.copy(sourcefile, destinationfile)
-        print(f"{sourcefile} is copied to {destinationfile} successfully")
+        if not os.path.isfile(destinationfile):
+            shutil.copy(sourcefile, destinationfile)
+            print(f"{sourcefile} is copied to {destinationfile} successfully")
+        else:
+            print(f"{destinationfile} exists")
     except shutil.SameFileError:
         print(f"ERROR: {sourcefile} and {destinationfile} represents the same file")
     except PermissionError:

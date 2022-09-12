@@ -58,9 +58,6 @@ SIESTAstepper.merge_ani(label = "graphene")
 #Merges ANI files by setting a path
 SIESTAstepper.merge_ani(label = "graphene", path = "path/to/i*/ANI/files")
 
-#Merges ANI files by setting a missing files path
-SIESTAstepper.merge_ani(label = "graphene", missing="path/to/i*/missing/ANI/files")
-
 # Runs SIESTA for a given step
 SIESTAstepper.run_next("1", "graphene")
 
@@ -81,9 +78,6 @@ SIESTAstepper.analysis(plot_ = False)
 
 # Plots and returns energies from log files by setting a path
 SIESTAstepper.analysis(path = "path/to/i*/log/files")
-
-# Plots and returns energies from log files by setting a missing files path
-SIESTAstepper.analysis(missing = "path/to/i*/missing/log/files")
 ```
 
 ### In terminal
@@ -121,15 +115,11 @@ python -m SIESTAstepper merge_ani graphene
 
 python -m SIESTAstepper merge_ani graphene path=path/to/i*/ANI/files
 
-python -m SIESTAstepper merge_ani graphene missing=path/to/i*/missing/ANI/files
-
 python -m SIESTAstepper analysis log
 
 python -m SIESTAstepper analysis log noplot
 
 python -m SIESTAstepper analysis log path=path/to/i*/log/files
-
-python -m SIESTAstepper analysis log missing=path/to/i*/missing/log/files
 
 ```
 

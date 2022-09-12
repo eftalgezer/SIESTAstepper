@@ -20,11 +20,29 @@ contfiles: list = []
 
 def run_next(i, label):
     """Run SIESTA for given step"""
-    copy_files(["psf"], label, f"{cwd}/i{int(i) - 1}", f"{cwd}/i{i}")
+    logs = glob.glob(f"i{int(i) - 1}/{log}")
+    logs += natsorted(glob.glob(f"i{int(i) - 1}/{cont}*/{log}"))
+    if len(logs) != 0 and cont in logs[-1]:
+        match = re.search(f"i{int(i) - 1}/{cont}(_*[0-9]*)", logs[-1])
+        if not os.path.isfile(f"{cwd}/i{i}/{label}.fdf"):
+            ani_to_fdf(
+                f"i{int(i) - 1}/{cont}{match[1]}/{label}.ANI",
+                f"i{int(i) - 1}/{cont}{match[1]}/{label}.fdf",
+                f"i{i}/{label}.fdf"
+            )
+            copy_files(["psf"], label, f"{cwd}/i{int(i) - 1}/{cont}{match[1]}", f"{cwd}/i{i}")
+    elif int(i) > 1:
+        if not os.path.isfile(f"{cwd}/i{str(int(i) + 1)}/{label}.fdf"):
+            ani_to_fdf(
+                f"i{int(i) - 1}/{label}.ANI",
+                f"i{int(i) - 1}/{label}.fdf",
+                f"i{i}/{label}.fdf"
+            )
+            copy_files(["psf"], label, f"{cwd}/i{int(i) - 1}", f"{cwd}/i{i}")
     os.chdir(f"{cwd}/i{i}")
     print(f"Changed directory to {os.getcwd()}")
     print_run(f"i{i}", cores, conda)
-    _command(runtype="run", label=label)
+    _command(label)
 
 
 def ani_to_fdf(anipath, fdfpath, newfdfpath):
@@ -52,15 +70,14 @@ def xyz_to_fdf(xyzpath, fdfpath, newfdfpath):
         xyzfile.close()
 
 
-def merge_ani(label=None, path=None, missing=None):
+def merge_ani(label=None, path=None):
     """Merge ANI files"""
     if path is None:
         path = "i*"
     if label is None:
         raise ValueError("ERROR: Please set a label")
     files = glob.glob(f"{cwd}/{path}/{label}.ANI")
-    if missing is not None:
-        files += glob.glob(f"{cwd}/{path}/{missing}*/{label}.ANI")
+    files += glob.glob(f"{cwd}/{path}/{cont}*/{label}.ANI")
     files = natsorted(files)
     if files:
         it = get_it(files)
@@ -100,8 +117,8 @@ def run(label):
                         f"{cwd}/i" + str(int(logs[-1].split("/")[0].strip("i")) + 1) + "/" + label + ".fdf"
                 ):
                     ani_to_fdf(
-                        logs[-1].split("/")[0] + "/" + label + ".ANI",
-                        logs[-1].split("/")[0] + "/" + label + ".fdf",
+                        logs[-1].rsplit("/")[0] + "/" + label + ".ANI",
+                        logs[-1].rsplit("/")[0] + "/" + label + ".fdf",
                         "i" + str(int(logs[-1].split("/")[0].strip("i")) + 1) + "/" + label + ".fdf"
                     )
                 file.close()
@@ -157,27 +174,33 @@ def copy_files(extensions, label, source_, destination):
         copy_file(f"{source_}/{cf}", f"{destination}/{cf}")
 
 
-def analysis(path=None, missing=None, plot_=True):
+def analysis(path=None, plot_=True):
     """Plot and return energies from log files"""
     if path is None:
         path = "i*"
     files = glob.glob(f"{cwd}/{path}/{log}")
     energies = []
     it = []
-    if missing is not None:
-        files += glob.glob(f"{cwd}/{path}/{missing}*/{log}")
-        files = natsorted(files)
-        for f1 in files:
-            for f2 in reversed(files):
-                match1 = re.search(f"({cwd}/{path}/{missing}_*[0-9]*/{log})".replace("*", "[0-9]+"), f1)
-                match2 = re.search(f"({cwd}/{path}/{log})".replace("*", "[0-9]+"), f2)
-                if match1 is not None and match2 is not None and \
-                        re.search("/i[0-9]+", f1)[0] == re.search("/i[0-9]+", f2)[0] \
-                        and f1 == match1.groups(0)[0] and f2 == match2.groups(0)[0]:
-                    files.remove(f2)
+    files += glob.glob(f"{cwd}/{path}/{cont}*/{log}")
+    files = natsorted(files)
+    for f1 in files:
+        for f2 in reversed(files):
+            match1 = re.search(f"({cwd}/{path}/{cont}_*[0-9]*/{log})".replace("*", "[0-9]+"), f1)
+            match2 = re.search(f"({cwd}/{path}/{log})".replace("*", "[0-9]+"), f2)
+            if match1 is not None and match2 is not None and \
+                    re.search("/i[0-9]+", f1)[0] == re.search("/i[0-9]+", f2)[0] \
+                    and f1 == match1.groups(0)[0] and f2 == match2.groups(0)[0]:
+                files.remove(f2)
+    for f1 in files:
+        for f2 in reversed(files):
+            match1 = re.search(f"({cwd}/({path})/{cont}_+([0-9]+)/{log})".replace("*", "[0-9]+"), f1)
+            match2 = re.search(f"({cwd}/({path})/{cont}_+([0-9]+)/{log})".replace("*", "[0-9]+"), f2)
+            if match1 is not None and match2 is not None and \
+                    match1[0] == match2[0] and int(match1[1]) > int(match2[1]):
+                files.remove(f2)
     read_energy(energies=energies, files=files, it=it)
-    if (sorted(it) != list(range(min(it), max(it) + 1)) or None in energies) and missing is None:
-        print("WARNING: There are missing values! Please set 'missing' parameter.")
+    if sorted(it) != list(range(min(it), max(it) + 1)) or None in energies:
+        print("WARNING: There are missing values!")
     if None in energies:
         print("WARNING: There are missing energy values!")
     if plot_:
@@ -188,7 +211,7 @@ def analysis(path=None, missing=None, plot_=True):
     return list(zip_longest(it, energies))
 
 
-def _command(runtype=None, label=None, i=None):
+def _command(label):
     """SIESTA's run command"""
     if conda:
         sprun(["conda", "activate", conda])
@@ -201,10 +224,7 @@ def _command(runtype=None, label=None, i=None):
         for line in tail("-f", log, _iter=True):
             print(line)
             if line == "Job completed\n":
-                if runtype == "run":
-                    run(label)
-                if runtype == "run_next":
-                    run_next(i, label)
+                run(label)
 
 
 def _cont_step(contfolder, i, label):
@@ -235,4 +255,4 @@ def _cont_step(contfolder, i, label):
         check_dm_xv(fdffile, i, label, cwd, contfolder)
         fdffile.close()
     print_run(f"i{i}/{contfolder}", cores, conda)
-    _command(runtype="run_next", label=label, i=str(int(i) + 1))
+    _command(label)
