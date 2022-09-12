@@ -38,29 +38,23 @@ elif function == "xyz_to_fdf":
     xyz_to_fdf(sys.argv[2], sys.argv[3], sys.argv[4])
 elif function == "merge_ani":
     path = "i*"
-    missing = None
     if len(sys.argv) == 3:
         merge_ani(label=sys.argv[2])
     elif len(sys.argv) > 3:
         for arg in sys.argv[3:]:
             if arg.startswith("path="):
                 path = arg.split("=")[1]
-            if arg.startswith("missing="):
-                missing = arg.split("=")[1]
-        merge_ani(label=sys.argv[2], path=path, missing=missing)
+        merge_ani(label=sys.argv[2], path=path)
 elif function == "analysis":
     log = sys.argv[2]
     plot_ = True
     path = "i*"
-    missing = None
     if len(sys.argv) > 4:
         for arg in sys.argv[3:]:
             if arg.startswith("path="):
                 path = arg.split("=")[1]
-            if arg.startswith("missing="):
-                missing = arg.split("=")[1]
             if arg == "noplot":
                 plot_ = False
-        analysis(path=path, missing=missing, plot_=plot_)
+        analysis(path=path, plot_=plot_)
     else:
         analysis()
