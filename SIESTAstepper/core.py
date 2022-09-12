@@ -79,7 +79,7 @@ def merge_ani(label=None, path=None):
     files = glob.glob(f"{cwd}{os.sep}{path}{os.sep}{label}.ANI")
     files += glob.glob(f"{cwd}{os.sep}{path}{os.sep}{cont}*{os.sep}{label}.ANI")
     files = natsorted(files)
-    if files:
+    if files is not None:
         it = get_it(files)
         if [*set(it)] != list(range(min(it), max(it) + 1)):
             print("WARNING: There are missing ANI files!")
@@ -179,30 +179,22 @@ def analysis(path=None, plot_=True):
     if path is None:
         path = "i*"
     files = glob.glob(f"{cwd}{os.sep}{path}{os.sep}{log}")
-    energies = []
-    it = []
     files += glob.glob(f"{cwd}{os.sep}{path}{os.sep}{cont}*{os.sep}{log}")
     files = natsorted(files)
+    energies = []
+    it = []
     for f1 in files:
         for f2 in reversed(files):
             match1 = re.search(f"({cwd}{os.sep}{path}{os.sep}{cont}_*[0-9]*{os.sep}{log})".replace("*", "[0-9]+"), f1)
             match2 = re.search(f"({cwd}{os.sep}{path}{os.sep}{log})".replace("*", "[0-9]+"), f2)
+            match3 = re.search(
+                f"({cwd}{os.sep}({path}){os.sep}{cont}_+([0-9]+){os.sep}{log})".replace("*", "[0-9]+"), f1)
+            match4 = re.search(
+                f"({cwd}{os.sep}({path}){os.sep}{cont}_+([0-9]+){os.sep}{log})".replace("*", "[0-9]+"), f2)
             if match1 is not None and match2 is not None and \
-                    re.search(f"{os.sep}i[0-9]+", f1)[0] == re.search(f"{os.sep}i[0-9]+", f2)[0] \
-                    and f1 == match1.groups(0)[0] and f2 == match2.groups(0)[0]:
-                files.remove(f2)
-    for f1 in files:
-        for f2 in reversed(files):
-            match1 = re.search(
-                f"({cwd}{os.sep}({path}){os.sep}{cont}_+([0-9]+){os.sep}{log})".replace("*", "[0-9]+"),
-                f1
-            )
-            match2 = re.search(
-                f"({cwd}{os.sep}({path}){os.sep}{cont}_+([0-9]+){os.sep}{log})".replace("*", "[0-9]+"),
-                f2
-            )
-            if match1 is not None and match2 is not None and \
-                    match1[0] == match2[0] and int(match1[1]) > int(match2[1]):
+                    (re.search(f"{os.sep}i[0-9]+", f1)[0] == re.search(f"{os.sep}i[0-9]+", f2)[0]
+                     and f1 == match1.groups(0)[0] and f2 == match2.groups(0)[0]) or \
+                    (match3[0] == match4[0] and int(match3[1]) > int(match4[1])):
                 files.remove(f2)
     read_energy(energies=energies, files=files, it=it)
     if sorted(it) != list(range(min(it), max(it) + 1)) or None in energies:
