@@ -20,26 +20,26 @@ contfiles: list = []
 
 def run_next(i, label):
     """Run SIESTA for given step"""
-    logs = glob.glob(f"i{int(i) - 1}/{log}")
-    logs += natsorted(glob.glob(f"i{int(i) - 1}/{cont}*/{log}"))
+    logs = glob.glob(f"i{int(i) - 1}{os.sep}{log}")
+    logs += natsorted(glob.glob(f"i{int(i) - 1}{os.sep}{cont}*{os.sep}{log}"))
     if len(logs) != 0 and cont in logs[-1]:
-        match = re.search(f"i{int(i) - 1}/{cont}(_*[0-9]*)", logs[-1])
-        if not os.path.isfile(f"{cwd}/i{i}/{label}.fdf"):
+        match = re.search(f"i{int(i) - 1}{os.sep}{cont}(_*[0-9]*)", logs[-1])
+        if not os.path.isfile(f"{cwd}{os.sep}i{i}{os.sep}{label}.fdf"):
             ani_to_fdf(
-                f"i{int(i) - 1}/{cont}{match[1]}/{label}.ANI",
-                f"i{int(i) - 1}/{cont}{match[1]}/{label}.fdf",
-                f"i{i}/{label}.fdf"
+                f"i{int(i) - 1}{os.sep}{cont}{match[1]}{os.sep}{label}.ANI",
+                f"i{int(i) - 1}{os.sep}{cont}{match[1]}{os.sep}{label}.fdf",
+                f"i{i}{os.sep}{label}.fdf"
             )
-            copy_files(["psf"], label, f"{cwd}/i{int(i) - 1}/{cont}{match[1]}", f"{cwd}/i{i}")
+            copy_files(["psf"], label, f"{cwd}{os.sep}i{int(i) - 1}{os.sep}{cont}{match[1]}", f"{cwd}{os.sep}i{i}")
     elif int(i) > 1:
-        if not os.path.isfile(f"{cwd}/i{str(int(i) + 1)}/{label}.fdf"):
+        if not os.path.isfile(f"{cwd}{os.sep}i{str(int(i) + 1)}{os.sep}{label}.fdf"):
             ani_to_fdf(
-                f"i{int(i) - 1}/{label}.ANI",
-                f"i{int(i) - 1}/{label}.fdf",
-                f"i{i}/{label}.fdf"
+                f"i{int(i) - 1}{os.sep}{label}.ANI",
+                f"i{int(i) - 1}{os.sep}{label}.fdf",
+                f"i{i}{os.sep}{label}.fdf"
             )
-            copy_files(["psf"], label, f"{cwd}/i{int(i) - 1}", f"{cwd}/i{i}")
-    os.chdir(f"{cwd}/i{i}")
+            copy_files(["psf"], label, f"{cwd}{os.sep}i{int(i) - 1}", f"{cwd}{os.sep}i{i}")
+    os.chdir(f"{cwd}{os.sep}i{i}")
     print(f"Changed directory to {os.getcwd()}")
     print_run(f"i{i}", cores, conda)
     _command(label)
@@ -76,15 +76,15 @@ def merge_ani(label=None, path=None):
         path = "i*"
     if label is None:
         raise ValueError("ERROR: Please set a label")
-    files = glob.glob(f"{cwd}/{path}/{label}.ANI")
-    files += glob.glob(f"{cwd}/{path}/{cont}*/{label}.ANI")
+    files = glob.glob(f"{cwd}{os.sep}{path}{os.sep}{label}.ANI")
+    files += glob.glob(f"{cwd}{os.sep}{path}{os.sep}{cont}*{os.sep}{label}.ANI")
     files = natsorted(files)
     if files:
         it = get_it(files)
         if [*set(it)] != list(range(min(it), max(it) + 1)):
             print("WARNING: There are missing ANI files!")
-        with open(f"{cwd}/{label}-merged.ANI", "w") as outfile:
-            print(f"{cwd}/{label}-merged.ANI is opened")
+        with open(f"{cwd}{os.sep}{label}-merged.ANI", "w") as outfile:
+            print(f"{cwd}{os.sep}{label}-merged.ANI is opened")
             for f in files:
                 with open(f) as infile:
                     print(f"Writing {f}")
@@ -100,31 +100,31 @@ def merge_ani(label=None, path=None):
 def run(label):
     """Execute"""
     os.chdir(cwd)
-    folders = glob.glob("i*/")
-    logs = glob.glob(f"i*/{log}")
-    folders += glob.glob(f"i*/{cont}*")
-    logs += glob.glob(f"i*/{cont}*/{log}")
+    folders = glob.glob(f"i*{os.sep}")
+    logs = glob.glob(f"i*{os.sep}{log}")
+    folders += glob.glob(f"i*{os.sep}{cont}*")
+    logs += glob.glob(f"i*{os.sep}{cont}*{os.sep}{log}")
     folders = natsorted(folders)
     logs = natsorted(logs)
     if len(logs) == 0:
         run_next("1", label)
-    elif len(folders) != len(logs) != 0 or folders[-1] != logs[-1].rsplit("/")[0] + "/":
+    elif len(folders) != len(logs) != 0 or folders[-1] != logs[-1].rsplit(os.sep)[0] + os.sep:
         with open(logs[-1], "r") as file:
             lines = file.readlines()
             if lines[-1] == "Job completed\n":
                 print(f"{logs[-1]}: Job completed")
                 if not os.path.isfile(
-                        f"{cwd}/i" + str(int(logs[-1].split("/")[0].strip("i")) + 1) + "/" + label + ".fdf"
+                        f"{cwd}{os.sep}i" + str(int(logs[-1].split(os.sep)[0].strip("i")) + 1) + os.sep + label + ".fdf"
                 ):
                     ani_to_fdf(
-                        logs[-1].rsplit("/")[0] + "/" + label + ".ANI",
-                        logs[-1].rsplit("/")[0] + "/" + label + ".fdf",
-                        "i" + str(int(logs[-1].split("/")[0].strip("i")) + 1) + "/" + label + ".fdf"
+                        logs[-1].rsplit(os.sep)[0] + os.sep + label + ".ANI",
+                        logs[-1].rsplit(os.sep)[0] + os.sep + label + ".fdf",
+                        "i" + str(int(logs[-1].split(os.sep)[0].strip("i")) + 1) + os.sep + label + ".fdf"
                     )
                 file.close()
-                run_next(str(int(logs[-1].split("/")[0].strip("i")) + 1), label)
-            elif not run_interrupted(str(int(logs[-1].split("/")[0].strip("i"))), label):
-                run_next(str(int(logs[-1].split("/")[0].strip("i")) + 1), label)
+                run_next(str(int(logs[-1].split(os.sep)[0].strip("i")) + 1), label)
+            elif not run_interrupted(str(int(logs[-1].split(os.sep)[0].strip("i"))), label):
+                run_next(str(int(logs[-1].split(os.sep)[0].strip("i")) + 1), label)
     print("All iterations are completed")
     if conda:
         sprun(["conda", "deactivate"])
@@ -132,19 +132,19 @@ def run(label):
 
 def run_interrupted(i, label):
     """Continue to an interrupted calculation"""
-    folders = glob.glob(f"i*/{cont}*")
+    folders = glob.glob(f"i*{os.sep}{cont}*")
     folders = natsorted(folders)
     if len(folders) != 0:
-        with open(f"{folders[-1]}/{log}") as file:
+        with open(f"{folders[-1]}{os.sep}{log}") as file:
             lines = file.readlines()
             if lines[-1] == "Job completed\n":
-                print(f"i{i}/{cont}/{log}: Job completed")
+                print(f"i{i}{os.sep}{cont}{os.sep}{log}: Job completed")
                 return False
-            match = re.search(f"i[0-9]+/{cont}_*[0-9]*", folders[-1])
+            match = re.search(f"i[0-9]+{os.sep}{cont}_*[0-9]*", folders[-1])
             if match[0].endswith(cont):
                 _cont_step(f"{cont}_2", i, label)
                 return True
-            contnum = re.search(f"/{cont}_([0-9]+)", match[0])[1]
+            contnum = re.search(f"{os.sep}{cont}_([0-9]+)", match[0])[1]
             _cont_step(f"{cont}_{int(contnum) + 1}", i, label)
     _cont_step(cont, i, label)
     return True
@@ -152,9 +152,9 @@ def run_interrupted(i, label):
 
 def make_directories(n):
     for i in range(1, n + 1):
-        if not os.path.exists(f"{cwd}/i{i}"):
-            print(f"Making directory i{i} under {cwd.split('/')[-1]}")
-            os.mkdir(f"{cwd}/i{i}")
+        if not os.path.exists(f"{cwd}{os.sep}i{i}"):
+            print(f"Making directory i{i} under {cwd.split(os.sep)[-1]}")
+            os.mkdir(f"{cwd}{os.sep}i{i}")
         else:
             print(f"Directory i{i} exists")
 
@@ -164,37 +164,43 @@ def copy_files(extensions, label, source_, destination):
     if extensions is not None:
         for ext in extensions:
             if ext == "psf":
-                files = glob.glob(f"{source_}/*.psf")
+                files = glob.glob(f"{source_}{os.sep}*.psf")
                 for f in files:
-                    file = f.split("/")[-1]
-                    copy_file(f, f"{destination}/{file}")
+                    file = f.split(os.sep)[-1]
+                    copy_file(f, f"{destination}{os.sep}{file}")
             else:
-                copy_file(f"{source_}/{label}.{ext}", f"{destination}/{label}.{ext}")
+                copy_file(f"{source_}{os.sep}{label}.{ext}", f"{destination}{os.sep}{label}.{ext}")
     for cf in contfiles:
-        copy_file(f"{source_}/{cf}", f"{destination}/{cf}")
+        copy_file(f"{source_}{os.sep}{cf}", f"{destination}{os.sep}{cf}")
 
 
 def analysis(path=None, plot_=True):
     """Plot and return energies from log files"""
     if path is None:
         path = "i*"
-    files = glob.glob(f"{cwd}/{path}/{log}")
+    files = glob.glob(f"{cwd}{os.sep}{path}{os.sep}{log}")
     energies = []
     it = []
-    files += glob.glob(f"{cwd}/{path}/{cont}*/{log}")
+    files += glob.glob(f"{cwd}{os.sep}{path}{os.sep}{cont}*{os.sep}{log}")
     files = natsorted(files)
     for f1 in files:
         for f2 in reversed(files):
-            match1 = re.search(f"({cwd}/{path}/{cont}_*[0-9]*/{log})".replace("*", "[0-9]+"), f1)
-            match2 = re.search(f"({cwd}/{path}/{log})".replace("*", "[0-9]+"), f2)
+            match1 = re.search(f"({cwd}{os.sep}{path}{os.sep}{cont}_*[0-9]*{os.sep}{log})".replace("*", "[0-9]+"), f1)
+            match2 = re.search(f"({cwd}{os.sep}{path}{os.sep}{log})".replace("*", "[0-9]+"), f2)
             if match1 is not None and match2 is not None and \
-                    re.search("/i[0-9]+", f1)[0] == re.search("/i[0-9]+", f2)[0] \
+                    re.search(f"{os.sep}i[0-9]+", f1)[0] == re.search(f"{os.sep}i[0-9]+", f2)[0] \
                     and f1 == match1.groups(0)[0] and f2 == match2.groups(0)[0]:
                 files.remove(f2)
     for f1 in files:
         for f2 in reversed(files):
-            match1 = re.search(f"({cwd}/({path})/{cont}_+([0-9]+)/{log})".replace("*", "[0-9]+"), f1)
-            match2 = re.search(f"({cwd}/({path})/{cont}_+([0-9]+)/{log})".replace("*", "[0-9]+"), f2)
+            match1 = re.search(
+                f"({cwd}{os.sep}({path}){os.sep}{cont}_+([0-9]+){os.sep}{log})".replace("*", "[0-9]+"),
+                f1
+            )
+            match2 = re.search(
+                f"({cwd}{os.sep}({path}){os.sep}{cont}_+([0-9]+){os.sep}{log})".replace("*", "[0-9]+"),
+                f2
+            )
             if match1 is not None and match2 is not None and \
                     match1[0] == match2[0] and int(match1[1]) > int(match2[1]):
                 files.remove(f2)
@@ -229,30 +235,30 @@ def _command(label):
 
 def _cont_step(contfolder, i, label):
     print(f"Making directory '{contfolder}' under i{i}")
-    os.mkdir(f"{cwd}/i{i}/{contfolder}")
+    os.mkdir(f"{cwd}{os.sep}i{i}{os.sep}{contfolder}")
     contnummatch = re.search(f"{cont}_([0-9]+)", contfolder)
     contnum = contnummatch[1] if contnummatch is not None else "-1"
     if int(contnum) == 2:
         copy_files(
             ["psf", "fdf", "XV", "DM"],
             label,
-            f"{cwd}/i{i}/{cont}",
-            f"{cwd}/i{i}/{contfolder}"
+            f"{cwd}{os.sep}i{i}{os.sep}{cont}",
+            f"{cwd}{os.sep}i{i}{os.sep}{contfolder}"
         )
     elif int(contnum) > 2:
         copy_files(
             ["psf", "fdf", "XV", "DM"],
             label,
-            f"{cwd}/i{i}/{cont}_{int(contnum) - 1}",
-            f"{cwd}/i{i}/{contfolder}"
+            f"{cwd}{os.sep}i{i}{os.sep}{cont}_{int(contnum) - 1}",
+            f"{cwd}{os.sep}i{i}{os.sep}{contfolder}"
         )
     elif contnummatch is None:
-        copy_files(["psf", "fdf", "XV", "DM"], label, f"{cwd}/i{i}", f"{cwd}/i{i}/{contfolder}")
-    os.chdir(f"{cwd}/i{i}/{contfolder}")
+        copy_files(["psf", "fdf", "XV", "DM"], label, f"{cwd}{os.sep}i{i}", f"{cwd}{os.sep}i{i}{os.sep}{contfolder}")
+    os.chdir(f"{cwd}{os.sep}i{i}{os.sep}{contfolder}")
     print(f"Changed directory to {os.getcwd()}")
-    print(f"Opening {cwd}/i{i}/{contfolder}/{label}.fdf")
+    print(f"Opening {cwd}{os.sep}i{i}{os.sep}{contfolder}{os.sep}{label}.fdf")
     with open(f"{label}.fdf", "r+") as fdffile:
         check_dm_xv(fdffile, i, label, cwd, contfolder)
         fdffile.close()
-    print_run(f"i{i}/{contfolder}", cores, conda)
+    print_run(f"i{i}{os.sep}{contfolder}", cores, conda)
     _command(label)

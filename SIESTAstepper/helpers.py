@@ -1,4 +1,4 @@
-import os.path
+import os
 import re
 import shutil
 
@@ -6,9 +6,9 @@ import shutil
 def get_it(files):
     """Get a list of iterations"""
     try:
-        return [int(re.search("/i([0-9]+)", f).groups(0)[0]) for f in files]
+        return [int(re.search(f"{os.sep}i([0-9]+)", f).groups(0)[0]) for f in files]
     except AttributeError:
-        print("ERROR: The path must be in format of 'path/to/i1'")
+        print(f"ERROR: The path must be in format of 'path{os.sep}to{os.sep}i1'")
 
 
 def read_fdf(fdfpath, geo):
@@ -81,11 +81,11 @@ def check_dm_xv(fdffile, i, label, cwd, cont):
         fdf += "\nMD.UseSaveXV        .true.\n"
     else:
         fdf.replace(matchxv[0], "MD.UseSaveXV        .true.")
-    print(f"Setting 'DM.UseSaveDM' and 'MD.UseSaveXV' as '.true.' in {cwd}/i{i}/{cont}/{label}.fdf")
+    print(f"Setting 'DM.UseSaveDM' and 'MD.UseSaveXV' as '.true.' in {cwd}{os.sep}i{i}{os.sep}{cont}{os.sep}{label}.fdf")
     fdffile.write(fdf)
     if re.search("WriteDM +.true.", fdf) is None or re.search("#WriteDM +.true.", fdf) is not None \
             or re.search("WriteDM +.false.", fdf) is not None:
-        print(f"WARNING: 'WriteDM             .true.' not found in {cwd}/i{i}/{cont}/{label}.fdf")
+        print(f"WARNING: 'WriteDM             .true.' not found in {cwd}{os.sep}i{i}{os.sep}{cont}{os.sep}{label}.fdf")
 
 
 def copy_file(sourcefile, destinationfile):
