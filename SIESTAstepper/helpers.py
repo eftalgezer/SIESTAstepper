@@ -81,7 +81,9 @@ def check_dm_xv(fdffile, i, label, cwd, cont):
         fdf += "\nMD.UseSaveXV        .true.\n"
     else:
         fdf.replace(matchxv[0], "MD.UseSaveXV        .true.")
-    print(f"Setting 'DM.UseSaveDM' and 'MD.UseSaveXV' as '.true.' in {cwd}{os.sep}i{i}{os.sep}{cont}{os.sep}{label}.fdf")
+    print(
+        f"Setting 'DM.UseSaveDM' and 'MD.UseSaveXV' as '.true.' in {cwd}{os.sep}i{i}{os.sep}{cont}{os.sep}{label}.fdf"
+    )
     fdffile.write(fdf)
     if re.search("WriteDM +.true.", fdf) is None or re.search("#WriteDM +.true.", fdf) is not None \
             or re.search("WriteDM +.false.", fdf) is not None:

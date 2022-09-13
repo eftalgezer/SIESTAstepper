@@ -42,7 +42,28 @@ def run_next(i, label):
     os.chdir(f"{cwd}{os.sep}i{i}")
     print(f"Changed directory to {os.getcwd()}")
     print_run(f"i{i}", cores, conda)
-    _command(label)
+    _command(label=label)
+
+
+def single_run(i, label):
+    """Run SIESTA for given step without continuing next step"""
+    os.chdir(f"{cwd}{os.sep}i{i}")
+    print(f"Changed directory to {os.getcwd()}")
+    with open(f"{cwd}{os.sep}i{i}{os.sep}{log}", "r") as file:
+        lines = file.readlines()
+        if lines[-1] == "Job completed\n":
+            print(f"i{i}{os.sep}{log}: Job completed")
+        else:
+            if int(i) > 1:
+                if not os.path.isfile(f"{cwd}{os.sep}i{str(int(i) + 1)}{os.sep}{label}.fdf"):
+                    ani_to_fdf(
+                        f"{cwd}{os.sep}i{int(i) - 1}{os.sep}{label}.ANI",
+                        f"{cwd}{os.sep}i{int(i) - 1}{os.sep}{label}.fdf",
+                        f"{cwd}{os.sep}i{i}{os.sep}{label}.fdf"
+                    )
+                copy_files(["psf"], label, f"{cwd}{os.sep}i{int(i) - 1}", f"{cwd}{os.sep}i{i}")
+            print_run(f"i{i}", cores, conda)
+            _command(label=label, issingle=True)
 
 
 def ani_to_fdf(anipath, fdfpath, newfdfpath):
@@ -150,6 +171,26 @@ def run_interrupted(i, label):
     return True
 
 
+def single_run_interrupted(i, label):
+    """Continue to an interrupted calculation without continuing next step"""
+    folders = glob.glob(f"i*{os.sep}{cont}*")
+    folders = natsorted(folders)
+    if len(folders) != 0:
+        with open(f"{folders[-1]}{os.sep}{log}") as file:
+            lines = file.readlines()
+            if lines[-1] == "Job completed\n":
+                print(f"i{i}{os.sep}{cont}{os.sep}{log}: Job completed")
+                return False
+            match = re.search(f"i[0-9]+{os.sep}{cont}_*[0-9]*", folders[-1])
+            if match[0].endswith(cont):
+                _cont_step(f"{cont}_2", i, label)
+                return True
+            contnum = re.search(f"{os.sep}{cont}_([0-9]+)", match[0])[1]
+            _cont_step(f"{cont}_{int(contnum) + 1}", i, label)
+    _cont_step(cont, i, label, issingle=True)
+    return True
+
+
 def make_directories(n):
     for i in range(1, n + 1):
         if not os.path.exists(f"{cwd}{os.sep}i{i}"):
@@ -209,7 +250,7 @@ def analysis(path=None, plot_=True):
     return list(zip_longest(it, energies))
 
 
-def _command(label):
+def _command(label=None, issingle=False):
     """SIESTA's run command"""
     if conda:
         sprun(["conda", "activate", conda])
@@ -221,11 +262,11 @@ def _command(label):
         print(f"PID is {job.pid}")
         for line in tail("-f", log, _iter=True):
             print(line)
-            if line == "Job completed\n":
+            if line == "Job completed\n" and issingle:
                 run(label)
 
 
-def _cont_step(contfolder, i, label):
+def _cont_step(contfolder, i, label, issingle=False):
     print(f"Making directory '{contfolder}' under i{i}")
     os.mkdir(f"{cwd}{os.sep}i{i}{os.sep}{contfolder}")
     contnummatch = re.search(f"{cont}_([0-9]+)", contfolder)
@@ -253,4 +294,4 @@ def _cont_step(contfolder, i, label):
         check_dm_xv(fdffile, i, label, cwd, contfolder)
         fdffile.close()
     print_run(f"i{i}{os.sep}{contfolder}", cores, conda)
-    _command(label)
+    _command(label=label, issingle=issingle)
