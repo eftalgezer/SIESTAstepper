@@ -226,12 +226,11 @@ def analysis(path=None, plot_=True):
     it = []
     for f1 in files:
         for f2 in reversed(files):
-            match1 = re.search(f"({cwd}{os.sep}{path}{os.sep}{cont}_*[0-9]*{os.sep}{log})".replace("*", "[0-9]+"), f1)
-            match2 = re.search(f"({cwd}{os.sep}{path}{os.sep}{log})".replace("*", "[0-9]+"), f2)
-            match3 = re.search(
-                f"({cwd}{os.sep}({path}){os.sep}{cont}_+([0-9]+){os.sep}{log})".replace("*", "[0-9]+"), f1)
-            match4 = re.search(
-                f"({cwd}{os.sep}({path}){os.sep}{cont}_+([0-9]+){os.sep}{log})".replace("*", "[0-9]+"), f2)
+            repath = path.replace("*", "[0-9]+")
+            match1 = re.search(f"({cwd}{os.sep}{repath}{os.sep}{cont}_*[0-9]*{os.sep}{log})", f1)
+            match2 = re.search(f"({cwd}{os.sep}{repath}{os.sep}{log})", f2)
+            match3 = re.search(f"({cwd}{os.sep}({repath}){os.sep}{cont}_+([0-9]+){os.sep}{log})", f1)
+            match4 = re.search(f"({cwd}{os.sep}({repath}){os.sep}{cont}_+([0-9]+){os.sep}{log})", f2)
             if (match1 is not None and match2 is not None and
                     (re.search(f"{os.sep}i[0-9]+", f1)[0] == re.search(f"{os.sep}i[0-9]+", f2)[0]
                      and f1 == match1.groups(0)[0] and f2 == match2.groups(0)[0])) or \
