@@ -61,6 +61,12 @@ SIESTAstepper.merge_ani(label = "graphene", path = "path/to/i*/ANI/files")
 # Runs SIESTA for a given step
 SIESTAstepper.run_next("1", "graphene")
 
+#Runs SIESTA for a given step without continuing to next step
+SIESTAstepper.single_run("1", "graphene")
+
+#Continues to an interrupted calculation without continuing to next step
+SIESTAstepper.single_run_interrupted("1", "graphene")
+
 #Continues to an interrupted calculation
 SIESTAstepper.run_interrupted("1", "graphene")
 
@@ -95,11 +101,23 @@ python -m SIESTAstepper run_next log 1 graphene mpirun=4
 
 python -m SIESTAstepper run_next log 1 graphene conda=envir
 
+python -m SIESTAstepper single_run log 1 graphene
+
+python -m SIESTAstepper single_run log 1 graphene mpirun=4
+
+python -m SIESTAstepper single_run log 1 graphene conda=envir
+
 python -m SIESTAstepper run_interrupted log 1 graphene cont=continue
 
 python -m SIESTAstepper run_interrupted log 1 graphene mpirun=4 cont=continue
 
 python -m SIESTAstepper run_interrupted log 1 graphene conda=envir cont=continue
+
+python -m SIESTAstepper single_run_interrupted log 1 graphene cont=continue
+
+python -m SIESTAstepper single_run_interrupted log 1 graphene mpirun=4 cont=continue
+
+python -m SIESTAstepper single_run_interrupted log 1 graphene conda=envir cont=continue
 
 python -m SIESTAstepper make_directories 5
 
@@ -113,9 +131,13 @@ python -m SIESTAstepper xyz_to_fdf path/to/XYZ path/to/FDF path/to/newFDF
 
 python -m SIESTAstepper merge_ani graphene
 
+python -m SIESTAstepper merge_ani graphene cont=continue
+
 python -m SIESTAstepper merge_ani graphene path=path/to/i*/ANI/files
 
 python -m SIESTAstepper analysis log
+
+python -m SIESTAstepper analysis log cont=continue
 
 python -m SIESTAstepper analysis log noplot
 
