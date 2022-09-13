@@ -1,6 +1,6 @@
 import sys
-from .core import run, run_next, run_interrupted, make_directories, copy_files, ani_to_fdf, xyz_to_fdf, merge_ani, \
-    analysis, log, cores, conda, contfiles
+from .core import run, single_run, run_next, run_interrupted, single_run_interrupted, make_directories, copy_files, \
+    ani_to_fdf, xyz_to_fdf, merge_ani, analysis, log, cores, conda, contfiles
 
 function = sys.argv[1]
 for arg in sys.argv:
@@ -13,21 +13,27 @@ for arg in sys.argv:
     if arg.startswith("contfiles="):
         contfiles.extend(arg.split("=")[1].split(","))
 
-if function not in ["run", "run_next", "run_interrupted", "make_directories", "copy_files",
-                    "ani_to_fdf", "xyz_to_fdf", "merge_ani", "analysis"]:
+if function not in ["run", "single_run", "run_next", "run_interrupted", "single_run_interrupted", "make_directories",
+                    "copy_files", "ani_to_fdf", "xyz_to_fdf", "merge_ani", "analysis"]:
     raise AttributeError(
-        """Command not found. Please use 'run', 'run_next', 'run_interrupted', 'make_directories', 'copy_files', 
-        'ani_to_fdf', 'xyz_to_fdf', 'merge_ani', 'analysis' """
+        """Command not found. Please use 'run', 'single_run', 'run_next', 'run_interrupted', 'single_run_interrupted', 
+        'make_directories', 'copy_files', 'ani_to_fdf', 'xyz_to_fdf', 'merge_ani', 'analysis' """
     )
 elif function == "run":
     log = sys.argv[2]
     run(sys.argv[3])
+elif function == "single_run":
+    log = sys.argv[2]
+    single_run(sys.argv[3], sys.argv[4])
 elif function == "run_next":
     log = sys.argv[2]
     run_next(sys.argv[3], sys.argv[4])
 elif function == "run_interrupted":
     log = sys.argv[2]
     run_interrupted(sys.argv[3], sys.argv[4])
+elif function == "single_run_interrupted":
+    log = sys.argv[2]
+    single_run_interrupted(sys.argv[3], sys.argv[4])
 elif function == "make_directories":
     make_directories(int(sys.argv[2]))
 elif function == "copy_files":
