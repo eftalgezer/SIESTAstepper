@@ -43,6 +43,9 @@ SIESTAstepper.conda = "envir"
 #Sets the subfolder name for interrupted calculations (default is "continue")
 SIESTAstepper.cont = "continue"
 
+#Sets the filenames to copy
+SIESTAstepper.contfiles.extend(["file1", "file2"])
+
 # Runs SIESTA step by step
 SIESTAstepper.run("graphene")
 
@@ -91,11 +94,15 @@ SIESTAstepper.analysis(path = "path/to/i*/log/files")
 
 python -m SIESTAstepper run log graphene
 
+python -m SIESTAstepper run log graphene contfiles=file1,file2
+
 python -m SIESTAstepper run log graphene mpirun=4
 
 python -m SIESTAstepper run log graphene conda=envir
 
 python -m SIESTAstepper run_next log 1 graphene
+
+python -m SIESTAstepper run_next log 1 graphene contfiles=file1,file2
 
 python -m SIESTAstepper run_next log 1 graphene mpirun=4
 
@@ -108,6 +115,8 @@ python -m SIESTAstepper single_run log 1 graphene mpirun=4
 python -m SIESTAstepper single_run log 1 graphene conda=envir
 
 python -m SIESTAstepper run_interrupted log 1 graphene cont=continue
+
+python -m SIESTAstepper run_interrupted log 1 graphene cont=continue contfiles=file1,file2
 
 python -m SIESTAstepper run_interrupted log 1 graphene mpirun=4 cont=continue
 
