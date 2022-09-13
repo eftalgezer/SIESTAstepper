@@ -183,10 +183,10 @@ def single_run_interrupted(i, label):
                 return False
             match = re.search(f"i[0-9]+{os.sep}{cont}_*[0-9]*", folders[-1])
             if match[0].endswith(cont):
-                _cont_step(f"{cont}_2", i, label)
+                _cont_step(f"{cont}_2", i, label, issingle=True)
                 return True
             contnum = re.search(f"{os.sep}{cont}_([0-9]+)", match[0])[1]
-            _cont_step(f"{cont}_{int(contnum) + 1}", i, label)
+            _cont_step(f"{cont}_{int(contnum) + 1}", i, label, issingle=True)
     _cont_step(cont, i, label, issingle=True)
     return True
 
