@@ -250,7 +250,7 @@ def _command(label=None, issingle=False):
         print(f"PID is {job.pid}")
         for line in tail("-f", log, _iter=True):
             print(line)
-            if line == "Job completed\n" and issingle:
+            if line == "Job completed\n" and issingle is False:
                 run(label)
 
 
