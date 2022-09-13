@@ -107,3 +107,20 @@ def copy_file(sourcefile, destinationfile):
         print(f"ERROR: Permission denied while copying {sourcefile} to {destinationfile}")
     except Exception:
         print(f"ERROR: An error occurred while copying {sourcefile} to {destinationfile}")
+
+
+def sort_(files, cont):
+    """Naive sort function for directories"""
+    sortedfiles = []
+    match = [re.search(f"i([0-9]+)({os.sep}{cont}_*([0-9]*))*", f) for f in files]
+    sortedmatch = [[m[0], m[1], m[2], m[3]] for m in match]
+    sortedmatch = [x for _, x in sorted(zip(
+        [int(f"{m[1]}0") if m[3] is None else int(f"{m[1]}1") if m[3] == "" else int(m[1] + m[3]) for m in
+         sortedmatch
+         ], sortedmatch
+    ))]
+    for s in sortedmatch:
+        for f in files:
+            if s[0] in f and f not in sortedfiles:
+                sortedfiles.append(f)
+    return sortedfiles

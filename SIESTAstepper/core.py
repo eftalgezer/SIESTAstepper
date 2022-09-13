@@ -7,8 +7,7 @@ from subprocess import run as sprun
 import shlex
 from itertools import zip_longest
 import re
-from natsort import natsorted
-from .helpers import create_fdf, read_fdf, read_energy, get_it, print_run, check_dm_xv, copy_file
+from .helpers import create_fdf, read_fdf, read_energy, get_it, print_run, check_dm_xv, copy_file, sort_
 
 cwd: str = os.getcwd()
 log: str = "log"
@@ -21,7 +20,8 @@ contfiles: list = []
 def run_next(i, label):
     """Run SIESTA for given step"""
     logs = glob.glob(f"i{int(i) - 1}{os.sep}{log}")
-    logs += natsorted(glob.glob(f"i{int(i) - 1}{os.sep}{cont}*{os.sep}{log}"))
+    logs += glob.glob(f"i{int(i) - 1}{os.sep}{cont}*{os.sep}{log}")
+    logs = sort_(logs, cont)
     if len(logs) != 0 and cont in logs[-1]:
         match = re.search(f"i{int(i) - 1}{os.sep}{cont}(_*[0-9]*)", logs[-1])
         if not os.path.isfile(f"{cwd}{os.sep}i{i}{os.sep}{label}.fdf"):
@@ -99,7 +99,7 @@ def merge_ani(label=None, path=None):
         raise ValueError("ERROR: Please set a label")
     files = glob.glob(f"{cwd}{os.sep}{path}{os.sep}{label}.ANI")
     files += glob.glob(f"{cwd}{os.sep}{path}{os.sep}{cont}*{os.sep}{label}.ANI")
-    files = natsorted(files)
+    files = sort_(files, cont)
     if files is not None:
         it = get_it(files)
         if [*set(it)] != list(range(min(it), max(it) + 1)):
@@ -125,8 +125,8 @@ def run(label):
     logs = glob.glob(f"i*{os.sep}{log}")
     folders += glob.glob(f"i*{os.sep}{cont}*")
     logs += glob.glob(f"i*{os.sep}{cont}*{os.sep}{log}")
-    folders = natsorted(folders)
-    logs = natsorted(logs)
+    folders = sort_(folders, cont)
+    logs = sort_(logs, cont)
     if len(logs) == 0:
         run_next("1", label)
     elif len(folders) != len(logs) != 0 or folders[-1] != logs[-1].rsplit(os.sep)[0] + os.sep:
@@ -154,7 +154,7 @@ def run(label):
 def run_interrupted(i, label):
     """Continue to an interrupted calculation"""
     folders = glob.glob(f"i*{os.sep}{cont}*")
-    folders = natsorted(folders)
+    folders = sort_(folders, cont)
     if len(folders) != 0:
         with open(f"{folders[-1]}{os.sep}{log}") as file:
             lines = file.readlines()
@@ -174,7 +174,7 @@ def run_interrupted(i, label):
 def single_run_interrupted(i, label):
     """Continue to an interrupted calculation without continuing next step"""
     folders = glob.glob(f"i*{os.sep}{cont}*")
-    folders = natsorted(folders)
+    folders = sort_(folders, cont)
     if len(folders) != 0:
         with open(f"{folders[-1]}{os.sep}{log}") as file:
             lines = file.readlines()
@@ -221,7 +221,7 @@ def analysis(path=None, plot_=True):
         path = "i*"
     files = glob.glob(f"{cwd}{os.sep}{path}{os.sep}{log}")
     files += glob.glob(f"{cwd}{os.sep}{path}{os.sep}{cont}*{os.sep}{log}")
-    files = natsorted(files)
+    files = sort_(files, cont)
     energies = []
     it = []
     for f1 in files:
@@ -232,10 +232,11 @@ def analysis(path=None, plot_=True):
                 f"({cwd}{os.sep}({path}){os.sep}{cont}_+([0-9]+){os.sep}{log})".replace("*", "[0-9]+"), f1)
             match4 = re.search(
                 f"({cwd}{os.sep}({path}){os.sep}{cont}_+([0-9]+){os.sep}{log})".replace("*", "[0-9]+"), f2)
-            if match1 is not None and match2 is not None and \
+            if (match1 is not None and match2 is not None and
                     (re.search(f"{os.sep}i[0-9]+", f1)[0] == re.search(f"{os.sep}i[0-9]+", f2)[0]
-                     and f1 == match1.groups(0)[0] and f2 == match2.groups(0)[0]) or \
-                    (match3[0] == match4[0] and int(match3[1]) > int(match4[1])):
+                     and f1 == match1.groups(0)[0] and f2 == match2.groups(0)[0])) or \
+                    (match3 is not None and match4 is not None and
+                     (match3[0] == match4[0] and int(match3[1]) > int(match4[1]))):
                 files.remove(f2)
     read_energy(energies=energies, files=files, it=it)
     if sorted(it) != list(range(min(it), max(it) + 1)) or None in energies:

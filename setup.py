@@ -41,7 +41,6 @@ setup(
     install_requires=[
         "sh",
         "matplotlib",
-        "natsort",
         ],
     project_urls={
         "Bug Reports": "https://github.com/eftalgezer/SIESTAstepper/issues",
