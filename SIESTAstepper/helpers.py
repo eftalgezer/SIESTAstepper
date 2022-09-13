@@ -124,3 +124,20 @@ def sort_(files, cont):
             if s[0] in f and f not in sortedfiles:
                 sortedfiles.append(f)
     return sortedfiles
+
+
+def remove_nones(files, path, cwd, cont, log):
+    """Remove the files which do not return any energy values"""
+    for f1 in files:
+        for f2 in reversed(files):
+            repath = path.replace("*", "[0-9]+")
+            match1 = re.search(f"({cwd}{os.sep}{repath}{os.sep}{cont}_*[0-9]*{os.sep}{log})", f1)
+            match2 = re.search(f"({cwd}{os.sep}{repath}{os.sep}{log})", f2)
+            match3 = re.search(f"({cwd}{os.sep}({repath}){os.sep}{cont}_+([0-9]+){os.sep}{log})", f1)
+            match4 = re.search(f"({cwd}{os.sep}({repath}){os.sep}{cont}_+([0-9]+){os.sep}{log})", f2)
+            if (match1 is not None and match2 is not None and
+                (re.search(f"{os.sep}i[0-9]+", f1)[0] == re.search(f"{os.sep}i[0-9]+", f2)[0]
+                 and f1 == match1.groups(0)[0] and f2 == match2.groups(0)[0])) or \
+                    (match3 is not None and match4 is not None and
+                     (match3[0] == match4[0] and int(match3[1]) > int(match4[1]))):
+                files.remove(f2)

@@ -7,7 +7,7 @@ from subprocess import run as sprun
 import shlex
 from itertools import zip_longest
 import re
-from .helpers import create_fdf, read_fdf, read_energy, get_it, print_run, check_dm_xv, copy_file, sort_
+from .helpers import create_fdf, read_fdf, read_energy, get_it, print_run, check_dm_xv, copy_file, sort_, remove_nones
 
 cwd: str = os.getcwd()
 log: str = "log"
@@ -224,19 +224,7 @@ def analysis(path=None, plot_=True):
     files = sort_(files, cont)
     energies = []
     it = []
-    for f1 in files:
-        for f2 in reversed(files):
-            repath = path.replace("*", "[0-9]+")
-            match1 = re.search(f"({cwd}{os.sep}{repath}{os.sep}{cont}_*[0-9]*{os.sep}{log})", f1)
-            match2 = re.search(f"({cwd}{os.sep}{repath}{os.sep}{log})", f2)
-            match3 = re.search(f"({cwd}{os.sep}({repath}){os.sep}{cont}_+([0-9]+){os.sep}{log})", f1)
-            match4 = re.search(f"({cwd}{os.sep}({repath}){os.sep}{cont}_+([0-9]+){os.sep}{log})", f2)
-            if (match1 is not None and match2 is not None and
-                    (re.search(f"{os.sep}i[0-9]+", f1)[0] == re.search(f"{os.sep}i[0-9]+", f2)[0]
-                     and f1 == match1.groups(0)[0] and f2 == match2.groups(0)[0])) or \
-                    (match3 is not None and match4 is not None and
-                     (match3[0] == match4[0] and int(match3[1]) > int(match4[1]))):
-                files.remove(f2)
+    remove_nones(files, path, cwd, cont, log)
     read_energy(energies=energies, files=files, it=it)
     if sorted(it) != list(range(min(it), max(it) + 1)) or None in energies:
         print("WARNING: There are missing values!")
