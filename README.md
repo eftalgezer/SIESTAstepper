@@ -25,6 +25,16 @@ pip install SIESTAstepper
 All SIESTA working directories must be named as i1, i2, i3 ... and so on.
 
 ### In code
+
+#### Simple usage
+
+```python
+SIESTAstepper.run("graphene")
+
+```
+
+#### Advance usage
+
 ```python
 import SIESTAstepper
 
@@ -90,6 +100,16 @@ SIESTAstepper.analysis(path = "path/to/i*/log/files")
 ```
 
 ### In terminal
+
+#### Simple usage
+
+```sh
+python -m SIESTAstepper run log graphene
+
+```
+
+#### Advance usage
+
 ```sh
 
 python -m SIESTAstepper run log graphene
