@@ -1,5 +1,27 @@
 # Changelog
 
+## [v.1.0.0]https://github.com/eftalgezer/SIESTAstepper/tree/v1.0.0) (2022-09-14)
+
+- `run_interrupted` function is added. It is possible to continue from an interrupted calculation.
+- `make_directories` function is added. It is possible to make i* directories massively. 
+- Security improvements
+- Setting the NumberOfAtoms parameter while creating an fdf file
+- `copy_files` function is added. It is possible to copy desired files by extension.
+- Print PID on screen
+- `contfiles` parameter is added. It is used in the copy_files function to copy files, not by extension.
+- Continuations are infinitive. If you kill your job in the "continue" folder, you can continue with the "continue_2", "continue_3" folder, etc.
+- Parameter `missing` is removed in the functions `merge_ani`, and `analysis`. These functions will advantage the benefit of the `SIESTAstepper.cont` parameter.
+- Improved Windows support
+- `single_run` function is added. It is possible to run a step without proceeding to the next step.
+- `single_run_interrupted` function is added. It is possible to run an interrupted step without proceeding to the next step.
+- CHANGELOG.md is created.
+- [A tutorial for v1.0.0 is written.](https://beyondthearistotelian.blogspot.com/2022/09/siestastepper-v100-tutorial.html)
+- Bug fixes
+
+Thanks to [toppk](Bug fix) at Stackoverflow for the [help in fixing the bug in the `remove_nones` function](https://stackoverflow.com/questions/73721062/why-the-operator-does-not-work-as-expected-in-python).
+
+**Full Changelog**: https://github.com/eftalgezer/SIESTAstepper/compare/v0.4.2...v1.0.0
+
 ## [v0.4.2](https://github.com/eftalgezer/SIESTAstepper/tree/v0.4.2) (2022-09-08)
 
 [Full Changelog](https://github.com/eftalgezer/SIESTAstepper/compare/v0.4.1...v0.4.2)
