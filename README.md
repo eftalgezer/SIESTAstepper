@@ -187,15 +187,15 @@ Please make sure to update tests as appropriate.
 If you are using SIESTAstepper, please citate relevant version. You can find the relevant citation [here](https://doi.org/10.5281/zenodo.7051271)>.
 
 ```bibtex
-@software{eftal_gezer_2022_7062764,
+@software{eftal_gezer_2022_7080175,
   author       = {Eftal Gezer},
-  title        = {eftalgezer/SIESTAstepper: v0.4.2},
+  title        = {eftalgezer/SIESTAstepper: v1.0.0},
   month        = sep,
   year         = 2022,
   publisher    = {Zenodo},
-  version      = {v0.4.2},
-  doi          = {10.5281/zenodo.7062764},
-  url          = {https://doi.org/10.5281/zenodo.7062764}
+  version      = {v1.0.0},
+  doi          = {10.5281/zenodo.7080175},
+  url          = {https://doi.org/10.5281/zenodo.7080175}
 }
 ```
 
