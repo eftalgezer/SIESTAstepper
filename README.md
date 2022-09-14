@@ -184,7 +184,7 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 Please make sure to update tests as appropriate.
 
 ## Citation
-If you are using SIESTAstepper, please citate relevant version. You can find the relevant citation [here](https://doi.org/10.5281/zenodo.7051271)>.
+If you are using SIESTAstepper, please citate relevant version. You can find the relevant citation [here](https://doi.org/10.5281/zenodo.7051271).
 
 ```bibtex
 @software{eftal_gezer_2022_7080175,
