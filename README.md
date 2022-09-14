@@ -20,6 +20,10 @@ Use the package manager [pip](https://pip.pypa.io/en/stable/) to install SIESTAs
 pip install SIESTAstepper
 ```
 
+## Tutorial
+
+A tutorial can be found [here](https://beyondthearistotelian.blogspot.com/2022/09/siestastepper-v100-tutorial.html)
+
 ## Usage
 
 All SIESTA working directories must be named as i1, i2, i3 ... and so on.
