@@ -30,7 +30,7 @@ def run_next(i, label):
                 f"i{int(i) - 1}{os.sep}{cont}{match[1]}{os.sep}{label}.fdf",
                 f"i{i}{os.sep}{label}.fdf"
             )
-            copy_files(["psf"], label, f"{cwd}{os.sep}i{int(i) - 1}{os.sep}{cont}{match[1]}", f"{cwd}{os.sep}i{i}")
+        copy_files(["psf"], label, f"{cwd}{os.sep}i{int(i) - 1}{os.sep}{cont}{match[1]}", f"{cwd}{os.sep}i{i}")
     elif int(i) > 1:
         if not os.path.isfile(f"{cwd}{os.sep}i{str(int(i) + 1)}{os.sep}{label}.fdf"):
             ani_to_fdf(
@@ -38,7 +38,7 @@ def run_next(i, label):
                 f"i{int(i) - 1}{os.sep}{label}.fdf",
                 f"i{i}{os.sep}{label}.fdf"
             )
-            copy_files(["psf"], label, f"{cwd}{os.sep}i{int(i) - 1}", f"{cwd}{os.sep}i{i}")
+        copy_files(["psf"], label, f"{cwd}{os.sep}i{int(i) - 1}", f"{cwd}{os.sep}i{i}")
     os.chdir(f"{cwd}{os.sep}i{i}")
     print(f"Changed directory to {os.getcwd()}")
     print_run(f"i{i}", cores, conda)
@@ -137,11 +137,19 @@ def run(label):
                 if not os.path.isfile(
                         f"{cwd}{os.sep}i" + str(int(logs[-1].split(os.sep)[0].strip("i")) + 1) + os.sep + label + ".fdf"
                 ):
-                    ani_to_fdf(
-                        logs[-1].rsplit(os.sep)[0] + os.sep + label + ".ANI",
-                        logs[-1].rsplit(os.sep)[0] + os.sep + label + ".fdf",
-                        "i" + str(int(logs[-1].split(os.sep)[0].strip("i")) + 1) + os.sep + label + ".fdf"
-                    )
+                    if cont in logs[-1]:
+                        match = re.search(f"i([0-9]+){os.sep}{cont}(_*[0-9]*)", logs[-1])
+                        ani_to_fdf(
+                            f"i{match[1]}{os.sep}{cont}{match[2]}{os.sep}{label}.ANI",
+                            f"i{match[1]}{os.sep}{cont}{match[2]}{os.sep}{label}.fdf",
+                            f"i{int(match[1]) + 1}{os.sep}{label}.fdf"
+                        )
+                    else:
+                        ani_to_fdf(
+                            logs[-1].rsplit(os.sep)[0] + os.sep + label + ".ANI",
+                            logs[-1].rsplit(os.sep)[0] + os.sep + label + ".fdf",
+                            "i" + str(int(logs[-1].split(os.sep)[0].strip("i")) + 1) + os.sep + label + ".fdf"
+                        )
                 file.close()
                 run_next(str(int(logs[-1].split(os.sep)[0].strip("i")) + 1), label)
             elif not run_interrupted(str(int(logs[-1].split(os.sep)[0].strip("i"))), label):
