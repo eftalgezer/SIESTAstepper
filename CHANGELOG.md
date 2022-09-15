@@ -6,6 +6,7 @@
 - Bug fixes
 - - The bug on the file name sort is fixed.
 - - `update_cwd`, `update_log`, `update_cores`, `update_conda`, and `update_cont` functions are added to change the values of `cwd`, `log`, `cores`, `conda`, and `cont`, respectively.
+- [A tutorial for v1.1.0 is written](https://beyondthearistotelian.blogspot.com/2022/09/siestastepper-v110-tutorial.html)
 
 **Full Changelog**: https://github.com/eftalgezer/SIESTAstepper/compare/v1.0.0...v1.1.0
 
