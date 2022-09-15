@@ -43,19 +43,19 @@ SIESTAstepper.run("graphene")
 import SIESTAstepper
 
 #Sets the path of the working directory
-SIESTAstepper.cwd = "path/to/working/directory"
+SIESTAstepper.update_cwd("path/to/working/directory")
 
 #Sets the name of SIESTA log files (default is "log")
-SIESTAstepper.log = "log"
+SIESTAstepper.update_log("log")
 
 #Sets number of cores for parallel run
-SIESTAstepper.cores = 4
+SIESTAstepper.update_cores(4)
 
 #Sets Anaconda environment
-SIESTAstepper.conda = "envir"
+SIESTAstepper.update_conda("envir")
 
 #Sets the subfolder name for interrupted calculations (default is "continue")
-SIESTAstepper.cont = "continue"
+SIESTAstepper.update_cont("continue")
 
 #Sets the filenames to copy
 SIESTAstepper.contfiles.extend(["file1", "file2"])
@@ -101,6 +101,12 @@ SIESTAstepper.analysis(plot_ = False)
 
 # Plots and returns energies from log files by setting a path
 SIESTAstepper.analysis(path = "path/to/i*/log/files")
+
+# Calculates the energy differences between minima and maxima
+SIESTAstepper.energy_diff()
+
+# Calculates the energy differences between minima and maxima by setting a path
+SIESTAstepper.energy_diff(path = "path/to/i*/log/files")
 ```
 
 ### In terminal
@@ -175,6 +181,12 @@ python -m SIESTAstepper analysis log cont=continue
 python -m SIESTAstepper analysis log noplot
 
 python -m SIESTAstepper analysis log path=path/to/i*/log/files
+
+python -m SIESTAstepper energy_diff log
+
+python -m SIESTAstepper energy_diff log cont=continue
+
+python -m SIESTAstepper energy_diff log path=path/to/i*/log/files
 
 ```
 

@@ -46,17 +46,19 @@ def create_fdf(fdf, geo, newfdfpath, number):
         newfdffile.close()
 
 
-def read_energy(energies=[], files=None, it=[]):
+def read_energy(energies=[], files=None, it=[], print_=True):
     """Read energy from log file"""
     it += get_it(files)
     for f in files:
-        print(f)
+        if print_:
+            print(f)
         with open(f, "r") as file:
             lines = file.readlines()
             for line in lines:
                 if line.startswith("siesta:         Total =  "):
                     energies.append(float(line.split("=  ")[1]))
-                    print(line.split("=  ")[1])
+                    if print_:
+                        print(line.split("=  ")[1])
 
 
 def print_run(for_, cores, conda):
@@ -113,10 +115,11 @@ def copy_file(sourcefile, destinationfile):
         print(f"ERROR: An error occurred while copying {sourcefile} to {destinationfile}")
 
 
-def sort_(files, cont):
+def sort_(files, path, cont):
     """Naive sort function for directories"""
+    path = path.replace("*", "([0-9]+)")
     sortedfiles = []
-    match = [re.search(f"i([0-9]+)({os.sep}{cont}_*([0-9]*))*", f) for f in files]
+    match = [re.search(f"{path}({os.sep}{cont}_*([0-9]*))*", f) for f in files]
     sortedmatch = [[m[0], m[1], m[2], m[3]] for m in match]
     sortedmatch = [x for _, x in sorted(zip(
         [int(f"{m[1]}0") if m[3] is None else int(f"{m[1]}1") if m[3] == "" else int(m[1] + m[3]) for m in
@@ -125,7 +128,8 @@ def sort_(files, cont):
     ))]
     for s in sortedmatch:
         for f in files:
-            if s[0] in f and f not in sortedfiles:
+            fmatch = re.search(f"{path}({os.sep}{cont}_*([0-9]*))*", f)
+            if s[0] == fmatch[0] and f not in sortedfiles:
                 sortedfiles.append(f)
     return sortedfiles
 

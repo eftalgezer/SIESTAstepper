@@ -1,6 +1,8 @@
 import glob
 import os
 import matplotlib.pyplot as plt
+import numpy as np
+from scipy.signal import argrelmin, argrelmax
 from sh import tail
 from subprocess import Popen
 from subprocess import run as sprun
@@ -21,7 +23,7 @@ def run_next(i, label):
     """Run SIESTA for given step"""
     logs = glob.glob(f"i{int(i) - 1}{os.sep}{log}")
     logs += glob.glob(f"i{int(i) - 1}{os.sep}{cont}*{os.sep}{log}")
-    logs = sort_(logs, cont)
+    logs = sort_(logs, "i*", cont)
     if len(logs) != 0 and cont in logs[-1]:
         match = re.search(f"i{int(i) - 1}{os.sep}{cont}(_*[0-9]*)", logs[-1])
         if not os.path.isfile(f"{cwd}{os.sep}i{i}{os.sep}{label}.fdf"):
@@ -99,7 +101,7 @@ def merge_ani(label=None, path=None):
         raise ValueError("ERROR: Please set a label")
     files = glob.glob(f"{cwd}{os.sep}{path}{os.sep}{label}.ANI")
     files += glob.glob(f"{cwd}{os.sep}{path}{os.sep}{cont}*{os.sep}{label}.ANI")
-    files = sort_(files, cont)
+    files = sort_(files, path, cont)
     if files is not None:
         it = get_it(files)
         if [*set(it)] != list(range(min(it), max(it) + 1)):
@@ -125,8 +127,8 @@ def run(label):
     logs = glob.glob(f"i*{os.sep}{log}")
     folders += glob.glob(f"i*{os.sep}{cont}*")
     logs += glob.glob(f"i*{os.sep}{cont}*{os.sep}{log}")
-    folders = sort_(folders, cont)
-    logs = sort_(logs, cont)
+    folders = sort_(folders, "i*", cont)
+    logs = sort_(logs, "i*", cont)
     if len(logs) == 0:
         run_next("1", label)
     elif len(folders) != len(logs) != 0 or folders[-1] != logs[-1].rsplit(os.sep)[0] + os.sep:
@@ -162,7 +164,7 @@ def run(label):
 def run_interrupted(i, label):
     """Continue to an interrupted calculation"""
     folders = glob.glob(f"i*{os.sep}{cont}*")
-    folders = sort_(folders, cont)
+    folders = sort_(folders, "i*", cont)
     if len(folders) != 0:
         with open(f"{folders[-1]}{os.sep}{log}") as file:
             lines = file.readlines()
@@ -182,7 +184,7 @@ def run_interrupted(i, label):
 def single_run_interrupted(i, label):
     """Continue to an interrupted calculation without continuing next step"""
     folders = glob.glob(f"i*{os.sep}{cont}*")
-    folders = sort_(folders, cont)
+    folders = sort_(folders, "i*", cont)
     if len(folders) != 0:
         with open(f"{folders[-1]}{os.sep}{log}") as file:
             lines = file.readlines()
@@ -223,17 +225,17 @@ def copy_files(extensions, label, source_, destination):
         copy_file(f"{source_}{os.sep}{cf}", f"{destination}{os.sep}{cf}")
 
 
-def analysis(path=None, plot_=True):
+def analysis(path=None, plot_=True, print_=True):
     """Plot and return energies from log files"""
     if path is None:
         path = "i*"
     files = glob.glob(f"{cwd}{os.sep}{path}{os.sep}{log}")
     files += glob.glob(f"{cwd}{os.sep}{path}{os.sep}{cont}*{os.sep}{log}")
-    files = sort_(files, cont)
+    files = sort_(files, path, cont)
     energies = []
     it = []
     remove_nones(files, path, cwd, cont, log)
-    read_energy(energies=energies, files=files, it=it)
+    read_energy(energies=energies, files=files, it=it, print_=print_)
     if sorted(it) != list(range(min(it), max(it) + 1)) or None in energies:
         print("WARNING: There are missing values!")
     if None in energies:
@@ -244,6 +246,21 @@ def analysis(path=None, plot_=True):
         plt.ylabel("Energy (eV)")
         plt.show()
     return list(zip_longest(it, energies))
+
+
+def energy_diff(path=None):
+    if path is None:
+        path = "i*"
+    data = analysis(path=path, plot_=False, print_=False)
+    energies = np.array([_[1] for _ in data])
+    it = np.array([_[0] for _ in data])
+    min_idx = np.where(energies == np.amin(energies)) if len(argrelmin(energies)) == 1 else argrelmin(energies)
+    print(f"Minima: {energies[min_idx]}")
+    max_idx = np.where(energies == np.amax(energies)) if len(argrelmax(energies)) == 1 else argrelmax(energies)
+    print(f"Maxima: {energies[max_idx]}")
+    diff = np.absolute(energies[min_idx] - energies[max_idx])
+    print(f"Energy difference: {diff}")
+    return list(zip_longest(energies[min_idx], energies[max_idx], it[min_idx], it[max_idx], diff))
 
 
 def _command(label=None, issingle=False):
@@ -291,3 +308,28 @@ def _cont_step(contfolder, i, label, issingle=False):
         fdffile.close()
     print_run(f"i{i}{os.sep}{contfolder}", cores, conda)
     _command(label=label, issingle=issingle)
+
+
+def update_cwd(newcwd):
+    global cwd
+    cwd = newcwd
+
+
+def update_log(newlog):
+    global log
+    log = newlog
+
+
+def update_cores(newcores):
+    global cores
+    cores = newcores
+
+
+def update_conda(newconda):
+    global conda
+    conda = newconda
+
+
+def update_cont(newcont):
+    global cont
+    cont = newcont
