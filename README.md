@@ -22,7 +22,8 @@ pip install SIESTAstepper
 
 ## Tutorial
 
-A tutorial can be found [here](https://beyondthearistotelian.blogspot.com/2022/09/siestastepper-v100-tutorial.html).
+- [SIESTAstepper v1.0.0 tutorial](https://beyondthearistotelian.blogspot.com/2022/09/siestastepper-v100-tutorial.html)
+- [SIESTAstepper v1.1.0 tutorial](https://beyondthearistotelian.blogspot.com/2022/09/siestastepper-v110-tutorial.html)
 
 ## Usage
 
