@@ -9,7 +9,7 @@ from subprocess import run as sprun
 import shlex
 from itertools import zip_longest
 import re
-from .helpers import create_fdf, read_fdf, read_energy, get_it, print_run, check_dm_xv, copy_file, sort_, remove_nones
+from .helpers import create_fdf, read_fdf, read_energy, get_it, print_run, check_restart, copy_file, sort_, remove_nones
 
 cwd: str = os.getcwd()
 log: str = "log"
@@ -17,6 +17,7 @@ cores = None
 conda = None
 cont: str = "continue"
 contfiles: list = []
+contextensions: list = ["psf", "fdf"]
 
 
 def run_next(i, label):
@@ -285,26 +286,21 @@ def _cont_step(contfolder, i, label, issingle=False):
     contnummatch = re.search(f"{cont}_([0-9]+)", contfolder)
     contnum = contnummatch[1] if contnummatch is not None else "-1"
     if int(contnum) == 2:
-        copy_files(
-            ["psf", "fdf", "XV", "DM"],
-            label,
-            f"{cwd}{os.sep}i{i}{os.sep}{cont}",
-            f"{cwd}{os.sep}i{i}{os.sep}{contfolder}"
-        )
+        copy_files(contextensions, label, f"{cwd}{os.sep}i{i}{os.sep}{cont}", f"{cwd}{os.sep}i{i}{os.sep}{contfolder}")
     elif int(contnum) > 2:
         copy_files(
-            ["psf", "fdf", "XV", "DM"],
+            contextensions,
             label,
             f"{cwd}{os.sep}i{i}{os.sep}{cont}_{int(contnum) - 1}",
             f"{cwd}{os.sep}i{i}{os.sep}{contfolder}"
         )
     elif contnummatch is None:
-        copy_files(["psf", "fdf", "XV", "DM"], label, f"{cwd}{os.sep}i{i}", f"{cwd}{os.sep}i{i}{os.sep}{contfolder}")
+        copy_files(contextensions, label, f"{cwd}{os.sep}i{i}", f"{cwd}{os.sep}i{i}{os.sep}{contfolder}")
     os.chdir(f"{cwd}{os.sep}i{i}{os.sep}{contfolder}")
     print(f"Changed directory to {os.getcwd()}")
     print(f"Opening {cwd}{os.sep}i{i}{os.sep}{contfolder}{os.sep}{label}.fdf")
     with open(f"{label}.fdf", "r+") as fdffile:
-        check_dm_xv(fdffile, i, label, cwd, contfolder)
+        check_restart(fdffile, i, label, cwd, contfolder, contextensions)
         fdffile.close()
     print_run(f"i{i}{os.sep}{contfolder}", cores, conda)
     _command(label=label, issingle=issingle)

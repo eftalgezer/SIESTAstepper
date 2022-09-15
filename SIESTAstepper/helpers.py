@@ -70,30 +70,54 @@ def print_run(for_, cores, conda):
     )
 
 
-def check_dm_xv(fdffile, i, label, cwd, cont):
+def check_restart(fdffile, i, label, cwd, cont, contextensions):
     """Check DM and XV parameters in an FDF file"""
     fdf = fdffile.read()
-    matchdm = re.search(r"#DM\.UseSaveDM +\.true\.", fdf)
-    matchxv = re.search(r"#MD\.UseSaveXV +\.true\.", fdf)
-    if matchdm is None:
-        matchdm = re.search(r"DM\.UseSaveDM +\.false\.", fdf)
-    if matchxv is None:
-        matchxv = re.search(r"MD\.UseSaveXV +\.false\.", fdf)
-    if matchdm is None:
-        fdf += "\nDM.UseSaveDM        .true.\n"
-    else:
-        fdf.replace(matchdm[0], "DM.UseSaveDM        .true.")
-    if matchxv is None:
-        fdf += "\nMD.UseSaveXV        .true.\n"
-    else:
-        fdf.replace(matchxv[0], "MD.UseSaveXV        .true.")
-    print(
-        f"Setting 'DM.UseSaveDM' and 'MD.UseSaveXV' as '.true.' in {cwd}{os.sep}i{i}{os.sep}{cont}{os.sep}{label}.fdf"
-    )
+    if "DM" in contextensions:
+        matchdm = re.search(r"# *DM\.UseSaveDM +\.true\.", fdf)
+        if matchdm is None:
+            matchdm = re.search(r"DM\.UseSaveDM +\.false\.", fdf)
+        if matchdm is None:
+            fdf += "\nDM.UseSaveDM        .true.\n"
+        else:
+            print(f"Setting 'DM.UseSaveDM' as '.true.' in {cwd}{os.sep}i{i}{os.sep}{cont}{os.sep}{label}.fdf")
+            fdf.replace(matchdm[0], "DM.UseSaveDM        .true.")
+        if re.search("WriteDM +.true.", fdf) is None or re.search("# *WriteDM +.true.", fdf) is not None \
+                or re.search("WriteDM +.false.", fdf) is not None:
+            print(
+                f"WARNING: 'WriteDM             .true.' not found in {cwd}{os.sep}i{i}{os.sep}{cont}{os.sep}{label}.fdf"
+            )
+    if "XV" in contextensions:
+        matchxv = re.search(r"# *MD\.UseSaveXV +\.true\.", fdf)
+        if matchxv is None:
+            matchxv = re.search(r"MD\.UseSaveXV +\.false\.", fdf)
+        if matchxv is None:
+            print(f"Setting 'MD.UseSaveXV' as '.true.' in {cwd}{os.sep}i{i}{os.sep}{cont}{os.sep}{label}.fdf")
+            fdf += "\nMD.UseSaveXV        .true.\n"
+        else:
+            print(f"Setting 'MD.UseSaveXV' as '.true.' in {cwd}{os.sep}i{i}{os.sep}{cont}{os.sep}{label}.fdf")
+            fdf.replace(matchxv[0], "MD.UseSaveXV        .true.")
+    if "CG" in contextensions:
+        matchcg = re.search(r"# *MD\.UseSaveCG +\.true\.", fdf)
+        if matchcg is None:
+            matchcg = re.search(r"MD\.UseSaveCG +\.false\.", fdf)
+        if matchcg is None:
+            print(f"Setting 'MD.UseSaveCG' as '.true.' in {cwd}{os.sep}i{i}{os.sep}{cont}{os.sep}{label}.fdf")
+            fdf += "\nMD.UseSaveCG        .true.\n"
+        else:
+            print(f"Setting 'MD.UseSaveCG' as '.true.' in {cwd}{os.sep}i{i}{os.sep}{cont}{os.sep}{label}.fdf")
+            fdf.replace(matchcg[0], "MD.UseSaveCG        .true.")
+    if "LWF" in contextensions:
+        matchlwf = re.search(r"# *ON\.UseSaveLWF +\.true\.", fdf)
+        if matchlwf is None:
+            matchlwf = re.search(r"ON\.UseSaveLWF +\.false\.", fdf)
+        if matchlwf is None:
+            print(f"Setting 'ON.UseSaveLWF' as '.true.' in {cwd}{os.sep}i{i}{os.sep}{cont}{os.sep}{label}.fdf")
+            fdf += "\nON.UseSaveLWF        .true.\n"
+        else:
+            print(f"Setting 'ON.UseSaveLWF' as '.true.' in {cwd}{os.sep}i{i}{os.sep}{cont}{os.sep}{label}.fdf")
+            fdf.replace(matchlwf[0], "ON.UseSaveLWF        .true.")
     fdffile.write(fdf)
-    if re.search("WriteDM +.true.", fdf) is None or re.search("#WriteDM +.true.", fdf) is not None \
-            or re.search("WriteDM +.false.", fdf) is not None:
-        print(f"WARNING: 'WriteDM             .true.' not found in {cwd}{os.sep}i{i}{os.sep}{cont}{os.sep}{label}.fdf")
 
 
 def copy_file(sourcefile, destinationfile):
