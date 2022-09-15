@@ -9,7 +9,8 @@ from subprocess import run as sprun
 import shlex
 from itertools import zip_longest
 import re
-from .helpers import create_fdf, read_fdf, read_energy, get_it, print_run, check_restart, copy_file, sort_, remove_nones
+from .helpers import create_fdf, read_fdf, read_energy, get_it, print_run, check_restart, check_userbasis, copy_file, \
+    sort_, remove_nones
 
 cwd: str = os.getcwd()
 log: str = "log"
@@ -33,7 +34,12 @@ def run_next(i, label):
                 f"i{int(i) - 1}{os.sep}{cont}{match[1]}{os.sep}{label}.fdf",
                 f"i{i}{os.sep}{label}.fdf"
             )
-        copy_files(["psf"], label, f"{cwd}{os.sep}i{int(i) - 1}{os.sep}{cont}{match[1]}", f"{cwd}{os.sep}i{i}")
+        copy_files(
+            ["ion" if check_userbasis(f"i{i}{os.sep}{label}.fdf") else "psf"],
+            label,
+            f"{cwd}{os.sep}i{int(i) - 1}{os.sep}{cont}{match[1]}",
+            f"{cwd}{os.sep}i{i}"
+        )
     elif int(i) > 1:
         if not os.path.isfile(f"{cwd}{os.sep}i{str(int(i) + 1)}{os.sep}{label}.fdf"):
             ani_to_fdf(
@@ -41,7 +47,13 @@ def run_next(i, label):
                 f"i{int(i) - 1}{os.sep}{label}.fdf",
                 f"i{i}{os.sep}{label}.fdf"
             )
-        copy_files(["psf"], label, f"{cwd}{os.sep}i{int(i) - 1}", f"{cwd}{os.sep}i{i}")
+        copy_files(
+            ["ion" if check_userbasis(f"i{i}{os.sep}{label}.fdf") else "psf"],
+            label,
+            f"{cwd}{os.sep}i{int(i) - 1}",
+            f"{cwd}{os.sep}i{i}"
+        )
+
     os.chdir(f"{cwd}{os.sep}i{i}")
     print(f"Changed directory to {os.getcwd()}")
     print_run(f"i{i}", cores, conda)
@@ -64,7 +76,12 @@ def single_run(i, label):
                         f"{cwd}{os.sep}i{int(i) - 1}{os.sep}{label}.fdf",
                         f"{cwd}{os.sep}i{i}{os.sep}{label}.fdf"
                     )
-                copy_files(["psf"], label, f"{cwd}{os.sep}i{int(i) - 1}", f"{cwd}{os.sep}i{i}")
+                copy_files(
+                    ["ion" if check_userbasis(f"{cwd}{os.sep}i{i}{os.sep}{label}.fdf") else "psf"],
+                    label,
+                    f"{cwd}{os.sep}i{int(i) - 1}",
+                    f"{cwd}{os.sep}i{i}"
+                )
             print_run(f"i{i}", cores, conda)
             _command(label=label, issingle=True)
 
@@ -217,6 +234,11 @@ def copy_files(extensions, label, source_, destination):
         for ext in extensions:
             if ext == "psf":
                 files = glob.glob(f"{source_}{os.sep}*.psf")
+                for f in files:
+                    file = f.split(os.sep)[-1]
+                    copy_file(f, f"{destination}{os.sep}{file}")
+            if ext == "ion":
+                files = glob.glob(f"{source_}{os.sep}*.ion")
                 for f in files:
                     file = f.split(os.sep)[-1]
                     copy_file(f, f"{destination}{os.sep}{file}")

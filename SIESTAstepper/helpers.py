@@ -119,6 +119,12 @@ def check_restart(fdffile, i, label, cwd, cont, contextensions):
             fdf.replace(matchlwf[0], "ON.UseSaveLWF        .true.")
     fdffile.write(fdf)
 
+def check_userbasis(fdffile):
+    with open(fdffile, "r") as f:
+        if re.search("Userbasis *\.true\.", fdffile.read()):
+            return True
+        f.close()
+        return False
 
 def copy_file(sourcefile, destinationfile):
     """Copy and paste a file"""
