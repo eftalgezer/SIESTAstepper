@@ -43,23 +43,26 @@ SIESTAstepper.run("graphene")
 ```python
 import SIESTAstepper
 
-#Sets the path of the working directory
+# Sets the path of the working directory
 SIESTAstepper.update_cwd("path/to/working/directory")
 
-#Sets the name of SIESTA log files (default is "log")
+# Sets the name of SIESTA log files (default is "log")
 SIESTAstepper.update_log("log")
 
-#Sets number of cores for parallel run
+# Sets number of cores for parallel run
 SIESTAstepper.update_cores(4)
 
-#Sets Anaconda environment
+# Sets Anaconda environment
 SIESTAstepper.update_conda("envir")
 
-#Sets the subfolder name for interrupted calculations (default is "continue")
+# Sets the subfolder name for interrupted calculations (default is "continue")
 SIESTAstepper.update_cont("continue")
 
-#Sets the filenames to copy
+# Sets the filenames to copy (useful for interrupted calculations)
 SIESTAstepper.contfiles.extend(["file1", "file2"])
+
+# Sets the extensions to copy (useful for interrupted calculations, default is ["psf, "fdf"]
+SIESTAstepper.contextensions.extend(["DM", "XV", "CG", "LWF"])
 
 # Runs SIESTA step by step
 SIESTAstepper.run("graphene")
@@ -70,28 +73,28 @@ SIESTAstepper.ani_to_fdf("path/to/ANI", "path/to/FDF", "path/to/newFDF")
 # Converts XYZ to FDF by using the previous FDF and XYZ files
 SIESTAstepper.xyz_to_fdf("path/to/XYZ", "path/to/FDF", "path/to/newFDF")
 
-#Merges ANI files
+# Merges ANI files
 SIESTAstepper.merge_ani(label = "graphene")
 
-#Merges ANI files by setting a path
+# Merges ANI files by setting a path
 SIESTAstepper.merge_ani(label = "graphene", path = "path/to/i*/ANI/files")
 
 # Runs SIESTA for a given step
 SIESTAstepper.run_next("1", "graphene")
 
-#Runs SIESTA for a given step without continuing to next step
+# Runs SIESTA for a given step without continuing to next step
 SIESTAstepper.single_run("1", "graphene")
 
-#Continues to an interrupted calculation without continuing to next step
+# Continues to an interrupted calculation without continuing to next step
 SIESTAstepper.single_run_interrupted("1", "graphene")
 
-#Continues to an interrupted calculation
+# Continues to an interrupted calculation
 SIESTAstepper.run_interrupted("1", "graphene")
 
-#Creates folders named i1, i2, i3, i4, i5, ...
+# Creates folders named i1, i2, i3, i4, i5, ...
 SIESTAstepper.make_directories(5)
 
-#Copies files from i1 to i2
+# Copies files from i1 to i2
 SIESTAstepper.copy_files(["psf", "fdf", "XV", "DM"], "graphene", "path/to/i1", "path/to/i2")
 
 # Plots and returns energies from log files
@@ -125,7 +128,7 @@ python -m SIESTAstepper run log graphene
 
 python -m SIESTAstepper run log graphene
 
-python -m SIESTAstepper run log graphene contfiles=file1,file2
+python -m SIESTAstepper run log graphene contfiles=file1,file2 contextensions=DM,XV,CG,LWF
 
 python -m SIESTAstepper run log graphene mpirun=4
 
@@ -133,7 +136,7 @@ python -m SIESTAstepper run log graphene conda=envir
 
 python -m SIESTAstepper run_next log 1 graphene
 
-python -m SIESTAstepper run_next log 1 graphene contfiles=file1,file2
+python -m SIESTAstepper run_next log 1 graphene contfiles=file1,file2 contextensions=DM,XV,CG,LWF
 
 python -m SIESTAstepper run_next log 1 graphene mpirun=4
 
@@ -147,7 +150,7 @@ python -m SIESTAstepper single_run log 1 graphene conda=envir
 
 python -m SIESTAstepper run_interrupted log 1 graphene cont=continue
 
-python -m SIESTAstepper run_interrupted log 1 graphene cont=continue contfiles=file1,file2
+python -m SIESTAstepper run_interrupted log 1 graphene cont=continue contfiles=file1,file2 contextensions=DM,XV,CG,LWF
 
 python -m SIESTAstepper run_interrupted log 1 graphene mpirun=4 cont=continue
 
