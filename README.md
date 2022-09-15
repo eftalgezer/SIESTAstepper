@@ -124,79 +124,77 @@ SIESTAstepper.energy_diff(path = "path/to/i*/log/files")
 #### Simple usage
 
 ```sh
-python -m SIESTAstepper run log graphene
-
+$ python -m SIESTAstepper run log graphene
 ```
 
 #### Advance usage
 
 ```sh
+$ python -m SIESTAstepper run log graphene
 
-python -m SIESTAstepper run log graphene
+$ python -m SIESTAstepper run log graphene contfiles=file1,file2 contextensions=DM,XV,CG,LWF
 
-python -m SIESTAstepper run log graphene contfiles=file1,file2 contextensions=DM,XV,CG,LWF
+$ python -m SIESTAstepper run log graphene mpirun=4
 
-python -m SIESTAstepper run log graphene mpirun=4
+$ python -m SIESTAstepper run log graphene conda=envir
 
-python -m SIESTAstepper run log graphene conda=envir
+$ python -m SIESTAstepper run_next log 1 graphene
 
-python -m SIESTAstepper run_next log 1 graphene
+$ python -m SIESTAstepper run_next log 1 graphene contfiles=file1,file2 contextensions=DM,XV,CG,LWF
 
-python -m SIESTAstepper run_next log 1 graphene contfiles=file1,file2 contextensions=DM,XV,CG,LWF
+$ python -m SIESTAstepper run_next log 1 graphene mpirun=4
 
-python -m SIESTAstepper run_next log 1 graphene mpirun=4
+$ python -m SIESTAstepper run_next log 1 graphene conda=envir
 
-python -m SIESTAstepper run_next log 1 graphene conda=envir
+$ python -m SIESTAstepper single_run log 1 graphene
 
-python -m SIESTAstepper single_run log 1 graphene
+$ python -m SIESTAstepper single_run log 1 graphene mpirun=4
 
-python -m SIESTAstepper single_run log 1 graphene mpirun=4
+$ python -m SIESTAstepper single_run log 1 graphene conda=envir
 
-python -m SIESTAstepper single_run log 1 graphene conda=envir
+$ python -m SIESTAstepper run_interrupted log 1 graphene cont=continue
 
-python -m SIESTAstepper run_interrupted log 1 graphene cont=continue
+$ python -m SIESTAstepper run_interrupted log 1 graphene cont=continue contfiles=file1,file2 contextensions=DM,XV,CG,LWF
 
-python -m SIESTAstepper run_interrupted log 1 graphene cont=continue contfiles=file1,file2 contextensions=DM,XV,CG,LWF
+$ python -m SIESTAstepper run_interrupted log 1 graphene mpirun=4 cont=continue
 
-python -m SIESTAstepper run_interrupted log 1 graphene mpirun=4 cont=continue
+$ python -m SIESTAstepper run_interrupted log 1 graphene conda=envir cont=continue
 
-python -m SIESTAstepper run_interrupted log 1 graphene conda=envir cont=continue
+$ python -m SIESTAstepper single_run_interrupted log 1 graphene cont=continue
 
-python -m SIESTAstepper single_run_interrupted log 1 graphene cont=continue
+$ python -m SIESTAstepper single_run_interrupted log 1 graphene mpirun=4 cont=continue
 
-python -m SIESTAstepper single_run_interrupted log 1 graphene mpirun=4 cont=continue
+$ python -m SIESTAstepper single_run_interrupted log 1 graphene conda=envir cont=continue
 
-python -m SIESTAstepper single_run_interrupted log 1 graphene conda=envir cont=continue
+$ python -m SIESTAstepper make_directories 5
 
-python -m SIESTAstepper make_directories 5
+$ python -m SIESTAstepper copy_files graphene path/to/i1 path/to/i2 psf fdf XV DM
 
-python -m SIESTAstepper copy_files graphene path/to/i1 path/to/i2 psf fdf XV DM
+$ python -m SIESTAstepper copy_files graphene path/to/i1 path/to/i2 psf fdf XV DM
 
-python -m SIESTAstepper copy_files graphene path/to/i1 path/to/i2 psf fdf XV DM
+$ python -m SIESTAstepper ani_to_fdf path/to/ANI path/to/FDF path/to/newFDF
 
-python -m SIESTAstepper ani_to_fdf path/to/ANI path/to/FDF path/to/newFDF
+$ python -m SIESTAstepper xyz_to_fdf path/to/XYZ path/to/FDF path/to/newFDF
 
-python -m SIESTAstepper xyz_to_fdf path/to/XYZ path/to/FDF path/to/newFDF
+$ python -m SIESTAstepper merge_ani graphene
 
-python -m SIESTAstepper merge_ani graphene
+$ python -m SIESTAstepper merge_ani graphene cont=continue
 
-python -m SIESTAstepper merge_ani graphene cont=continue
+$ python -m SIESTAstepper merge_ani graphene path=path/to/i*/ANI/files
 
-python -m SIESTAstepper merge_ani graphene path=path/to/i*/ANI/files
+$ python -m SIESTAstepper analysis log
 
-python -m SIESTAstepper analysis log
+$ python -m SIESTAstepper analysis log cont=continue
 
-python -m SIESTAstepper analysis log cont=continue
+$ python -m SIESTAstepper analysis log noplot
 
-python -m SIESTAstepper analysis log noplot
+$ python -m SIESTAstepper analysis log path=path/to/i*/log/files
 
-python -m SIESTAstepper analysis log path=path/to/i*/log/files
+$ python -m SIESTAstepper energy_diff log
 
-python -m SIESTAstepper energy_diff log
+$ python -m SIESTAstepper energy_diff log cont=continue
 
-python -m SIESTAstepper energy_diff log cont=continue
-
-python -m SIESTAstepper energy_diff log path=path/to/i*/log/files
+$ python -m SIESTAstepper energy_diff log path=path/to/i*/log/files
 
 ```
 
