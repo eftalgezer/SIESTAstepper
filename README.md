@@ -17,7 +17,13 @@ SIESTAstepper runs SIESTA step by step, designed for constrained calculations.
 Use the package manager [pip](https://pip.pypa.io/en/stable/) to install SIESTAstepper.
 
 ```bash
-pip install SIESTAstepper
+$ pip install SIESTAstepper
+
+# to make sure you have the latest version
+$ pip install -U SIESTAstepper
+
+# latest available code base
+$ pip install -U git+https://github.com/eftalgezer/SIESTAstepper.git
 ```
 
 ## Tutorial
