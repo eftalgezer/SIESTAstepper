@@ -121,7 +121,7 @@ def check_restart(fdffile, i, label, cwd, cont, contextensions):
 
 def check_userbasis(fdffile):
     with open(fdffile, "r") as f:
-        if re.search("Userbasis *\.true\.", fdffile.read()):
+        if re.search("Userbasis *\.true\.", f.read()):
             return True
         f.close()
         return False
