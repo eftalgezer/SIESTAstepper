@@ -1,6 +1,15 @@
 # Changelog
 
-## [v.1.0.0]https://github.com/eftalgezer/SIESTAstepper/tree/v1.0.0) (2022-09-14)
+## [v1.1.0](https://github.com/eftalgezer/SIESTAstepper/tree/v1.1.0) (2022-09-15)
+
+- `energy_diff` function is added. It is possible to get energy differences between minima and maxima.
+- Bug fixes
+- - The bug on the file name sort is fixed.
+- - `update_cwd`, `update_log`, `update_cores`, `update_conda`, and `update_cont` functions are added to change the values of `cwd`, `log`, `cores`, `conda`, and `cont`, respectively.
+
+**Full Changelog**: https://github.com/eftalgezer/SIESTAstepper/compare/v1.0.0...v1.1.0
+
+## [v1.0.0](https://github.com/eftalgezer/SIESTAstepper/tree/v1.0.0) (2022-09-14)
 
 - `run_interrupted` function is added. It is possible to continue from an interrupted calculation.
 - `make_directories` function is added. It is possible to make i* directories massively. 
