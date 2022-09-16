@@ -1,7 +1,7 @@
 import sys
 from .core import run, single_run, run_next, run_interrupted, single_run_interrupted, make_directories, copy_files, \
     ani_to_fdf, xyz_to_fdf, merge_ani, analysis, energy_diff, contfiles, contextensions, update_log, update_cores, \
-    update_conda, update_cont
+    update_conda, update_cont, update_siesta
 
 function = sys.argv[1]
 for arg in sys.argv:
@@ -15,6 +15,8 @@ for arg in sys.argv:
         contfiles.extend(arg.split("=")[1].split(","))
     if arg.startswith("contextensions="):
         contextensions.extend(arg.split("=")[1].split(","))
+    if arg.startswith("siesta="):
+        update_siesta(arg.split("=")[1])
 
 if function not in ["run", "single_run", "run_next", "run_interrupted", "single_run_interrupted", "make_directories",
                     "copy_files", "ani_to_fdf", "xyz_to_fdf", "merge_ani", "analysis", "energy_diff"]:

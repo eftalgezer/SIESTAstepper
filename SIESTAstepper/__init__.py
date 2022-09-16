@@ -11,4 +11,4 @@ __version__ = "1.2.0"
 
 from .core import run, single_run, run_next, run_interrupted, single_run_interrupted, make_directories, copy_files, \
     ani_to_fdf, xyz_to_fdf, merge_ani, analysis, energy_diff, contfiles, contextensions, update_cwd, update_log, \
-    update_cores, update_conda, update_cont
+    update_cores, update_conda, update_cont, update_siesta

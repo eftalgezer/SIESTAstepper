@@ -64,6 +64,9 @@ SIESTAstepper.update_conda("envir")
 # Sets the subfolder name for interrupted calculations (default is "continue")
 SIESTAstepper.update_cont("continue")
 
+# Sets the SIESTA command name (default is "siesta")
+SIESTAstepper.update_siesta("siesta_p")
+
 # Sets the filenames to copy (useful for interrupted calculations)
 SIESTAstepper.contfiles.extend(["file1", "file2"])
 
@@ -138,6 +141,8 @@ $ python -m SIESTAstepper run log graphene mpirun=4
 
 $ python -m SIESTAstepper run log graphene conda=envir
 
+$ python -m SIESTAstepper run log graphene siesta=siesta_p
+
 $ python -m SIESTAstepper run_next log 1 graphene
 
 $ python -m SIESTAstepper run_next log 1 graphene contfiles=file1,file2 contextensions=DM,XV,CG,LWF
@@ -146,11 +151,15 @@ $ python -m SIESTAstepper run_next log 1 graphene mpirun=4
 
 $ python -m SIESTAstepper run_next log 1 graphene conda=envir
 
+$ python -m SIESTAstepper run_next log 1 graphene siesta=siesta_p
+
 $ python -m SIESTAstepper single_run log 1 graphene
 
 $ python -m SIESTAstepper single_run log 1 graphene mpirun=4
 
 $ python -m SIESTAstepper single_run log 1 graphene conda=envir
+
+$ python -m SIESTAstepper single_run log 1 graphene siesta=siesta_p
 
 $ python -m SIESTAstepper run_interrupted log 1 graphene cont=continue
 
@@ -160,11 +169,15 @@ $ python -m SIESTAstepper run_interrupted log 1 graphene mpirun=4 cont=continue
 
 $ python -m SIESTAstepper run_interrupted log 1 graphene conda=envir cont=continue
 
+$ python -m SIESTAstepper run_interrupted log 1 graphene siesta=siesta_p cont=continue
+
 $ python -m SIESTAstepper single_run_interrupted log 1 graphene cont=continue
 
 $ python -m SIESTAstepper single_run_interrupted log 1 graphene mpirun=4 cont=continue
 
 $ python -m SIESTAstepper single_run_interrupted log 1 graphene conda=envir cont=continue
+
+$ python -m SIESTAstepper single_run_interrupted log 1 graphene siesta=siesta_p cont=continue
 
 $ python -m SIESTAstepper make_directories 5
 

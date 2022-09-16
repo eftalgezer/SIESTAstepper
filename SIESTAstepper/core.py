@@ -19,6 +19,7 @@ conda = None
 cont: str = "continue"
 contfiles: list = []
 contextensions: list = ["psf", "fdf"]
+siesta: str = "siesta"
 
 
 def run_next(i, label):
@@ -292,7 +293,7 @@ def _command(label=None, issingle=False):
         sprun(["conda", "activate", conda])
     with open(log, "w") as logger:
         job = Popen(
-            shlex.split(f"{f'mpirun -np {cores} ' if cores is not None else ''}siesta {label}.fdf"),
+            shlex.split(f"{f'mpirun -np {cores} ' if cores is not None else ''}{siesta} {label}.fdf"),
             stdout=logger
         )
         print(f"PID is {job.pid}")
@@ -351,3 +352,8 @@ def update_conda(newconda):
 def update_cont(newcont):
     global cont
     cont = newcont
+
+
+def update_siesta(newsiesta):
+    global siesta
+    siesta = newsiesta
