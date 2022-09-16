@@ -1,5 +1,15 @@
 # Changelog
 
+## [v1.2.0](https://github.com/eftalgezer/SIESTAstepper/tree/v1.2.0) (2022-09-16)
+
+- CG and LWF support for interrupted calculations
+- ion support as an pseudopotential file
+- update_siesta function is added. It is possible to change the SIESTA run command.
+
+For details, please see [What is new in SIESTAstepper v1.2.0?](https://beyondthearistotelian.blogspot.com/2022/09/what-is-new-in-siestastepper-v120.html)
+
+**Full Changelog**: https://github.com/eftalgezer/SIESTAstepper/compare/v1.1.0...v1.2.0
+
 ## [v1.1.0](https://github.com/eftalgezer/SIESTAstepper/tree/v1.1.0) (2022-09-15)
 
 - `energy_diff` function is added. It is possible to get energy differences between minima and maxima.
