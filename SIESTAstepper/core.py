@@ -238,7 +238,7 @@ def copy_files(extensions, label, source_, destination):
                 for f in files:
                     file = f.split(os.sep)[-1]
                     copy_file(f, f"{destination}{os.sep}{file}")
-            if ext == "ion":
+            elif ext == "ion":
                 files = glob.glob(f"{source_}{os.sep}*.ion")
                 for f in files:
                     file = f.split(os.sep)[-1]

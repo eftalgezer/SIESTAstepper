@@ -1,5 +1,11 @@
 # Changelog
 
+## [v1.2.1](https://github.com/eftalgezer/SIESTAstepper/tree/v1.2.1) (2022-09-16)
+
+Bug fix
+
+**Full Changelog**: https://github.com/eftalgezer/SIESTAstepper/compare/v1.2.0...v1.2.1
+
 ## [v1.2.0](https://github.com/eftalgezer/SIESTAstepper/tree/v1.2.0) (2022-09-16)
 
 - CG and LWF support to continue interrupted calculations
