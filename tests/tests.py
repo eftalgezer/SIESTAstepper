@@ -11,7 +11,7 @@ mpath = mfile.replace("/SIESTAstepper/__init__.py", "")
 
 def test_ani_to_fdf():
     """Tests for ani_to_fdf"""
-    assert tester_ani_to_fdf(
+    assert ani_to_fdf_tester(
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}ANI{os.sep}C-4.ANI",
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}fdf{os.sep}C-0.fdf",
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}C-5.fdf"
@@ -20,7 +20,7 @@ def test_ani_to_fdf():
 
 def test_xyz_to_fdf():
     """Tests for xyz_to_fdf"""
-    assert tester_xyz_to_fdf(
+    assert xyz_to_fdf_tester(
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}xyz{os.sep}C.xyz",
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}fdf{os.sep}C-0.fdf",
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}C-1.fdf"
@@ -29,14 +29,14 @@ def test_xyz_to_fdf():
 
 def test_merge_ani():
     """Tests for merge_ani"""
-    assert tester_merge_ani(label="C", folder="Carbon") == read_file(
+    assert merge_ani_tester(label="C", folder="Carbon") == read_file(
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}ANI{os.sep}C-merged.ANI"
     )
 
 
 def test_make_directories():
     """Tests for make_directories"""
-    assert tester_make_directories(5) == [
+    assert make_directories_tester(5) == [
         f"{mpath}{os.sep}tests{os.sep}temp{os.sep}i1",
         f"{mpath}{os.sep}tests{os.sep}temp{os.sep}i2",
         f"{mpath}{os.sep}tests{os.sep}temp{os.sep}i3",

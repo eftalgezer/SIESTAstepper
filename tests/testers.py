@@ -23,19 +23,19 @@ def read_file(file):
     return content
 
 
-def tester_ani_to_fdf(anipath, fdfpath, newfdfpath):
+def ani_to_fdf_tester(anipath, fdfpath, newfdfpath):
     """Tester function for ani_to_fdf"""
     ani_to_fdf(anipath, fdfpath, newfdfpath)
     return read_file(newfdfpath)
 
 
-def tester_xyz_to_fdf(xyzpath, fdfpath, newfdfpath):
+def xyz_to_fdf_tester(xyzpath, fdfpath, newfdfpath):
     """Tester function for xyz_to_fdf"""
     xyz_to_fdf(xyzpath, fdfpath, newfdfpath)
     return read_file(newfdfpath)
 
 
-def tester_merge_ani(label=None, path=None, folder=None):
+def merge_ani_tester(label=None, path=None, folder=None):
     """Tester function for merge_ani"""
     if path is None:
         path = "i*"
@@ -52,14 +52,14 @@ def tester_merge_ani(label=None, path=None, folder=None):
     return read_file(f"{mpath}{os.sep}tests{os.sep}temp{os.sep}{folder}{os.sep}{label}-merged.ANI")
 
 
-def tester_make_directories(n):
+def make_directories_tester(n):
     """Tester function for make_directories"""
     update_cwd(f"{mpath}{os.sep}tests{os.sep}temp")
     make_directories(n)
     return sort_(list(glob.glob(f"{mpath}{os.sep}tests{os.sep}temp{os.sep}i*")), f"{mpath}{os.sep}tests{os.sep}temp{os.sep}i*", "")
 
 
-def tester_copy_files(extensions, label, source_, destination):
+def copy_files_tester(extensions, label, source_, destination):
     """Tester function for copy_files"""
     files = None
     copy_files(extensions, label, source_, destination)
@@ -76,55 +76,55 @@ def tester_copy_files(extensions, label, source_, destination):
     return files
 
 
-def tester_analysis(path):
+def analysis_tester(path):
     """Tester function for analysis"""
     return analysis(path)
 
 
-def tester_energy_diff(path):
+def energy_diff_tester(path):
     """Tester function for energy_diff"""
     return energy_diff(path)
 
 
-def tester_get_it(files):
+def get_it_tester(files):
     """Tester function for get_it"""
     return get_it(files)
 
 
-def tester_read_fdf(fdfpath, geo):
+def read_fdf_tester(fdfpath, geo):
     """Tester function for read_fdf"""
     return read_fdf(fdfpath, geo)
 
 
-def tester_create_fdf(fdf, geo, newfdfpath, number):
+def create_fdf_tester(fdf, geo, newfdfpath, number):
     """Tester function for create_fdf"""
     create_fdf(fdf, geo, newfdfpath, number)
     return read_file(newfdfpath)
 
 
-def tester_check_restart(fdffile, i, label, cwd, cont, contextensions):
+def check_restart_tester(fdffile, i, label, cwd, cont, contextensions):
     """Tester function for check_restart"""
     check_restart(fdffile, i, label, cwd, cont, contextensions)
     return read_file(fdffile)
 
 
-def tester_check_userbasis(fdffile):
+def check_userbasis_tester(fdffile):
     """Tester function for check_userbasis"""
     return check_userbasis(fdffile)
 
 
-def tester_copy_file(sourcefile, destinationfile):
+def copy_file_tester(sourcefile, destinationfile):
     """Tester function for copy_file"""
     copy_file(sourcefile, destinationfile)
     return glob.glob(destinationfile)
 
 
-def tester_sort_(files, path, cont):
+def sort__tester(files, path, cont):
     """Tester function for sort_"""
     return sort_(files, path, cont)
 
 
-def tester_remove_nones(files, path, cwd, cont, log):
+def remove_nones_tester(files, path, cwd, cont, log):
     """Tester function for remove_nones"""
     remove_nones(files, path, cwd, cont, log)
     return files
