@@ -54,13 +54,13 @@ def merge_ani_tester(label=None, path=None, folder=None):
 
 def make_directories_tester(n):
     """Tester function for make_directories"""
-    update_cwd(f"{mpath}{os.sep}tests{os.sep}temp")
+    update_cwd(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp")
     make_directories(n)
     return sort_(
         list(
             glob.glob(
-                f"{mpath}{os.sep}tests{os.sep}temp{os.sep}i*")),
-        f"{mpath}{os.sep}tests{os.sep}temp{os.sep}i*",
+                f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}i*")),
+        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}i*",
         ""
     )
 
