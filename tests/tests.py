@@ -47,7 +47,7 @@ def test_make_directories():
 
 def test_copy_files():
     assert copy_files_tester(
-        ["psf, DM, XV"], "C",
+        ["psf", "DM", "XV"], "C",
         f"{mpath}{os.sep}tests{os.sep}runs{os.sep}Carbon{os.sep}i1",
         f"{mpath}{os.sep}tests{os.sep}temp{os.sep}i2"
     ) == [
