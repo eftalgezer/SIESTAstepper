@@ -36,7 +36,13 @@ def test_merge_ani():
 
 def test_make_directories():
     """Tests for make_directories"""
-    assert tester_make_directories(5) == ["i1", "i2", "i3", "i4", "i5"]
+    assert tester_make_directories(5) == [
+        f"{mpath}{os.sep}tests{os.sep}temp{os.sep}i1",
+        f"{mpath}{os.sep}tests{os.sep}temp{os.sep}i2",
+        f"{mpath}{os.sep}tests{os.sep}temp{os.sep}i3",
+        f"{mpath}{os.sep}tests{os.sep}temp{os.sep}i4",
+        f"{mpath}{os.sep}tests{os.sep}temp{os.sep}i5"
+    ]
 
 
 def clear_temp():
