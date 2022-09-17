@@ -47,7 +47,7 @@ def tester_merge_ani(label=None, path=None, folder=None):
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}{folder}",
         f"{mpath}{os.sep}tests{os.sep}temp{os.sep}{folder}"
     )
-    update_cwd("{mpath}{os.sep}tests{os.sep}temp{os.sep}{folder}")
+    update_cwd(f"{mpath}{os.sep}tests{os.sep}temp{os.sep}{folder}")
     merge_ani(label=label, path=path)
     return read_file(f"{label}-merged.ANI")
 
