@@ -56,7 +56,13 @@ def make_directories_tester(n):
     """Tester function for make_directories"""
     update_cwd(f"{mpath}{os.sep}tests{os.sep}temp")
     make_directories(n)
-    return sort_(list(glob.glob(f"{mpath}{os.sep}tests{os.sep}temp{os.sep}i*")), f"{mpath}{os.sep}tests{os.sep}temp{os.sep}i*", "")
+    return sort_(
+        list(
+            glob.glob(
+                f"{mpath}{os.sep}tests{os.sep}temp{os.sep}i*")),
+        f"{mpath}{os.sep}tests{os.sep}temp{os.sep}i*",
+        ""
+    )
 
 
 def copy_files_tester(extensions, label, source_, destination):
@@ -73,21 +79,24 @@ def copy_files_tester(extensions, label, source_, destination):
                 files += glob.glob(f"{destination}{os.sep}{label}.{ext}")
     for cf in contfiles:
         files += glob.glob(f"{destination}{os.sep}{cf}")
-    return files
+    return list(files)
 
 
-def analysis_tester(path):
+def analysis_tester(path, cwd):
     """Tester function for analysis"""
+    update_cwd(cwd)
     return analysis(path)
 
 
-def energy_diff_tester(path):
+def energy_diff_tester(path, cwd):
     """Tester function for energy_diff"""
+    update_cwd(cwd)
     return energy_diff(path)
 
 
 def get_it_tester(files):
     """Tester function for get_it"""
+    files = glob.glob(files)
     return get_it(files)
 
 
@@ -100,6 +109,11 @@ def create_fdf_tester(fdf, geo, newfdfpath, number):
     """Tester function for create_fdf"""
     create_fdf(fdf, geo, newfdfpath, number)
     return read_file(newfdfpath)
+
+
+def read_energy_tester(energies=[], files=None, it=[]):
+    read_energy(energies, files, it)
+    return energies
 
 
 def check_restart_tester(fdffile, i, label, cwd, cont, contextensions):

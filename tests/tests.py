@@ -45,6 +45,42 @@ def test_make_directories():
     ]
 
 
+def test_copy_files():
+    assert copy_files_tester(
+        ["psf, DM, XV"], "C",
+        f"{mpath}{os.sep}tests{os.sep}runs{os.sep}Carbon{os.sep}i1",
+        f"{mpath}{os.sep}tests{os.sep}temp{os.sep}i2"
+    ) == [
+               f"{mpath}{os.sep}tests{os.sep}temp{os.sep}i2{os.sep}C.psf",
+               f"{mpath}{os.sep}tests{os.sep}temp{os.sep}i2{os.sep}C.DM",
+               f"{mpath}{os.sep}tests{os.sep}temp{os.sep}i2{os.sep}C.XV"
+           ]
+
+
+def test_analysis():
+    assert analysis_tester(
+        "i*",
+        f"{mpath}{os.sep}tests{os.sep}runs{os.sep}Carbon"
+    ) == [
+               (1, -297.982681),
+               (2, -299.171055),
+               (3, -299.791356),
+               (4, -299.845957),
+               (5, -299.498399)
+           ]
+
+
+def test_energy_diff():
+    assert energy_diff_tester(
+        "i*",
+        f"{mpath}{os.sep}tests{os.sep}runs{os.sep}Carbon"
+    ) == [(-299.845957, -297.982681, 4, 1, 1.8632759999999848)]
+
+
+def test_get_it():
+    assert get_it_tester(files)
+
+
 def clear_temp():
     """Clears the temp folder"""
     for filename in os.listdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp"):
