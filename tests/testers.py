@@ -49,7 +49,7 @@ def tester_merge_ani(label=None, path=None, folder=None):
     )
     update_cwd(f"{mpath}{os.sep}tests{os.sep}temp{os.sep}{folder}")
     merge_ani(label=label, path=path)
-    return read_file(f"{label}-merged.ANI")
+    return read_file(f"{mpath}{os.sep}tests{os.sep}temp{os.sep}{folder}{os.sep}{label}-merged.ANI")
 
 
 def tester_make_directories(n):
