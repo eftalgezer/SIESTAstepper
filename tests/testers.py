@@ -44,8 +44,8 @@ def tester_merge_ani(label=None, path=None, folder=None):
     if folder is None:
         raise ValueError("ERROR: Please set a folder")
     copy_tree(
-        "{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}{folder}",
-        "{mpath}{os.sep}tests{os.sep}temp{os.sep}{folder}"
+        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}{folder}",
+        f"{mpath}{os.sep}tests{os.sep}temp{os.sep}{folder}"
     )
     update_cwd("{mpath}{os.sep}tests{os.sep}temp{os.sep}{folder}")
     merge_ani(label=label, path=path)
@@ -108,23 +108,23 @@ def tester_check_restart(fdffile, i, label, cwd, cont, contextensions):
     return read_file(fdffile)
 
 
-def check_userbasis_tester(fdffile):
+def tester_check_userbasis(fdffile):
     """Tester function for check_userbasis"""
     return check_userbasis(fdffile)
 
 
-def copy_file_tester(sourcefile, destinationfile):
+def tester_copy_file(sourcefile, destinationfile):
     """Tester function for copy_file"""
     copy_file(sourcefile, destinationfile)
     return glob.glob(destinationfile)
 
 
-def sort__tester(files, path, cont):
+def tester_sort_(files, path, cont):
     """Tester function for sort_"""
     return sort_(files, path, cont)
 
 
-def remove_nones_tester(files, path, cwd, cont, log):
+def tester_remove_nones(files, path, cwd, cont, log):
     """Tester function for remove_nones"""
     remove_nones(files, path, cwd, cont, log)
     return files
