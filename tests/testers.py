@@ -54,7 +54,7 @@ def tester_merge_ani(label=None, path=None, folder=None):
 
 def tester_make_directories(n):
     """Tester function for make_directories"""
-    update_cwd("{mpath}{os.sep}tests{os.sep}temp")
+    update_cwd(f"{mpath}{os.sep}tests{os.sep}temp")
     make_directories(n)
     return list(glob.glob("i*"))
 
