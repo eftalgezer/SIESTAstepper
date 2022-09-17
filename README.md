@@ -1,6 +1,7 @@
 # SIESTAstepper
 [![PyPI version](https://badge.fury.io/py/SIESTAstepper.svg)](https://badge.fury.io/py/SIESTAstepper)
 [![PyPI pyversions](https://img.shields.io/pypi/pyversions/SIESTAstepper.svg)](https://pypi.python.org/pypi/SIESTAstepper/)
+[![Python package](https://github.com/eftalgezer/SIESTAstepper/actions/workflows/python-package.yml/badge.svg)](https://github.com/eftalgezer/SIESTAstepper/actions/workflows/python-package.yml)
 [![PyPI download month](https://img.shields.io/pypi/dm/SIESTAstepper.svg)](https://pypi.python.org/pypi/SIESTAstepper/)
 [![PyPI download week](https://img.shields.io/pypi/dw/SIESTAstepper.svg)](https://pypi.python.org/pypi/SIESTAstepper/)
 [![PyPI download day](https://img.shields.io/pypi/dd/SIESTAstepper.svg)](https://pypi.python.org/pypi/SIESTAstepper/)
