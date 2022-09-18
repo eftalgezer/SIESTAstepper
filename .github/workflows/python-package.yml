@@ -3,7 +3,7 @@
 
 name: Python package
 env:
-  CODECOV_VERSION: 'v0.1.15'
+  CODECOV_VERSION: 'v3.1.0'
 on:
   push:
     branches: [ "main" ]
@@ -45,7 +45,7 @@ jobs:
         pytest
 
     - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v2
+      uses: codecov/codecov-action@v3.1.0
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
         version: ${{ env.CODECOV_VERSION }}
