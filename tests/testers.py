@@ -120,12 +120,14 @@ def read_energy_tester(energies=[], path=None, cont=None, it=[]):
     return it, energies
 
 
-def check_restart_tester(fdffile, i, label, cwd, cont, contextensions):
+def check_restart_tester(fdffile, i, label, cwd, cont, context):
     """Tester function for check_restart"""
     file = fdffile.split(os.sep)[-1]
     copy_file(fdffile, f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{file}")
     fdffile = f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{file}"
-    check_restart(fdffile, i, label, cwd, cont, contextensions)
+    with open(fdffile, "r+") as fdffile:
+        check_restart(fdffile, i, label, cwd, cont, context)
+        fdffile.close()
     return read_file(fdffile)
 
 
