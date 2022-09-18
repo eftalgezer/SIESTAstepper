@@ -51,7 +51,6 @@ jobs:
         version: ${{ env.CODECOV_VERSION }}
         directory: ./coverage/reports/
         env_vars: OS,PYTHON
-        fail_ci_if_error: true
         files: /home/runner/coverage.xml
         flags: unittests
         name: codecov-umbrella
