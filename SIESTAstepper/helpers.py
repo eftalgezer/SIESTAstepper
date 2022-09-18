@@ -125,7 +125,7 @@ def check_restart(fdffile, i, label, cwd, cont, contextensions):
             cont,
             label
         )
-    f.seek(0)
+    fdffile.seek(0)
     fdffile.write(fdf)
 
 
