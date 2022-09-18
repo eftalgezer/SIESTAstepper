@@ -1,4 +1,4 @@
 codecov:
-  token: 8a44f714-8003-49c5-9028-a3cfbbd2ec25
+  token: ${{secrets.CODECOV_TOKEN}}
 ignore:
   - "*/tests/*”
