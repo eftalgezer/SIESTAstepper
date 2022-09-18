@@ -94,9 +94,10 @@ def energy_diff_tester(path, cwd):
     return energy_diff(path)
 
 
-def get_it_tester(files):
+def get_it_tester(path, cont):
     """Tester function for get_it"""
-    files = glob.glob(files)
+    files = glob.glob(f"{path}{os.sep}i*")
+    files += glob.glob(f"{path}{os.sep}i*{os.sep}{cont}*")
     return get_it(files)
 
 
@@ -111,13 +112,18 @@ def create_fdf_tester(fdf, geo, newfdfpath, number):
     return read_file(newfdfpath)
 
 
-def read_energy_tester(energies=[], files=None, it=[]):
+def read_energy_tester(energies=[], path=None, cont=None, it=[]):
+    files = glob.glob(f"{path}{os.sep}i*{os.sep}log")
+    files += glob.glob(f"{path}{os.sep}i*{os.sep}{cont}*{os.sep}log")
     read_energy(energies, files, it)
-    return energies
+    return it, energies
 
 
 def check_restart_tester(fdffile, i, label, cwd, cont, contextensions):
     """Tester function for check_restart"""
+    file = fdffile.split(os.sep)[-1]
+    copy_file(fdffile, f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{file}")
+    fdffile = f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{file}"
     check_restart(fdffile, i, label, cwd, cont, contextensions)
     return read_file(fdffile)
 
@@ -130,7 +136,7 @@ def check_userbasis_tester(fdffile):
 def copy_file_tester(sourcefile, destinationfile):
     """Tester function for copy_file"""
     copy_file(sourcefile, destinationfile)
-    return glob.glob(destinationfile)
+    return list(glob.glob(destinationfile))
 
 
 def sort__tester(files, path, cont):
