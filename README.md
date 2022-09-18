@@ -2,6 +2,7 @@
 [![PyPI version](https://badge.fury.io/py/SIESTAstepper.svg)](https://badge.fury.io/py/SIESTAstepper)
 [![PyPI pyversions](https://img.shields.io/pypi/pyversions/SIESTAstepper.svg)](https://pypi.python.org/pypi/SIESTAstepper/)
 [![Python package](https://github.com/eftalgezer/SIESTAstepper/actions/workflows/python-package.yml/badge.svg)](https://github.com/eftalgezer/SIESTAstepper/actions/workflows/python-package.yml)
+[![codecov](https://codecov.io/gh/eftalgezer/SIESTAstepper/branch/main/graph/badge.svg?token=Q9TJFIN1U1)](https://codecov.io/gh/eftalgezer/SIESTAstepper)
 [![PyPI download month](https://img.shields.io/pypi/dm/SIESTAstepper.svg)](https://pypi.python.org/pypi/SIESTAstepper/)
 [![PyPI download week](https://img.shields.io/pypi/dw/SIESTAstepper.svg)](https://pypi.python.org/pypi/SIESTAstepper/)
 [![PyPI download day](https://img.shields.io/pypi/dd/SIESTAstepper.svg)](https://pypi.python.org/pypi/SIESTAstepper/)
