@@ -43,11 +43,11 @@ jobs:
       run: |
         pytest
 
-    # coverage
-    - name: Upload coverage to Codecov
-      if: ${{ matrix.env.MINIMAL == 'false'}}
-      uses: codecov/codecov-action@v2
-      with:
-        fail_ci_if_error: true
-        files: ./coverage.xml
-        verbose: true
+    - name: Upload reports to codecov
+      env:
+        CODECOV_TOKEN: ${{secrets.CODECOV_TOKEN}}
+      run: | 
+       curl -Os https://uploader.codecov.io/latest/linux/codecov
+       find . -iregex "codecov.*"
+       chmod +x codecov 
+       ./codecov -t ${CODECOV_TOKEN}
