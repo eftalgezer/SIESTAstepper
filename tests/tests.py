@@ -149,14 +149,13 @@ def test_read_energy():
 
 def test_check_restart():
     assert check_restart_tester(
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}fdf{os.sep}H2O-1.fdf",
-        "1",
-        "H2O",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}fdf",
-        "continue",
-        ["DM", "XV"]
-    ) == read_file(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}fdf{os.sep}H2O-1_continue.fdf")
-
+            f"{mpath}{os.sep}tests{os.sep}assets{os.sep}fdf{os.sep}H2O-1.fdf",
+            "1",
+            "H2O",
+            f"{mpath}{os.sep}tests{os.sep}assets{os.sep}fdf",
+            "continue",
+            ["DM", "XV"]
+        ) == read_file(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}fdf{os.sep}H2O-1_continue.fdf")
 
 def test_check_userbasis():
     assert check_userbasis_tester(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}fdf{os.sep}C-1.fdf") is False

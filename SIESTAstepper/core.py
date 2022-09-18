@@ -322,7 +322,7 @@ def _cont_step(contfolder, i, label, issingle=False):
     os.chdir(f"{cwd}{os.sep}i{i}{os.sep}{contfolder}")
     print(f"Changed directory to {os.getcwd()}")
     print(f"Opening {cwd}{os.sep}i{i}{os.sep}{contfolder}{os.sep}{label}.fdf")
-    with open(f"{label}.fdf", "r+") as fdffile:
+    with open(f"{label}.fdf", "w+") as fdffile:
         check_restart(fdffile, i, label, cwd, contfolder, contextensions)
         fdffile.close()
     print_run(f"i{i}{os.sep}{contfolder}", cores, conda)
