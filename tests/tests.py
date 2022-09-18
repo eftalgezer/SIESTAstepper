@@ -144,7 +144,7 @@ def test_read_energy():
         path=f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}Carbon",
         cont="continue",
         it=[]
-    ) == ([1, 2, 3, 3, 3, 4, 5], [-297.982681, -299.171055, None, None, -299.791356, -299.845957, -299.498399])
+    ) == ([1, 2, 3, 3, 3, 4, 5], [-297.982681, -299.171055, -299.791356, -299.845957, -299.498399])
 
 
 def test_check_restart():
