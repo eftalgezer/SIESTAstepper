@@ -115,7 +115,7 @@ def create_fdf_tester(fdf, geo, newfdfpath, number):
 def read_energy_tester(energies=[], path=None, cont=None, it=[]):
     files = glob.glob(f"{path}{os.sep}i*{os.sep}log")
     files += glob.glob(f"{path}{os.sep}i*{os.sep}{cont}*{os.sep}log")
-    sort_(files, "i*", cont)
+    files = sort_(files, "i*", cont)
     read_energy(energies, files, it)
     return it, energies
 
