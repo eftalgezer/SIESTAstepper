@@ -78,6 +78,9 @@ def test_energy_diff():
 
 
 def test_get_it():
+    print(get_it_tester(
+        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}Carbon", "continue"
+    ))
     assert get_it_tester(
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}Carbon", "continue"
     ) == [1, 2, 3, 3, 3, 4, 5]
