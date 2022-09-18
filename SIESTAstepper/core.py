@@ -156,7 +156,7 @@ def run(label):
             if lines[-1] == "Job completed\n":
                 print(f"{logs[-1]}: Job completed")
                 if not os.path.isfile(
-                        f"{cwd}{os.sep}i" + str(int(logs[-1].split(os.sep)[0].strip("i")) + 1) + os.sep + label + ".fdf"
+                        f"{cwd}{os.sep}i{str(int(logs[-1].split(os.sep)[0].strip('i')) + 1)}{os.sep}{label}.fdf"
                 ):
                     if cont in logs[-1]:
                         match = re.search(f"i([0-9]+){os.sep}{cont}(_*[0-9]*)", logs[-1])
@@ -177,7 +177,10 @@ def run(label):
                 run_next(str(int(logs[-1].split(os.sep)[0].strip("i")) + 1), label)
     print("All iterations are completed")
     if conda:
-        sprun(["conda", "deactivate"])
+        sprun(
+            [f"{os.sep}usr{os.sep}bin{os.sep}conda", "deactivate"] if os.name == "posix"
+            else [f"C:{os.sep}{os.sep}Anaconda3{os.sep}Scripts{os.sep}deactivate"]
+        )
 
 
 def run_interrupted(i, label):
@@ -290,7 +293,8 @@ def energy_diff(path=None):
 def _command(label=None, issingle=False):
     """SIESTA's run command"""
     if conda:
-        sprun(["conda", "activate", conda])
+        sprun([f"{os.sep}usr{os.sep}bin{os.sep}conda", "activate", conda] if os.name == "posix"
+            else [f"C:{os.sep}{os.sep}Anaconda3{os.sep}Scripts{os.sep}activate", conda])
     with open(log, "w") as logger:
         job = Popen(
             shlex.split(f"{f'mpirun -np {cores} ' if cores is not None else ''}{siesta} {label}.fdf"),
@@ -322,7 +326,7 @@ def _cont_step(contfolder, i, label, issingle=False):
     os.chdir(f"{cwd}{os.sep}i{i}{os.sep}{contfolder}")
     print(f"Changed directory to {os.getcwd()}")
     print(f"Opening {cwd}{os.sep}i{i}{os.sep}{contfolder}{os.sep}{label}.fdf")
-    with open(f"{label}.fdf", "w+") as fdffile:
+    with open(f"{label}.fdf", "r+") as fdffile:
         check_restart(fdffile, i, label, cwd, contfolder, contextensions)
         fdffile.close()
     print_run(f"i{i}{os.sep}{contfolder}", cores, conda)
