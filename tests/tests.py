@@ -178,7 +178,8 @@ def test_sort_():
             f"i3{os.sep}log",
             f"i4{os.sep}log",
             f"i2{os.sep}continue{os.sep}log",
-            f"i2{os.sep}continue_2{os.sep}log"],
+            f"i2{os.sep}continue_2{os.sep}log"
+        ],
         "i*",
         "continue"
     ) == [
@@ -215,17 +216,17 @@ def test_sort_():
                f"i2{os.sep}continue{os.sep}log",
                f"i2{os.sep}continue_2{os.sep}log",
                f"i3{os.sep}log",
-               f"i4{os.sep}log"
-               f"i5{os.sep}log"
-               f"i6{os.sep}log"
-               f"i7{os.sep}log"
-               f"i8{os.sep}log"
-               f"i9{os.sep}log"
-               f"i10{os.sep}log"
-               f"i11{os.sep}log"
-               f"i11{os.sep}continue{os.sep}log"
-               f"i12{os.sep}log"
-               f"i13{os.sep}log"
+               f"i4{os.sep}log",
+               f"i5{os.sep}log",
+               f"i6{os.sep}log",
+               f"i7{os.sep}log",
+               f"i8{os.sep}log",
+               f"i9{os.sep}log",
+               f"i10{os.sep}log",
+               f"i11{os.sep}log",
+               f"i11{os.sep}continue{os.sep}log",
+               f"i12{os.sep}log",
+               f"i13{os.sep}log",
            ]
     assert sort__tester(
         [
@@ -271,16 +272,16 @@ def test_sort_():
                f"i2{os.sep}continue{os.sep}C.ANI",
                f"i2{os.sep}continue_2{os.sep}C.ANI",
                f"i3{os.sep}C.ANI",
-               f"i4{os.sep}C.ANI"
-               f"i5{os.sep}C.ANI"
-               f"i6{os.sep}C.ANI"
-               f"i7{os.sep}C.ANI"
-               f"i8{os.sep}C.ANI"
-               f"i9{os.sep}C.ANI"
-               f"i10{os.sep}C.ANI"
-               f"i11{os.sep}C.ANI"
-               f"i11{os.sep}continue{os.sep}C.ANI"
-               f"i12{os.sep}C.ANI"
+               f"i4{os.sep}C.ANI",
+               f"i5{os.sep}C.ANI",
+               f"i6{os.sep}C.ANI",
+               f"i7{os.sep}C.ANI",
+               f"i8{os.sep}C.ANI",
+               f"i9{os.sep}C.ANI",
+               f"i10{os.sep}C.ANI",
+               f"i11{os.sep}C.ANI",
+               f"i11{os.sep}continue{os.sep}C.ANI",
+               f"i12{os.sep}C.ANI",
                f"i13{os.sep}C.ANI"
            ]
     assert sort__tester(
@@ -327,16 +328,16 @@ def test_sort_():
                f"i2{os.sep}continue",
                f"i2{os.sep}continue_2",
                "i3",
-               "i4"
-               "i5"
-               "i6"
-               "i7"
-               "i8"
-               "i9"
-               "i10"
-               "i11"
-               f"i11{os.sep}continue"
-               "i12"
+               "i4",
+               "i5",
+               "i6",
+               "i7",
+               "i8",
+               "i9",
+               "i10",
+               "i11",
+               f"i11{os.sep}continue",
+               "i12",
                "i13"
            ]
 
@@ -367,16 +368,16 @@ def test_remove_nones():
         f"i2{os.sep}continue{os.sep}log",
         f"i2{os.sep}continue_2{os.sep}log",
         f"i3{os.sep}log",
-        f"i4{os.sep}log"
-        f"i5{os.sep}log"
-        f"i6{os.sep}log"
-        f"i7{os.sep}log"
-        f"i8{os.sep}log"
-        f"i9{os.sep}log"
-        f"i10{os.sep}log"
-        f"i11{os.sep}log"
-        f"i11{os.sep}continue{os.sep}log"
-        f"i12{os.sep}log"
+        f"i4{os.sep}log",
+        f"i5{os.sep}log",
+        f"i6{os.sep}log",
+        f"i7{os.sep}log",
+        f"i8{os.sep}log",
+        f"i9{os.sep}log",
+        f"i10{os.sep}log",
+        f"i11{os.sep}log",
+        f"i11{os.sep}continue{os.sep}log",
+        f"i12{os.sep}log",
         f"i13{os.sep}log"
     ],
         "i*",
@@ -387,15 +388,15 @@ def test_remove_nones():
                f"i1{os.sep}log",
                f"i2{os.sep}continue_2{os.sep}log",
                f"i3{os.sep}log",
-               f"i4{os.sep}log"
-               f"i5{os.sep}log"
-               f"i6{os.sep}log"
-               f"i7{os.sep}log"
-               f"i8{os.sep}log"
-               f"i9{os.sep}log"
-               f"i10{os.sep}log"
-               f"i11{os.sep}continue{os.sep}log"
-               f"i12{os.sep}log"
+               f"i4{os.sep}log",
+               f"i5{os.sep}log",
+               f"i6{os.sep}log",
+               f"i7{os.sep}log",
+               f"i8{os.sep}log",
+               f"i9{os.sep}log",
+               f"i10{os.sep}log",
+               f"i11{os.sep}continue{os.sep}log",
+               f"i12{os.sep}log",
                f"i13{os.sep}log"
            ]
 
