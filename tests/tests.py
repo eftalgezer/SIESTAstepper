@@ -86,29 +86,28 @@ def test_get_it():
 def test_read_fdf():
     assert read_fdf_tester(
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}fdf{os.sep}C-4.fdf",
-        ["C       0.382434   -0.000000   -0.000000", "C       1.636103   -0.000000   -0.000000"]) == (
-               "SystemName          Carbon\nSystemLabel         C\nWriteMDXmol            .true.\n" +
-               "SolutionMethod     diagonal\nNumberOfSpecies     1\n%block ChemicalSpeciesLabel\n1    6    C\n" +
-               "%endblock ChemicalSpeciesLabel\n\n#XC.functional GGA\n#XC.authors  PBE\n\nPAO.EnergyShift 50 meV\n\n" +
-               "MeshCutoff         200.0000000     Ry\n#SpinPolarized      .true.\nMaxSCFIterations       200\n" +
-               "OccupationFunction     FD\nDM.MixingWeight        0.1\nElectronicTemperature  300.0 K\n" +
-               "DM.NumberPulay         5\nDM.Tolerance           0.0001   \n\nUseSaveData         .false.\n" +
-               "WriteDM             .true. \n#DM.UseSaveDM        .true.\n#MD.UseSaveXV        .true.\n" +
-               "MD.UseSaveCG        .false.\nWriteWaveFunctions  .true.\nWriteMullikenPop     0 \n" +
-               "WriteKpoints:       .false.\nSaveRho             .false.\n\nMD.TypeOfRun         cg\n" +
-               "MD.NumCGsteps        150\nMD.MaxForceTol       0.04 eV/Ang\nMD.MaxCGDispl        0.1 Bohr\n" +
-               "MD.VariableCell     .false.\n\nNetCharge = 0\n\n%block kgrid_Monkhorst_Pack\n1    0    0   0.0  \n" +
-               "0    1    0   0.0  \n0    0    1   0.0  \n%endblock kgrid_Monkhorst_Pack\n\n" +
-               "#BandLinesScale ReciprocalLatticeVectors\n#%block BandLines\n#1   0.0 0.0 0.0 \n#101 0.0 0.0 0.5\n" +
-               "#%endblock BandLines\n\n#WriteDenchar   .true.\n#%block WaveFuncKPoints\n" +
-               "#  0.000  0.000  0.000 from 117 to 123\n#%endblock WaveFuncKPoints\n\n%block GeometryConstraints\n" +
-               "    routine constr\n%endblock GeometryConstraints\n\nLatticeConstant  1.0     Ang\n" +
-               "%block LatticeVectors\n  17.00   0.00   0.00\n  0.00   17.00   0.00\n  0.00   0.00   17.00\n" +
-               "%endblock LatticeVectors\n\nNumberOfAtoms   2\n\nAtomicCoordinatesFormat  Ang\n" +
-               "%block AtomicCoordinatesAndAtomicSpecies\n       0.000      0.0000      0.00  1\n" +
-               "       2.000      0.0000      0.00    1\n%endblock AtomicCoordinatesAndAtomicSpecies\n",
-               ["       0.382434   -0.000000   -0.000000  1", "       1.636103   -0.000000   -0.000000  1"]
-           )
+        ['C       0.382434   -0.000000   -0.000000', 'C       1.636103   -0.000000   -0.000000']
+    ) == ("SystemName          Carbon\nSystemLabel         C\nWriteMDXmol            .true.\n" +
+          "SolutionMethod     diagonal\nNumberOfSpecies     1\n%block ChemicalSpeciesLabel\n1    6    C\n" +
+          "%endblock ChemicalSpeciesLabel\n\n#XC.functional GGA\n#XC.authors  PBE\n\nPAO.EnergyShift 50 meV\n\n" +
+          "MeshCutoff         200.0000000     Ry\n#SpinPolarized      .true.\nMaxSCFIterations       200\n" +
+          "OccupationFunction     FD\nDM.MixingWeight        0.1\nElectronicTemperature  300.0 K\n" +
+          "DM.NumberPulay         5\nDM.Tolerance           0.0001   \n\nUseSaveData         .false.\n" +
+          "WriteDM             .true. \n#DM.UseSaveDM        .true.\n#MD.UseSaveXV        .true.\n" +
+          "MD.UseSaveCG        .false.\nWriteWaveFunctions  .true.\nWriteMullikenPop     0 \n" +
+          "WriteKpoints:       .false.\nSaveRho             .false.\n\nMD.TypeOfRun         cg\n" +
+          "MD.NumCGsteps        150\nMD.MaxForceTol       0.04 eV/Ang\nMD.MaxCGDispl        0.1 Bohr\n" +
+          "MD.VariableCell     .false.\n\nNetCharge = 0\n\n%block kgrid_Monkhorst_Pack\n1    0    0   0.0  \n" +
+          "0    1    0   0.0  \n0    0    1   0.0  \n%endblock kgrid_Monkhorst_Pack\n\n" +
+          "#BandLinesScale ReciprocalLatticeVectors\n#%block BandLines\n#1   0.0 0.0 0.0 \n#101 0.0 0.0 0.5\n" +
+          "#%endblock BandLines\n\n#WriteDenchar   .true.\n#%block WaveFuncKPoints\n" +
+          "#  0.000  0.000  0.000 from 117 to 123\n#%endblock WaveFuncKPoints\n\n%block GeometryConstraints\n" +
+          "    routine constr\n%endblock GeometryConstraints\n\nLatticeConstant  1.0     Ang\n%block LatticeVectors\n" +
+          "  17.00   0.00   0.00\n  0.00   17.00   0.00\n  0.00   0.00   17.00\n%endblock LatticeVectors\n\n" +
+          "NumberOfAtoms   2\n\nAtomicCoordinatesFormat  Ang\n%block AtomicCoordinatesAndAtomicSpecies\n" +
+          "       0.335673   -0.000000   -0.000000  1\n       1.683000   -0.000000   -0.000000  1\n" +
+          "%endblock AtomicCoordinatesAndAtomicSpecies\n",
+          ["       0.382434   -0.000000   -0.000000  1", "       1.636103   -0.000000   -0.000000  1"])
 
 
 def test_create_fdf():
@@ -131,7 +130,7 @@ def test_create_fdf():
         "    routine constr\n%endblock GeometryConstraints\n\nLatticeConstant  1.0     Ang\n%block LatticeVectors\n" +
         "  17.00   0.00   0.00\n  0.00   17.00   0.00\n  0.00   0.00   17.00\n%endblock LatticeVectors\n\n" +
         "NumberOfAtoms   2\n\nAtomicCoordinatesFormat  Ang\n%block AtomicCoordinatesAndAtomicSpecies\n" +
-        "       0.000      0.0000      0.00  1\n       2.000      0.0000      0.00    1\n" +
+        "       0.335673   -0.000000   -0.000000  1\n       1.683000   -0.000000   -0.000000  1\n" +
         "%endblock AtomicCoordinatesAndAtomicSpecies\n",
         ["       0.382434   -0.000000   -0.000000  1", "       1.636103   -0.000000   -0.000000  1"],
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}C-5.fdf",
@@ -183,13 +182,13 @@ def test_sort_():
         "i*",
         "continue"
     ) == [
-        f"i1{os.sep}log",
-        f"i2{os.sep}log",
-        f"i2{os.sep}continue{os.sep}log",
-        f"i2{os.sep}continue_2{os.sep}log",
-        f"i3{os.sep}log",
-        f"i4{os.sep}log"
-    ]
+               f"i1{os.sep}log",
+               f"i2{os.sep}log",
+               f"i2{os.sep}continue{os.sep}log",
+               f"i2{os.sep}continue_2{os.sep}log",
+               f"i3{os.sep}log",
+               f"i4{os.sep}log"
+           ]
     assert sort__tester(
         [
             f"i1{os.sep}log",
@@ -211,23 +210,23 @@ def test_sort_():
         "i*",
         "continue"
     ) == [
-        f"i1{os.sep}log",
-        f"i2{os.sep}log",
-        f"i2{os.sep}continue{os.sep}log",
-        f"i2{os.sep}continue_2{os.sep}log",
-        f"i3{os.sep}log",
-        f"i4{os.sep}log"
-        f"i5{os.sep}log"
-        f"i6{os.sep}log"
-        f"i7{os.sep}log"
-        f"i8{os.sep}log"
-        f"i9{os.sep}log"
-        f"i10{os.sep}log"
-        f"i11{os.sep}log"
-        f"i11{os.sep}continue{os.sep}log"
-        f"i12{os.sep}log"
-        f"i13{os.sep}log"
-    ]
+               f"i1{os.sep}log",
+               f"i2{os.sep}log",
+               f"i2{os.sep}continue{os.sep}log",
+               f"i2{os.sep}continue_2{os.sep}log",
+               f"i3{os.sep}log",
+               f"i4{os.sep}log"
+               f"i5{os.sep}log"
+               f"i6{os.sep}log"
+               f"i7{os.sep}log"
+               f"i8{os.sep}log"
+               f"i9{os.sep}log"
+               f"i10{os.sep}log"
+               f"i11{os.sep}log"
+               f"i11{os.sep}continue{os.sep}log"
+               f"i12{os.sep}log"
+               f"i13{os.sep}log"
+           ]
     assert sort__tester(
         [
             f"i1{os.sep}C.ANI",
@@ -239,13 +238,13 @@ def test_sort_():
         "i*",
         "continue"
     ) == [
-        f"i1{os.sep}C.ANI",
-        f"i2{os.sep}C.ANI",
-        f"i2{os.sep}continue{os.sep}C.ANI",
-        f"i2{os.sep}continue_2{os.sep}C.ANI",
-        f"i3{os.sep}C.ANI",
-        f"i4{os.sep}C.ANI"
-    ]
+               f"i1{os.sep}C.ANI",
+               f"i2{os.sep}C.ANI",
+               f"i2{os.sep}continue{os.sep}C.ANI",
+               f"i2{os.sep}continue_2{os.sep}C.ANI",
+               f"i3{os.sep}C.ANI",
+               f"i4{os.sep}C.ANI"
+           ]
     assert sort__tester(
         [
             f"i1{os.sep}C.ANI",
@@ -267,23 +266,23 @@ def test_sort_():
         "i*",
         "continue"
     ) == [
-        f"i1{os.sep}C.ANI",
-        f"i2{os.sep}C.ANI",
-        f"i2{os.sep}continue{os.sep}C.ANI",
-        f"i2{os.sep}continue_2{os.sep}C.ANI",
-        f"i3{os.sep}C.ANI",
-        f"i4{os.sep}C.ANI"
-        f"i5{os.sep}C.ANI"
-        f"i6{os.sep}C.ANI"
-        f"i7{os.sep}C.ANI"
-        f"i8{os.sep}C.ANI"
-        f"i9{os.sep}C.ANI"
-        f"i10{os.sep}C.ANI"
-        f"i11{os.sep}C.ANI"
-        f"i11{os.sep}continue{os.sep}C.ANI"
-        f"i12{os.sep}C.ANI"
-        f"i13{os.sep}C.ANI"
-    ]
+               f"i1{os.sep}C.ANI",
+               f"i2{os.sep}C.ANI",
+               f"i2{os.sep}continue{os.sep}C.ANI",
+               f"i2{os.sep}continue_2{os.sep}C.ANI",
+               f"i3{os.sep}C.ANI",
+               f"i4{os.sep}C.ANI"
+               f"i5{os.sep}C.ANI"
+               f"i6{os.sep}C.ANI"
+               f"i7{os.sep}C.ANI"
+               f"i8{os.sep}C.ANI"
+               f"i9{os.sep}C.ANI"
+               f"i10{os.sep}C.ANI"
+               f"i11{os.sep}C.ANI"
+               f"i11{os.sep}continue{os.sep}C.ANI"
+               f"i12{os.sep}C.ANI"
+               f"i13{os.sep}C.ANI"
+           ]
     assert sort__tester(
         [
             "i1",
@@ -295,13 +294,13 @@ def test_sort_():
         "i*",
         "continue"
     ) == [
-        "i1",
-        "i2",
-        f"i2{os.sep}continue",
-        f"i2{os.sep}continue_2",
-        "i3",
-        "i4"
-    ]
+               "i1",
+               "i2",
+               f"i2{os.sep}continue",
+               f"i2{os.sep}continue_2",
+               "i3",
+               "i4"
+           ]
     assert sort__tester(
         [
             "i1",
@@ -323,23 +322,23 @@ def test_sort_():
         "i*",
         "continue"
     ) == [
-        "i1",
-        "i2",
-        f"i2{os.sep}continue",
-        f"i2{os.sep}continue_2",
-        "i3",
-        "i4"
-        "i5"
-        "i6"
-        "i7"
-        "i8"
-        "i9"
-        "i10"
-        "i11"
-        f"i11{os.sep}continue"
-        "i12"
-        "i13"
-    ]
+               "i1",
+               "i2",
+               f"i2{os.sep}continue",
+               f"i2{os.sep}continue_2",
+               "i3",
+               "i4"
+               "i5"
+               "i6"
+               "i7"
+               "i8"
+               "i9"
+               "i10"
+               "i11"
+               f"i11{os.sep}continue"
+               "i12"
+               "i13"
+           ]
 
 
 def test_remove_nones():
@@ -357,11 +356,11 @@ def test_remove_nones():
         "continue",
         "log"
     ) == [
-            f"{os.sep}home{os.sep}user{os.sep}compound{os.sep}i1{os.sep}log",
-            f"{os.sep}home{os.sep}user{os.sep}compound{os.sep}i2{os.sep}continue_2{os.sep}log",
-            f"{os.sep}home{os.sep}user{os.sep}compound{os.sep}i3{os.sep}log",
-            f"{os.sep}home{os.sep}user{os.sep}compound{os.sep}i4{os.sep}log"
-        ]
+               f"{os.sep}home{os.sep}user{os.sep}compound{os.sep}i1{os.sep}log",
+               f"{os.sep}home{os.sep}user{os.sep}compound{os.sep}i2{os.sep}continue_2{os.sep}log",
+               f"{os.sep}home{os.sep}user{os.sep}compound{os.sep}i3{os.sep}log",
+               f"{os.sep}home{os.sep}user{os.sep}compound{os.sep}i4{os.sep}log"
+           ]
     assert remove_nones_tester([
         f"i1{os.sep}log",
         f"i2{os.sep}log",
@@ -385,20 +384,20 @@ def test_remove_nones():
         "continue",
         "log"
     ) == [
-        f"i1{os.sep}log",
-        f"i2{os.sep}continue_2{os.sep}log",
-        f"i3{os.sep}log",
-        f"i4{os.sep}log"
-        f"i5{os.sep}log"
-        f"i6{os.sep}log"
-        f"i7{os.sep}log"
-        f"i8{os.sep}log"
-        f"i9{os.sep}log"
-        f"i10{os.sep}log"
-        f"i11{os.sep}continue{os.sep}log"
-        f"i12{os.sep}log"
-        f"i13{os.sep}log"
-    ]
+               f"i1{os.sep}log",
+               f"i2{os.sep}continue_2{os.sep}log",
+               f"i3{os.sep}log",
+               f"i4{os.sep}log"
+               f"i5{os.sep}log"
+               f"i6{os.sep}log"
+               f"i7{os.sep}log"
+               f"i8{os.sep}log"
+               f"i9{os.sep}log"
+               f"i10{os.sep}log"
+               f"i11{os.sep}continue{os.sep}log"
+               f"i12{os.sep}log"
+               f"i13{os.sep}log"
+           ]
 
 
 def clear_temp():
