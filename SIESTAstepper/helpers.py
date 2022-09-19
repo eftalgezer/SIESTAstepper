@@ -139,7 +139,7 @@ def check_restart_ext(ext, fdf, match1, match2, repl, out, cwd, i, cont, label):
         fdf += f"\n{repl}\n"
     else:
         print(f"Setting '{out}' as '.true.' in {cwd}{os.sep}i{i}{os.sep}{cont}{os.sep}{label}.fdf")
-        fdf.replace(match[0], repl)
+        fdf = fdf.replace(match[0], repl)
     if ext == "DM" and (re.search("WriteDM +.true.", fdf) is None or re.search("# *WriteDM +.true.", fdf) is not None
                         or re.search("WriteDM +.false.", fdf) is not None):
         print(
