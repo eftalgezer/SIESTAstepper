@@ -35,6 +35,8 @@ def test_merge_ani():
 
 def test_make_directories():
     """Tests for make_directories"""
+    oldcwd = os.getcwd()
+    os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp")
     assert make_directories_tester(5) == [
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}i1",
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}i2",
@@ -42,6 +44,7 @@ def test_make_directories():
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}i4",
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}i5"
     ]
+    os.chdir(oldcwd)
 
 
 def test_copy_files():

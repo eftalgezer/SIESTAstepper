@@ -113,13 +113,15 @@ def run_tester(label):
 
 def make_directories_tester(n):
     """Tester function for make_directories"""
-    update_cwd(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp")
-    make_directories(n)
+    if "temp" in os.getcwd():
+        make_directories(n)
+    else:
+        raise IOError("ERROR: Tests should be run in 'temp' folder")
     return sort_(
         list(
             glob.glob(
-                f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}i*")),
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}i*",
+                f"{os.getcwd()}{os.sep}i*")),
+        f"{os.getcwd()}{os.sep}i*",
         ""
     )
 
