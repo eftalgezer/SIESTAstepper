@@ -223,15 +223,15 @@ Please make sure to update tests as appropriate.
 If you are using SIESTAstepper, please citate relevant version. You can find the relevant citation [here](https://doi.org/10.5281/zenodo.7051271).
 
 ```bibtex
-@software{eftal_gezer_2022_7085961,
+@software{eftal_gezer_2022_7093879,
   author       = {Eftal Gezer},
-  title        = {eftalgezer/SIESTAstepper: v1.2.1},
+  title        = {eftalgezer/SIESTAstepper: v1.2.2},
   month        = sep,
   year         = 2022,
   publisher    = {Zenodo},
-  version      = {v1.2.1},
-  doi          = {10.5281/zenodo.7085961},
-  url          = {https://doi.org/10.5281/zenodo.7085961}
+  version      = {v1.2.2},
+  doi          = {10.5281/zenodo.7093879},
+  url          = {https://doi.org/10.5281/zenodo.7093879}
 }
 ```
 
