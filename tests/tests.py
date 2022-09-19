@@ -38,11 +38,11 @@ def test_make_directories():
     oldcwd = os.getcwd()
     os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp")
     assert make_directories_tester(5) == [
-        f"{os.getcwd()}{os.sep}i1",
-        f"{os.getcwd()}{os.sep}i2",
-        f"{os.getcwd()}{os.sep}i3",
-        f"{os.getcwd()}{os.sep}i4",
-        f"{os.getcwd()}{os.sep}i5"
+        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}i1",
+        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}i2",
+        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}i3",
+        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}i4",
+        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}i5"
     ]
     os.chdir(oldcwd)
 
