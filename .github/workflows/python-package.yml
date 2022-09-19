@@ -42,12 +42,11 @@ jobs:
       run: |
         pytest
     - name: Generate Report
-      install:
-      - pip install codecov
-      - pip install pytest-cov
-      script:
-      - pytest --cov=./ --cov-report=xml
-      - codecov
+      run: |
+        pip install codecov
+        pip install pytest-cov
+        pytest --cov=./ --cov-report=xml
+        codecov
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3.1.0
       with:
