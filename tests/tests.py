@@ -155,7 +155,7 @@ def test_read_energy():
 
 def test_print_run():
     """Tests for print_run"""
-    assert print_run_tester("i1", None, None) == "Running SIESTA for i1"
+    assert print_run_tester("i1", None, None) == "Running SIESTA for i1\n"
 
 
 def test_check_restart():
