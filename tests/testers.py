@@ -45,7 +45,7 @@ def merge_ani_tester(label=None, path=None, folder=None):
         raise ValueError("ERROR: Please set a folder")
     copy_tree(
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}{folder}",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{folder}"
+        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp"
     )
     update_cwd(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{folder}")
     merge_ani(label=label, path=path)
