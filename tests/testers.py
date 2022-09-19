@@ -46,6 +46,7 @@ def initialise_fake_project():
         fname = f.split(os.sep)[-1]
         if os.path.isfile(f):
             shutil.copy(f, f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{fakeproject}{os.sep}{fname}")
+    print(list(glob.glob(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{fakeproject}{os.sep}*")))
 
 
 def fake_command(label=None, issingle=False):
