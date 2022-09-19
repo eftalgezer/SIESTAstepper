@@ -49,10 +49,11 @@ jobs:
       uses: codecov/codecov-action@v3.1.0
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
+        directory: ./coverage/reports/
         env_vars: OS,PYTHON
         files: /home/runner/work/SIESTAstepper/SIESTAstepper/coverage.xml
-        flags: unittests
+        flags: tests
     - name: See coverage
       run: |
-          cd /home/runner/work/SIESTAstepper/SIESTAstepper/tests/
+          cd /home/runner/work/SIESTAstepper/SIESTAstepper/
           ls
