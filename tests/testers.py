@@ -6,6 +6,7 @@ import os
 import shutil
 import io
 import sys
+import types
 from SIESTAstepper import __file__ as mfile
 from SIESTAstepper.core import run, single_run, run_next, run_interrupted, single_run_interrupted, make_directories, \
     copy_files, ani_to_fdf, xyz_to_fdf, merge_ani, analysis, energy_diff, _command, contfiles, contextensions, \
@@ -63,8 +64,7 @@ def fake_command(label=None, issingle=False):
         reallog.close()
 
 
-global _command
-_command = fake_command
+_command = types.MethodType(fake_command)
 
 
 def set_fake_project(newfakeproject):
