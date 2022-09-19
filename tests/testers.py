@@ -47,6 +47,7 @@ def initialise_fake_project():
         if os.path.isfile(f):
             shutil.copy(f, f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{fakeproject}{os.sep}{fname}")
 
+
 def fake_command(label=None, issingle=False):
     """A fake SIESTA run command"""
     realpath = os.getcwd().replace(f"{os.sep}temp{os.sep}", f"{os.sep}runs{os.sep}")
@@ -62,6 +63,7 @@ def fake_command(label=None, issingle=False):
         reallog.close()
 
 
+global _command
 _command = fake_command
 
 
