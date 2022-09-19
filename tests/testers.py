@@ -45,7 +45,7 @@ def initialise_fake_project():
     for f in files:
         fname = f.split(os.sep)[-1]
         if os.path.isfile(f):
-            shutil.copy(f, f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{fakeproject}{os.sep}{fname}")
+            copy_file(f, f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{fakeproject}{os.sep}{fname}")
     print(list(glob.glob(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{fakeproject}{os.sep}*")))
 
 
@@ -53,11 +53,15 @@ def fake_command(label=None, issingle=False):
     """A fake SIESTA run command"""
     realpath = os.getcwd().replace(f"{os.sep}temp{os.sep}", f"{os.sep}runs{os.sep}")
     with open(f"{realpath}{os.sep}{log}", "r") as reallog:
-        lines = reallog.readlines()
-        for line in lines:
-            print(line)
-            if line == "Job completed\n" and issingle is False:
-                run(label)
+        with open(f"{os.getcwd()}{os.sep}{log}", "w") as fakelog:
+            lines = reallog.readlines()
+            for line in lines:
+                fakelog.writeline(line)
+                print(line)
+                if line == "Job completed\n" and issingle is False:
+                    run(label)
+            fakelog.close()
+        reallog.close()
 
 
 _command = fake_command
