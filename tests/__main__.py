@@ -6,6 +6,7 @@ from .tests import *
 clear_temp()
 test_ani_to_fdf()
 test_xyz_to_fdf()
+clear_temp()
 test_merge_ani()
 test_make_directories()
 test_copy_files()
