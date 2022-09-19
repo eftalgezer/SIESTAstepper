@@ -1,5 +1,11 @@
 # Changelog
 
+## [v1.2.3](https://github.com/eftalgezer/SIESTAstepper/tree/v1.2.3) (2022-09-19)
+
+Bug fix
+
+**Full Changelog**: https://github.com/eftalgezer/SIESTAstepper/compare/v1.2.2...v1.2.3
+
 ## [v1.2.2](https://github.com/eftalgezer/SIESTAstepper/tree/v1.2.2) (2022-09-19)
 
 - Tests added

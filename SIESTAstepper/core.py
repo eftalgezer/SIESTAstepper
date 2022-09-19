@@ -172,7 +172,7 @@ def run(label):
                             "i" + str(int(logs[-1].split(os.sep)[0].strip("i")) + 1) + os.sep + label + ".fdf"
                         )
                 file.close()
-                if len(folders) > len(logs) + 1:
+                if len(folders) > len(logs):
                     run_next(str(int(logs[-1].split(os.sep)[0].strip("i")) + 1), label)
             elif not run_interrupted(str(int(logs[-1].split(os.sep)[0].strip("i"))), label):
                 run_next(str(int(logs[-1].split(os.sep)[0].strip("i")) + 1), label)
