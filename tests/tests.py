@@ -153,6 +153,11 @@ def test_read_energy():
     ) == ([1, 2, 3, 3, 3, 4, 5], [-297.982681, -299.171055, -299.791356, -299.845957, -299.498399])
 
 
+def test_print_run():
+    """Tests for print_run"""
+    assert print_run_tester("i1", None, None) == "Running SIESTA for i1"
+
+
 def test_check_restart():
     """Tests for check_restart"""
     assert check_restart_tester(
@@ -410,3 +415,25 @@ def test_remove_nones():
                f"{os.sep}home{os.sep}user{os.sep}compound{os.sep}i12{os.sep}log",
                f"{os.sep}home{os.sep}user{os.sep}compound{os.sep}i13{os.sep}log"
            ]
+
+
+def test_carbon_uninterrupted_project():
+    """Run tests based on Carbon_uninterrupted run"""
+    set_fake_project("Carbon_uninterrupted")
+    initialise_fake_project()
+    os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{fakeproject}")
+    update_cwd(os.getcwd())
+    assert make_directories_tester(5) == [
+        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{fakeproject}{os.sep}i1",
+        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{fakeproject}{os.sep}i2",
+        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{fakeproject}{os.sep}i3",
+        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{fakeproject}{os.sep}i4",
+        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{fakeproject}{os.sep}i5"
+    ]
+    assert copy_files_tester(["psf"], "C", ".", "i1") == [
+        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{fakeproject}{os.sep}i1{os.sep}C.psf"
+    ]
+    assert xyz_to_fdf_tester("C.xyz", "C.fdf", f"i1{os.sep}C.fdf") == read_file(
+        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}{fakeproject}{os.sep}i1{os.sep}C.fdf"
+    )
+    assert "All iterations are completed" in run_tester("C")

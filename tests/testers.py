@@ -4,14 +4,18 @@ Unit testers for the SIESTAstepper library.
 import glob
 import os
 import shutil
+import io
+import sys
 from SIESTAstepper import __file__ as mfile
 from SIESTAstepper.core import run, single_run, run_next, run_interrupted, single_run_interrupted, make_directories, \
-    copy_files, ani_to_fdf, xyz_to_fdf, merge_ani, analysis, energy_diff, contfiles, contextensions, \
+    copy_files, ani_to_fdf, xyz_to_fdf, merge_ani, analysis, energy_diff, _command, contfiles, contextensions, \
     update_cwd, update_log, update_cores, update_conda, update_cont, update_siesta
 from SIESTAstepper.helpers import create_fdf, read_fdf, read_energy, get_it, print_run, check_restart, \
     check_userbasis, copy_file, sort_, remove_nones
 
+SIESTAstepper._command = fake_command
 mpath = mfile.replace("/SIESTAstepper/__init__.py", "")
+fakeproject = None
 
 
 def read_file(file):
@@ -33,6 +37,36 @@ def clear_temp():
                 shutil.rmtree(filepath)
         except Exception as e:
             print(f'Failed to delete {filepath}. Reason: {e}')
+
+
+def initialise_fake_project():
+    """Initialise fake project to test"""
+    os.mkdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{fakeproject}")
+    files = f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}{fakeproject}{os.sep}*"
+    for f in files:
+        fname = f.split(os.sep)[-1]
+        if os.path.isfile(f):
+            shutil.copy(f, f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{fakeproject}{os.sep}{fname}")
+
+
+def fake_command(label=None, issingle=False):
+    """A fake SIESTA run command"""
+    realpath = os.getcwd().replace(f"{os.sep}temp{os.sep}", f"{os.sep}runs{os.sep}")
+    with open(f"{realpath}{os.sep}{log}", "r") as reallog:
+        lines = reallog.readlines()
+        for line in lines:
+            print(line)
+            if line == "Job completed\n" and issingle is False:
+                run(label)
+
+
+def set_fake_project(newfakeproject):
+    global fakeproject
+    fakeproject = newfakeproject
+
+
+def get_fake_project():
+    return fakeproject
 
 
 def ani_to_fdf_tester(anipath, fdfpath, newfdfpath):
@@ -64,6 +98,15 @@ def merge_ani_tester(label=None, path=None, folder=None):
     update_cwd(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{folder}")
     merge_ani(label=label, path=path)
     return read_file(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{folder}{os.sep}{label}-merged.ANI")
+
+
+def run_tester(label):
+    """Tester function for run"""
+    capturedoutput = io.StringIO()
+    sys.stdout = capturedoutput
+    run(label)
+    sys.stdout = sys.__stdout__
+    return capturedOutput.getvalue()
 
 
 def make_directories_tester(n):
@@ -132,6 +175,15 @@ def read_energy_tester(energies=[], path=None, cont=None, it=[]):
     files = sort_(files, "i*", cont)
     read_energy(energies, files, it)
     return it, energies
+
+
+def print_run_tester(for_, cores, conda):
+    """Tester function for print_run"""
+    capturedoutput = io.StringIO()
+    sys.stdout = capturedoutput
+    print_run(for_, cores, conda)
+    sys.stdout = sys.__stdout__
+    return capturedOutput.getvalue()
 
 
 def check_restart_tester(fdffile, i, label, cwd, cont, context):
