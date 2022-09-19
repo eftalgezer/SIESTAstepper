@@ -9,11 +9,10 @@ import sys
 from SIESTAstepper import __file__ as mfile
 from SIESTAstepper.core import run, single_run, run_next, run_interrupted, single_run_interrupted, make_directories, \
     copy_files, ani_to_fdf, xyz_to_fdf, merge_ani, analysis, energy_diff, _command, contfiles, contextensions, \
-    update_cwd, update_log, update_cores, update_conda, update_cont, update_siesta
+    update_cwd, update_log, update_cores, update_conda, update_cont, update_siesta, log
 from SIESTAstepper.helpers import create_fdf, read_fdf, read_energy, get_it, print_run, check_restart, \
     check_userbasis, copy_file, sort_, remove_nones
 
-SIESTAstepper._command = fake_command
 mpath = mfile.replace("/SIESTAstepper/__init__.py", "")
 fakeproject = None
 
@@ -58,6 +57,9 @@ def fake_command(label=None, issingle=False):
             print(line)
             if line == "Job completed\n" and issingle is False:
                 run(label)
+
+
+SIESTAstepper._command = fake_command
 
 
 def set_fake_project(newfakeproject):
@@ -106,7 +108,7 @@ def run_tester(label):
     sys.stdout = capturedoutput
     run(label)
     sys.stdout = sys.__stdout__
-    return capturedOutput.getvalue()
+    return capturedoutput.getvalue()
 
 
 def make_directories_tester(n):
@@ -183,7 +185,7 @@ def print_run_tester(for_, cores, conda):
     sys.stdout = capturedoutput
     print_run(for_, cores, conda)
     sys.stdout = sys.__stdout__
-    return capturedOutput.getvalue()
+    return capturedoutput.getvalue()
 
 
 def check_restart_tester(fdffile, i, label, cwd, cont, context):
