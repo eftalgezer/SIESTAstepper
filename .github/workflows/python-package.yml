@@ -52,4 +52,7 @@ jobs:
         flags: unittests
     - name: See coverage
       run: |
+          cd tests
+          ls
+          cd ../../
           ls
