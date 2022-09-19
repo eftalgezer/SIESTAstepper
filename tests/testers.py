@@ -117,8 +117,7 @@ def make_directories_tester(n):
         make_directories(n)
     else:
         raise IOError("ERROR: Tests should be run in 'temp' folder")
-    print(list(glob.glob(
-                f"{os.getcwd()}{os.sep}i*")))
+    print(f"{os.getcwd()}{os.sep}i*")
     return sort_(
         list(
             glob.glob(
