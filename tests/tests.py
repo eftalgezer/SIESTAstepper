@@ -53,11 +53,11 @@ def test_copy_files():
     assert copy_files_tester(
         ["psf", "DM", "XV"], "C",
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}Carbon{os.sep}i1",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}i2"
+        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon{os.sep}i2"
     ) == [
-               f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}i2{os.sep}C.psf",
-               f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}i2{os.sep}C.DM",
-               f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}i2{os.sep}C.XV"
+               f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon{os.sep}i2{os.sep}C.psf",
+               f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon{os.sep}i2{os.sep}C.DM",
+               f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon{os.sep}i2{os.sep}C.XV"
            ]
 
 
