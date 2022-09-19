@@ -11,7 +11,6 @@ from SIESTAstepper.core import run, single_run, run_next, run_interrupted, singl
 from SIESTAstepper.helpers import create_fdf, read_fdf, read_energy, get_it, print_run, check_restart, \
     check_userbasis, copy_file, sort_, remove_nones
 
-SIESTAstepper.core._command = fake_command
 mpath = mfile.replace("/SIESTAstepper/__init__.py", "")
 
 
