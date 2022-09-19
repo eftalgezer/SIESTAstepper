@@ -45,6 +45,7 @@ def test_make_directories():
 
 
 def test_copy_files():
+    """Tests for copy_files"""
     assert copy_files_tester(
         ["psf", "DM", "XV"], "C",
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}Carbon{os.sep}i1",
@@ -57,6 +58,7 @@ def test_copy_files():
 
 
 def test_analysis():
+    """Tests for analysis"""
     assert analysis_tester(
         "i*",
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}Carbon"
@@ -70,6 +72,7 @@ def test_analysis():
 
 
 def test_energy_diff():
+    """Tests for energy_diff"""
     assert energy_diff_tester(
         "i*",
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}Carbon"
@@ -77,12 +80,14 @@ def test_energy_diff():
 
 
 def test_get_it():
+    """Tests for get_it"""
     assert sorted(get_it_tester(
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}Carbon", "continue"
     )) == [1, 2, 3, 3, 3, 4, 5]
 
 
 def test_read_fdf():
+    """Tests for read_fdf"""
     assert read_fdf_tester(
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}fdf{os.sep}C-4.fdf",
         ['C       0.382434   -0.000000   -0.000000', 'C       1.636103   -0.000000   -0.000000']
@@ -110,6 +115,7 @@ def test_read_fdf():
 
 
 def test_create_fdf():
+    """Tests for create_fdf"""
     assert create_fdf_tester(
         "SystemName          Carbon\nSystemLabel         C\nWriteMDXmol            .true.\n" +
         "SolutionMethod     diagonal\nNumberOfSpecies     1\n%block ChemicalSpeciesLabel\n1    6    C\n" +
@@ -138,6 +144,7 @@ def test_create_fdf():
 
 
 def test_read_energy():
+    """Tests for read_energy"""
     assert read_energy_tester(
         energies=[],
         path=f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}Carbon",
@@ -147,6 +154,7 @@ def test_read_energy():
 
 
 def test_check_restart():
+    """Tests for check_restart"""
     assert check_restart_tester(
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}fdf{os.sep}H2O-1_continue.fdf",
         "1",
@@ -158,11 +166,13 @@ def test_check_restart():
 
 
 def test_check_userbasis():
+    """Tests for check_userbasis"""
     assert check_userbasis_tester(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}fdf{os.sep}C-1.fdf") is False
     assert check_userbasis_tester(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}fdf{os.sep}C_userbasis-1.fdf") is True
 
 
 def test_copy_file():
+    """Tests for copy_file"""
     assert copy_file_tester(
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}fdf{os.sep}C-1.fdf",
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}C-1 (1).fdf"
@@ -170,6 +180,7 @@ def test_copy_file():
 
 
 def test_sort_():
+    """Tests for sort_"""
     assert sort__tester(
         [
             f"i1{os.sep}log",
@@ -342,6 +353,7 @@ def test_sort_():
 
 
 def test_remove_nones():
+    """Tests for remove_nones"""
     assert remove_nones_tester(
         [
             f"{os.sep}home{os.sep}user{os.sep}compound{os.sep}i1{os.sep}log",
