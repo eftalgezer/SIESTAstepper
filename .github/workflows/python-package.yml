@@ -54,5 +54,5 @@ jobs:
         flags: unittests
     - name: See coverage
       run: |
-          cd /home/runner/work/SIESTAstepper/SIESTAstepper/
+          cd /home/runner/work/SIESTAstepper/SIESTAstepper/tests/
           ls
