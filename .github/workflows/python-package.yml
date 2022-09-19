@@ -48,5 +48,5 @@ jobs:
         token: ${{ secrets.CODECOV_TOKEN }}
         directory: ./coverage/reports/
         env_vars: OS,PYTHON
-        files: /home/runner/work/SIESTAstepper/SIESTAstepper/coverage.txt
+        files: /home/runner/work/SIESTAstepper/SIESTAstepper/coverage.json
         flags: unittests
