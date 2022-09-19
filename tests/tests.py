@@ -434,7 +434,7 @@ def test_carbon_uninterrupted_project():
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i4",
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i5"
     ]
-    assert copy_files_tester(["psf"], "C", ".", "i1") == [
+    assert copy_files_tester(["psf"], "C", os.getcwd(), "i1") == [
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i1{os.sep}C.psf"
     ]
     assert xyz_to_fdf_tester("C.xyz", "C.fdf", f"i1{os.sep}C.fdf") == read_file(
