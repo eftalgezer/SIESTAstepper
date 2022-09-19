@@ -44,8 +44,10 @@ def initialise_fake_project():
     files = f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}{fakeproject}{os.sep}*"
     for f in files:
         fname = f.split(os.sep)[-1]
+        print(f)
         if os.path.isfile(f):
-            copy_file(f, f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{fakeproject}{os.sep}{fname}")
+            print(f"{f}*")
+            shutil.copy(f, f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{fakeproject}{os.sep}{fname}")
     print(list(glob.glob(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{fakeproject}{os.sep}*")))
 
 
