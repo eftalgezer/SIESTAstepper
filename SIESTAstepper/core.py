@@ -150,12 +150,12 @@ def run(label):
     logs = sort_(logs, "i*", cont)
     if len(logs) == 0:
         run_next("1", label)
-    elif len(folders) != len(logs) != 0 or folders[-1] != logs[-1].rsplit(os.sep)[0] + os.sep:
+    else:
         with open(logs[-1], "r") as file:
             lines = file.readlines()
             if lines[-1] == "Job completed\n":
                 print(f"{logs[-1]}: Job completed")
-                if not os.path.isfile(
+                if len(folders) != len(logs) and not os.path.isfile(
                         f"{cwd}{os.sep}i{str(int(logs[-1].split(os.sep)[0].strip('i')) + 1)}{os.sep}{label}.fdf"
                 ):
                     if cont in logs[-1]:
@@ -172,7 +172,8 @@ def run(label):
                             "i" + str(int(logs[-1].split(os.sep)[0].strip("i")) + 1) + os.sep + label + ".fdf"
                         )
                 file.close()
-                run_next(str(int(logs[-1].split(os.sep)[0].strip("i")) + 1), label)
+                if len(folders) > len(logs) + 1:
+                    run_next(str(int(logs[-1].split(os.sep)[0].strip("i")) + 1), label)
             elif not run_interrupted(str(int(logs[-1].split(os.sep)[0].strip("i"))), label):
                 run_next(str(int(logs[-1].split(os.sep)[0].strip("i")) + 1), label)
     print("All iterations are completed")
@@ -185,7 +186,7 @@ def run(label):
 
 def run_interrupted(i, label):
     """Continue to an interrupted calculation"""
-    folders = glob.glob(f"i*{os.sep}{cont}*")
+    folders = glob.glob(f"i{i}{os.sep}{cont}*")
     folders = sort_(folders, "i*", cont)
     if len(folders) != 0:
         with open(f"{folders[-1]}{os.sep}{log}") as file:
@@ -294,7 +295,7 @@ def _command(label=None, issingle=False):
     """SIESTA's run command"""
     if conda:
         sprun([f"{os.sep}usr{os.sep}bin{os.sep}conda", "activate", conda] if os.name == "posix"
-            else [f"C:{os.sep}{os.sep}Anaconda3{os.sep}Scripts{os.sep}activate", conda])
+              else [f"C:{os.sep}{os.sep}Anaconda3{os.sep}Scripts{os.sep}activate", conda])
     with open(log, "w") as logger:
         job = Popen(
             shlex.split(f"{f'mpirun -np {cores} ' if cores is not None else ''}{siesta} {label}.fdf"),
