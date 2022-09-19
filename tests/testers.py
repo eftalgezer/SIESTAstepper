@@ -43,8 +43,6 @@ def merge_ani_tester(label=None, path=None, folder=None):
         raise ValueError("ERROR: Please set a label")
     if folder is None:
         raise ValueError("ERROR: Please set a folder")
-    if not os.path.exists(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{folder}"):
-        os.mkdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{folder}")
     copy_tree(
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}{folder}",
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{folder}"
