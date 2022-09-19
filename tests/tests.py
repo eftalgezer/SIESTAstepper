@@ -149,13 +149,14 @@ def test_read_energy():
 
 def test_check_restart():
     assert check_restart_tester(
-            f"{mpath}{os.sep}tests{os.sep}assets{os.sep}fdf{os.sep}H2O-1_continue.fdf",
-            "1",
-            "H2O",
-            f"{mpath}{os.sep}tests{os.sep}assets{os.sep}fdf",
-            "continue",
-            ["DM", "XV"]
-        ) == read_file(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}fdf{os.sep}H2O-1_continue_2.fdf")
+        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}fdf{os.sep}H2O-1_continue.fdf",
+        "1",
+        "H2O",
+        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}fdf",
+        "continue",
+        ["DM", "XV"]
+    ) == read_file(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}fdf{os.sep}H2O-1_continue_2.fdf")
+
 
 def test_check_userbasis():
     assert check_userbasis_tester(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}fdf{os.sep}C-1.fdf") is False
@@ -398,16 +399,3 @@ def test_remove_nones():
                f"{os.sep}home{os.sep}user{os.sep}compound{os.sep}i12{os.sep}log",
                f"{os.sep}home{os.sep}user{os.sep}compound{os.sep}i13{os.sep}log"
            ]
-
-
-def clear_temp():
-    """Clears the temp folder"""
-    for filename in os.listdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp"):
-        filepath = os.path.join(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp", filename)
-        try:
-            if os.path.isfile(filepath) or os.path.islink(filepath):
-                os.unlink(filepath)
-            elif os.path.isdir(filepath):
-                shutil.rmtree(filepath)
-        except Exception as e:
-            print(f'Failed to delete {filepath}. Reason: {e}')
