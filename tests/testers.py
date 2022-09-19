@@ -59,7 +59,7 @@ def fake_command(label=None, issingle=False):
                 run(label)
 
 
-SIESTAstepper._command = fake_command
+_command = fake_command
 
 
 def set_fake_project(newfakeproject):
