@@ -6,12 +6,12 @@ import os
 import shutil
 from SIESTAstepper import __file__ as mfile
 from SIESTAstepper.core import run, single_run, run_next, run_interrupted, single_run_interrupted, make_directories, \
-    copy_files, \
-    ani_to_fdf, xyz_to_fdf, merge_ani, analysis, energy_diff, contfiles, contextensions, update_cwd, update_log, \
-    update_cores, update_conda, update_cont, update_siesta
+    copy_files, ani_to_fdf, xyz_to_fdf, merge_ani, analysis, energy_diff, contfiles, contextensions, \
+    update_cwd, update_log, update_cores, update_conda, update_cont, update_siesta
 from SIESTAstepper.helpers import create_fdf, read_fdf, read_energy, get_it, print_run, check_restart, \
     check_userbasis, copy_file, sort_, remove_nones
 
+SIESTAstepper.core._command = fake_command
 mpath = mfile.replace("/SIESTAstepper/__init__.py", "")
 
 
@@ -21,6 +21,7 @@ def read_file(file):
         content = f.read()
         f.close()
     return content
+
 
 def clear_temp():
     """Clears the temp folder"""
@@ -33,6 +34,7 @@ def clear_temp():
                 shutil.rmtree(filepath)
         except Exception as e:
             print(f'Failed to delete {filepath}. Reason: {e}')
+
 
 def ani_to_fdf_tester(anipath, fdfpath, newfdfpath):
     """Tester function for ani_to_fdf"""
