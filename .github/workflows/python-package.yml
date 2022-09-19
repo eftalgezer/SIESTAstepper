@@ -50,3 +50,6 @@ jobs:
         env_vars: OS,PYTHON
         files: /home/runner/work/SIESTAstepper/SIESTAstepper/coverage.xml
         flags: unittests
+    - name: See coverage
+      run: |
+          ls
