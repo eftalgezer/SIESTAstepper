@@ -41,15 +41,11 @@ def clear_temp():
 def initialise_fake_project():
     """Initialise fake project to test"""
     os.mkdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{fakeproject}")
-    files = f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}{fakeproject}{os.sep}*"
+    files = glob.glob(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}{fakeproject}{os.sep}*")
     for f in files:
         fname = f.split(os.sep)[-1]
-        print(f)
         if os.path.isfile(f):
-            print(f"{f}*")
             shutil.copy(f, f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{fakeproject}{os.sep}{fname}")
-    print(list(glob.glob(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{fakeproject}{os.sep}*")))
-
 
 def fake_command(label=None, issingle=False):
     """A fake SIESTA run command"""
