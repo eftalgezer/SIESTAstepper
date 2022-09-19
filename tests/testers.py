@@ -3,7 +3,7 @@ Unit testers for the SIESTAstepper library.
 """
 import glob
 import os
-from distutils.dir_util import copy_tree
+import shutil
 from SIESTAstepper import __file__ as mfile
 from SIESTAstepper.core import run, single_run, run_next, run_interrupted, single_run_interrupted, make_directories, \
     copy_files, \
@@ -54,7 +54,7 @@ def merge_ani_tester(label=None, path=None, folder=None):
         raise ValueError("ERROR: Please set a label")
     if folder is None:
         raise ValueError("ERROR: Please set a folder")
-    copy_tree(
+    shutil.copy_tree(
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}{folder}",
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{folder}"
     )
