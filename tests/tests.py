@@ -444,8 +444,15 @@ def test_carbon_uninterrupted_project():
 def test_carbon_uninterrupted_project_run_next():
     fake_command()
     set_fake_project("Carbon_uninterrupted")
-    initialise_fake_project("run_next 2")
     os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
+    assert make_directories_tester(5) == [
+        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i1",
+        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i2",
+        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i3",
+        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i4",
+        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i5"
+    ]
+    initialise_fake_project("run_next 2")
     update_cwd(os.getcwd())
     assert "All iterations are completed" in run_next("2", "C")
 
@@ -453,7 +460,14 @@ def test_carbon_uninterrupted_project_run_next():
 def test_carbon_uninterrupted_project_single_run():
     fake_command()
     set_fake_project("Carbon_uninterrupted")
-    initialise_fake_project("single_run 3")
     os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
+    assert make_directories_tester(5) == [
+        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i1",
+        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i2",
+        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i3",
+        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i4",
+        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i5"
+    ]
+    initialise_fake_project("single_run 3")
     update_cwd(os.getcwd())
     assert "Job completed\n" in single_run("3", "C")

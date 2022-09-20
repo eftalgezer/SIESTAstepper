@@ -43,8 +43,6 @@ def initialise_fake_project(function=None):
     """Initialise fake project to test"""
     if function is None:
         function = "run"
-    if not os.path.exists(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{fakeproject}"):
-        os.mkdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{fakeproject}")
     if function == "run":
         files = glob.glob(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}{fakeproject}{os.sep}*")
         for f in files:
@@ -107,6 +105,8 @@ def fake_command(monkeypatch=MonkeyPatch()):
 def set_fake_project(newfakeproject):
     global fakeproject
     fakeproject = newfakeproject
+    if not os.path.exists(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{fakeproject}"):
+        os.mkdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{fakeproject}")
 
 
 def get_fake_project():
