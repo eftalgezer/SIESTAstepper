@@ -55,12 +55,11 @@ def fake_command(monkeypatch = MonkeyPatch()):
         realpath = os.getcwd().replace(f"{os.sep}temp{os.sep}", f"{os.sep}runs{os.sep}")
         with open(f"{realpath}{os.sep}{log}", "r") as reallog:
             with open(f"{os.getcwd()}{os.sep}{log}", "w") as fakelog:
-                lines = reallog.readlines()
-                for line in lines:
-                    fakelog.write(line)
-                    print(line)
-                    if line == "Job completed\n" and issingle is False:
-                        run(label)
+                content = reallog.read()
+                fakelog.write(content)
+                print(content)
+                if content.endswith("Job completed\n") and issingle is False:
+                    run(label)
                 fakelog.close()
             reallog.close()
     monkeypatch.setattr("SIESTAstepper.core._command", fake__command)
