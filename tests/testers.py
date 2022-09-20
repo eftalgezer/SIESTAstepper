@@ -6,7 +6,7 @@ import os
 import shutil
 import io
 import sys
-import pytest
+from _pytest.monkeypatch import MonkeyPatch
 from SIESTAstepper import __file__ as mfile
 from SIESTAstepper.core import run, single_run, run_next, run_interrupted, single_run_interrupted, make_directories, \
     copy_files, ani_to_fdf, xyz_to_fdf, merge_ani, analysis, energy_diff, _command, contfiles, contextensions, \
@@ -49,8 +49,9 @@ def initialise_fake_project():
             shutil.copy(f, f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{fakeproject}{os.sep}{fname}")
 
 
-def fake_command(label=None, issingle=False):
+def fake_command(label=None, issingle=False, monkeypatch=None):
     """A fake SIESTA run command"""
+    monkeypatch.setattr(_command, fake_command)
     realpath = os.getcwd().replace(f"{os.sep}temp{os.sep}", f"{os.sep}runs{os.sep}")
     with open(f"{realpath}{os.sep}{log}", "r") as reallog:
         with open(f"{os.getcwd()}{os.sep}{log}", "w") as fakelog:
@@ -63,7 +64,6 @@ def fake_command(label=None, issingle=False):
             fakelog.close()
         reallog.close()
 
-monkeypatch.setattr(_command, fake_command)
 
 def set_fake_project(newfakeproject):
     global fakeproject
