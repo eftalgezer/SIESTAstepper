@@ -454,7 +454,7 @@ def test_carbon_uninterrupted_project_run_next():
     ]
     initialise_fake_project("run_next 2")
     update_cwd(os.getcwd())
-    assert "All iterations are completed" in run_next("2", "C")
+    assert "All iterations are completed" in run_next_tester("2", "C")
 
 
 def test_carbon_uninterrupted_project_single_run():
@@ -470,4 +470,4 @@ def test_carbon_uninterrupted_project_single_run():
     ]
     initialise_fake_project("single_run 3")
     update_cwd(os.getcwd())
-    assert "Job completed\n" in single_run("3", "C")
+    assert "Job completed\n" in single_run_tester("3", "C")
