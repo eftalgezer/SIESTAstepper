@@ -51,7 +51,7 @@ def initialise_fake_project():
 
 def fake_command(label=None, issingle=False, monkeypatch=None):
     """A fake SIESTA run command"""
-    monkeypatch.setattr(_command, fake_command)
+    monkeypatch.setattr("_command", fake_command)
     realpath = os.getcwd().replace(f"{os.sep}temp{os.sep}", f"{os.sep}runs{os.sep}")
     with open(f"{realpath}{os.sep}{log}", "r") as reallog:
         with open(f"{os.getcwd()}{os.sep}{log}", "w") as fakelog:
