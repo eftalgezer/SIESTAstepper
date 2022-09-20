@@ -421,7 +421,7 @@ def test_remove_nones():
            ]
 
 
-def test_carbon_uninterrupted_project():
+def carbon_uninterrupted_project():
     """Run tests based on Carbon_uninterrupted run"""
     set_fake_project("Carbon_uninterrupted")
     initialise_fake_project()
