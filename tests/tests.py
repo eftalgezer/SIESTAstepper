@@ -36,7 +36,8 @@ def test_merge_ani():
 def test_make_directories():
     """Tests for make_directories"""
     oldcwd = os.getcwd()
-    os.mkdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon")
+    if not os.path.isdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon"):
+        os.mkdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon")
     os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon")
     assert make_directories_tester(5) == [
         f"{os.getcwd()}{os.sep}i1",
