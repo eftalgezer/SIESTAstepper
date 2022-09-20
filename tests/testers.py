@@ -63,7 +63,7 @@ def fake_command(label=None, issingle=False):
             fakelog.close()
         reallog.close()
 
-pytest.monkeypatch.setattr(_command, fake_command)
+monkeypatch.setattr(_command, fake_command)
 
 def set_fake_project(newfakeproject):
     global fakeproject
