@@ -65,13 +65,13 @@ def single_run(i, label):
     """Run SIESTA for given step without continuing next step"""
     os.chdir(f"{cwd}{os.sep}i{i}")
     print(f"Changed directory to {os.getcwd()}")
-    with open(f"{cwd}{os.sep}i{i}{os.sep}{log}", "r") as file:
+    with open(f"{cwd}{os.sep}i{int(i) - 1}{os.sep}{log}", "r") as file:
         lines = file.readlines()
         if lines[-1] == "Job completed\n":
             print(f"i{i}{os.sep}{log}: Job completed")
         else:
             if int(i) > 1:
-                if not os.path.isfile(f"{cwd}{os.sep}i{str(int(i) + 1)}{os.sep}{label}.fdf"):
+                if not os.path.isfile(f"{cwd}{os.sep}i{str(int(i))}{os.sep}{label}.fdf"):
                     ani_to_fdf(
                         f"{cwd}{os.sep}i{int(i) - 1}{os.sep}{label}.ANI",
                         f"{cwd}{os.sep}i{int(i) - 1}{os.sep}{label}.fdf",
