@@ -439,3 +439,21 @@ def test_carbon_uninterrupted_project():
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}{get_fake_project()}{os.sep}i1{os.sep}C.fdf"
     )
     assert "All iterations are completed" in run_tester("C")
+
+
+def test_carbon_uninterrupted_project_run_next():
+    fake_command()
+    set_fake_project("Carbon_uninterrupted")
+    initialise_fake_project("run_next 2")
+    os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
+    update_cwd(os.getcwd())
+    assert "All iterations are completed" in run_next("2", "C")
+
+
+def test_carbon_uninterrupted_project_single_run():
+    fake_command()
+    set_fake_project("Carbon_uninterrupted")
+    initialise_fake_project("single_run 3")
+    os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
+    update_cwd(os.getcwd())
+    assert "Job completed\n" in single_run("3", "C")

@@ -39,15 +39,55 @@ def clear_temp():
             print(f'Failed to delete {filepath}. Reason: {e}')
 
 
-def initialise_fake_project():
+def initialise_fake_project(function=None):
     """Initialise fake project to test"""
+    if function is None:
+        function = "run"
     if not os.path.exists(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{fakeproject}"):
         os.mkdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{fakeproject}")
-    files = glob.glob(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}{fakeproject}{os.sep}*")
-    for f in files:
-        fname = f.split(os.sep)[-1]
-        if os.path.isfile(f):
-            shutil.copy(f, f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{fakeproject}{os.sep}{fname}")
+
+    if function == "run":
+        files = glob.glob(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}{fakeproject}{os.sep}*")
+
+        for f in files:
+            fname = f.split(os.sep)[-1]
+            if os.path.isfile(f):
+                shutil.copy(f, f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{fakeproject}{os.sep}{fname}")
+
+    if function.startswith("run_next") or function.startswith("single_run"):
+        i = function.split(" ")[1]
+        files = glob.glob(
+            f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}{fakeproject}{os.sep}i{int(i) - 1}{os.sep}*"
+        )
+
+        for f in files:
+            fname = f.split(os.sep)[-1]
+            if os.path.isfile(f):
+                shutil.copy(
+                    f,
+                    f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{fakeproject}{os.sep}i{int(i) - 1}" +
+                    f"{os.sep}{fname}")
+
+    if function.startswith("run_interrupted") or function.startswith("single_run_interrupted"):
+        i = function.split(" ")[1]
+        c = 0
+        try:
+            c = int(function.split(" ")[2])
+        except Exception:
+            c = 1
+        files = glob.glob(
+            f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}{fakeproject}{os.sep}i{i}" +
+            f"{f'{os.sep}{cont}' if c == 2 else f'{os.sep}{cont}_{c - 1}' if c > 2 else ''}{os.sep}*"
+        )
+
+        for f in files:
+            fname = f.split(os.sep)[-1]
+            if os.path.isfile(f):
+                shutil.copy(
+                    f,
+                    f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{fakeproject}" +
+                    f"{os.sep}i{i}{os.sep}{cont if c == 2 else f'{cont}_{c - 1}' if c > 2 else ''}{fname}"
+                )
 
 
 def fake_command(monkeypatch=MonkeyPatch()):
@@ -77,6 +117,24 @@ def set_fake_project(newfakeproject):
 
 def get_fake_project():
     return fakeproject
+
+
+def run_next_tester(i, label):
+    """Tester function for run_next"""
+    capturedoutput = io.StringIO()
+    sys.stdout = capturedoutput
+    run_next(i, label)
+    sys.stdout = sys.__stdout__
+    return capturedoutput.getvalue()
+
+
+def single_run_tester(i, label):
+    """Tester function for single_run"""
+    capturedoutput = io.StringIO()
+    sys.stdout = capturedoutput
+    single_run(i, label)
+    sys.stdout = sys.__stdout__
+    return capturedoutput.getvalue()
 
 
 def ani_to_fdf_tester(anipath, fdfpath, newfdfpath):
@@ -115,6 +173,24 @@ def run_tester(label):
     capturedoutput = io.StringIO()
     sys.stdout = capturedoutput
     run(label)
+    sys.stdout = sys.__stdout__
+    return capturedoutput.getvalue()
+
+
+def run_interrupted_tester(i, label):
+    """Tester function for run_interrupted"""
+    capturedoutput = io.StringIO()
+    sys.stdout = capturedoutput
+    run_interrupted(i, label)
+    sys.stdout = sys.__stdout__
+    return capturedoutput.getvalue()
+
+
+def single_run_interrupted_tester(i, label):
+    """Tester function for single_run_interrupted"""
+    capturedoutput = io.StringIO()
+    sys.stdout = capturedoutput
+    run_interrupted(i, label)
     sys.stdout = sys.__stdout__
     return capturedoutput.getvalue()
 
