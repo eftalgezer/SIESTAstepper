@@ -62,7 +62,7 @@ def fake_command(monkeypatch = MonkeyPatch()):
                         run(label)
                 fakelog.close()
             reallog.close()
-    monkeypatch.setattr("_command", fake__command)
+    monkeypatch.setattr(SIESTAstepper.core, "_command", fake__command)
 
 
 def set_fake_project(newfakeproject):
