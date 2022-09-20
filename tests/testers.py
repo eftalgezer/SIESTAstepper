@@ -61,10 +61,10 @@ def fake_command(monkeypatch=MonkeyPatch()):
                 reallines = reallog.readlines()
                 for realline in reallines:
                     fakelog.write(realline)
-                    for fakeline in tail("-f", log, _iter=True):
-                        print(fakeline)
-                        if fakeline == "Job completed\n" and issingle is False:
-                            run(label)
+                for fakeline in tail("-f", log, _iter=True):
+                    print(fakeline)
+                    if fakeline == "Job completed\n" and issingle is False:
+                        run(label)
                 fakelog.close()
             reallog.close()
 
