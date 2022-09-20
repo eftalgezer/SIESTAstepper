@@ -41,7 +41,8 @@ def clear_temp():
 
 def initialise_fake_project():
     """Initialise fake project to test"""
-    os.mkdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{fakeproject}")
+    if not os.path.exists(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{fakeproject}"):
+        os.mkdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{fakeproject}")
     files = glob.glob(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}{fakeproject}{os.sep}*")
     for f in files:
         fname = f.split(os.sep)[-1]
