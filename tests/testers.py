@@ -56,7 +56,7 @@ def fake_command(monkeypatch = MonkeyPatch()):
             with open(f"{os.getcwd()}{os.sep}{log}", "w") as fakelog:
                 lines = reallog.readlines()
                 for line in lines:
-                    fakelog.writeline(line)
+                    fakelog.write(line)
                     print(line)
                     if line == "Job completed\n" and issingle is False:
                         run(label)
