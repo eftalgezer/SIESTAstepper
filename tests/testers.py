@@ -59,12 +59,12 @@ def fake_command(monkeypatch=MonkeyPatch()):
         with open(f"{realpath}{os.sep}{log}", "r") as reallog:
             with open(f"{os.getcwd()}{os.sep}{log}", "w") as fakelog:
                 reallines = reallog.readlines()
-                for realline in reallines:
-                    fakelog.write(realline)
                 for fakeline in tail("-f", log, _iter=True):
-                    print(fakeline)
-                    if fakeline == "Job completed\n" and issingle is False:
-                        run(label)
+                    for realline in reallines:
+                        fakelog.write(realline)
+                        print(fakeline)
+                        if fakeline == "Job completed\n" and issingle is False:
+                            run(label)
                 fakelog.close()
             reallog.close()
 
