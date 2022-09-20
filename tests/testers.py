@@ -6,7 +6,7 @@ import os
 import shutil
 import io
 import sys
-import types
+from _pytest.monkeypatch import MonkeyPatch
 from SIESTAstepper import __file__ as mfile
 from SIESTAstepper.core import run, single_run, run_next, run_interrupted, single_run_interrupted, make_directories, \
     copy_files, ani_to_fdf, xyz_to_fdf, merge_ani, analysis, energy_diff, _command, contfiles, contextensions, \
@@ -48,23 +48,21 @@ def initialise_fake_project():
         if os.path.isfile(f):
             shutil.copy(f, f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{fakeproject}{os.sep}{fname}")
 
-
-def fake_command(label=None, issingle=False):
-    """A fake SIESTA run command"""
-    realpath = os.getcwd().replace(f"{os.sep}temp{os.sep}", f"{os.sep}runs{os.sep}")
-    with open(f"{realpath}{os.sep}{log}", "r") as reallog:
-        with open(f"{os.getcwd()}{os.sep}{log}", "w") as fakelog:
-            lines = reallog.readlines()
-            for line in lines:
-                fakelog.writeline(line)
-                print(line)
-                if line == "Job completed\n" and issingle is False:
-                    run(label)
-            fakelog.close()
-        reallog.close()
-
-
-_command = fake_command
+def fake_command(monkeypatch = MonkeyPatch()):
+    def fake__command(label=None, issingle=False):
+        """A fake SIESTA run command"""
+        realpath = os.getcwd().replace(f"{os.sep}temp{os.sep}", f"{os.sep}runs{os.sep}")
+        with open(f"{realpath}{os.sep}{log}", "r") as reallog:
+            with open(f"{os.getcwd()}{os.sep}{log}", "w") as fakelog:
+                lines = reallog.readlines()
+                for line in lines:
+                    fakelog.writeline(line)
+                    print(line)
+                    if line == "Job completed\n" and issingle is False:
+                        run(label)
+                fakelog.close()
+            reallog.close()
+    monkeypatch.setattr("_command", fake__command)
 
 
 def set_fake_project(newfakeproject):

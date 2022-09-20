@@ -422,8 +422,9 @@ def test_remove_nones():
            ]
 
 
-def carbon_uninterrupted_project():
+def test_carbon_uninterrupted_project():
     """Run tests based on Carbon_uninterrupted run"""
+    fake_command()
     set_fake_project("Carbon_uninterrupted")
     initialise_fake_project()
     os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
