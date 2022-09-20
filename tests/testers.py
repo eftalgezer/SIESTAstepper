@@ -48,8 +48,10 @@ def initialise_fake_project():
         if os.path.isfile(f):
             shutil.copy(f, f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{fakeproject}{os.sep}{fname}")
 
-def fake_command(monkeypatch = MonkeyPatch()):
+
+def fake_command(monkeypatch=MonkeyPatch()):
     """Monkeypatching _command"""
+
     def fake__command(label=None, issingle=False):
         """A fake SIESTA run command"""
         realpath = os.getcwd().replace(f"{os.sep}temp{os.sep}", f"{os.sep}runs{os.sep}")
@@ -58,10 +60,12 @@ def fake_command(monkeypatch = MonkeyPatch()):
                 content = reallog.read()
                 fakelog.write(content)
                 print(content)
+                copy_files(["ANI"], "C", realpath, os.getcwd())
                 if content.endswith("Job completed\n") and issingle is False:
                     run(label)
                 fakelog.close()
             reallog.close()
+
     monkeypatch.setattr("SIESTAstepper.core._command", fake__command)
 
 
