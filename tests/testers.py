@@ -76,7 +76,6 @@ def initialise_fake_project(function=None):
         )
         for f in files:
             fname = f.split(os.sep)[-1]
-            print(fname)
             if os.path.isfile(f):
                 shutil.copy(
                     f,
