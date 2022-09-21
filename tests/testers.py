@@ -63,7 +63,7 @@ def initialise_fake_project(function=None):
                     f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{fakeproject}{os.sep}i{int(i) - 1}" +
                     f"{os.sep}{fname}")
     if function.startswith("run_interrupted") or function.startswith("single_run_interrupted"):
-        i = function.split(" ")[1]
+        i = int(function.split(" ")[1])
         c = 0
         try:
             c = int(function.split(" ")[2])
