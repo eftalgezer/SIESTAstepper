@@ -77,7 +77,8 @@ def initialise_fake_project(function=None):
             fname = f.split(os.sep)[-1]
             match = re.search(
                 f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}{fakeproject}{os.sep}i([0-9]+)" +
-                f"({os.sep}{cont}_*[0-9]*)?{os.sep}{fname}"
+                f"({os.sep}{cont}_*[0-9]*)?{os.sep}{fname}",
+                f
             )
             print(match[0], match[1], match[2], fname)
         if not os.path.exists(f"i{i}{f'{os.sep}{cont}' if c == 2 else f'{os.sep}{cont}_{c - 1}' if c > 2 else ''}"):
