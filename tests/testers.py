@@ -81,7 +81,6 @@ def initialise_fake_project(function=None):
                 f"({os.sep}{cont}_*[0-9]*)?{os.sep}{fname}",
                 f
             )
-            match[2] = 0 if match[2] is None else match[2]
             print(match[0], match[1], match[2], fname)
             if int(match[1]) >= i and os.path.isfile(f):
                 fakef = f.replace("runs", "temp")
