@@ -473,7 +473,7 @@ def test_carbon_uninterrupted_project_single_run():
     assert "Job completed\n" in single_run_tester("3", "C")
 
 
-def test_carbon_project_run_interrupted():
+def carbon_project_run_interrupted():
     fake_command()
     set_fake_project("Carbon")
     os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
