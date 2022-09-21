@@ -334,31 +334,55 @@ def _cont_step(contfolder, i, label, issingle=False):
     _command(label=label, issingle=issingle)
 
 
-def update_cwd(newcwd):
+def get_cwd():
+    return cwd
+
+
+def set_cwd(newcwd):
     global cwd
     cwd = newcwd
 
 
-def update_log(newlog):
+def get_log():
+    return log
+
+
+def set_log(newlog):
     global log
     log = newlog
 
 
-def update_cores(newcores):
+def get_cores():
+    return cores
+
+
+def set_cores(newcores):
     global cores
     cores = newcores
 
 
-def update_conda(newconda):
+def get_conda():
+    return conda
+
+
+def set_conda(newconda):
     global conda
     conda = newconda
 
 
-def update_cont(newcont):
+def get_cont():
+    return cont
+
+
+def set_cont(newcont):
     global cont
     cont = newcont
 
 
-def update_siesta(newsiesta):
+def get_siesta():
+    return siesta
+
+
+def set_siesta(newsiesta):
     global siesta
     siesta = newsiesta

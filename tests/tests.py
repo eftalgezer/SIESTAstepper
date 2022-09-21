@@ -426,7 +426,7 @@ def test_carbon_uninterrupted_project():
     set_fake_project("Carbon_uninterrupted")
     initialise_fake_project()
     os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
-    update_cwd(os.getcwd())
+    set_cwd(os.getcwd())
     assert make_directories_tester(5) == [
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i1",
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i2",
@@ -452,7 +452,7 @@ def test_carbon_uninterrupted_project_run_next():
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i4",
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i5"
     ]
-    update_cwd(os.getcwd())
+    set_cwd(os.getcwd())
     initialise_fake_project("run_next 2")
     assert "All iterations are completed" in run_next_tester("2", "C")
 
@@ -461,7 +461,7 @@ def test_carbon_uninterrupted_project_single_run():
     fake_command()
     set_fake_project("Carbon_uninterrupted")
     os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
-    update_cwd(os.getcwd())
+    set_cwd(os.getcwd())
     assert make_directories_tester(5) == [
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i1",
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i2",
@@ -477,8 +477,8 @@ def test_carbon_project_run_interrupted():
     fake_command()
     set_fake_project("Carbon")
     os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
-    update_cwd(os.getcwd())
-    update_cont("continue")
+    set_cwd(os.getcwd())
+    set_cont("continue")
     assert make_directories_tester(5) == [
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i1",
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i2",
@@ -494,7 +494,7 @@ def test_carbon_project_single_run_interrupted():
     fake_command()
     set_fake_project("Carbon")
     os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
-    update_cwd(os.getcwd())
+    set_cwd(os.getcwd())
     assert make_directories_tester(5) == [
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i1",
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i2",

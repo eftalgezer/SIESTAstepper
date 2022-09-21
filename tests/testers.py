@@ -11,7 +11,8 @@ from _pytest.monkeypatch import MonkeyPatch
 from SIESTAstepper import __file__ as mfile
 from SIESTAstepper.core import run, single_run, run_next, run_interrupted, single_run_interrupted, make_directories, \
     copy_files, ani_to_fdf, xyz_to_fdf, merge_ani, analysis, energy_diff, _command, contfiles, contextensions, \
-    update_cwd, update_log, update_cores, update_conda, update_cont, update_siesta, log, cont
+    set_cwd, set_log, set_cores, set_conda, set_cont, set_siesta, get_cwd, get_log, get_cores, get_conda, get_cont, \
+    get_siesta
 from SIESTAstepper.helpers import create_fdf, read_fdf, read_energy, get_it, print_run, check_restart, \
     check_userbasis, copy_file, sort_, remove_nones
 
@@ -99,8 +100,8 @@ def fake_command(monkeypatch=MonkeyPatch()):
     def fake__command(label=None, issingle=False):
         """A fake SIESTA run command"""
         realpath = os.getcwd().replace(f"{os.sep}temp{os.sep}", f"{os.sep}runs{os.sep}")
-        with open(f"{realpath}{os.sep}{log}", "r") as reallog:
-            with open(f"{os.getcwd()}{os.sep}{log}", "w") as fakelog:
+        with open(f"{realpath}{os.sep}{get_log()}", "r") as reallog:
+            with open(f"{os.getcwd()}{os.sep}{get_log()}", "w") as fakelog:
                 content = reallog.read()
                 fakelog.write(content)
                 print(content)
@@ -168,7 +169,7 @@ def merge_ani_tester(label=None, path=None, folder=None):
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}{folder}",
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{folder}"
     )
-    update_cwd(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{folder}")
+    set_cwd(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{folder}")
     merge_ani(label=label, path=path)
     return read_file(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{folder}{os.sep}{label}-merged.ANI")
 
@@ -234,13 +235,13 @@ def copy_files_tester(extensions, label, source_, destination):
 
 def analysis_tester(path, cwd):
     """Tester function for analysis"""
-    update_cwd(cwd)
+    set_cwd(cwd)
     return analysis(path)
 
 
 def energy_diff_tester(path, cwd):
     """Tester function for energy_diff"""
-    update_cwd(cwd)
+    set_cwd(cwd)
     return energy_diff(path)
 
 
@@ -263,8 +264,8 @@ def create_fdf_tester(fdf, geo, newfdfpath, number):
 
 
 def read_energy_tester(energies=[], path=None, cont=None, it=[]):
-    files = glob.glob(f"{path}{os.sep}i*{os.sep}log")
-    files += glob.glob(f"{path}{os.sep}i*{os.sep}{cont}*{os.sep}log")
+    files = glob.glob(f"{path}{os.sep}i*{os.sep}{get_log()}")
+    files += glob.glob(f"{path}{os.sep}i*{os.sep}{cont}*{os.sep}{get_log()}")
     files = sort_(files, "i*", cont)
     read_energy(energies, files, it)
     return it, energies

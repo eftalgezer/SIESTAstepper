@@ -161,7 +161,7 @@ def copy_file(sourcefile, destinationfile):
         raise FileNotFoundError(f"ERROR: {sourcefile} is not found")
     try:
         print(f"Copying {sourcefile} to {destinationfile}")
-        if not os.path.isfile(destinationfile):
+        if not os.path.exists(destinationfile):
             shutil.copy(sourcefile, destinationfile)
             print(f"{sourcefile} is copied to {destinationfile} successfully")
         else:
