@@ -7,8 +7,6 @@ import shutil
 import io
 import sys
 import re
-import mock
-import pytest
 from _pytest.monkeypatch import MonkeyPatch
 from SIESTAstepper import __file__ as mfile
 from SIESTAstepper import __main__ as rtmain
@@ -317,10 +315,11 @@ def remove_nones_tester(files, path, cwd, cont, log):
     return files
 
 
-def main_tester():
-    from SIESTAstepper import __main__ as rtmain
-    with mock.patch.object("SIESTAstepper.__main__", return_value=42):
-        with mock.patch.object(SIESTAstepper, "__name__", "__main__"):
-            with mock.patch.object(SIESTAstepper.sys, 'exit') as mock_exit:
-                module.init()
-                return mock_exit.call_args[0][0]
+def main_tester(command):
+    capturedoutput = io.StringIO()
+    sys.stdout = capturedoutput
+    fake_command()
+    args = command.split(" ")
+    rtmain.argv.extend(args)
+    sys.stdout = sys.__stdout__
+    return capturedoutput.getvalue()
