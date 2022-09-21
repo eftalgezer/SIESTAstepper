@@ -73,8 +73,7 @@ def initialise_fake_project(function=None):
         files += glob.glob(
             f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}{fakeproject}{os.sep}i*{os.sep}{cont}*{os.sep}*"
         )
-        files = sort_(files, "i*", cont)
-        print(files)
+        files = sort_([f for f in files if os.path.isfile(f)], "i*", cont)
         for f in files:
             fname = f.split(os.sep)[-1]
             match = re.search(
