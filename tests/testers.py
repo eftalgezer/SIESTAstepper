@@ -81,21 +81,11 @@ def initialise_fake_project(function=None):
                 f"({os.sep}{cont}_*[0-9]*)?{os.sep}{fname}",
                 f
             )
+            match[2] = 0 if match[2] is None else match[2]
             print(match[0], match[1], match[2], fname)
-        if not os.path.exists(f"i{i}{f'{os.sep}{cont}' if c == 2 else f'{os.sep}{cont}_{c - 1}' if c > 2 else ''}"):
-            os.mkdir(f"i{i}{f'{os.sep}{cont}' if c == 2 else f'{os.sep}{cont}_{c - 1}' if c > 2 else ''}")
-        files = glob.glob(
-            f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}{fakeproject}{os.sep}i{i}" +
-            f"{f'{os.sep}{cont}' if c == 2 else f'{os.sep}{cont}_{c - 1}' if c > 2 else ''}{os.sep}*"
-        )
-        for f in files:
-            fname = f.split(os.sep)[-1]
-            if os.path.isfile(f):
-                shutil.copy(
-                    f,
-                    f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{fakeproject}" +
-                    f"{os.sep}i{i}{os.sep}{cont if c == 2 else f'{cont}_{c - 1}' if c > 2 else ''}{os.sep}{fname}"
-                )
+            if int(match[1]) >= i and os.path.isfile(f):
+                fakef = f.replace("runs", "temp")
+                shutil.copy(f, fakef)
 
 
 def fake_command(monkeypatch=MonkeyPatch()):
