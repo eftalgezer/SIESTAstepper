@@ -78,7 +78,7 @@ def initialise_fake_project(function=None):
                 shutil.copy(
                     f,
                     f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{fakeproject}" +
-                    f"{os.sep}i{i}{os.sep}{cont if c == 2 else f'{cont}_{c - 1}' if c > 2 else ''}{fname}"
+                    f"{os.sep}i{i}{os.sep}{cont if c == 2 else f'{cont}_{c - 1}' if c > 2 else ''}{os.sep}{fname}"
                 )
 
 
