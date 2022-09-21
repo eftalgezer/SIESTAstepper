@@ -68,14 +68,15 @@ def initialise_fake_project(function=None):
             c = int(function.split(" ")[2])
         except Exception:
             c = 1
+        if not os.path.exists(f"i{i}{f'{os.sep}{cont}' if c == 2 else f'{os.sep}{cont}_{c - 1}' if c > 2 else ''}"):
+            os.mkdir(f"i{i}{f'{os.sep}{cont}' if c == 2 else f'{os.sep}{cont}_{c - 1}' if c > 2 else ''}")
         files = glob.glob(
             f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}{fakeproject}{os.sep}i{i}" +
             f"{f'{os.sep}{cont}' if c == 2 else f'{os.sep}{cont}_{c - 1}' if c > 2 else ''}{os.sep}*"
         )
-        if not os.path.exists(f"i{i}{f'{os.sep}{cont}' if c == 2 else f'{os.sep}{cont}_{c - 1}' if c > 2 else ''}"):
-            os.mkdir(f"i{i}{f'{os.sep}{cont}' if c == 2 else f'{os.sep}{cont}_{c - 1}' if c > 2 else ''}")
         for f in files:
             fname = f.split(os.sep)[-1]
+            print(fname)
             if os.path.isfile(f):
                 shutil.copy(
                     f,
