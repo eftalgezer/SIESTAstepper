@@ -505,13 +505,3 @@ def test_carbon_project_single_run_interrupted():
     initialise_fake_project("single_run_interrupted 3 1")
     assert "Job completed\n" in single_run_interrupted_tester("3", "C")
 
-
-def test_main():
-    set_cwd(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp")
-    assert main_tester(
-        f"SIESTAstepper" +
-        f"ani_to_fdf" +
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}ANI{os.sep}C-4.ANI" +
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}fdf{os.sep}C-0.fdf" +
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}C-5.fdf"
-    ) == f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}C-5.fdf is created"
