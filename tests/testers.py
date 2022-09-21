@@ -317,10 +317,7 @@ def remove_nones_tester(files, path, cwd, cont, log):
 
 def main_tester(command):
     fake_command()
-    fakeargs = []
-    fakeargs.extend(command.split(" "))
-    print(fakeargs)
-    with patch('sys.argv', fakeargs):
+    with patch('sys.argv', command.split(" ")):
         from SIESTAstepper import __main__ as rtmain
         capturedoutput = io.StringIO()
         sys.stdout = capturedoutput
