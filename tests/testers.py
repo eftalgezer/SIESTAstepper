@@ -84,11 +84,11 @@ def initialise_fake_project(function=None):
             print(match[0], match[1], match[2], fname)
             if int(match[1]) >= i and os.path.isfile(f):
                 if not os.path.exists(
-                        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}{fakeproject}{os.sep}i{match[1]}" +
+                        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{fakeproject}{os.sep}i{match[1]}" +
                         f"{f'{match[2]}' if match[2] is not None else ''}"
                 ):
                     os.mkdir(
-                        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}{fakeproject}{os.sep}i{match[1]}" +
+                        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{fakeproject}{os.sep}i{match[1]}" +
                         f"{f'{match[2]}' if match[2] is not None else ''}"
                     )
                 shutil.copy(f, f.replace("runs", "temp"))
