@@ -81,7 +81,6 @@ def initialise_fake_project(function=None):
                 f"({os.sep}{cont}_*[0-9]*)?{os.sep}{fname}",
                 f
             )
-            print(match[0], match[1], match[2], fname)
             if int(match[1]) >= i and os.path.isfile(f):
                 if not os.path.exists(
                         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{fakeproject}{os.sep}i{match[1]}" +

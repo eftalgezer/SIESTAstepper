@@ -503,4 +503,4 @@ def test_carbon_project_single_run_interrupted():
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i5"
     ]
     initialise_fake_project("single_run_interrupted 3 1")
-    assert "Job completed\n" in run_interrupted_tester("3", "C")
+    assert "Job completed\n" in single_run_interrupted_tester("3", "C")
