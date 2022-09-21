@@ -9,7 +9,6 @@ import sys
 import re
 from _pytest.monkeypatch import MonkeyPatch
 from unittest.mock import patch
-from SIESTAstepper import __main__ as rtmain
 from SIESTAstepper import __file__ as mfile
 from SIESTAstepper.core import run, single_run, run_next, run_interrupted, single_run_interrupted, make_directories, \
     copy_files, ani_to_fdf, xyz_to_fdf, merge_ani, analysis, energy_diff, _command, contfiles, contextensions, \
