@@ -165,7 +165,7 @@ def run(label):
                             f"i{match[1]}{os.sep}{cont}{match[2]}{os.sep}{label}.fdf",
                             f"i{int(match[1]) + 1}{os.sep}{label}.fdf"
                         )
-                    elif len(folders) > len(logs):
+                    else:
                         ani_to_fdf(
                             logs[-1].rsplit(os.sep)[0] + os.sep + label + ".ANI",
                             logs[-1].rsplit(os.sep)[0] + os.sep + label + ".fdf",

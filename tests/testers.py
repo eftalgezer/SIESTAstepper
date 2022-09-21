@@ -6,6 +6,7 @@ import os
 import shutil
 import io
 import sys
+import re
 from _pytest.monkeypatch import MonkeyPatch
 from SIESTAstepper import __file__ as mfile
 from SIESTAstepper.core import run, single_run, run_next, run_interrupted, single_run_interrupted, make_directories, \
@@ -68,6 +69,17 @@ def initialise_fake_project(function=None):
             c = int(function.split(" ")[2])
         except Exception:
             c = 1
+        files = glob.glob(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}{fakeproject}{os.sep}i*{os.sep}*")
+        files += glob.glob(
+            f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}{fakeproject}{os.sep}i*{os.sep}{cont}{os.sep}*"
+        )
+        for f in files:
+            fname = f.split(os.sep)[-1]
+            match = re.search(
+                f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}{fakeproject}{os.sep}i([0-9]+)" +
+                f"({os.sep}{cont}_*[0-9]*)?{os.sep}{fname}"
+            )
+            print(match[0], match[1], match[2], fname)
         if not os.path.exists(f"i{i}{f'{os.sep}{cont}' if c == 2 else f'{os.sep}{cont}_{c - 1}' if c > 2 else ''}"):
             os.mkdir(f"i{i}{f'{os.sep}{cont}' if c == 2 else f'{os.sep}{cont}_{c - 1}' if c > 2 else ''}")
         files = glob.glob(
