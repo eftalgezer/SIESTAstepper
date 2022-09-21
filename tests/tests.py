@@ -475,9 +475,7 @@ def test_carbon_uninterrupted_project_single_run():
 def test_carbon_project_run_interrupted():
     fake_command()
     set_fake_project("Carbon")
-    print(get_fake_project())
     os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
-    print(os.getcwd())
     assert make_directories_tester(5) == [
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i1",
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i2",

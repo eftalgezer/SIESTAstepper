@@ -191,8 +191,6 @@ def single_run_interrupted_tester(i, label):
 
 def make_directories_tester(n):
     """Tester function for make_directories"""
-    print(get_fake_project())
-    print(os.getcwd())
     if "temp" in os.getcwd():
         make_directories(n)
     else:

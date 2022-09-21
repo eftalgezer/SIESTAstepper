@@ -71,7 +71,7 @@ def single_run(i, label):
             print(f"i{i}{os.sep}{log}: Job completed")
         else:
             if int(i) > 1:
-                if not os.path.isfile(f"{cwd}{os.sep}i{str(int(i))}{os.sep}{label}.fdf"):
+                if not os.path.isfile(f"{cwd}{os.sep}i{i}{os.sep}{label}.fdf"):
                     ani_to_fdf(
                         f"{cwd}{os.sep}i{int(i) - 1}{os.sep}{label}.ANI",
                         f"{cwd}{os.sep}i{int(i) - 1}{os.sep}{label}.fdf",
