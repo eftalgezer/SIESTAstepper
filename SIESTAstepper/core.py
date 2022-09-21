@@ -1,14 +1,14 @@
 import glob
 import os
-import matplotlib.pyplot as plt
-import numpy as np
-from scipy.signal import argrelmin, argrelmax
-from sh import tail
 from subprocess import Popen
 from subprocess import run as sprun
 import shlex
 from itertools import zip_longest
 import re
+import matplotlib.pyplot as plt
+import numpy as np
+from scipy.signal import argrelmin, argrelmax
+from sh import tail
 from .helpers import create_fdf, read_fdf, read_energy, get_it, print_run, check_restart, check_userbasis, copy_file, \
     sort_, remove_nones
 
