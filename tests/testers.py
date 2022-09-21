@@ -316,8 +316,12 @@ def remove_nones_tester(files, path, cwd, cont, log):
     return files
 
 
-def test_parse_args():
-    testargs = ["prog", "-f", f"{mpath}/setup.py"]
-    with patch.object(sys, 'argv', testargs):
-        setup = get_setup_file()
-        return setup == f"{mpath}/setup.py"
+def main_tester(command):
+    fake_command()
+    fakeargs = [].extend(command.split(" "))
+    with patch('sys.argv', fakeargs):
+        from SIESTAstepper import __main__ as rtmain
+        capturedoutput = io.StringIO()
+        sys.stdout = capturedoutput
+        sys.stdout = sys.__stdout__
+        return capturedoutput.getvalue()
