@@ -72,14 +72,14 @@ def initialise_fake_project(function=None):
             c = 1
         files = glob.glob(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}{fakeproject}{os.sep}i*{os.sep}*")
         files += glob.glob(
-            f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}{fakeproject}{os.sep}i*{os.sep}{cont}*{os.sep}*"
+            f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}{fakeproject}{os.sep}i*{os.sep}{get_cont()}*{os.sep}*"
         )
-        files = sort_([f for f in files if os.path.isfile(f)], "i*", cont)
+        files = sort_([f for f in files if os.path.isfile(f)], "i*", get_cont())
         for f in files:
             fname = f.split(os.sep)[-1]
             match = re.search(
                 f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}{fakeproject}{os.sep}i([0-9]+)" +
-                f"({os.sep}{cont}_*[0-9]*)?{os.sep}{fname}",
+                f"({os.sep}{get_cont()}_*[0-9]*)?{os.sep}{fname}",
                 f
             )
             if int(match[1]) >= i and os.path.isfile(f):
