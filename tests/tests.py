@@ -3,6 +3,7 @@ Unit tests for the SIESTAstepper library.
 """
 import os
 from SIESTAstepper import __file__ as mfile
+from SIESTAstepper import __main__ as rtmain
 from .testers import *
 
 mpath = mfile.replace("/SIESTAstepper/__init__.py", "")
