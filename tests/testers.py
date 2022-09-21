@@ -196,7 +196,7 @@ def single_run_interrupted_tester(i, label):
     """Tester function for single_run_interrupted"""
     capturedoutput = io.StringIO()
     sys.stdout = capturedoutput
-    run_interrupted(i, label)
+    single_run_interrupted(i, label)
     sys.stdout = sys.__stdout__
     return capturedoutput.getvalue()
 
