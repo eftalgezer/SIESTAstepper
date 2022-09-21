@@ -508,10 +508,10 @@ def test_carbon_project_single_run_interrupted():
 
 def test_main():
     set_cwd(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp")
-    assert main_tester(
+    assert f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}C-5.fdf is created" in main_tester(
         f"SIESTAstepper" +
-        f" ani_to_fdf" +
+        " ani_to_fdf" +
         f" {mpath}{os.sep}tests{os.sep}assets{os.sep}ANI{os.sep}C-4.ANI" +
         f" {mpath}{os.sep}tests{os.sep}assets{os.sep}fdf{os.sep}C-0.fdf" +
         f" {mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}C-5.fdf"
-    ) == f" {mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}C-5.fdf is created"
+    )
