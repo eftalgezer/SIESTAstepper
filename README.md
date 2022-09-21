@@ -1,4 +1,5 @@
 # SIESTAstepper
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/0d6030c169ad4961b2e5030c5a086122)](https://app.codacy.com/gh/eftalgezer/SIESTAstepper?utm_source=github.com&utm_medium=referral&utm_content=eftalgezer/SIESTAstepper&utm_campaign=Badge_Grade_Settings)
 [![PyPI version](https://badge.fury.io/py/SIESTAstepper.svg)](https://badge.fury.io/py/SIESTAstepper)
 [![PyPI pyversions](https://img.shields.io/pypi/pyversions/SIESTAstepper.svg)](https://pypi.python.org/pypi/SIESTAstepper/)
 [![Python package](https://github.com/eftalgezer/SIESTAstepper/actions/workflows/python-package.yml/badge.svg)](https://github.com/eftalgezer/SIESTAstepper/actions/workflows/python-package.yml)
