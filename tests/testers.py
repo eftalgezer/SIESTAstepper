@@ -7,8 +7,11 @@ import shutil
 import io
 import sys
 import re
+import mock
+import pytest
 from _pytest.monkeypatch import MonkeyPatch
 from SIESTAstepper import __file__ as mfile
+from SIESTAstepper import __main__ as rtmain
 from SIESTAstepper.core import run, single_run, run_next, run_interrupted, single_run_interrupted, make_directories, \
     copy_files, ani_to_fdf, xyz_to_fdf, merge_ani, analysis, energy_diff, _command, contfiles, contextensions, \
     set_cwd, set_log, set_cores, set_conda, set_cont, set_siesta, get_cwd, get_log, get_cores, get_conda, get_cont, \
@@ -72,7 +75,8 @@ def initialise_fake_project(function=None):
             c = 1
         files = glob.glob(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}{fakeproject}{os.sep}i*{os.sep}*")
         files += glob.glob(
-            f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}{fakeproject}{os.sep}i*{os.sep}{get_cont()}*{os.sep}*"
+            f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}{fakeproject}{os.sep}" +
+            f"i*{os.sep}{get_cont()}*{os.sep}*"
         )
         files = sort_([f for f in files if os.path.isfile(f)], "i*", get_cont())
         for f in files:
@@ -311,3 +315,12 @@ def remove_nones_tester(files, path, cwd, cont, log):
     """Tester function for remove_nones"""
     remove_nones(files, path, cwd, cont, log)
     return files
+
+
+def main_tester():
+    from SIESTAstepper import __main__ as rtmain
+    with mock.patch.object("SIESTAstepper.__main__", return_value=42):
+        with mock.patch.object(SIESTAstepper, "__name__", "__main__"):
+            with mock.patch.object(SIESTAstepper.sys, 'exit') as mock_exit:
+                module.init()
+                return mock_exit.call_args[0][0]

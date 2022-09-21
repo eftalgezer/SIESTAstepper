@@ -3,7 +3,6 @@ Unit tests for the SIESTAstepper library.
 """
 import os
 from SIESTAstepper import __file__ as mfile
-from SIESTAstepper import __main__ as rtmain
 from .testers import *
 
 mpath = mfile.replace("/SIESTAstepper/__init__.py", "")
@@ -505,3 +504,7 @@ def test_carbon_project_single_run_interrupted():
     ]
     initialise_fake_project("single_run_interrupted 3 1")
     assert "Job completed\n" in single_run_interrupted_tester("3", "C")
+
+
+def test_main():
+    assert main_tester() == 42
