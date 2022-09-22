@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 import sys
 from .core import run, single_run, run_next, run_interrupted, single_run_interrupted, make_directories, copy_files, \
     ani_to_fdf, xyz_to_fdf, merge_ani, analysis, energy_diff, contfiles, contextensions, set_log, set_cores, \
@@ -21,9 +22,9 @@ for arg in sys.argv:
 if function not in ["run", "single_run", "run_next", "run_interrupted", "single_run_interrupted", "make_directories",
                     "copy_files", "ani_to_fdf", "xyz_to_fdf", "merge_ani", "analysis", "energy_diff"]:
     raise AttributeError(
-        """Command not found. Please use 'run', 'single_run', 'run_next', 'run_interrupted', 'single_run_interrupted',
-        'make_directories', 'copy_files', 'ani_to_fdf', 'xyz_to_fdf', 'merge_ani', 'analysis',
-        'energy_diff'""".replace("\n", " ")
+        """Command not found. Please use 'run', 'single_run', 'run_next', 'run_interrupted',
+        'single_run_interrupted', 'make_directories', 'copy_files', 'ani_to_fdf', 'xyz_to_fdf',
+        'merge_ani', 'analysis', 'energy_diff'""".replace("\n", " ")
     )
 elif function == "run":
     set_log(sys.argv[2])

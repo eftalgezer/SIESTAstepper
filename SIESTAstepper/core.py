@@ -9,8 +9,18 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy.signal import argrelmin, argrelmax
 from sh import tail
-from .helpers import create_fdf, read_fdf, read_energy, get_it, print_run, check_restart, check_userbasis, copy_file, \
-    sort_, remove_nones
+from .helpers import (
+    create_fdf,
+    read_fdf,
+    read_energy,
+    get_it,
+    print_run,
+    check_restart,
+    check_userbasis,
+    copy_file,
+    sort_,
+    remove_nones
+)
 
 cwd: str = os.getcwd()
 log: str = "log"
@@ -148,7 +158,7 @@ def run(label):
     logs += glob.glob(f"i*{os.sep}{cont}*{os.sep}{log}")
     folders = sort_(folders, "i*", cont)
     logs = sort_(logs, "i*", cont)
-    if len(logs) == 0:
+    if not logs:
         run_next("1", label)
     else:
         with open(logs[-1], "r") as file:
@@ -188,7 +198,7 @@ def run_interrupted(i, label):
     """Continue to an interrupted calculation"""
     folders = glob.glob(f"i{i}{os.sep}{cont}*")
     folders = sort_(folders, "i*", cont)
-    if len(folders) != 0:
+    if folders:
         with open(f"{folders[-1]}{os.sep}{log}") as file:
             lines = file.readlines()
             if lines[-1] == "Job completed\n":
@@ -225,6 +235,7 @@ def single_run_interrupted(i, label):
 
 
 def make_directories(n):
+    """Create given number of i* folders"""
     for i in range(1, n + 1):
         if not os.path.exists(f"{cwd}{os.sep}i{i}"):
             print(f"Making directory i{i} under {cwd.split(os.sep)[-1]}")
@@ -277,6 +288,7 @@ def analysis(path=None, plot_=True, print_=True):
 
 
 def energy_diff(path=None):
+    """Return energy differences between minima and maxima"""
     if path is None:
         path = "i*"
     data = analysis(path=path, plot_=False, print_=False)
@@ -335,54 +347,66 @@ def _cont_step(contfolder, i, label, issingle=False):
 
 
 def get_cwd():
+    """Get cwd value"""
     return cwd
 
 
 def set_cwd(newcwd):
+    """Set cwd value"""
     global cwd
     cwd = newcwd
 
 
 def get_log():
+    """Get log value"""
     return log
 
 
 def set_log(newlog):
+    """Set log value"""
     global log
     log = newlog
 
 
 def get_cores():
+    """Get cores value"""
     return cores
 
 
 def set_cores(newcores):
+    """Set cores value"""
     global cores
     cores = newcores
 
 
 def get_conda():
+    """Get conda value"""
     return conda
 
 
 def set_conda(newconda):
+    """Set conda value"""
     global conda
     conda = newconda
 
 
 def get_cont():
+    """Get cont value"""
     return cont
 
 
 def set_cont(newcont):
+    """Set cont value"""
     global cont
     cont = newcont
 
 
 def get_siesta():
+    """Get siesta value"""
     return siesta
 
 
 def set_siesta(newsiesta):
+    """Set siesta value"""
     global siesta
     siesta = newsiesta
