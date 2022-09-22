@@ -322,4 +322,4 @@ def main_tester(command):
     with patch('sys.argv', command.split(" ")):
         from SIESTAstepper import __main__ as rtmain
     sys.stdout = sys.__stdout__
-    print(capturedoutput.getvalue())
+    return capturedoutput.getvalue()
