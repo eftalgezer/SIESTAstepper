@@ -136,7 +136,11 @@ def single_run(i, label):
     """Run SIESTA for given step without continuing next step"""
     os.chdir(f"{settings.get_cwd()}{os.sep}i{i}")
     print(f"Changed directory to {os.getcwd()}")
-    with open(f"{settings.get_cwd()}{os.sep}i{int(i) - 1}{os.sep}{settings.get_log()}", "r", encoding="utf-8") as file:
+    with open(
+            f"{settings.get_cwd()}{os.sep}i{int(i) - 1}{os.sep}{settings.get_log()}",
+            "r",
+            encoding="utf-8"
+            ) as file:
         lines = file.readlines()
         if lines[-1] == "Job completed\n":
             print(f"i{i}{os.sep}{settings.get_log()}: Job completed")
@@ -149,7 +153,9 @@ def single_run(i, label):
                         f"{settings.get_cwd()}{os.sep}i{i}{os.sep}{label}.fdf"
                     )
                 copy_files(
-                    ["ion" if check_userbasis(f"{settings.get_cwd()}{os.sep}i{i}{os.sep}{label}.fdf") else "psf"],
+                    ["ion" if check_userbasis(
+                        f"{settings.get_cwd()}{os.sep}i{i}{os.sep}{label}.fdf"
+                        ) else "psf"],
                     label,
                     f"{settings.get_cwd()}{os.sep}i{int(i) - 1}",
                     f"{settings.get_cwd()}{os.sep}i{i}"
@@ -190,13 +196,19 @@ def merge_ani(label=None, path=None):
     if label is None:
         raise ValueError("ERROR: Please set a label")
     files = glob.glob(f"{settings.get_cwd()}{os.sep}{path}{os.sep}{label}.ANI")
-    files += glob.glob(f"{settings.get_cwd()}{os.sep}{path}{os.sep}{settings.get_cont()}*{os.sep}{label}.ANI")
+    files += glob.glob(
+        f"{settings.get_cwd()}{os.sep}{path}{os.sep}{settings.get_cont()}*{os.sep}{label}.ANI"
+        )
     files = sort_(files, path, settings.get_cont())
     if files is not None:
         it = get_it(files)
         if [*set(it)] != list(range(min(it), max(it) + 1)):
             print("WARNING: There are missing ANI files!")
-        with open(f"{settings.get_cwd()}{os.sep}{label}-merged.ANI", "w", encoding="utf-8") as outfile:
+        with open(
+                f"{settings.get_cwd()}{os.sep}{label}-merged.ANI",
+                "w",
+                encoding="utf-8"
+                ) as outfile:
             print(f"{settings.get_cwd()}{os.sep}{label}-merged.ANI is opened")
             for f in files:
                 with open(f, encoding="utf-8") as infile:
@@ -227,14 +239,20 @@ def run(label):
             if lines[-1] == "Job completed\n":
                 print(f"{logs[-1]}: Job completed")
                 if len(folders) != len(logs) and not os.path.isfile(
-                        f"{settings.get_cwd()}{os.sep}i{str(int(logs[-1].split(os.sep)[0].strip('i')) + 1)}" +
+                        f"{settings.get_cwd()}" +
+                        f"{os.sep}i{str(int(logs[-1].split(os.sep)[0].strip('i')) + 1)}" +
                         f"{os.sep}{label}.fdf"
                 ):
                     if settings.get_cont() in logs[-1]:
-                        match = re.search(f"i([0-9]+){os.sep}{settings.get_cont()}(_*[0-9]*)", logs[-1])
+                        match = re.search(
+                            f"i([0-9]+){os.sep}{settings.get_cont()}(_*[0-9]*)",
+                            logs[-1]
+                            )
                         ani_to_fdf(
-                            f"i{match[1]}{os.sep}{settings.get_cont()}{match[2]}{os.sep}{label}.ANI",
-                            f"i{match[1]}{os.sep}{settings.get_cont()}{match[2]}{os.sep}{label}.fdf",
+                            f"i{match[1]}{os.sep}{settings.get_cont()}{match[2]}" +
+                            f"{os.sep}{label}.ANI",
+                            f"i{match[1]}{os.sep}{settings.get_cont()}{match[2]}" +
+                            f"{os.sep}{label}.fdf",
                             f"i{int(match[1]) + 1}{os.sep}{label}.fdf"
                         )
                     else:
@@ -269,7 +287,9 @@ def run_interrupted(i, label):
         with open(f"{folders[-1]}{os.sep}{settings.get_log()}", encoding="utf-8") as file:
             lines = file.readlines()
             if lines[-1] == "Job completed\n":
-                print(f"i{i}{os.sep}{settings.get_cont()}{os.sep}{settings.get_log()}: Job completed")
+                print(
+                    f"i{i}{os.sep}{settings.get_cont()}{os.sep}{settings.get_log()}: Job completed"
+                    )
                 return False
             match = re.search(f"i[0-9]+{os.sep}{settings.get_cont()}_*[0-9]*", folders[-1])
             if match[0].endswith(settings.get_cont()):
@@ -289,7 +309,9 @@ def single_run_interrupted(i, label):
         with open(f"{folders[-1]}{os.sep}{settings.get_log()}", encoding="utf-8") as file:
             lines = file.readlines()
             if lines[-1] == "Job completed\n":
-                print(f"i{i}{os.sep}{settings.get_cont()}{os.sep}{settings.get_log()}: Job completed")
+                print(
+                    f"i{i}{os.sep}{settings.get_cont()}{os.sep}{settings.get_log()}: Job completed"
+                    )
                 return False
             match = re.search(f"i[0-9]+{os.sep}{settings.get_cont()}_*[0-9]*", folders[-1])
             if match[0].endswith(settings.get_cont()):
@@ -339,7 +361,10 @@ def analysis(path=None, plot_=True, print_=True):
     if path is None:
         path = "i*"
     files = glob.glob(f"{settings.get_cwd()}{os.sep}{path}{os.sep}{settings.get_log()}")
-    files += glob.glob(f"{settings.get_cwd()}{os.sep}{path}{os.sep}{settings.get_cont()}*{os.sep}{settings.get_log()}")
+    files += glob.glob(
+        f"{settings.get_cwd()}{os.sep}{path}{os.sep}{settings.get_cont()}*" +
+        f"{os.sep}{settings.get_log()}"
+        )
     files = sort_(files, path, settings.get_cont())
     energies = []
     it = []
@@ -379,8 +404,10 @@ def _command(label=None, issingle=False):
     """SIESTA's run command"""
     if settings.get_conda():
         sprun(
-            [f"{os.sep}usr{os.sep}bin{os.sep}conda", "activate", settings.get_conda()] if os.name == "posix"
-            else [f"C:{os.sep}{os.sep}Anaconda3{os.sep}Scripts{os.sep}activate", settings.get_conda()],
+            [f"{os.sep}usr{os.sep}bin{os.sep}conda", "activate", settings.get_conda()]
+            if os.name == "posix"
+            else
+            [f"C:{os.sep}{os.sep}Anaconda3{os.sep}Scripts{os.sep}activate", settings.get_conda()],
             check=True
         )
     with open(settings.get_log(), "w", encoding="utf-8") as logger:
