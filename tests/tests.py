@@ -442,6 +442,8 @@ def test_carbon_uninterrupted_project():
 
 
 def test_carbon_uninterrupted_project_run_next():
+    """Run tests based on Carbon_uninterrupted run run_next function"""
+
     fake_command()
     set_fake_project("Carbon_uninterrupted")
     os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
@@ -458,6 +460,7 @@ def test_carbon_uninterrupted_project_run_next():
 
 
 def test_carbon_uninterrupted_project_single_run():
+    """Run tests based on Carbon_uninterrupted run single_run function"""
     fake_command()
     set_fake_project("Carbon_uninterrupted")
     os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
@@ -474,6 +477,7 @@ def test_carbon_uninterrupted_project_single_run():
 
 
 def carbon_project_run_interrupted():
+    """Run tests based on Carbon_uninterrupted run run_interrupted function"""
     fake_command()
     set_fake_project("Carbon")
     os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
@@ -491,6 +495,7 @@ def carbon_project_run_interrupted():
 
 
 def test_carbon_project_single_run_interrupted():
+    """Run tests based on Carbon_uninterrupted run single_run_interrupted function"""
     fake_command()
     set_fake_project("Carbon")
     os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
@@ -507,6 +512,7 @@ def test_carbon_project_single_run_interrupted():
 
 
 def test_main():
+    """Tests for __main__.py"""
     ani_to_fdftest = main_tester(
         "SIESTAstepper" +
         " ani_to_fdf" +
@@ -555,3 +561,31 @@ def test_main():
     assert analysistest is not None or analysistest != ""
     energy_difftest = main_tester("SIESTAstepper energy_diff log")
     assert energy_difftest is not None or energy_difftest != ""
+
+
+def test_main_carbon_uninterrupted_project():
+    """Run tests based on Carbon_uninterrupted run with __main__.py"""
+    set_fake_project("Carbon_uninterrupted")
+    initialise_fake_project()
+    os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
+    set_cwd(os.getcwd())
+    make_directoriestest = main_tester("SIESTAstepper make_directories 5")
+    assert make_directoriestest is not None or make_directoriestest != ""
+    copy_filestest = main_tester(
+        "SIESTAstepper" +
+        " copy_files" +
+        " C" +
+        " ." +
+        " i1" +
+        " psf"
+    )
+    assert copy_filestest is not None or copy_filestest != ""
+    xyz_to_fdftest = main_tester(
+        "SIESTAstepper" +
+        " xyz_to_fdf" +
+        " C.xyz +"
+        " C.fdf" +
+        f" i1{os.sep}C.fdf"
+    )
+    assert xyz_to_fdftest is not None or xyz_to_fdftest != ""
+    assert "All iterations are completed" in main_tester("SIESTAstepper run log C")
