@@ -426,7 +426,7 @@ def test_carbon_uninterrupted_project():
     set_fake_project("Carbon_uninterrupted")
     initialise_fake_project()
     os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
-    set_cwd(os.getcwd())
+    settings.set_cwd(os.getcwd())
     assert make_directories_tester(5) == [
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i1",
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i2",
@@ -453,7 +453,7 @@ def test_carbon_uninterrupted_project_run_next():
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i4",
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i5"
     ]
-    set_cwd(os.getcwd())
+    settings.set_cwd(os.getcwd())
     initialise_fake_project("run_next 2")
     assert "All iterations are completed" in run_next_tester("2", "C")
 
@@ -463,7 +463,7 @@ def test_carbon_uninterrupted_project_single_run():
     fake_command()
     set_fake_project("Carbon_uninterrupted")
     os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
-    set_cwd(os.getcwd())
+    settings.set_cwd(os.getcwd())
     assert make_directories_tester(5) == [
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i1",
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i2",
@@ -480,8 +480,8 @@ def carbon_project_run_interrupted():
     fake_command()
     set_fake_project("Carbon")
     os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
-    set_cwd(os.getcwd())
-    set_cont("continue")
+    settings.set_cwd(os.getcwd())
+    settings.set_cont("continue")
     assert make_directories_tester(5) == [
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i1",
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i2",
@@ -498,7 +498,7 @@ def test_carbon_project_single_run_interrupted():
     fake_command()
     set_fake_project("Carbon")
     os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
-    set_cwd(os.getcwd())
+    settings.set_cwd(os.getcwd())
     assert make_directories_tester(5) == [
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i1",
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i2",
@@ -534,7 +534,7 @@ def test_main():
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}Carbon",
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon"
     )
-    set_cwd(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon")
+    settings.set_cwd(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon")
     merge_anitest = main_tester("SIESTAstepper merge_ani C")
     assert merge_anitest is not None or merge_anitest != ""
     clear_temp()
@@ -554,8 +554,8 @@ def test_main():
         " DM"
     )
     assert copy_filestest is not None or copy_filestest != ""
-    set_cwd(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}Carbon")
-    os.chdir(get_cwd())
+    settings.set_cwd(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}Carbon")
+    os.chdir(settings.get_cwd())
     analysistest = main_tester("SIESTAstepper analysis log")
     assert analysistest is not None or analysistest != ""
     energy_difftest = main_tester("SIESTAstepper energy_diff log")
@@ -567,7 +567,7 @@ def test_main_carbon_uninterrupted_project():
     set_fake_project("Carbon_uninterrupted")
     initialise_fake_project()
     os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
-    set_cwd(os.getcwd())
+    settings.set_cwd(os.getcwd())
     make_directoriestest = main_tester("SIESTAstepper make_directories 5")
     assert make_directoriestest is not None or make_directoriestest != ""
     copy_filestest = main_tester(
@@ -596,7 +596,7 @@ def main_carbon_uninterrupted_project_run_next():
     fake_command()
     set_fake_project("Carbon_uninterrupted")
     os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
-    set_cwd(os.getcwd())
+    settings.set_cwd(os.getcwd())
     make_directoriestest = main_tester("SIESTAstepper make_directories 5")
     assert make_directoriestest is not None or make_directoriestest != ""
     initialise_fake_project("run_next 2")
@@ -609,7 +609,7 @@ def main_carbon_uninterrupted_project_single_run():
     fake_command()
     set_fake_project("Carbon_uninterrupted")
     os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
-    set_cwd(os.getcwd())
+    settings.set_cwd(os.getcwd())
     make_directoriestest = main_tester("SIESTAstepper make_directories 5")
     assert make_directoriestest is not None or make_directoriestest != ""
     initialise_fake_project("single_run 3")
@@ -622,7 +622,7 @@ def test_main_carbon_project_run_interrupted():
     fake_command()
     set_fake_project("Carbon")
     os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
-    set_cwd(os.getcwd())
+    settings.set_cwd(os.getcwd())
     make_directoriestest = main_tester("SIESTAstepper make_directories 5")
     assert make_directoriestest is not None or make_directoriestest != ""
     run_interruptedtest = main_tester("SIESTAstepper run_interrupted log 3 C cont=continue")
@@ -634,7 +634,7 @@ def main_carbon_project_single_run_interrupted():
     fake_command()
     set_fake_project("Carbon")
     os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
-    set_cwd(os.getcwd())
+    settings.set_cwd(os.getcwd())
     make_directoriestest = main_tester("SIESTAstepper make_directories 5")
     assert make_directoriestest is not None or make_directoriestest != ""
     initialise_fake_project("single_run_interrupted 3 1")

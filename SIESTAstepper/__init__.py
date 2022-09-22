@@ -24,18 +24,5 @@ from .core import (
     merge_ani,
     analysis,
     energy_diff,
-    contfiles,
-    contextensions,
-    set_cwd,
-    set_log,
-    set_cores,
-    set_conda,
-    set_cont,
-    set_siesta,
-    get_cwd,
-    get_log,
-    get_cores,
-    get_conda,
-    get_cont,
-    get_siesta
+    settings
 )

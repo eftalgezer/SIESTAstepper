@@ -195,7 +195,7 @@ def sort_(files, path, cont):
         [int(f"{m[1]}0") if m[3] is None else
          int(f"{m[1]}1") if m[3] == "" else
          int(m[1] + m[3]) for m in sortedmatch
-         ], sortedmatch
+        ], sortedmatch
     ))]
     for s in sortedmatch:
         for f in files:

@@ -10,12 +10,34 @@ import re
 from _pytest.monkeypatch import MonkeyPatch
 from unittest.mock import patch
 from SIESTAstepper import __file__ as mfile
-from SIESTAstepper.core import run, single_run, run_next, run_interrupted, single_run_interrupted, make_directories, \
-    copy_files, ani_to_fdf, xyz_to_fdf, merge_ani, analysis, energy_diff, _command, contfiles, contextensions, \
-    set_cwd, set_log, set_cores, set_conda, set_cont, set_siesta, get_cwd, get_log, get_cores, get_conda, get_cont, \
-    get_siesta
-from SIESTAstepper.helpers import create_fdf, read_fdf, read_energy, get_it, print_run, check_restart, \
-    check_userbasis, copy_file, sort_, remove_nones
+from SIESTAstepper.core import (
+    run,
+    single_run,
+    run_next,
+    run_interrupted,
+    single_run_interrupted,
+    make_directories,
+    copy_files,
+    ani_to_fdf,
+    xyz_to_fdf,
+    merge_ani,
+    analysis,
+    energy_diff,
+    _command,
+    settings
+)
+from SIESTAstepper.helpers import (
+    create_fdf,
+    read_fdf,
+    read_energy,
+    get_it,
+    print_run,
+    check_restart,
+    check_userbasis,
+    copy_file,
+    sort_,
+    remove_nones
+)
 
 mpath = mfile.replace("/SIESTAstepper/__init__.py", "")
 fakeproject = None
@@ -74,14 +96,14 @@ def initialise_fake_project(function=None):
         files = glob.glob(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}{fakeproject}{os.sep}i*{os.sep}*")
         files += glob.glob(
             f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}{fakeproject}{os.sep}" +
-            f"i*{os.sep}{get_cont()}*{os.sep}*"
+            f"i*{os.sep}{settings.get_cont()}*{os.sep}*"
         )
-        files = sort_([f for f in files if os.path.isfile(f)], "i*", get_cont())
+        files = sort_([f for f in files if os.path.isfile(f)], "i*", settings.get_cont())
         for f in files:
             fname = f.split(os.sep)[-1]
             match = re.search(
                 f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}{fakeproject}{os.sep}i([0-9]+)" +
-                f"({os.sep}{get_cont()}_*[0-9]*)?{os.sep}{fname}",
+                f"({os.sep}{settings.get_cont()}_*[0-9]*)?{os.sep}{fname}",
                 f
             )
             if int(match[1]) >= i and os.path.isfile(f):
@@ -102,8 +124,8 @@ def fake_command(monkeypatch=MonkeyPatch()):
     def fake__command(label=None, issingle=False):
         """A fake SIESTA run command"""
         realpath = os.getcwd().replace(f"{os.sep}temp{os.sep}", f"{os.sep}runs{os.sep}")
-        with open(f"{realpath}{os.sep}{get_log()}", "r") as reallog:
-            with open(f"{os.getcwd()}{os.sep}{get_log()}", "w") as fakelog:
+        with open(f"{realpath}{os.sep}{settings.get_log()}", "r") as reallog:
+            with open(f"{os.getcwd()}{os.sep}{settings.get_log()}", "w") as fakelog:
                 content = reallog.read()
                 fakelog.write(content)
                 print(content)
@@ -262,8 +284,8 @@ def create_fdf_tester(fdf, geo, newfdfpath, number):
 
 
 def read_energy_tester(energies=[], path=None, cont=None, it=[]):
-    files = glob.glob(f"{path}{os.sep}i*{os.sep}{get_log()}")
-    files += glob.glob(f"{path}{os.sep}i*{os.sep}{cont}*{os.sep}{get_log()}")
+    files = glob.glob(f"{path}{os.sep}i*{os.sep}{settings.get_log()}")
+    files += glob.glob(f"{path}{os.sep}i*{os.sep}{cont}*{os.sep}{settings.get_log()}")
     files = sort_(files, "i*", cont)
     read_energy(energies, files, it)
     return it, energies
