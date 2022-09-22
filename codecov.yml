@@ -1,4 +1,5 @@
 codecov:
   token: ${{secrets.CODECOV_TOKEN}}
 ignore:
-  - "*/tests/*”
+  - "*/tests/*"
+  - setup.py
