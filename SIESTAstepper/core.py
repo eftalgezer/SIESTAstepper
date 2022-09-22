@@ -275,7 +275,8 @@ def run(label):
         sprun(
             [f"{os.sep}usr{os.sep}bin{os.sep}conda", "deactivate"] if os.name == "posix"
             else [f"C:{os.sep}{os.sep}Anaconda3{os.sep}Scripts{os.sep}deactivate"],
-            check=True
+            check=True,
+            shell=False
         )
 
 
@@ -408,7 +409,8 @@ def _command(label=None, issingle=False):
             if os.name == "posix"
             else
             [f"C:{os.sep}{os.sep}Anaconda3{os.sep}Scripts{os.sep}activate", settings.get_conda()],
-            check=True
+            check=True,
+            shell=False
         )
     with open(settings.get_log(), "w", encoding="utf-8") as logger:
         with Popen(
@@ -416,6 +418,7 @@ def _command(label=None, issingle=False):
                 f"mpirun -np {settings.get_cores()} " if settings.get_cores() is not None else "" +
                 f"{settings.get_siesta()} {label}.fdf"
             ),
+            shell=False,
             stdout=logger
         ) as job:
             print(f"PID is {job.pid}")
