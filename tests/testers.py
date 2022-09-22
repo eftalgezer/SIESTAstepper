@@ -284,7 +284,7 @@ def check_restart_tester(fdffile, i, label, cwd, cont, context):
     copy_file(fdffile, f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{file}")
     fdffile = f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{file}"
     with open(fdffile, "r+") as f:
-        check_restart(f, i, label, cwd, cont, context)
+        check_restart(fdffile=f, i=i, label=label, cwd=cwd, cont=cont, contextensions=context)
         f.close()
     return read_file(fdffile)
 
