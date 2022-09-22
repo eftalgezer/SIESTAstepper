@@ -97,6 +97,7 @@ def main(*, args):
 
 
 def independents(arg):
+    """Sets independent variables"""
     if arg.startswith("mpirun="):
         settings.set_cores(int(arg.split("=")[1]))
     if arg.startswith("conda="):
