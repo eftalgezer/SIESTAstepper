@@ -264,7 +264,10 @@ def copy_files(extensions, label, source_, destination):
                     file = f.split(os.sep)[-1]
                     copy_file(f, f"{destination}{os.sep}{file}")
             else:
-                copy_file(f"{source_}{os.sep}{label}.{ext}", f"{destination}{os.sep}{label}.{ext}")
+                copy_file(
+                    f"{source_}{os.sep}{label}.{ext}",
+                    f"{destination}{os.sep}{label}.{ext}"
+                )
     for cf in contfiles:
         copy_file(f"{source_}{os.sep}{cf}", f"{destination}{os.sep}{cf}")
 
@@ -299,9 +302,11 @@ def energy_diff(path=None):
     data = analysis(path=path, plot_=False, print_=False)
     energies = np.array([_[1] for _ in data])
     it = np.array([_[0] for _ in data])
-    min_idx = np.where(energies == np.amin(energies)) if len(argrelmin(energies)) == 1 else argrelmin(energies)
+    min_idx = np.where(energies == np.amin(energies)) \
+        if len(argrelmin(energies)) == 1 else argrelmin(energies)
     print(f"Minima: {energies[min_idx]}")
-    max_idx = np.where(energies == np.amax(energies)) if len(argrelmax(energies)) == 1 else argrelmax(energies)
+    max_idx = np.where(energies == np.amax(energies)) \
+        if len(argrelmax(energies)) == 1 else argrelmax(energies)
     print(f"Maxima: {energies[max_idx]}")
     diff = np.absolute(energies[min_idx] - energies[max_idx])
     print(f"Energy difference: {diff}")
@@ -334,7 +339,12 @@ def _cont_step(contfolder, i, label, issingle=False):
     contnummatch = re.search(f"{cont}_([0-9]+)", contfolder)
     contnum = contnummatch[1] if contnummatch is not None else "-1"
     if int(contnum) == 2:
-        copy_files(contextensions, label, f"{cwd}{os.sep}i{i}{os.sep}{cont}", f"{cwd}{os.sep}i{i}{os.sep}{contfolder}")
+        copy_files(
+            contextensions,
+            label,
+            f"{cwd}{os.sep}i{i}{os.sep}{cont}",
+            f"{cwd}{os.sep}i{i}{os.sep}{contfolder}"
+        )
     elif int(contnum) > 2:
         copy_files(
             contextensions,
@@ -343,12 +353,24 @@ def _cont_step(contfolder, i, label, issingle=False):
             f"{cwd}{os.sep}i{i}{os.sep}{contfolder}"
         )
     elif contnummatch is None:
-        copy_files(contextensions, label, f"{cwd}{os.sep}i{i}", f"{cwd}{os.sep}i{i}{os.sep}{contfolder}")
+        copy_files(
+            contextensions,
+            label,
+            f"{cwd}{os.sep}i{i}",
+            f"{cwd}{os.sep}i{i}{os.sep}{contfolder}"
+        )
     os.chdir(f"{cwd}{os.sep}i{i}{os.sep}{contfolder}")
     print(f"Changed directory to {os.getcwd()}")
     print(f"Opening {cwd}{os.sep}i{i}{os.sep}{contfolder}{os.sep}{label}.fdf")
     with open(f"{label}.fdf", "r+", encoding="utf-8") as fdffile:
-        check_restart(fdffile=fdffile, i=i, label=label, cwd=cwd, cont=contfolder, contextensions=contextensions)
+        check_restart(
+            fdffile=fdffile,
+            i=i,
+            label=label,
+            cwd=cwd,
+            cont=contfolder,
+            contextensions=contextensions
+        )
         fdffile.close()
     print_run(f"i{i}{os.sep}{contfolder}", cores, conda)
     _command(label=label, issingle=issingle)
