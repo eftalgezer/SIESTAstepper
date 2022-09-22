@@ -318,8 +318,8 @@ def _command(label=None, issingle=False):
         )
     with open(log, "w", encoding="utf-8") as logger:
         with Popen(
-                shlex.split(f"{f'mpirun -np {cores} ' if cores is not None else ''}{siesta} {label}.fdf"),
-                stdout=logger
+            shlex.split(f"{f'mpirun -np {cores} ' if cores is not None else ''}{siesta} {label}.fdf"),
+            stdout=logger
         ) as job:
             print(f"PID is {job.pid}")
             for line in tail("-f", log, _iter=True):
