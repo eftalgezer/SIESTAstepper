@@ -570,7 +570,7 @@ def test_main_carbon_uninterrupted_project():
     os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
     set_cwd(os.getcwd())
     make_directoriestest = main_tester("SIESTAstepper make_directories 5")
-    assert make_directoriestest is not None and make_directoriestest != ""
+    assert make_directoriestest is not None or make_directoriestest != ""
     copy_filestest = main_tester(
         "SIESTAstepper" +
         " copy_files" +
@@ -579,7 +579,7 @@ def test_main_carbon_uninterrupted_project():
         " i1" +
         " psf"
     )
-    assert copy_filestest is not None and copy_filestest != ""
+    assert copy_filestest is not None or copy_filestest != ""
     xyz_to_fdftest = main_tester(
         "SIESTAstepper" +
         " xyz_to_fdf" +
@@ -587,6 +587,6 @@ def test_main_carbon_uninterrupted_project():
         " C.fdf" +
         f" i1{os.sep}C.fdf"
     )
-    assert xyz_to_fdftest is not None and xyz_to_fdftest != ""
+    assert xyz_to_fdftest is not None or xyz_to_fdftest != ""
     runtest = main_tester("SIESTAstepper run log C")
     assert runtest is not None or runtest != ""
