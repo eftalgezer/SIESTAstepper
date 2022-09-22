@@ -77,8 +77,8 @@ def check_restart(fdffile, i, label, cwd, cont, contextensions):
         check_restart_ext(
             "DM",
             fdf,
-            r"# *DM\.UseSaveDM +\.true\.",
-            r"DM\.UseSaveDM +\.false\.",
+            r"# *DM\.UseSaveDM +(\.true\.|T)",
+            r"DM\.UseSaveDM +(\.false\.|F)",
             "DM.UseSaveDM        .true.",
             "DM.UseSaveDM",
             cwd,
@@ -90,8 +90,8 @@ def check_restart(fdffile, i, label, cwd, cont, contextensions):
         check_restart_ext(
             "XV",
             fdf,
-            r"# *MD\.UseSaveXV +\.true\.",
-            r"MD\.UseSaveXV +\.false\.",
+            r"# *MD\.UseSaveXV +(\.true\.|T)",
+            r"MD\.UseSaveXV +(\.false\.|F)",
             "MD.UseSaveXV        .true.",
             "MD.UseSaveCG",
             cwd,
@@ -103,8 +103,8 @@ def check_restart(fdffile, i, label, cwd, cont, contextensions):
         check_restart_ext(
             "CG",
             fdf,
-            r"# *MD\.UseSaveCG +\.true\.",
-            r"MD\.UseSaveCG +\.false\.",
+            r"# *MD\.UseSaveCG +(\.true\.|T)",
+            r"MD\.UseSaveCG +(\.false\.|F)",
             "MD.UseSaveCG        .true.",
             "MD.UseSaveCG",
             cwd,
@@ -116,8 +116,8 @@ def check_restart(fdffile, i, label, cwd, cont, contextensions):
         check_restart_ext(
             "LWF",
             fdf,
-            r"# *ON\.UseSaveLWF +\.true\.",
-            r"ON\.UseSaveLWF +\.false\.",
+            r"# *ON\.UseSaveLWF +(\.true\.|T)",
+            r"ON\.UseSaveLWF +(\.false\.|F)",
             "ON.UseSaveLWF        .true.",
             "ON.UseSaveLWF",
             cwd,
@@ -149,7 +149,7 @@ def check_restart_ext(ext, fdf, match1, match2, repl, out, cwd, i, cont, label):
 
 def check_userbasis(fdffile):
     with open(fdffile, "r") as f:
-        if re.search(r"Userbasis *\.true\.", f.read()):
+        if re.search(r"Userbasis *(\.true\.|T)", f.read()):
             return True
         f.close()
         return False
