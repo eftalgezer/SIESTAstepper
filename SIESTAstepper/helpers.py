@@ -74,66 +74,66 @@ def print_run(for_, cores, conda):
     )
 
 
-def check_restart(fdffile, i, label, cwd, cont, contextensions):
+def check_restart(*, fdffile, i, label, cwd, cont, contextensions):
     """Check DM, XV, CG, and LWF parameters in an FDF file"""
     fdf = fdffile.read()
     if "DM" in contextensions:
         check_restart_ext(
-            "DM",
-            fdf,
-            r"# *DM\.UseSaveDM +(\.true\.|T)",
-            r"DM\.UseSaveDM +(\.false\.|F)",
-            "DM.UseSaveDM        .true.",
-            "DM.UseSaveDM",
-            cwd,
-            i,
-            cont,
-            label
+            ext="DM",
+            fdf=fdf,
+            match1=r"# *DM\.UseSaveDM +(\.true\.|T)",
+            match2=r"DM\.UseSaveDM +(\.false\.|F)",
+            repl="DM.UseSaveDM        .true.",
+            out="DM.UseSaveDM",
+            cwd=cwd,
+            i=i,
+            cont=cont,
+            label=label
         )
     if "XV" in contextensions:
         check_restart_ext(
-            "XV",
-            fdf,
-            r"# *MD\.UseSaveXV +(\.true\.|T)",
-            r"MD\.UseSaveXV +(\.false\.|F)",
-            "MD.UseSaveXV        .true.",
-            "MD.UseSaveCG",
-            cwd,
-            i,
-            cont,
-            label
+            ext="XV",
+            fdf=fdf,
+            match1=r"# *MD\.UseSaveXV +(\.true\.|T)",
+            match2=r"MD\.UseSaveXV +(\.false\.|F)",
+            repl="MD.UseSaveXV        .true.",
+            out="MD.UseSaveCG",
+            cwd=cwd,
+            i=i,
+            cont=cont,
+            label=label
         )
     if "CG" in contextensions:
         check_restart_ext(
-            "CG",
-            fdf,
-            r"# *MD\.UseSaveCG +(\.true\.|T)",
-            r"MD\.UseSaveCG +(\.false\.|F)",
-            "MD.UseSaveCG        .true.",
-            "MD.UseSaveCG",
-            cwd,
-            i,
-            cont,
-            label
+            ext="CG",
+            fdf=fdf,
+            match1=r"# *MD\.UseSaveCG +(\.true\.|T)",
+            match2=r"MD\.UseSaveCG +(\.false\.|F)",
+            repl="MD.UseSaveCG        .true.",
+            out="MD.UseSaveCG",
+            cwd=cwd,
+            i=i,
+            cont=cont,
+            label=label
         )
     if "LWF" in contextensions:
         check_restart_ext(
-            "LWF",
-            fdf,
-            r"# *ON\.UseSaveLWF +(\.true\.|T)",
-            r"ON\.UseSaveLWF +(\.false\.|F)",
-            "ON.UseSaveLWF        .true.",
-            "ON.UseSaveLWF",
-            cwd,
-            i,
-            cont,
-            label
+            ext="LWF",
+            fdf=fdf,
+            match1=r"# *ON\.UseSaveLWF +(\.true\.|T)",
+            match2=r"ON\.UseSaveLWF +(\.false\.|F)",
+            repl="ON.UseSaveLWF        .true.",
+            out="ON.UseSaveLWF",
+            cwd=cwd,
+            i=i,
+            cont=cont,
+            label=label
         )
     fdffile.seek(0)
     fdffile.write(fdf)
 
 
-def check_restart_ext(ext, fdf, match1, match2, repl, out, cwd, i, cont, label):
+def check_restart_ext(*, ext, fdf, match1, match2, repl, out, cwd, i, cont, label):
     """Check DM, XV, CG, and LWF parameters in an FDF file individually"""
     match = re.search(match1, fdf)
     if match is None:
