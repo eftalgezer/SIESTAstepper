@@ -128,7 +128,7 @@ def run_next(i, label):
 
     os.chdir(f"{settings.get_cwd()}{os.sep}i{i}")
     print(f"Changed directory to {os.getcwd()}")
-    print_run(f"i{i}", settings.cores(), settings.conda())
+    print_run(f"i{i}", settings.get_cores(), settings.get_conda())
     _command(label=label)
 
 
