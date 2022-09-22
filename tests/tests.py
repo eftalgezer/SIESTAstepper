@@ -515,3 +515,43 @@ def test_main():
         f" {mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}C-5.fdf"
     )
     assert ani_to_fdftest is not None or ani_to_fdftest != ""
+    xyz_to_fdftest = main_tester(
+        "SIESTAstepper" +
+        " xyz_to_fdf" +
+        f" {mpath}{os.sep}tests{os.sep}assets{os.sep}xyz{os.sep}C.xyz +"
+        f" {mpath}{os.sep}tests{os.sep}assets{os.sep}fdf{os.sep}C-0.fdf" +
+        f" {mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}C-1.fdf"
+    )
+    assert xyz_to_fdftest is not None or xyz_to_fdftest != ""
+    if os.path.exists(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon"):
+        shutil.rmtree(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon")
+    shutil.copytree(
+        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}Carbon",
+        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon"
+    )
+    set_cwd(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon")
+    merge_anitest = main_tester("SIESTAstepper merge_ani C")
+    assert merge_anitest is not None or merge_anitest != ""
+    clear_temp()
+    if not os.path.isdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon"):
+        os.mkdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon")
+    os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon")
+    make_directoriestest = main_tester("SIESTAstepper make_directories 5")
+    assert make_directoriestest is not None or make_directoriestest != ""
+    copy_filestest = main_tester(
+        "SIESTAstepper" +
+        " copy_files" +
+        " graphene" +
+        f" {mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}Carbon{os.sep}i1" +
+        f" {mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon{os.sep}i2" +
+        " psf" +
+        " XV" +
+        " DM"
+    )
+    assert copy_filestest is not None or copy_filestest != ""
+    set_cwd(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}Carbon")
+    os.chdir(get_cwd())
+    analysistest = main_tester("SIESTAstepper analysis log")
+    assert analysistest is not None or analysistest != ""
+    energy_difftest = main_tester("SIESTAstepper energy_diff log")
+    assert energy_difftest is not None or energy_difftest != ""

@@ -161,10 +161,6 @@ def merge_ani_tester(label=None, path=None, folder=None):
     """Tester function for merge_ani"""
     if path is None:
         path = "i*"
-    if label is None:
-        raise ValueError("ERROR: Please set a label")
-    if folder is None:
-        raise ValueError("ERROR: Please set a folder")
     if os.path.exists(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{folder}"):
         shutil.rmtree(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{folder}")
     shutil.copytree(
