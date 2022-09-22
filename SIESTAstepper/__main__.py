@@ -20,24 +20,14 @@ from .core import (
 )
 
 
-def main(args):
+def main(*, args):
+    """Main function"""
     function = args[1]
     for arg in args:
-        if arg.startswith("mpirun="):
-            settings.set_cores(int(arg.split("=")[1]))
-        if arg.startswith("conda="):
-            settings.set_conda(arg.split("=")[1])
-        if arg.startswith("cont="):
-            settings.set_cont(arg.split("=")[1])
-        if arg.startswith("contfiles="):
-            settings.contfiles.extend(arg.split("=")[1].split(","))
-        if arg.startswith("contextensions="):
-            settings.contextensions.extend(arg.split("=")[1].split(","))
-        if arg.startswith("siesta="):
-            settings.set_siesta(arg.split("=")[1])
-
-    if function not in ["run", "single_run", "run_next", "run_interrupted", "single_run_interrupted",
-                        "make_directories", "copy_files", "ani_to_fdf", "xyz_to_fdf", "merge_ani",
+        independents(arg)
+    if function not in ["run", "single_run", "run_next", "run_interrupted",
+                        "single_run_interrupted", "make_directories",
+                        "copy_files", "ani_to_fdf", "xyz_to_fdf", "merge_ani",
                         "analysis", "energy_diff"]:
         raise AttributeError(
             """Command not found. Please use 'run', 'single_run', 'run_next', 'run_interrupted',
@@ -106,4 +96,19 @@ def main(args):
             energy_diff()
 
 
-main(sys.argv)
+def independents(arg):
+    if arg.startswith("mpirun="):
+        settings.set_cores(int(arg.split("=")[1]))
+    if arg.startswith("conda="):
+        settings.set_conda(arg.split("=")[1])
+    if arg.startswith("cont="):
+        settings.set_cont(arg.split("=")[1])
+    if arg.startswith("contfiles="):
+        settings.contfiles.extend(arg.split("=")[1].split(","))
+    if arg.startswith("contextensions="):
+        settings.contextensions.extend(arg.split("=")[1].split(","))
+    if arg.startswith("siesta="):
+        settings.set_siesta(arg.split("=")[1])
+
+
+main(args=sys.argv)
