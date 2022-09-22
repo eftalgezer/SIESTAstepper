@@ -443,7 +443,6 @@ def test_carbon_uninterrupted_project():
 
 def test_carbon_uninterrupted_project_run_next():
     """Run tests based on Carbon_uninterrupted run run_next function"""
-
     fake_command()
     set_fake_project("Carbon_uninterrupted")
     os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
@@ -590,3 +589,53 @@ def test_main_carbon_uninterrupted_project():
     assert xyz_to_fdftest is not None or xyz_to_fdftest != ""
     runtest = main_tester("SIESTAstepper run log C")
     assert runtest is not None or runtest != ""
+
+
+def test_main_carbon_uninterrupted_project_run_next():
+    """Run tests based on Carbon_uninterrupted run run_next function with __main__.py"""
+    fake_command()
+    set_fake_project("Carbon_uninterrupted")
+    os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
+    set_cwd(os.getcwd())
+    make_directoriestest = main_tester("SIESTAstepper make_directories 5")
+    assert make_directoriestest is not None or make_directoriestest != ""
+    initialise_fake_project("run_next 2")
+    run_nexttest = main_tester("SIESTAstepper run_next log 2 C")
+    assert run_nexttest is not None or run_nexttest != ""
+
+
+def test_main_carbon_uninterrupted_project_single_run():
+    """Run tests based on Carbon_uninterrupted run single_run function with __main__.py"""
+    fake_command()
+    set_fake_project("Carbon_uninterrupted")
+    os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
+    set_cwd(os.getcwd())
+    make_directoriestest = main_tester("SIESTAstepper make_directories 5")
+    assert make_directoriestest is not None or make_directoriestest != ""
+    initialise_fake_project("single_run 3")
+    single_runtest = main_tester("SIESTAstepper single_run log 2 C")
+    assert single_runtest is not None or single_runtest != ""
+
+def test_main_carbon_project_run_interrupted():
+    """Run tests based on Carbon_uninterrupted run run_interrupted function with __main__.py"""
+    fake_command()
+    set_fake_project("Carbon")
+    os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
+    set_cwd(os.getcwd())
+    make_directoriestest = main_tester("SIESTAstepper make_directories 5")
+    assert make_directoriestest is not None or make_directoriestest != ""
+    run_interruptedtest = main_tester("SIESTAstepper run_interrupted log 3 C cont=continue")
+    assert run_interruptedtest is not None or run_interruptedtest != ""
+
+
+def test_main_carbon_project_single_run_interrupted():
+    """Run tests based on Carbon_uninterrupted run single_run_interrupted function with __main__.py"""
+    fake_command()
+    set_fake_project("Carbon")
+    os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
+    set_cwd(os.getcwd())
+    make_directoriestest = main_tester("SIESTAstepper make_directories 5")
+    assert make_directoriestest is not None or make_directoriestest != ""
+    initialise_fake_project("single_run_interrupted 3 1")
+    single_run_interruptedtest = main_tester("SIESTAstepper single_run_interrupted log 3 C")
+    assert single_run_interruptedtest is not None or single_run_interruptedtest != ""
