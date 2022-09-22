@@ -137,10 +137,10 @@ def single_run(i, label):
     os.chdir(f"{settings.get_cwd()}{os.sep}i{i}")
     print(f"Changed directory to {os.getcwd()}")
     with open(
-            f"{settings.get_cwd()}{os.sep}i{int(i) - 1}{os.sep}{settings.get_log()}",
-            "r",
-            encoding="utf-8"
-            ) as file:
+        f"{settings.get_cwd()}{os.sep}i{int(i) - 1}{os.sep}{settings.get_log()}",
+        "r",
+        encoding="utf-8"
+        ) as file:
         lines = file.readlines()
         if lines[-1] == "Job completed\n":
             print(f"i{i}{os.sep}{settings.get_log()}: Job completed")
@@ -205,10 +205,10 @@ def merge_ani(label=None, path=None):
         if [*set(it)] != list(range(min(it), max(it) + 1)):
             print("WARNING: There are missing ANI files!")
         with open(
-                f"{settings.get_cwd()}{os.sep}{label}-merged.ANI",
-                "w",
-                encoding="utf-8"
-                ) as outfile:
+            f"{settings.get_cwd()}{os.sep}{label}-merged.ANI",
+            "w",
+            encoding="utf-8"
+            ) as outfile:
             print(f"{settings.get_cwd()}{os.sep}{label}-merged.ANI is opened")
             for f in files:
                 with open(f, encoding="utf-8") as infile:
