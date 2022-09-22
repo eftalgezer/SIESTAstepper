@@ -21,8 +21,10 @@ def read_fdf(fdfpath, geo):
     with open(fdfpath, "r", encoding="utf-8") as fdffile:
         fdf = fdffile.read()
         ind = fdf.split(
-            "%block ChemicalSpeciesLabel\n")[1].split("%endblock ChemicalSpeciesLabel\n"
-              )[0]
+            "%block ChemicalSpeciesLabel\n"
+        )[1].split(
+            "%endblock ChemicalSpeciesLabel\n"
+        )[0]
         ind = ind.splitlines()
         for i in ind:
             for g in geo:
@@ -190,10 +192,10 @@ def sort_(files, path, cont):
     match = [re.search(f"{path}({os.sep}{cont}_*([0-9]*))*", f) for f in files]
     sortedmatch = [[m[0], m[1], m[2], m[3]] for m in match]
     sortedmatch = [x for _, x in sorted(zip(
-        [int(f"{m[1]}0") if m[3] is None else 
-         int(f"{m[1]}1") if m[3] == "" else 
+        [int(f"{m[1]}0") if m[3] is None else
+         int(f"{m[1]}1") if m[3] == "" else
          int(m[1] + m[3]) for m in sortedmatch
-        ], sortedmatch
+         ], sortedmatch
     ))]
     for s in sortedmatch:
         for f in files:
