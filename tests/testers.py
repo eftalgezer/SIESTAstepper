@@ -189,7 +189,7 @@ def merge_ani_tester(label=None, path=None, folder=None):
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}{folder}",
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{folder}"
     )
-    set_cwd(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{folder}")
+    settings.set_cwd(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{folder}")
     merge_ani(label=label, path=path)
     return read_file(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{folder}{os.sep}{label}-merged.ANI")
 
@@ -248,20 +248,20 @@ def copy_files_tester(extensions, label, source_, destination):
                 files += glob.glob(f"{destination}{os.sep}*.ion")
             else:
                 files += glob.glob(f"{destination}{os.sep}{label}.{ext}")
-    for cf in contfiles:
+    for cf in settings.contfiles:
         files += glob.glob(f"{destination}{os.sep}{cf}")
     return list(files)
 
 
 def analysis_tester(path, cwd):
     """Tester function for analysis"""
-    set_cwd(cwd)
+    settings.set_cwd(cwd)
     return analysis(path)
 
 
 def energy_diff_tester(path, cwd):
     """Tester function for energy_diff"""
-    set_cwd(cwd)
+    settings.set_cwd(cwd)
     return energy_diff(path)
 
 
