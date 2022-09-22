@@ -138,10 +138,10 @@ def merge_ani(label=None, path=None):
         it = get_it(files)
         if [*set(it)] != list(range(min(it), max(it) + 1)):
             print("WARNING: There are missing ANI files!")
-        with open(f"{cwd}{os.sep}{label}-merged.ANI", "w") as outfile:
+        with open(f"{cwd}{os.sep}{label}-merged.ANI", "w", encoding="utf-8") as outfile:
             print(f"{cwd}{os.sep}{label}-merged.ANI is opened")
             for f in files:
-                with open(f) as infile:
+                with open(f, encoding="utf-8") as infile:
                     print(f"Writing {f}")
                     content = infile.read()
                     outfile.write(content)
@@ -164,7 +164,7 @@ def run(label):
     if not logs:
         run_next("1", label)
     else:
-        with open(logs[-1], "r") as file:
+        with open(logs[-1], "r", encoding="utf-8") as file:
             lines = file.readlines()
             if lines[-1] == "Job completed\n":
                 print(f"{logs[-1]}: Job completed")
@@ -312,15 +312,15 @@ def _command(label=None, issingle=False):
         sprun([f"{os.sep}usr{os.sep}bin{os.sep}conda", "activate", conda] if os.name == "posix"
               else [f"C:{os.sep}{os.sep}Anaconda3{os.sep}Scripts{os.sep}activate", conda])
     with open(log, "w") as logger:
-        job = Popen(
+        with Popen(
             shlex.split(f"{f'mpirun -np {cores} ' if cores is not None else ''}{siesta} {label}.fdf"),
             stdout=logger
-        )
-        print(f"PID is {job.pid}")
-        for line in tail("-f", log, _iter=True):
-            print(line)
-            if line == "Job completed\n" and issingle is False:
-                run(label)
+        ) as job:
+            print(f"PID is {job.pid}")
+            for line in tail("-f", log, _iter=True):
+                print(line)
+                if line == "Job completed\n" and issingle is False:
+                    run(label)
 
 
 def _cont_step(contfolder, i, label, issingle=False):

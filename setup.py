@@ -1,3 +1,7 @@
+"""
+Setup file for SIESTAstepper
+"""
+from __future__ import absolute_import
 from setuptools import setup
 import pathlib
 
