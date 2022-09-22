@@ -507,7 +507,6 @@ def test_carbon_project_single_run_interrupted():
 
 
 def test_main():
-    set_cwd(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp")
     assert f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}C-5.fdf is created\n" in main_tester(
         "SIESTAstepper" +
         " ani_to_fdf" +
