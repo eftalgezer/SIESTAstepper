@@ -513,4 +513,4 @@ def test_main():
         f" {mpath}{os.sep}tests{os.sep}assets{os.sep}ANI{os.sep}C-4.ANI" +
         f" {mpath}{os.sep}tests{os.sep}assets{os.sep}fdf{os.sep}C-0.fdf" +
         f" {mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}C-5.fdf"
-    ) = f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}C-5.fdf is created\n"
+    ) == f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}C-5.fdf is created\n"
