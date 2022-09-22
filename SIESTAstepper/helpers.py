@@ -1,3 +1,6 @@
+"""
+Helper functions for SIESTA runs or analysis of SIESTA log files
+"""
 import os
 import re
 import shutil
@@ -14,7 +17,7 @@ def get_it(files):
 def read_fdf(fdfpath, geo):
     """Read FDF file"""
     print(f"Reading {fdfpath}")
-    with open(fdfpath, "r") as fdffile:
+    with open(fdfpath, "r", encoding="utf-8") as fdffile:
         fdf = fdffile.read()
         ind = fdf.split("%block ChemicalSpeciesLabel\n")[1].split("%endblock ChemicalSpeciesLabel\n")[0]
         ind = ind.splitlines()
@@ -30,7 +33,7 @@ def read_fdf(fdfpath, geo):
 def create_fdf(fdf, geo, newfdfpath, number):
     """Create new FDF file"""
     print(f"Creating {newfdfpath}")
-    with open(newfdfpath, "w") as newfdffile:
+    with open(newfdfpath, "w", encoding="utf-8") as newfdffile:
         newfdf = fdf.split("%block AtomicCoordinatesAndAtomicSpecies\n")[0]
         newfdf += "%block AtomicCoordinatesAndAtomicSpecies\n"
         for g in geo:
@@ -52,7 +55,7 @@ def read_energy(energies=[], files=None, it=[], print_=True):
     for f in files:
         if print_:
             print(f)
-        with open(f, "r") as file:
+        with open(f, "r", encoding="utf-8") as file:
             lines = file.readlines()
             for line in lines:
                 if line.startswith("siesta:         Total =  "):
@@ -148,7 +151,8 @@ def check_restart_ext(ext, fdf, match1, match2, repl, out, cwd, i, cont, label):
 
 
 def check_userbasis(fdffile):
-    with open(fdffile, "r") as f:
+    """Check if the Userbasis parameter in the fdf file is either true or false"""
+    with open(fdffile, "r", encoding="utf-8") as f:
         if re.search(r"Userbasis *(\.true\.|T)", f.read()):
             return True
         f.close()

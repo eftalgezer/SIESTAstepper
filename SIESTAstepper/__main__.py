@@ -1,3 +1,6 @@
+"""
+SIESTAstepper terminal client
+"""
 from __future__ import absolute_import
 import sys
 from .core import run, single_run, run_next, run_interrupted, single_run_interrupted, make_directories, copy_files, \

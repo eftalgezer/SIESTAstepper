@@ -1,3 +1,6 @@
+"""
+Module bundling all functions needed to run a SIESTA calculation or analyse SIESTA output files
+"""
 import glob
 import os
 from subprocess import Popen
