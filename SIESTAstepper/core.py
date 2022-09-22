@@ -27,11 +27,11 @@ from .helpers import (
 )
 
 
-class Settings(object):
+class Settings:
     """Settings"""
 
     def __init__(self):
-        """Initalise settings"""
+        """Initialise settings"""
         self.cwd = os.getcwd()
         self.log = "log"
         self.cores = None
@@ -385,11 +385,11 @@ def _command(label=None, issingle=False):
         )
     with open(settings.get_log(), "w", encoding="utf-8") as logger:
         with Popen(
-                shlex.split(
-                    f"{f'mpirun -np {settings.get_cores()} ' if settings.get_cores() is not None else ''}" +
-                    f"{settings.get_siesta()} {label}.fdf"
-                ),
-                stdout=logger
+            shlex.split(
+                f"{f'mpirun -np {settings.get_cores()} ' if settings.get_cores() is not None else ''}" +
+                f"{settings.get_siesta()} {label}.fdf"
+            ),
+            stdout=logger
         ) as job:
             print(f"PID is {job.pid}")
             for line in tail("-f", settings.get_log(), _iter=True):
