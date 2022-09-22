@@ -20,7 +20,9 @@ def read_fdf(fdfpath, geo):
     print(f"Reading {fdfpath}")
     with open(fdfpath, "r", encoding="utf-8") as fdffile:
         fdf = fdffile.read()
-        ind = fdf.split("%block ChemicalSpeciesLabel\n")[1].split("%endblock ChemicalSpeciesLabel\n")[0]
+        ind = fdf.split(
+            "%block ChemicalSpeciesLabel\n")[1].split("%endblock ChemicalSpeciesLabel\n"
+              )[0]
         ind = ind.splitlines()
         for i in ind:
             for g in geo:
@@ -148,7 +150,8 @@ def check_restart_ext(*, ext, fdf, match1, match2, repl, out, cwd, i, cont, labe
                         or re.search("# *WriteDM +.true.", fdf) is not None
                         or re.search("WriteDM +.false.", fdf) is not None):
         print(
-            f"WARNING: 'WriteDM             .true.' not found in {cwd}{os.sep}i{i}{os.sep}{cont}{os.sep}{label}.fdf"
+            f"WARNING: 'WriteDM .true.' not found in {cwd}{os.sep}i{i}{os.sep}{cont}" +
+            f"{os.sep}{label}.fdf"
         )
 
 
@@ -187,8 +190,9 @@ def sort_(files, path, cont):
     match = [re.search(f"{path}({os.sep}{cont}_*([0-9]*))*", f) for f in files]
     sortedmatch = [[m[0], m[1], m[2], m[3]] for m in match]
     sortedmatch = [x for _, x in sorted(zip(
-        [int(f"{m[1]}0") if m[3] is None else int(f"{m[1]}1") if m[3] == "" else int(m[1] + m[3]) for m in
-         sortedmatch
+        [int(f"{m[1]}0") if m[3] is None else 
+         int(f"{m[1]}1") if m[3] == "" else 
+         int(m[1] + m[3]) for m in sortedmatch
         ], sortedmatch
     ))]
     for s in sortedmatch:

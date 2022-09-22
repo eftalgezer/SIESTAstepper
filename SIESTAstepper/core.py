@@ -170,7 +170,8 @@ def run(label):
             if lines[-1] == "Job completed\n":
                 print(f"{logs[-1]}: Job completed")
                 if len(folders) != len(logs) and not os.path.isfile(
-                        f"{cwd}{os.sep}i{str(int(logs[-1].split(os.sep)[0].strip('i')) + 1)}{os.sep}{label}.fdf"
+                        f"{cwd}{os.sep}i{str(int(logs[-1].split(os.sep)[0].strip('i')) + 1)}" +
+                        f"{os.sep}{label}.fdf"
                 ):
                     if cont in logs[-1]:
                         match = re.search(f"i([0-9]+){os.sep}{cont}(_*[0-9]*)", logs[-1])
@@ -183,7 +184,11 @@ def run(label):
                         ani_to_fdf(
                             logs[-1].rsplit(os.sep)[0] + os.sep + label + ".ANI",
                             logs[-1].rsplit(os.sep)[0] + os.sep + label + ".fdf",
-                            "i" + str(int(logs[-1].split(os.sep)[0].strip("i")) + 1) + os.sep + label + ".fdf"
+                            "i" +
+                            str(int(logs[-1].split(os.sep)[0].strip("i")) + 1) +
+                            os.sep +
+                            label +
+                            ".fdf"
                         )
                 file.close()
                 if len(folders) > len(logs):
@@ -323,7 +328,9 @@ def _command(label=None, issingle=False):
         )
     with open(log, "w", encoding="utf-8") as logger:
         with Popen(
-            shlex.split(f"{f'mpirun -np {cores} ' if cores is not None else ''}{siesta} {label}.fdf"),
+            shlex.split(
+                f"{f'mpirun -np {cores} ' if cores is not None else ''}{siesta} {label}.fdf"
+                ),
             stdout=logger
         ) as job:
             print(f"PID is {job.pid}")
