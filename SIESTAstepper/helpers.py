@@ -181,8 +181,8 @@ def copy_file(sourcefile, destinationfile):
         print(f"ERROR: {sourcefile} and {destinationfile} represents the same file")
     except PermissionError:
         print(f"ERROR: Permission denied while copying {sourcefile} to {destinationfile}")
-    except Exception:
-        print(f"ERROR: An error occurred while copying {sourcefile} to {destinationfile}")
+    except (shutil.Error, OSError, IOError) as e:
+        print(f"ERROR: An error occurred while copying {sourcefile} to {destinationfile} ({e})")
 
 
 def sort_(files, path, cont):
