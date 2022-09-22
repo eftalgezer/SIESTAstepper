@@ -413,7 +413,7 @@ def _command(label=None, issingle=False):
     with open(settings.get_log(), "w", encoding="utf-8") as logger:
         with Popen(
             shlex.split(
-                f"{f'mpirun -np {settings.get_cores()} ' if settings.get_cores() is not None else ''}" +
+                f"mpirun -np {settings.get_cores()} " if settings.get_cores() is not None else "" +
                 f"{settings.get_siesta()} {label}.fdf"
             ),
             stdout=logger
