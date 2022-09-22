@@ -3,12 +3,14 @@
 [![PyPI pyversions](https://img.shields.io/pypi/pyversions/SIESTAstepper.svg)](https://pypi.python.org/pypi/SIESTAstepper/)
 [![Python package](https://github.com/eftalgezer/SIESTAstepper/actions/workflows/python-package.yml/badge.svg)](https://github.com/eftalgezer/SIESTAstepper/actions/workflows/python-package.yml)
 [![codecov](https://codecov.io/gh/eftalgezer/SIESTAstepper/branch/main/graph/badge.svg?token=Q9TJFIN1U1)](https://codecov.io/gh/eftalgezer/SIESTAstepper)
+[![Codacy Badge](https://app.codacy.com/project/badge/Coverage/4ff526bd45e642bb81b300f2243baef2)](https://www.codacy.com/gh/eftalgezer/SIESTAstepper/dashboard?utm_source=github.com&utm_medium=referral&utm_content=eftalgezer/SIESTAstepper&utm_campaign=Badge_Coverage)
 [![PyPI download month](https://img.shields.io/pypi/dm/SIESTAstepper.svg)](https://pypi.python.org/pypi/SIESTAstepper/)
 [![PyPI download week](https://img.shields.io/pypi/dw/SIESTAstepper.svg)](https://pypi.python.org/pypi/SIESTAstepper/)
 [![PyPI download day](https://img.shields.io/pypi/dd/SIESTAstepper.svg)](https://pypi.python.org/pypi/SIESTAstepper/)
 ![GitHub all releases](https://img.shields.io/github/downloads/eftalgezer/SIESTAstepper/total?style=flat)
 [![GitHub contributors](https://img.shields.io/github/contributors/eftalgezer/SIESTAstepper.svg)](https://github.com/eftalgezer/SIESTAstepper/graphs/contributors/)
 [![CodeFactor](https://www.codefactor.io/repository/github/eftalgezer/siestastepper/badge)](https://www.codefactor.io/repository/github/eftalgezer/siestastepper)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/4ff526bd45e642bb81b300f2243baef2)](https://www.codacy.com/gh/eftalgezer/SIESTAstepper/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=eftalgezer/SIESTAstepper&amp;utm_campaign=Badge_Grade)
 [![PyPI license](https://img.shields.io/pypi/l/SIESTAstepper.svg)](https://pypi.python.org/pypi/SIESTAstepper/)
 [![DOI](https://zenodo.org/badge/532944393.svg)](https://zenodo.org/badge/latestdoi/532944393)
 
@@ -53,28 +55,28 @@ SIESTAstepper.run("graphene")
 import SIESTAstepper
 
 # Sets the path of the working directory
-SIESTAstepper.update_cwd("path/to/working/directory")
+SIESTAstepper.settings.set_cwd("path/to/working/directory")
 
 # Sets the name of SIESTA log files (default is "log")
-SIESTAstepper.update_log("log")
+SIESTAstepper.settings.set_log("log")
 
 # Sets number of cores for parallel run
-SIESTAstepper.update_cores(4)
+SIESTAstepper.settings.set_cores(4)
 
 # Sets Anaconda environment
-SIESTAstepper.update_conda("envir")
+SIESTAstepper.settings.set_conda("envir")
 
 # Sets the subfolder name for interrupted calculations (default is "continue")
-SIESTAstepper.update_cont("continue")
+SIESTAstepper.settings.set_cont("continue")
 
 # Sets the SIESTA command name (default is "siesta")
-SIESTAstepper.update_siesta("siesta_p")
+SIESTAstepper.settings.set_siesta("siesta_p")
 
 # Sets the filenames to copy (useful for interrupted calculations)
-SIESTAstepper.contfiles.extend(["file1", "file2"])
+SIESTAstepper.settings.contfiles.extend(["file1", "file2"])
 
 # Sets the extensions to copy (useful for interrupted calculations, default is ["psf, "fdf"]
-SIESTAstepper.contextensions.extend(["DM", "XV", "CG", "LWF"])
+SIESTAstepper.settings.contextensions.extend(["DM", "XV", "CG", "LWF"])
 
 # Runs SIESTA step by step
 SIESTAstepper.run("graphene")
