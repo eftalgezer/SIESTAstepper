@@ -524,7 +524,7 @@ def test_main():
     xyz_to_fdftest = main_tester(
         "SIESTAstepper" +
         " xyz_to_fdf" +
-        f" {mpath}{os.sep}tests{os.sep}assets{os.sep}xyz{os.sep}C.xyz +"
+        f" {mpath}{os.sep}tests{os.sep}assets{os.sep}xyz{os.sep}C.xyz" +
         f" {mpath}{os.sep}tests{os.sep}assets{os.sep}fdf{os.sep}C-0.fdf" +
         f" {mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}C-1.fdf"
     )
@@ -589,4 +589,4 @@ def test_main_carbon_uninterrupted_project():
     )
     assert xyz_to_fdftest is not None and xyz_to_fdftest != ""
     runtest = main_tester("SIESTAstepper run log C")
-    assert runtest is not None and runtest != "" 
+    assert runtest is not None and runtest != ""
