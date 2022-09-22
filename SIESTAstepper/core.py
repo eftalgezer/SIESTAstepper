@@ -1,6 +1,7 @@
 """
 Module bundling all functions needed to run a SIESTA calculation or analyse SIESTA output files
 """
+from __future__ import absolute_import
 import glob
 import os
 from subprocess import Popen
@@ -40,7 +41,7 @@ def run_next(i, label):
     logs = glob.glob(f"i{int(i) - 1}{os.sep}{log}")
     logs += glob.glob(f"i{int(i) - 1}{os.sep}{cont}*{os.sep}{log}")
     logs = sort_(logs, "i*", cont)
-    if len(logs) != 0 and cont in logs[-1]:
+    if logs and cont in logs[-1]:
         match = re.search(f"i{int(i) - 1}{os.sep}{cont}(_*[0-9]*)", logs[-1])
         if not os.path.isfile(f"{cwd}{os.sep}i{i}{os.sep}{label}.fdf"):
             ani_to_fdf(
@@ -78,7 +79,7 @@ def single_run(i, label):
     """Run SIESTA for given step without continuing next step"""
     os.chdir(f"{cwd}{os.sep}i{i}")
     print(f"Changed directory to {os.getcwd()}")
-    with open(f"{cwd}{os.sep}i{int(i) - 1}{os.sep}{log}", "r") as file:
+    with open(f"{cwd}{os.sep}i{int(i) - 1}{os.sep}{log}", "r", encoding="utf-8") as file:
         lines = file.readlines()
         if lines[-1] == "Job completed\n":
             print(f"i{i}{os.sep}{log}: Job completed")
@@ -103,7 +104,7 @@ def single_run(i, label):
 def ani_to_fdf(anipath, fdfpath, newfdfpath):
     """Convert last geometry of an ANI to FDF by using the previous FDF and ANI files"""
     print(f"Reading {anipath}")
-    with open(anipath, "r") as anifile:
+    with open(anipath, "r", encoding="utf-8") as anifile:
         geo = anifile.read()
         number = geo.split("\n", 1)[0].strip()
         geo = geo.split(number + "\n \n")[-1]
@@ -116,7 +117,7 @@ def ani_to_fdf(anipath, fdfpath, newfdfpath):
 def xyz_to_fdf(xyzpath, fdfpath, newfdfpath):
     """Convert XYZ to FDF by using the previous FDF and XYZ files"""
     print(f"Reading {xyzpath}")
-    with open(xyzpath, "r") as xyzfile:
+    with open(xyzpath, "r", encoding="utf-8") as xyzfile:
         geo = xyzfile.read()
         number = geo.split("\n", 1)[0].strip()
         geo = geo.splitlines()[2:]
@@ -193,7 +194,8 @@ def run(label):
     if conda:
         sprun(
             [f"{os.sep}usr{os.sep}bin{os.sep}conda", "deactivate"] if os.name == "posix"
-            else [f"C:{os.sep}{os.sep}Anaconda3{os.sep}Scripts{os.sep}deactivate"]
+            else [f"C:{os.sep}{os.sep}Anaconda3{os.sep}Scripts{os.sep}deactivate"],
+            check=True
         )
 
 
@@ -202,7 +204,7 @@ def run_interrupted(i, label):
     folders = glob.glob(f"i{i}{os.sep}{cont}*")
     folders = sort_(folders, "i*", cont)
     if folders:
-        with open(f"{folders[-1]}{os.sep}{log}") as file:
+        with open(f"{folders[-1]}{os.sep}{log}", encoding="utf-8") as file:
             lines = file.readlines()
             if lines[-1] == "Job completed\n":
                 print(f"i{i}{os.sep}{cont}{os.sep}{log}: Job completed")
@@ -221,8 +223,8 @@ def single_run_interrupted(i, label):
     """Continue to an interrupted calculation without continuing next step"""
     folders = glob.glob(f"i*{os.sep}{cont}*")
     folders = sort_(folders, "i*", cont)
-    if len(folders) != 0:
-        with open(f"{folders[-1]}{os.sep}{log}") as file:
+    if folders:
+        with open(f"{folders[-1]}{os.sep}{log}", encoding="utf-8") as file:
             lines = file.readlines()
             if lines[-1] == "Job completed\n":
                 print(f"i{i}{os.sep}{cont}{os.sep}{log}: Job completed")
@@ -309,12 +311,15 @@ def energy_diff(path=None):
 def _command(label=None, issingle=False):
     """SIESTA's run command"""
     if conda:
-        sprun([f"{os.sep}usr{os.sep}bin{os.sep}conda", "activate", conda] if os.name == "posix"
-              else [f"C:{os.sep}{os.sep}Anaconda3{os.sep}Scripts{os.sep}activate", conda])
-    with open(log, "w") as logger:
+        sprun(
+            [f"{os.sep}usr{os.sep}bin{os.sep}conda", "activate", conda] if os.name == "posix"
+            else [f"C:{os.sep}{os.sep}Anaconda3{os.sep}Scripts{os.sep}activate", conda],
+            check=True
+        )
+    with open(log, "w", encoding="utf-8") as logger:
         with Popen(
-            shlex.split(f"{f'mpirun -np {cores} ' if cores is not None else ''}{siesta} {label}.fdf"),
-            stdout=logger
+                shlex.split(f"{f'mpirun -np {cores} ' if cores is not None else ''}{siesta} {label}.fdf"),
+                stdout=logger
         ) as job:
             print(f"PID is {job.pid}")
             for line in tail("-f", log, _iter=True):
@@ -342,7 +347,7 @@ def _cont_step(contfolder, i, label, issingle=False):
     os.chdir(f"{cwd}{os.sep}i{i}{os.sep}{contfolder}")
     print(f"Changed directory to {os.getcwd()}")
     print(f"Opening {cwd}{os.sep}i{i}{os.sep}{contfolder}{os.sep}{label}.fdf")
-    with open(f"{label}.fdf", "r+") as fdffile:
+    with open(f"{label}.fdf", "r+", encoding="utf-8") as fdffile:
         check_restart(fdffile, i, label, cwd, contfolder, contextensions)
         fdffile.close()
     print_run(f"i{i}{os.sep}{contfolder}", cores, conda)

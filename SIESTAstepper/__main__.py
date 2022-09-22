@@ -3,9 +3,27 @@ SIESTAstepper terminal client
 """
 from __future__ import absolute_import
 import sys
-from .core import run, single_run, run_next, run_interrupted, single_run_interrupted, make_directories, copy_files, \
-    ani_to_fdf, xyz_to_fdf, merge_ani, analysis, energy_diff, contfiles, contextensions, set_log, set_cores, \
-    set_conda, set_cont, set_siesta
+from .core import (
+    run,
+    single_run,
+    run_next,
+    run_interrupted,
+    single_run_interrupted,
+    make_directories,
+    copy_files,
+    ani_to_fdf,
+    xyz_to_fdf,
+    merge_ani,
+    analysis,
+    energy_diff,
+    contfiles,
+    contextensions,
+    set_log,
+    set_cores,
+    set_conda,
+    set_cont,
+    set_siesta
+)
 
 function = sys.argv[1]
 for arg in sys.argv:
@@ -22,14 +40,15 @@ for arg in sys.argv:
     if arg.startswith("siesta="):
         set_siesta(arg.split("=")[1])
 
-if function not in ["run", "single_run", "run_next", "run_interrupted", "single_run_interrupted", "make_directories",
-                    "copy_files", "ani_to_fdf", "xyz_to_fdf", "merge_ani", "analysis", "energy_diff"]:
+if function not in ["run", "single_run", "run_next", "run_interrupted", "single_run_interrupted",
+                    "make_directories", "copy_files", "ani_to_fdf", "xyz_to_fdf", "merge_ani",
+                    "analysis", "energy_diff"]:
     raise AttributeError(
         """Command not found. Please use 'run', 'single_run', 'run_next', 'run_interrupted',
         'single_run_interrupted', 'make_directories', 'copy_files', 'ani_to_fdf', 'xyz_to_fdf',
         'merge_ani', 'analysis', 'energy_diff'""".replace("\n", " ")
     )
-elif function == "run":
+if function == "run":
     set_log(sys.argv[2])
     run(sys.argv[3])
 elif function == "single_run":
@@ -47,7 +66,12 @@ elif function == "single_run_interrupted":
 elif function == "make_directories":
     make_directories(int(sys.argv[2]))
 elif function == "copy_files":
-    copy_files([_ for _ in sys.argv[5:] if not _.startswith("contfiles=")], sys.argv[2], sys.argv[3], sys.argv[4])
+    copy_files(
+        [_ for _ in sys.argv[5:] if not _.startswith("contfiles=")],
+        sys.argv[2],
+        sys.argv[3],
+        sys.argv[4]
+    )
 elif function == "ani_to_fdf":
     ani_to_fdf(sys.argv[2], sys.argv[3], sys.argv[4])
 elif function == "xyz_to_fdf":

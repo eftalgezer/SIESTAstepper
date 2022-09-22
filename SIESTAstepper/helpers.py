@@ -1,6 +1,7 @@
 """
 Helper functions for SIESTA runs or analysis of SIESTA log files
 """
+from __future__ import absolute_import
 import os
 import re
 import shutil
@@ -143,7 +144,8 @@ def check_restart_ext(ext, fdf, match1, match2, repl, out, cwd, i, cont, label):
     else:
         print(f"Setting '{out}' as '.true.' in {cwd}{os.sep}i{i}{os.sep}{cont}{os.sep}{label}.fdf")
         fdf = fdf.replace(match[0], repl)
-    if ext == "DM" and (re.search("WriteDM +.true.", fdf) is None or re.search("# *WriteDM +.true.", fdf) is not None
+    if ext == "DM" and (re.search("WriteDM +.true.", fdf) is None
+                        or re.search("# *WriteDM +.true.", fdf) is not None
                         or re.search("WriteDM +.false.", fdf) is not None):
         print(
             f"WARNING: 'WriteDM             .true.' not found in {cwd}{os.sep}i{i}{os.sep}{cont}{os.sep}{label}.fdf"
@@ -187,7 +189,7 @@ def sort_(files, path, cont):
     sortedmatch = [x for _, x in sorted(zip(
         [int(f"{m[1]}0") if m[3] is None else int(f"{m[1]}1") if m[3] == "" else int(m[1] + m[3]) for m in
          sortedmatch
-         ], sortedmatch
+        ], sortedmatch
     ))]
     for s in sortedmatch:
         for f in files:
