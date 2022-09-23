@@ -570,7 +570,7 @@ def test_main():
     copy_filestest = main_tester(
         "SIESTAstepper" +
         " copy_files" +
-        " graphene" +
+        " C" +
         f" {mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}Carbon{os.sep}i1" +
         f" {mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon{os.sep}i2" +
         " psf" +
