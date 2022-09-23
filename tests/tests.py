@@ -491,7 +491,7 @@ def test_carbon_uninterrupted_project_single_run():
     assert "Job completed\n" in single_run_tester("3", "C")
 
 
-def carbon_project_run_interrupted():
+def test_carbon_project_run_interrupted():
     """Run tests based on Carbon_uninterrupted run run_interrupted function"""
     fake_command()
     set_fake_project("Carbon")
