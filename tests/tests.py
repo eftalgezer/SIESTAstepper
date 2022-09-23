@@ -625,10 +625,10 @@ def test_main_carbon_uninterrupted_project_run_next():
     set_fake_project("Carbon_uninterrupted")
     os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
     settings.set_cwd(os.getcwd())
-    initialise_fake_project("run_next 2")
     make_directoriestest = main_tester("SIESTAstepper make_directories 5")
     assert make_directoriestest is not None or make_directoriestest != ""
     print("*", make_directoriestest)
+    initialise_fake_project("run_next 2")
     run_nexttest = main_tester("SIESTAstepper run_next log 2 C")
     assert run_nexttest is not None or run_nexttest != ""
     analysistest = main_tester("SIESTAstepper analysis log")
@@ -637,7 +637,7 @@ def test_main_carbon_uninterrupted_project_run_next():
     assert energy_difftest is not None or energy_difftest != ""
 
 
-def main_carbon_uninterrupted_project_single_run():
+def test_main_carbon_uninterrupted_project_single_run():
     """Run tests based on Carbon_uninterrupted run single_run function with __main__.py"""
     fake_command()
     set_fake_project("Carbon_uninterrupted")
@@ -666,7 +666,7 @@ def test_main_carbon_project_run_interrupted():
     assert energy_difftest is not None or energy_difftest != ""
 
 
-def main_carbon_project_single_run_interrupted():
+def test_main_carbon_project_single_run_interrupted():
     """Run tests based on Carbon_uninterrupted run single_run_interrupted function with __main__.py"""
     fake_command()
     set_fake_project("Carbon")
