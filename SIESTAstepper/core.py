@@ -137,10 +137,10 @@ def single_run(i, label):
     os.chdir(f"{settings.get_cwd()}{os.sep}i{i}")
     print(f"Changed directory to {os.getcwd()}")
     with open(
-        f"{settings.get_cwd()}{os.sep}i{int(i) - 1}{os.sep}{settings.get_log()}",
-        "r",
-        encoding="utf-8"
-        ) as file:
+            f"{settings.get_cwd()}{os.sep}i{int(i) - 1}{os.sep}{settings.get_log()}",
+            "r",
+            encoding="utf-8"
+    ) as file:
         lines = file.readlines()
         if lines[-1] == "Job completed\n":
             print(f"i{i}{os.sep}{settings.get_log()}: Job completed")
@@ -155,7 +155,7 @@ def single_run(i, label):
                 copy_files(
                     ["ion" if check_userbasis(
                         f"{settings.get_cwd()}{os.sep}i{i}{os.sep}{label}.fdf"
-                        ) else "psf"],
+                    ) else "psf"],
                     label,
                     f"{settings.get_cwd()}{os.sep}i{int(i) - 1}",
                     f"{settings.get_cwd()}{os.sep}i{i}"
@@ -198,17 +198,17 @@ def merge_ani(label=None, path=None):
     files = glob.glob(f"{settings.get_cwd()}{os.sep}{path}{os.sep}{label}.ANI")
     files += glob.glob(
         f"{settings.get_cwd()}{os.sep}{path}{os.sep}{settings.get_cont()}*{os.sep}{label}.ANI"
-        )
+    )
     files = sort_(files, path, settings.get_cont())
     if files is not None:
         it = get_it(files)
         if [*set(it)] != list(range(min(it), max(it) + 1)):
             print("WARNING: There are missing ANI files!")
         with open(
-            f"{settings.get_cwd()}{os.sep}{label}-merged.ANI",
-            "w",
-            encoding="utf-8"
-            ) as outfile:
+                f"{settings.get_cwd()}{os.sep}{label}-merged.ANI",
+                "w",
+                encoding="utf-8"
+        ) as outfile:
             print(f"{settings.get_cwd()}{os.sep}{label}-merged.ANI is opened")
             for f in files:
                 with open(f, encoding="utf-8") as infile:
@@ -247,7 +247,7 @@ def run(label):
                         match = re.search(
                             f"i([0-9]+){os.sep}{settings.get_cont()}(_*[0-9]*)",
                             logs[-1]
-                            )
+                        )
                         ani_to_fdf(
                             f"i{match[1]}{os.sep}{settings.get_cont()}{match[2]}" +
                             f"{os.sep}{label}.ANI",
@@ -290,7 +290,7 @@ def run_interrupted(i, label):
             if lines[-1] == "Job completed\n":
                 print(
                     f"i{i}{os.sep}{settings.get_cont()}{os.sep}{settings.get_log()}: Job completed"
-                    )
+                )
                 return False
             match = re.search(f"i[0-9]+{os.sep}{settings.get_cont()}_*[0-9]*", folders[-1])
             if match[0].endswith(settings.get_cont()):
@@ -312,7 +312,7 @@ def single_run_interrupted(i, label):
             if lines[-1] == "Job completed\n":
                 print(
                     f"i{i}{os.sep}{settings.get_cont()}{os.sep}{settings.get_log()}: Job completed"
-                    )
+                )
                 return False
             match = re.search(f"i[0-9]+{os.sep}{settings.get_cont()}_*[0-9]*", folders[-1])
             if match[0].endswith(settings.get_cont()):
@@ -365,7 +365,7 @@ def analysis(path=None, plot_=True, print_=True):
     files += glob.glob(
         f"{settings.get_cwd()}{os.sep}{path}{os.sep}{settings.get_cont()}*" +
         f"{os.sep}{settings.get_log()}"
-        )
+    )
     files = sort_(files, path, settings.get_cont())
     energies = []
     it = []
@@ -414,12 +414,12 @@ def _command(label=None, issingle=False):
         )
     with open(settings.get_log(), "w", encoding="utf-8") as logger:
         with Popen(
-            shlex.split(
-                f"mpirun -np {settings.get_cores()} " if settings.get_cores() is not None else "" +
-                f"{settings.get_siesta()} {label}.fdf"
-            ),
-            shell=False,
-            stdout=logger
+                shlex.split(
+                    f"mpirun -np {settings.get_cores()} " if settings.get_cores() is not None else "" +
+                                                                                                   f"{settings.get_siesta()} {label}.fdf"
+                ),
+                shell=False,
+                stdout=logger
         ) as job:
             print(f"PID is {job.pid}")
             for line in tail("-f", settings.get_log(), _iter=True):

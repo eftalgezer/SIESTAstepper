@@ -45,7 +45,7 @@ fakeproject = None
 
 def read_file(file):
     """Read a given file and return its content"""
-    with open(file, "r") as f:
+    with open(file, "r", encoding="utf-8") as f:
         content = f.read()
         f.close()
     return content
@@ -106,7 +106,6 @@ def initialise_fake_project(function=None):
                 f"({os.sep}{settings.get_cont()}_*[0-9]*)?{os.sep}{fname}",
                 f
             )
-            print(match[0], match[1], match[2], fname)
             if int(match[1]) >= i and os.path.isfile(f):
                 if not os.path.exists(
                         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{fakeproject}{os.sep}i{match[1]}" +
@@ -123,7 +122,6 @@ def initialise_fake_project(function=None):
                             match[2].split("_")[1]
                             if settings.get_cont() + "_" in match[2] else
                             "1") > c - 1:
-                    print("*", match[0], match[1], match[2], fname)
                     shutil.rmtree(
                         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{fakeproject}{os.sep}i{match[1]}" +
                         f"{f'{match[2]}' if match[2] is not None else ''}"
@@ -136,8 +134,8 @@ def fake_command(monkeypatch=MonkeyPatch()):
     def fake__command(label=None, issingle=False):
         """A fake SIESTA run command"""
         realpath = os.getcwd().replace(f"{os.sep}temp{os.sep}", f"{os.sep}runs{os.sep}")
-        with open(f"{realpath}{os.sep}{settings.get_log()}", "r") as reallog:
-            with open(f"{os.getcwd()}{os.sep}{settings.get_log()}", "w") as fakelog:
+        with open(f"{realpath}{os.sep}{settings.get_log()}", "r", encoding="utf-8") as reallog:
+            with open(f"{os.getcwd()}{os.sep}{settings.get_log()}", "w", encoding="utf-8") as fakelog:
                 content = reallog.read()
                 fakelog.write(content)
                 print(content)
@@ -317,7 +315,7 @@ def check_restart_tester(fdffile, i, label, cwd, cont, context):
     file = fdffile.split(os.sep)[-1]
     copy_file(fdffile, f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{file}")
     fdffile = f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{file}"
-    with open(fdffile, "r+") as f:
+    with open(fdffile, "r+", encoding="utf-8") as f:
         check_restart(fdffile=f, i=i, label=label, cwd=cwd, cont=cont, contextensions=context)
         f.close()
     return read_file(fdffile)
