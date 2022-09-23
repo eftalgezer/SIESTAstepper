@@ -439,6 +439,14 @@ def test_carbon_uninterrupted_project():
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}{get_fake_project()}{os.sep}i1{os.sep}C.fdf"
     )
     assert "All iterations are completed" in run_tester("C")
+    assert analysis_tester("i*", settings.get_cwd()) == [
+        (1, -297.982681),
+        (2, -299.171055),
+        (3, -299.791356),
+        (4, -299.845957),
+        (5, -299.498399)
+    ]
+    assert energy_diff_tester("i*", settings.get_cwd()) == [(-299.845957, -297.982681, 4, 1, 1.8632759999999848)]
 
 
 def test_carbon_uninterrupted_project_run_next():
@@ -456,6 +464,14 @@ def test_carbon_uninterrupted_project_run_next():
     settings.set_cwd(os.getcwd())
     initialise_fake_project("run_next 2")
     assert "All iterations are completed" in run_next_tester("2", "C")
+    assert analysis_tester("i*", settings.get_cwd()) == [
+        (1, -297.982681),
+        (2, -299.171055),
+        (3, -299.791356),
+        (4, -299.845957),
+        (5, -299.498399)
+    ]
+    assert energy_diff_tester("i*", settings.get_cwd()) == [(-299.845957, -297.982681, 4, 1, 1.8632759999999848)]
 
 
 def test_carbon_uninterrupted_project_single_run():
@@ -491,6 +507,14 @@ def carbon_project_run_interrupted():
     ]
     initialise_fake_project("run_interrupted 3 2")
     assert "All iterations are completed" in run_interrupted_tester("3", "C")
+    assert analysis_tester("i*", settings.get_cwd()) == [
+        (1, -297.982681),
+        (2, -299.171055),
+        (3, -299.791356),
+        (4, -299.845957),
+        (5, -299.498399)
+    ]
+    assert energy_diff_tester("i*", settings.get_cwd()) == [(-299.845957, -297.982681, 4, 1, 1.8632759999999848)]
 
 
 def carbon_project_single_run_interrupted():
@@ -589,6 +613,10 @@ def test_main_carbon_uninterrupted_project():
     assert xyz_to_fdftest is not None or xyz_to_fdftest != ""
     runtest = main_tester("SIESTAstepper run log C")
     assert runtest is not None or runtest != ""
+    analysistest = main_tester("SIESTAstepper analysis log")
+    assert analysistest is not None or analysistest != ""
+    energy_difftest = main_tester("SIESTAstepper energy_diff log")
+    assert energy_difftest is not None or energy_difftest != ""
 
 
 def main_carbon_uninterrupted_project_run_next():
@@ -602,6 +630,10 @@ def main_carbon_uninterrupted_project_run_next():
     initialise_fake_project("run_next 2")
     run_nexttest = main_tester("SIESTAstepper run_next log 2 C")
     assert run_nexttest is not None or run_nexttest != ""
+    analysistest = main_tester("SIESTAstepper analysis log")
+    assert analysistest is not None or analysistest != ""
+    energy_difftest = main_tester("SIESTAstepper energy_diff log")
+    assert energy_difftest is not None or energy_difftest != ""
 
 
 def main_carbon_uninterrupted_project_single_run():
@@ -627,6 +659,10 @@ def test_main_carbon_project_run_interrupted():
     assert make_directoriestest is not None or make_directoriestest != ""
     run_interruptedtest = main_tester("SIESTAstepper run_interrupted log 3 C cont=continue")
     assert run_interruptedtest is not None or run_interruptedtest != ""
+    analysistest = main_tester("SIESTAstepper analysis log")
+    assert analysistest is not None or analysistest != ""
+    energy_difftest = main_tester("SIESTAstepper energy_diff log")
+    assert energy_difftest is not None or energy_difftest != ""
 
 
 def main_carbon_project_single_run_interrupted():
