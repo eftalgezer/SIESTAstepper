@@ -149,7 +149,6 @@ def fake_command(monkeypatch=MonkeyPatch()):
             f"i*{os.sep}{settings.get_cont()}*{os.sep}{settings.get_log()}"
         )
         fakelogs = sort_(fakelogs, "i*", settings.get_cont())
-
         print("------")
         print(fakefolders)
         print(fakelogs)
