@@ -77,15 +77,16 @@ def initialise_fake_project(function=None):
     if function.startswith("run_next") or function.startswith("single_run"):
         i = function.split(" ")[1]
         files = glob.glob(
-            f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}{fakeproject}{os.sep}i{int(i) - 1}{os.sep}*"
+            f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}{fakeproject}{os.sep}i*{os.sep}*"
         )
         for f in files:
             fname = f.split(os.sep)[-1]
-            if os.path.isfile(f):
-                shutil.copy(
-                    f,
-                    f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{fakeproject}{os.sep}i{int(i) - 1}" +
-                    f"{os.sep}{fname}")
+            match = re.search(
+                f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}{fakeproject}{os.sep}i([0-9]+){os.sep}{fname}",
+                f
+            )
+            if int(match[1]) <= i and os.path.isfile(f):
+                shutil.copy(f, f.replace("runs", "temp"))
     if function.startswith("run_interrupted") or function.startswith("single_run_interrupted"):
         i = int(function.split(" ")[1])
         c = 0
