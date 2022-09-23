@@ -86,6 +86,12 @@ def initialise_fake_project(function=None):
                 f
             )
             if int(match[1]) <= i and os.path.isfile(f):
+                if not os.path.exists(
+                        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{fakeproject}{os.sep}i{match[1]}"
+                ):
+                    os.mkdir(
+                        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{fakeproject}{os.sep}i{match[1]}"
+                    )
                 shutil.copy(f, f.replace("runs", "temp"))
     if function.startswith("run_interrupted") or function.startswith("single_run_interrupted"):
         i = int(function.split(" ")[1])
