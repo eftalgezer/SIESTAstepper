@@ -1,5 +1,17 @@
 # Changelog
 
+## [v2.0.0](https://github.com/eftalgezer/SIESTAstepper/tree/v2.0.0) (2022-09-23)
+
+- Bug fix
+- Linting
+- `update_cwd`, `update_log`, `update_cores`, `update_conda`, `update_cont`, `update_siesta`, `contfiles`, ND `contextensions` are moved in `SIESTAstepper.settings` and renamed. You can reach those by `SIESTAstepper.settings.set_cwd`, `SIESTAstepper.settings.set_log`, `SIESTAstepper.settings.set_cores`, `SIESTAstepper.settings.set_conda`, `SIESTAstepper.settings.set_cont`, `SIESTAstepper.settings.set_siesta`, `SIESTAstepper.settings.contfiles`, and `SIESTAstepper.settings.contextensions`, respectively.
+- `SIESTAstepper.settings.get_cwd`, `SIESTAstepper.settings.get_log`, `SIESTAstepper.settings.get_cores`, `SIESTAstepper.settings.get_conda`, `SIESTAstepper.settings.get_cont`, and `SIESTAstepper.settings.get_siesta` are added.
+- The previous version was checking the restart parameters and the `Userbasis` parameter in a fdf file by `.true.` and `.false.`. `T` and `F` support is added.
+- More tests are added.
+- [A tutorial for SIESTAstepper v2.0.0](https://beyondthearistotelian.blogspot.com/2022/09/siestastepper-v200-tutorial.html) is published.
+
+**Full Changelog**: https://github.com/eftalgezer/SIESTAstepper/compare/v1.2.2...v2.0.0
+
 ## [v1.2.3](https://github.com/eftalgezer/SIESTAstepper/tree/v1.2.3) (2022-09-19)
 
 Bug fix
