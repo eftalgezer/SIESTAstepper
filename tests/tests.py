@@ -591,7 +591,7 @@ def test_main_carbon_uninterrupted_project():
     assert runtest is not None or runtest != ""
 
 
-def test_main_carbon_uninterrupted_project_run_next():
+def main_carbon_uninterrupted_project_run_next():
     """Run tests based on Carbon_uninterrupted run run_next function with __main__.py"""
     fake_command()
     set_fake_project("Carbon_uninterrupted")
