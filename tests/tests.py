@@ -493,7 +493,7 @@ def carbon_project_run_interrupted():
     assert "All iterations are completed" in run_interrupted_tester("3", "C")
 
 
-def test_carbon_project_single_run_interrupted():
+def carbon_project_single_run_interrupted():
     """Run tests based on Carbon_uninterrupted run single_run_interrupted function"""
     fake_command()
     set_fake_project("Carbon")
