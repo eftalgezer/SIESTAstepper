@@ -517,7 +517,7 @@ def test_carbon_project_run_interrupted():
     assert energy_diff_tester("i*", settings.get_cwd()) == [(-299.845957, -297.982681, 4, 1, 1.8632759999999848)]
 
 
-def carbon_project_single_run_interrupted():
+def test_carbon_project_single_run_interrupted():
     """Run tests based on Carbon_uninterrupted run single_run_interrupted function"""
     fake_command()
     set_fake_project("Carbon")
