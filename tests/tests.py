@@ -551,7 +551,7 @@ def test_main():
         f" {mpath}{os.sep}tests{os.sep}assets{os.sep}fdf{os.sep}C-0.fdf" +
         f" {mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}C-1.fdf"
     )
-    assert xyz_to_fdftest is not None or xyz_to_fdftest != ""
+    assert xyz_to_fdftest is not None and xyz_to_fdftest != ""
     if os.path.exists(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon"):
         shutil.rmtree(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon")
     shutil.copytree(
