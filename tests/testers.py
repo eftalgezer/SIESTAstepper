@@ -106,7 +106,7 @@ def initialise_fake_project(function=None):
                 f"({os.sep}{settings.get_cont()}_*[0-9]*)?{os.sep}{fname}",
                 f
             )
-            if int(match[1]) >= i and os.path.isfile(f):
+            if int(match[1]) <= i and os.path.isfile(f):
                 if not os.path.exists(
                         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{fakeproject}{os.sep}i{match[1]}" +
                         f"{f'{match[2]}' if match[2] is not None else ''}"
