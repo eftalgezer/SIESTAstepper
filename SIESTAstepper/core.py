@@ -137,9 +137,9 @@ def single_run(i, label):
     os.chdir(f"{settings.get_cwd()}{os.sep}i{i}")
     print(f"Changed directory to {os.getcwd()}")
     with open(
-            f"{settings.get_cwd()}{os.sep}i{int(i) - 1}{os.sep}{settings.get_log()}",
-            "r",
-            encoding="utf-8"
+        f"{settings.get_cwd()}{os.sep}i{int(i) - 1}{os.sep}{settings.get_log()}",
+        "r",
+        encoding="utf-8"
     ) as file:
         lines = file.readlines()
         if lines[-1] == "Job completed\n":
@@ -205,9 +205,9 @@ def merge_ani(label=None, path=None):
         if [*set(it)] != list(range(min(it), max(it) + 1)):
             print("WARNING: There are missing ANI files!")
         with open(
-                f"{settings.get_cwd()}{os.sep}{label}-merged.ANI",
-                "w",
-                encoding="utf-8"
+            f"{settings.get_cwd()}{os.sep}{label}-merged.ANI",
+            "w",
+            encoding="utf-8"
         ) as outfile:
             print(f"{settings.get_cwd()}{os.sep}{label}-merged.ANI is opened")
             for f in files:
@@ -414,12 +414,12 @@ def _command(label=None, issingle=False):
         )
     with open(settings.get_log(), "w", encoding="utf-8") as logger:
         with Popen(
-                shlex.split(
-                    f"mpirun -np {settings.get_cores()} " if settings.get_cores() is not None else "" +
-                    f"{settings.get_siesta()} {label}.fdf"
-                ),
-                shell=False,
-                stdout=logger
+            shlex.split(
+                f"mpirun -np {settings.get_cores()} " if settings.get_cores() is not None else "" +
+                f"{settings.get_siesta()} {label}.fdf"
+            ),
+            shell=False,
+            stdout=logger
         ) as job:
             print(f"PID is {job.pid}")
             for line in tail("-f", settings.get_log(), _iter=True):
