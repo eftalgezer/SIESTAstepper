@@ -149,6 +149,10 @@ def fake_command(monkeypatch=MonkeyPatch()):
             f"i*{os.sep}{settings.get_cont()}*{os.sep}{settings.get_log()}"
         )
         fakelogs = sort_(fakelogs, "i*", settings.get_cont())
+
+        print("------")
+        print(fakefolders)
+        print(fakelogs)
         realpath = os.getcwd().replace(f"{os.sep}temp{os.sep}", f"{os.sep}runs{os.sep}")
         with open(f"{realpath}{os.sep}{settings.get_log()}", "r", encoding="utf-8") as reallog:
             with open(f"{os.getcwd()}{os.sep}{settings.get_log()}", "w", encoding="utf-8") as fakelog:
