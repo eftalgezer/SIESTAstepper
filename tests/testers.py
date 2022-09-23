@@ -117,6 +117,12 @@ def initialise_fake_project(function=None):
                         f"{f'{match[2]}' if match[2] is not None else ''}"
                     )
                 shutil.copy(f, f.replace("runs", "temp"))
+                if int(match[1]) == i and int(match[2].split["_"][1]) > c - 1:
+                    print("*", match[0], match[1], match[2], fname)
+                    shutil.rmtree(
+                        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{fakeproject}{os.sep}i{match[1]}" +
+                        f"{f'{match[2]}' if match[2] is not None else ''}"
+                    )
 
 
 def fake_command(monkeypatch=MonkeyPatch()):
