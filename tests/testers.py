@@ -133,6 +133,22 @@ def fake_command(monkeypatch=MonkeyPatch()):
 
     def fake__command(label=None, issingle=False):
         """A fake SIESTA run command"""
+        fakefolders = glob.glob(
+            f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{fakeproject}{os.sep}i*"
+        )
+        fakefolders += glob.glob(
+            f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{fakeproject}{os.sep}" +
+            f"i*{os.sep}{settings.get_cont()}*"
+        )
+        fakefolders = sort_(fakefolders, "i*", settings.get_cont())
+        fakelogs = glob.glob(
+            f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{fakeproject}{os.sep}i*{os.sep}{settings.get_log()}"
+        )
+        fakelogs += glob.glob(
+            f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{fakeproject}{os.sep}" +
+            f"i*{os.sep}{settings.get_cont()}*{os.sep}{settings.get_log()}"
+        )
+        fakelogs = sort_(fakelogs, "i*", settings.get_cont())
         realpath = os.getcwd().replace(f"{os.sep}temp{os.sep}", f"{os.sep}runs{os.sep}")
         with open(f"{realpath}{os.sep}{settings.get_log()}", "r", encoding="utf-8") as reallog:
             with open(f"{os.getcwd()}{os.sep}{settings.get_log()}", "w", encoding="utf-8") as fakelog:
@@ -140,7 +156,7 @@ def fake_command(monkeypatch=MonkeyPatch()):
                 fakelog.write(content)
                 print(content)
                 copy_files(["ANI"], "C", realpath, os.getcwd())
-                if content.endswith("Job completed\n") and issingle is False:
+                if content.endswith("Job completed\n") and issingle is False and len(fakelogs) != len(fakefolders):
                     run(label)
                 fakelog.close()
             reallog.close()
