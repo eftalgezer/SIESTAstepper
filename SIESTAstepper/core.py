@@ -416,14 +416,14 @@ def _command(label=None, issingle=False):
         with Popen(
                 shlex.split(
                     f"mpirun -np {settings.get_cores()} " if settings.get_cores() is not None else "" +
-                                                                                                   f"{settings.get_siesta()} {label}.fdf"
+                    f"{settings.get_siesta()} {label}.fdf"
                 ),
                 shell=False,
                 stdout=logger
         ) as job:
             print(f"PID is {job.pid}")
             for line in tail("-f", settings.get_log(), _iter=True):
-                print(line)
+                print(line.strip("\n"))
                 if line == "Job completed\n" and issingle is False:
                     run(label)
 
