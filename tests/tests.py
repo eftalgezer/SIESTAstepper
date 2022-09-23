@@ -666,7 +666,7 @@ def test_main_carbon_project_run_interrupted():
     assert energy_difftest is not None or energy_difftest != ""
 
 
-def main_carbon_project_single_run_interrupted():
+def test_main_carbon_project_single_run_interrupted():
     """Run tests based on Carbon_uninterrupted run single_run_interrupted function with __main__.py"""
     fake_command()
     set_fake_project("Carbon")
