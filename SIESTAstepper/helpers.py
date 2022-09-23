@@ -74,7 +74,7 @@ def print_run(for_, cores, conda):
     print(
         f"""Running SIESTA for {for_}
         {f' in parallel with {cores} cores' if cores is not None else ''}
-        {' in conda' if conda else ''}""".strip("\n").strip("        ")
+        {' in conda' if conda else ''}""".strip("\n").replace("        ", "")
     )
 
 
