@@ -357,7 +357,7 @@ def main_tester(command):
     # with patch('sys.argv', command.split(" ")):
     from SIESTAstepper.__main__ import main as rtmain
     args = command.split(" ")
-    print(args)
+    print("*", args)
     rtmain(args)
     sys.stdout = sys.__stdout__
     return capturedoutput.getvalue()
