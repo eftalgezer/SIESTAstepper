@@ -565,8 +565,8 @@ def test_main():
     if not os.path.isdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon"):
         os.mkdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon")
     os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon")
-    make_directoriestest = main_tester("SIESTAstepper make_directories 5")
-    assert make_directoriestest is not None or make_directoriestest != ""
+    assert main_tester("SIESTAstepper make_directories 5") == "Making directory i1 under"
+    # assert make_directoriestest is not None or make_directoriestest != ""
     copy_filestest = main_tester(
         "SIESTAstepper" +
         " copy_files" +
