@@ -354,10 +354,8 @@ def main_tester(command):
     fake_command()
     capturedoutput = io.StringIO()
     sys.stdout = capturedoutput
-    args = command.split(" ")
-    print("*", args)
-    # with patch('sys.argv', command.split(" ")):
-    from SIESTAstepper.__main__ import main as rtmain
-    rtmain(args)
+    with patch('sys.argv', command.split(" ")):
+        print(command.split(" "))
+        from SIESTAstepper import __main__ as rtmain
     sys.stdout = sys.__stdout__
     return capturedoutput.getvalue()
