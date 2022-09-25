@@ -611,11 +611,16 @@ def test_main():
     #   " psf" +
     #    " XV" +
     #    " DM"
-    #) + "*").split("successfully")) == 3
+    # ) + "*").split("successfully")) == 3
     settings.set_cwd(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}Carbon")
     os.chdir(settings.get_cwd())
-    print(main_tester("SIESTAstepper analysis log"))
-    assert main_tester("SIESTAstepper analysis log") == ""
+    assert ((expr in main_tester("SIESTAstepper analysis log")) for expr in [
+        "-297.982681",
+        "-299.171055",
+        "-299.791356",
+        "-299.845957",
+        "-299.498399"
+    ])
     print(main_tester("SIESTAstepper energy_diff log"))
     assert main_tester("SIESTAstepper energy_diff log") == ""
 
