@@ -353,6 +353,10 @@ def remove_nones_tester(files, path, cwd, cont, log):
 @patch("SIESTAstepper.__main__.print")
 def main_tester(mock_print: MagicMock, command=None) -> None:
     fake_command()
+    capturedoutput = io.StringIO()
+    sys.stdout = capturedoutput
     from SIESTAstepper.__main__ import main as rtmain
     rtmain(args=command.split(" "))
     mock_print.assert_called_once_with()
+    sys.stdout = sys.__stdout__
+    return capturedoutput.getvalue()
