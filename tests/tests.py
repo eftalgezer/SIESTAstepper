@@ -595,8 +595,7 @@ def test_main():
     if not os.path.isdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon"):
         os.mkdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon")
     os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon")
-    print(main_tester("SIESTAstepper make_directories 5"))
-    assert main_tester("SIESTAstepper make_directories 5") == ""
+    assert ((expr in main_tester("SIESTAstepper make_directories 5")) for expr in ["i1", "i2", "i3", "i4", "i5"])
     assert sum(1 for _ in re.finditer(r'\b%s\b' % re.escape("successfully"), main_tester(
         "SIESTAstepper" +
         " copy_files" +
