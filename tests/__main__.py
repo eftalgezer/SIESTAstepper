@@ -1,6 +1,7 @@
 """
 Evaluate unit tests for the SIESTAstepper library.
 """
+from __future__ import absolute_import
 from .tests import (
     test_ani_to_fdf,
     test_xyz_to_fdf,

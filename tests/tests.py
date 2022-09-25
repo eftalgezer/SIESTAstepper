@@ -1,8 +1,8 @@
 """
 Unit tests for the SIESTAstepper library.
 """
+from __future__ import absolute_import
 import os
-import re
 import shutil
 from SIESTAstepper import __file__ as mfile
 from .testers import (
@@ -602,16 +602,16 @@ def test_main():
         "i4 created",
         "i5 created"
     ])
-    assert len((main_tester(
-        "SIESTAstepper" +
-        " copy_files" +
-        " C" +
-        f" {mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}Carbon{os.sep}i1" +
-        f" {mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon{os.sep}i2" +
-        " psf" +
-        " XV" +
-        " DM"
-    ) + "*").split("successfully")) == 3
+    # assert len((main_tester(
+    #    "SIESTAstepper" +
+    #    " copy_files" +
+    #    " C" +
+    #    f" {mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}Carbon{os.sep}i1" +
+    #    f" {mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon{os.sep}i2" +
+    #   " psf" +
+    #    " XV" +
+    #    " DM"
+    #) + "*").split("successfully")) == 3
     settings.set_cwd(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}Carbon")
     os.chdir(settings.get_cwd())
     print(main_tester("SIESTAstepper analysis log"))
