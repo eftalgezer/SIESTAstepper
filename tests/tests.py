@@ -604,7 +604,7 @@ def test_main():
         "i5 is created"
     ])
     import glob
-    print("***", glob.glob(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon{os.sep}i*"))
+    print("***", glob.glob("i*"))
     # assert len((main_tester(
     #     "SIESTAstepper" +
     #     " copy_files" +
