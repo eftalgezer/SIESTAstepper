@@ -596,7 +596,7 @@ def test_main():
         os.mkdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon")
     os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon")
     assert ((expr in main_tester("SIESTAstepper make_directories 5")) for expr in ["i1", "i2", "i3", "i4", "i5"])
-    assert sum(1 for _ in re.finditer(r'\b%s\b' % re.escape("successfully"), main_tester(
+    assert len(main_tester(
         "SIESTAstepper" +
         " copy_files" +
         " C" +
@@ -605,7 +605,7 @@ def test_main():
         " psf" +
         " XV" +
         " DM"
-    ))) == 3
+    ).split("successfully")) == 3
     settings.set_cwd(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}Carbon")
     os.chdir(settings.get_cwd())
     print(main_tester("SIESTAstepper analysis log"))
