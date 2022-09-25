@@ -649,13 +649,13 @@ def test_main_carbon_uninterrupted_project():
         " i1" +
         " psf"
     ) + "*").split("successfully")) == 1
-    # assert "is created" in main_tester(
-    #     "SIESTAstepper" +
-    #     " xyz_to_fdf" +
-    #     " C.xyz" +
-    #     " C.fdf" +
-    #     f" i1{os.sep}C.fdf"
-    # )
+    assert "is created" in main_tester(
+        "SIESTAstepper" +
+        " xyz_to_fdf" +
+        " C.xyz" +
+        " C.fdf" +
+        f" {os.getcwd()}{os.sep}i1{os.sep}C.fdf"
+    )
     assert "All iterations are completed" in main_tester("SIESTAstepper run log C")
     assert ((expr in main_tester("SIESTAstepper analysis log")) for expr in [
         "-297.982681",
