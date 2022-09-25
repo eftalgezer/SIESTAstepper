@@ -602,16 +602,16 @@ def test_main():
         "i4 created",
         "i5 created"
     ])
-    # assert len((main_tester(
-    #    "SIESTAstepper" +
-    #    " copy_files" +
-    #    " C" +
-    #    f" {mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}Carbon{os.sep}i1" +
-    #    f" {mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon{os.sep}i2" +
-    #   " psf" +
-    #    " XV" +
-    #    " DM"
-    # ) + "*").split("successfully")) == 3
+    assert len((main_tester(
+        "SIESTAstepper" +
+        " copy_files" +
+        " C" +
+        f" {mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}Carbon{os.sep}i1" +
+        f" {mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon{os.sep}i2" +
+        " psf" +
+        " XV" +
+        " DM"
+    ) + "*").split("successfully")) == 3
     settings.set_cwd(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}Carbon")
     os.chdir(settings.get_cwd())
     assert ((expr in main_tester("SIESTAstepper analysis log")) for expr in [
@@ -731,7 +731,6 @@ def main_carbon_project_run_interrupted():
         "i5 created"
     ])
     assert "All iterations are completed" in main_tester("SIESTAstepper run_interrupted log 3 C cont=continue")
-    analysistest = main_tester("SIESTAstepper analysis log")
     assert ((expr in main_tester("SIESTAstepper analysis log")) for expr in [
         "-297.982681",
         "-299.171055",
