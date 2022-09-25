@@ -356,6 +356,7 @@ def main_tester(mock_print: MagicMock, command=None) -> None:
     capturedoutput = io.StringIO()
     sys.stdout = capturedoutput
     from SIESTAstepper.__main__ import main as rtmain
+    print("*", command.split(" "), "|", command)
     rtmain(args=command.split(" "))
     mock_print.assert_called_once_with()
     sys.stdout = sys.__stdout__
