@@ -333,7 +333,6 @@ def make_directories(n):
             print(f"Directory i{i} is created")
         else:
             print(f"Directory i{i} exists")
-    print("***", "***", glob.glob(f"{settings.get_cwd()}{os.sep}i*"))
 
 
 def copy_files(extensions, label, source_, destination):
