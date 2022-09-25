@@ -595,12 +595,13 @@ def test_main():
     if not os.path.isdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon"):
         os.mkdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon")
     os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon")
+    print("***", os.getcwd)
     assert ((expr in main_tester("SIESTAstepper make_directories 5")) for expr in [
-        "i1 created",
-        "i2 created",
-        "i3 created",
-        "i4 created",
-        "i5 created"
+        "i1 is created",
+        "i2 is created",
+        "i3 is created",
+        "i4 is created",
+        "i5 is created"
     ])
     import glob
     print("***", glob.glob(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon{os.sep}i*"))
@@ -637,11 +638,11 @@ def main_carbon_uninterrupted_project():
     os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
     settings.set_cwd(os.getcwd())
     assert ((expr in main_tester("SIESTAstepper make_directories 5")) for expr in [
-        "i1 created",
-        "i2 created",
-        "i3 created",
-        "i4 created",
-        "i5 created"
+        "i1 is created",
+        "i2 is created",
+        "i3 is created",
+        "i4 is created",
+        "i5 is created"
     ])
     assert len((main_tester(
         "SIESTAstepper" +
@@ -680,11 +681,11 @@ def test_main_carbon_uninterrupted_project_run_next():
     os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
     settings.set_cwd(os.getcwd())
     assert ((expr in main_tester("SIESTAstepper make_directories 5")) for expr in [
-        "i1 created",
-        "i2 created",
-        "i3 created",
-        "i4 created",
-        "i5 created"
+        "i1 is created",
+        "i2 is created",
+        "i3 is created",
+        "i4 is created",
+        "i5 is created"
     ])
     initialise_fake_project("run_next 2")
     assert "All iterations are completed" in main_tester("SIESTAstepper run_next log 2 C")
@@ -709,11 +710,11 @@ def test_main_carbon_uninterrupted_project_single_run():
     os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
     settings.set_cwd(os.getcwd())
     assert ((expr in main_tester("SIESTAstepper make_directories 5")) for expr in [
-        "i1 created",
-        "i2 created",
-        "i3 created",
-        "i4 created",
-        "i5 created"
+        "i1 is created",
+        "i2 is created",
+        "i3 is created",
+        "i4 is created",
+        "i5 is created"
     ])
     initialise_fake_project("single_run 3")
     assert "Job completed\n" in main_tester("SIESTAstepper single_run log 2 C")
@@ -726,11 +727,11 @@ def main_carbon_project_run_interrupted():
     os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
     settings.set_cwd(os.getcwd())
     assert ((expr in main_tester("SIESTAstepper make_directories 5")) for expr in [
-        "i1 created",
-        "i2 created",
-        "i3 created",
-        "i4 created",
-        "i5 created"
+        "i1 is created",
+        "i2 is created",
+        "i3 is created",
+        "i4 is created",
+        "i5 is created"
     ])
     assert "All iterations are completed" in main_tester("SIESTAstepper run_interrupted log 3 C cont=continue")
     assert ((expr in main_tester("SIESTAstepper analysis log")) for expr in [
