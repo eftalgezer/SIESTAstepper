@@ -621,8 +621,11 @@ def test_main():
         "-299.845957",
         "-299.498399"
     ])
-    print(main_tester("SIESTAstepper energy_diff log"))
-    assert main_tester("SIESTAstepper energy_diff log") == ""
+    assert ((expr in main_tester("SIESTAstepper energy_diff log")) for expr in [
+        "-299.845957",
+        "-297.982681",
+        "1.863276"
+    ])
 
 
 def test_main_carbon_uninterrupted_project():
@@ -631,31 +634,43 @@ def test_main_carbon_uninterrupted_project():
     initialise_fake_project()
     os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
     settings.set_cwd(os.getcwd())
-    make_directoriestest = main_tester("SIESTAstepper make_directories 5")
-    assert make_directoriestest is not None or make_directoriestest != ""
-    copy_filestest = main_tester(
-        "SIESTAstepper" +
-        " copy_files" +
-        " C" +
-        " ." +
-        " i1" +
-        " psf"
-    )
-    assert copy_filestest is not None or copy_filestest != ""
-    xyz_to_fdftest = main_tester(
+    assert ((expr in main_tester("SIESTAstepper make_directories 5")) for expr in [
+        "i1 created",
+        "i2 created",
+        "i3 created",
+        "i4 created",
+        "i5 created"
+    ])
+    assert len((main_tester(
+            "SIESTAstepper" +
+            " copy_files" +
+            " C" +
+            f" {mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}Carbon{os.sep}i1" +
+            f" {mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon{os.sep}i2" +
+           " psf" +
+            " XV" +
+            " DM"
+         ) + "*").split("successfully")) == 1
+    assert "is created" in main_tester(
         "SIESTAstepper" +
         " xyz_to_fdf" +
         " C.xyz" +
         " C.fdf" +
         f" i1{os.sep}C.fdf"
     )
-    assert xyz_to_fdftest is not None or xyz_to_fdftest != ""
-    runtest = main_tester("SIESTAstepper run log C")
-    assert runtest is not None or runtest != ""
-    analysistest = main_tester("SIESTAstepper analysis log")
-    assert analysistest is not None or analysistest != ""
-    energy_difftest = main_tester("SIESTAstepper energy_diff log")
-    assert energy_difftest is not None or energy_difftest != ""
+    assert "All iterations are completed" in main_tester("SIESTAstepper run log C")
+    assert ((expr in main_tester("SIESTAstepper analysis log")) for expr in [
+        "-297.982681",
+        "-299.171055",
+        "-299.791356",
+        "-299.845957",
+        "-299.498399"
+    ])
+    assert ((expr in main_tester("SIESTAstepper energy_diff log")) for expr in [
+        "-299.845957",
+        "-297.982681",
+        "1.863276"
+    ])
 
 
 def test_main_carbon_uninterrupted_project_run_next():
