@@ -8,7 +8,7 @@ import io
 import sys
 import re
 from _pytest.monkeypatch import MonkeyPatch
-from unittest.mock import patch
+from unittest.mock import MagicMock, patch
 from SIESTAstepper import __file__ as mfile
 from SIESTAstepper.core import (
     run,
@@ -350,11 +350,9 @@ def remove_nones_tester(files, path, cwd, cont, log):
     return files
 
 
-def main_tester(command):
+@patch("SIESTAstepper.__main__.print")
+def main_tester(mock_print: MagicMock, command=None) -> None:
     fake_command()
-    capturedoutput = io.StringIO()
-    sys.stdout = capturedoutput
-    with patch('sys.argv', command.split(" ")):
-        from SIESTAstepper import __main__ as rtmain
-    sys.stdout = sys.__stdout__
-    return capturedoutput.getvalue()
+    from SIESTAstepper.__main__ import main as rtmain
+    rtmain(args=command.split(" "))
+    mock_print.assert_called_once_with()

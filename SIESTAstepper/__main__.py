@@ -112,4 +112,5 @@ def independents(arg):
         settings.set_siesta(arg.split("=")[1])
 
 
-main(args=sys.argv)
+if __name__ == "__main__":
+    main(args=sys.argv)
