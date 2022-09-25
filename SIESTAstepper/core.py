@@ -330,6 +330,7 @@ def make_directories(n):
         if not os.path.exists(f"{settings.get_cwd()}{os.sep}i{i}"):
             print(f"Making directory i{i} under {settings.get_cwd().split(os.sep)[-1]}")
             os.mkdir(f"{settings.get_cwd()}{os.sep}i{i}")
+            print(f"Directory i{i} created")
         else:
             print(f"Directory i{i} exists")
 

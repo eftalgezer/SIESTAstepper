@@ -595,7 +595,13 @@ def test_main():
     if not os.path.isdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon"):
         os.mkdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon")
     os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon")
-    assert ((expr in main_tester("SIESTAstepper make_directories 5")) for expr in ["i1", "i2", "i3", "i4", "i5"])
+    assert ((expr in main_tester("SIESTAstepper make_directories 5")) for expr in [
+        "i1 created",
+        "i2 created",
+        "i3 created",
+        "i4 created",
+        "i5 created"
+    ])
     assert len(main_tester(
         "SIESTAstepper" +
         " copy_files" +
