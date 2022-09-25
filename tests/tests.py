@@ -606,7 +606,7 @@ def test_main_carbon_uninterrupted_project():
     xyz_to_fdftest = main_tester(
         "SIESTAstepper" +
         " xyz_to_fdf" +
-        " C.xyz " +
+        " C.xyz" +
         " C.fdf" +
         f" i1{os.sep}C.fdf"
     )
