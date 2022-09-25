@@ -2,6 +2,7 @@
 Unit tests for the SIESTAstepper library.
 """
 import os
+import re
 from SIESTAstepper import __file__ as mfile
 from .testers import *
 
@@ -536,28 +537,20 @@ def test_carbon_project_single_run_interrupted():
 
 def test_main():
     """Tests for __main__.py"""
-    print(main_tester(
+    assert "is created" in main_tester(
         "SIESTAstepper" +
         " ani_to_fdf" +
         f" {mpath}{os.sep}tests{os.sep}assets{os.sep}ANI{os.sep}C-4.ANI" +
         f" {mpath}{os.sep}tests{os.sep}assets{os.sep}fdf{os.sep}C-0.fdf" +
         f" {mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}C-5.fdf"
-    ))
-    assert main_tester(
-        "SIESTAstepper" +
-        " ani_to_fdf" +
-        f" {mpath}{os.sep}tests{os.sep}assets{os.sep}ANI{os.sep}C-4.ANI" +
-        f" {mpath}{os.sep}tests{os.sep}assets{os.sep}fdf{os.sep}C-0.fdf" +
-        f" {mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}C-5.fdf"
-    ) == ""
-    xyz_to_fdftest = main_tester(
+    )
+    assert "is created" in main_tester(
         "SIESTAstepper" +
         " xyz_to_fdf" +
         f" {mpath}{os.sep}tests{os.sep}assets{os.sep}xyz{os.sep}C.xyz" +
         f" {mpath}{os.sep}tests{os.sep}assets{os.sep}fdf{os.sep}C-0.fdf" +
         f" {mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}C-1.fdf"
     )
-    assert xyz_to_fdftest is not None or xyz_to_fdftest != ""
     if os.path.exists(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon"):
         shutil.rmtree(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon")
     shutil.copytree(
@@ -565,15 +558,14 @@ def test_main():
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon"
     )
     settings.set_cwd(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon")
-    merge_anitest = main_tester("SIESTAstepper merge_ani C")
-    assert merge_anitest is not None or merge_anitest != ""
+    assert "All ANI files are merged" in main_tester("SIESTAstepper merge_ani C")
     clear_temp()
     if not os.path.isdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon"):
         os.mkdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon")
     os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon")
-    make_directoriestest = main_tester("SIESTAstepper make_directories 5")
-    assert make_directoriestest is not None or make_directoriestest != ""
-    copy_filestest = main_tester(
+    print(main_tester("SIESTAstepper make_directories 5"))
+    assert main_tester("SIESTAstepper make_directories 5") == ""
+    assert sum(1 for _ in re.finditer(r'\b%s\b' % re.escape("successfully"), main_tester(
         "SIESTAstepper" +
         " copy_files" +
         " C" +
@@ -582,14 +574,13 @@ def test_main():
         " psf" +
         " XV" +
         " DM"
-    )
-    assert copy_filestest is not None or copy_filestest != ""
+    ))) == 3
     settings.set_cwd(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}Carbon")
     os.chdir(settings.get_cwd())
-    analysistest = main_tester("SIESTAstepper analysis log")
-    assert analysistest is not None or analysistest != ""
-    energy_difftest = main_tester("SIESTAstepper energy_diff log")
-    assert energy_difftest is not None or energy_difftest != ""
+    print(main_tester("SIESTAstepper analysis log"))
+    assert main_tester("SIESTAstepper analysis log") == ""
+    print(main_tester("SIESTAstepper energy_diff log"))
+    assert main_tester("SIESTAstepper energy_diff log") == ""
 
 
 def test_main_carbon_uninterrupted_project():
