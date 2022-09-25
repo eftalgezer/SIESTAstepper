@@ -592,8 +592,7 @@ def test_main():
     settings.set_cwd(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon")
     assert "All ANI files are merged" in main_tester("SIESTAstepper merge_ani C")
     clear_temp()
-    if not os.path.isdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon"):
-        os.mkdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon")
+    set_fake_project("Carbon")
     settings.set_cwd(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon")
     os.chdir(settings.get_cwd())
     print("***", os.getcwd())
