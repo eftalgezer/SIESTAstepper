@@ -595,7 +595,7 @@ def test_main():
     if not os.path.isdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon"):
         os.mkdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon")
     os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon")
-    print("***", os.getcwd)
+    print("***", os.getcwd())
     assert ((expr in main_tester("SIESTAstepper make_directories 5")) for expr in [
         "i1 is created",
         "i2 is created",
