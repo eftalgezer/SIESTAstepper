@@ -677,15 +677,27 @@ def test_main_carbon_uninterrupted_project_run_next():
     set_fake_project("Carbon_uninterrupted")
     os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
     settings.set_cwd(os.getcwd())
-    make_directoriestest = main_tester("SIESTAstepper make_directories 5")
-    assert make_directoriestest is not None or make_directoriestest != ""
+    assert ((expr in main_tester("SIESTAstepper make_directories 5")) for expr in [
+        "i1 created",
+        "i2 created",
+        "i3 created",
+        "i4 created",
+        "i5 created"
+    ])
     initialise_fake_project("run_next 2")
-    run_nexttest = main_tester("SIESTAstepper run_next log 2 C")
-    assert run_nexttest is not None or run_nexttest != ""
-    analysistest = main_tester("SIESTAstepper analysis log")
-    assert analysistest is not None or analysistest != ""
-    energy_difftest = main_tester("SIESTAstepper energy_diff log")
-    assert energy_difftest is not None or energy_difftest != ""
+    assert "All iterations are completed" in main_tester("SIESTAstepper run_next log 2 C")
+    assert ((expr in main_tester("SIESTAstepper analysis log")) for expr in [
+        "-297.982681",
+        "-299.171055",
+        "-299.791356",
+        "-299.845957",
+        "-299.498399"
+    ])
+    assert ((expr in main_tester("SIESTAstepper energy_diff log")) for expr in [
+        "-299.845957",
+        "-297.982681",
+        "1.863276"
+    ])
 
 
 def test_main_carbon_uninterrupted_project_single_run():
@@ -694,11 +706,15 @@ def test_main_carbon_uninterrupted_project_single_run():
     set_fake_project("Carbon_uninterrupted")
     os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
     settings.set_cwd(os.getcwd())
-    make_directoriestest = main_tester("SIESTAstepper make_directories 5")
-    assert make_directoriestest is not None or make_directoriestest != ""
+    assert ((expr in main_tester("SIESTAstepper make_directories 5")) for expr in [
+        "i1 created",
+        "i2 created",
+        "i3 created",
+        "i4 created",
+        "i5 created"
+    ])
     initialise_fake_project("single_run 3")
-    single_runtest = main_tester("SIESTAstepper single_run log 2 C")
-    assert single_runtest is not None or single_runtest != ""
+    assert "Job completed\n" in main_tester("SIESTAstepper single_run log 2 C")
 
 
 def main_carbon_project_run_interrupted():
@@ -707,14 +723,27 @@ def main_carbon_project_run_interrupted():
     set_fake_project("Carbon")
     os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
     settings.set_cwd(os.getcwd())
-    make_directoriestest = main_tester("SIESTAstepper make_directories 5")
-    assert make_directoriestest is not None or make_directoriestest != ""
-    run_interruptedtest = main_tester("SIESTAstepper run_interrupted log 3 C cont=continue")
-    assert run_interruptedtest is not None or run_interruptedtest != ""
+    assert ((expr in main_tester("SIESTAstepper make_directories 5")) for expr in [
+        "i1 created",
+        "i2 created",
+        "i3 created",
+        "i4 created",
+        "i5 created"
+    ])
+    assert "All iterations are completed" in main_tester("SIESTAstepper run_interrupted log 3 C cont=continue")
     analysistest = main_tester("SIESTAstepper analysis log")
-    assert analysistest is not None or analysistest != ""
-    energy_difftest = main_tester("SIESTAstepper energy_diff log")
-    assert energy_difftest is not None or energy_difftest != ""
+    assert ((expr in main_tester("SIESTAstepper analysis log")) for expr in [
+        "-297.982681",
+        "-299.171055",
+        "-299.791356",
+        "-299.845957",
+        "-299.498399"
+    ])
+    assert ((expr in main_tester("SIESTAstepper energy_diff log")) for expr in [
+        "-299.845957",
+        "-297.982681",
+        "1.863276"
+    ])
 
 
 def test_main_carbon_project_single_run_interrupted():
@@ -723,8 +752,12 @@ def test_main_carbon_project_single_run_interrupted():
     set_fake_project("Carbon")
     os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
     settings.set_cwd(os.getcwd())
-    make_directoriestest = main_tester("SIESTAstepper make_directories 5")
-    assert make_directoriestest is not None or make_directoriestest != ""
+    assert ((expr in main_tester("SIESTAstepper make_directories 5")) for expr in [
+        "i1 created",
+        "i2 created",
+        "i3 created",
+        "i4 created",
+        "i5 created"
+    ])
     initialise_fake_project("single_run_interrupted 3 1")
-    single_run_interruptedtest = main_tester("SIESTAstepper single_run_interrupted log 3 C")
-    assert single_run_interruptedtest is not None or single_run_interruptedtest != ""
+    assert "Job completed\n" in main_tester("SIESTAstepper single_run_interrupted log 3 C")
