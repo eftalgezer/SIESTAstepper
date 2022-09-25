@@ -3,6 +3,7 @@ Unit tests for the SIESTAstepper library.
 """
 import os
 import re
+import shutil
 from SIESTAstepper import __file__ as mfile
 from .testers import (
     settings,
