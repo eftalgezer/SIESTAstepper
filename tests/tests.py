@@ -5,6 +5,7 @@ import os
 import re
 from SIESTAstepper import __file__ as mfile
 from .testers import (
+    settings,
     read_file,
     clear_temp,
     initialise_fake_project,
