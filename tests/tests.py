@@ -536,14 +536,20 @@ def test_carbon_project_single_run_interrupted():
 
 def test_main():
     """Tests for __main__.py"""
-    ani_to_fdftest = main_tester(
+    print(main_tester(
         "SIESTAstepper" +
         " ani_to_fdf" +
         f" {mpath}{os.sep}tests{os.sep}assets{os.sep}ANI{os.sep}C-4.ANI" +
         f" {mpath}{os.sep}tests{os.sep}assets{os.sep}fdf{os.sep}C-0.fdf" +
         f" {mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}C-5.fdf"
-    )
-    assert ani_to_fdftest is not None or ani_to_fdftest != ""
+    ))
+    assert main_tester(
+        "SIESTAstepper" +
+        " ani_to_fdf" +
+        f" {mpath}{os.sep}tests{os.sep}assets{os.sep}ANI{os.sep}C-4.ANI" +
+        f" {mpath}{os.sep}tests{os.sep}assets{os.sep}fdf{os.sep}C-0.fdf" +
+        f" {mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}C-5.fdf"
+    ) == ""
     xyz_to_fdftest = main_tester(
         "SIESTAstepper" +
         " xyz_to_fdf" +
