@@ -602,7 +602,7 @@ def test_main():
         "i4 created",
         "i5 created"
     ])
-    assert len(main_tester(
+    assert len((main_tester(
         "SIESTAstepper" +
         " copy_files" +
         " C" +
@@ -611,7 +611,7 @@ def test_main():
         " psf" +
         " XV" +
         " DM"
-    ).split("successfully")) == 3
+    ) + "*").split("successfully")) == 3
     settings.set_cwd(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}Carbon")
     os.chdir(settings.get_cwd())
     print(main_tester("SIESTAstepper analysis log"))
