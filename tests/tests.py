@@ -592,10 +592,9 @@ def test_main():
     settings.set_cwd(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon")
     assert "All ANI files are merged" in main_tester("SIESTAstepper merge_ani C")
     clear_temp()
-    if not os.path.isdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon"):
-        os.mkdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon")
-    settings.set_cwd(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon")
-    os.chdir(settings.get_cwd())
+    set_fake_project("Carbon")
+    os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
+    settings.set_cwd(os.getcwd())
     print("***", os.getcwd())
     assert ((expr in main_tester("SIESTAstepper make_directories 5")) for expr in [
         "i1 is created",
