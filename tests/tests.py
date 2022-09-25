@@ -642,15 +642,13 @@ def test_main_carbon_uninterrupted_project():
         "i5 created"
     ])
     assert len((main_tester(
-            "SIESTAstepper" +
-            " copy_files" +
-            " C" +
-            f" {mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}Carbon{os.sep}i1" +
-            f" {mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon{os.sep}i2" +
-           " psf" +
-            " XV" +
-            " DM"
-         ) + "*").split("successfully")) == 1
+        "SIESTAstepper" +
+        " copy_files" +
+        " C" +
+        " ." +
+        " i1" +
+        " psf"
+    ) + "*").split("successfully")) == 1
     assert "is created" in main_tester(
         "SIESTAstepper" +
         " xyz_to_fdf" +
