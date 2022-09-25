@@ -1,7 +1,36 @@
 """
 Evaluate unit tests for the SIESTAstepper library.
 """
-from .tests import *
+from .tests import (
+    test_ani_to_fdf,
+    test_xyz_to_fdf,
+    test_merge_ani,
+    test_make_directories,
+    test_copy_files,
+    test_analysis,
+    test_energy_diff,
+    test_get_it,
+    test_read_fdf,
+    test_create_fdf,
+    test_read_energy,
+    test_print_run,
+    test_check_restart,
+    test_check_userbasis,
+    test_sort_,
+    test_remove_nones,
+    test_carbon_uninterrupted_project,
+    test_carbon_uninterrupted_project_run_next,
+    test_carbon_uninterrupted_project_single_run,
+    test_carbon_project_run_interrupted,
+    test_carbon_project_single_run_interrupted,
+    test_main,
+    test_main_carbon_uninterrupted_project,
+    test_main_carbon_uninterrupted_project_run_next,
+    test_main_carbon_uninterrupted_project_single_run,
+    test_main_carbon_project_run_interrupted,
+    test_main_carbon_project_single_run_interrupted
+)
+from .testers import clear_temp
 
 clear_temp()
 test_ani_to_fdf()
