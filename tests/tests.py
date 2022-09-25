@@ -602,6 +602,7 @@ def test_main():
         "i4 created",
         "i5 created"
     ])
+    import glob
     print("***", glob.glob("i*"))
     assert len((main_tester(
         "SIESTAstepper" +
