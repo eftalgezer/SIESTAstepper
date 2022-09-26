@@ -631,7 +631,7 @@ def test_main():
     ])
 
 
-def test_main_carbon_uninterrupted_project():
+def main_carbon_uninterrupted_project():
     """Run tests based on Carbon_uninterrupted run with __main__.py"""
     set_fake_project("Carbon_uninterrupted")
     initialise_fake_project()
