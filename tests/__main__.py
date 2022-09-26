@@ -29,7 +29,8 @@ from .tests import (
     test_main_carbon_uninterrupted_project_run_next,
     test_main_carbon_uninterrupted_project_single_run,
     test_main_carbon_project_run_interrupted,
-    test_main_carbon_project_single_run_interrupted
+    test_main_carbon_project_single_run_interrupted,
+    TestErrors
 )
 from .testers import clear_temp
 
@@ -74,3 +75,7 @@ test_main_carbon_project_run_interrupted()
 clear_temp()
 test_main_carbon_project_single_run_interrupted()
 clear_temp()
+testerrors = TestErrors()
+testerrors.test_get_it()
+testerrors.test_main()
+testerrors.test_copy_file()

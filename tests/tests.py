@@ -192,7 +192,7 @@ def test_read_energy():
 def test_print_run():
     """Tests for print_run"""
     assert print_run_tester("i1", None, None) == "Running SIESTA for i1\n"
-    assert print_run_tester("i1", 4, None)  == "Running SIESTA for i1 in parallel with 4 cores\n"
+    assert print_run_tester("i1", 4, None) == "Running SIESTA for i1 in parallel with 4 cores\n"
     assert print_run_tester("i1", None, "envir") == "Running SIESTA for i1 in conda\n"
 
 
@@ -629,7 +629,7 @@ def test_main():
         "-297.982681",
         "1.863276"
     ])
-    assert "Command not found" in main_tester("SIESTAstepper Foo")
+
 
 def test_main_carbon_uninterrupted_project():
     """Run tests based on Carbon_uninterrupted run with __main__.py"""
@@ -767,3 +767,26 @@ def test_main_carbon_project_single_run_interrupted():
     ])
     initialise_fake_project("single_run_interrupted 3 2")
     assert "Job completed\n" in main_tester("SIESTAstepper single_run_interrupted log 3 C")
+
+
+class TestErrors(unittest.TestCase):
+    """Unit testing of errors"""
+    def test_main(self):
+        """Error tests for __main__.py"""
+        with self.assertRaises(AttributeError):
+            main_tester("SIESTAstepper Foo")
+
+    def test_get_it(self):
+        """Error tests for get_it"""
+        with self.assertRaises(AttributeError):
+            get_it_tester("Foo", "Bar")
+
+    def test_copy_file(self):
+        """Error tests for copy_file"""
+        with self.assertRaises(shutil.SameFileError):
+            copy_file_tester(
+                f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}{get_fake_project()}{os.sep}i1{os.sep}C.fdf",
+                f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}{get_fake_project()}{os.sep}i1{os.sep}C.fdf"
+            )
+        with self.assertRaises(FileNotFoundError):
+            copy_file_tester("Foo", "Bar")
