@@ -474,14 +474,14 @@ def test_carbon_uninterrupted_project():
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}{get_fake_project()}{os.sep}i1{os.sep}C.fdf"
     )
     assert "All iterations are completed" in run_tester("C")
-    assert analysis_tester("i*", settings.get_cwd()) == [
+    assert analysis_tester(None, settings.get_cwd()) == [
         (1, -297.982681),
         (2, -299.171055),
         (3, -299.791356),
         (4, -299.845957),
         (5, -299.498399)
     ]
-    assert energy_diff_tester("i*", settings.get_cwd()) == [(-299.845957, -297.982681, 4, 1, 1.8632759999999848)]
+    assert energy_diff_tester(None, settings.get_cwd()) == [(-299.845957, -297.982681, 4, 1, 1.8632759999999848)]
 
 
 def test_carbon_uninterrupted_project_run_next():
