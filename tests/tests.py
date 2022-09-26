@@ -463,6 +463,7 @@ def test_carbon_uninterrupted_project():
     initialise_fake_project()
     os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
     settings.set_cwd(os.getcwd())
+    settings.set_contfrom("ANI")
     assert make_directories_tester(5) == [
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i1",
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i2",
@@ -498,6 +499,7 @@ def test_carbon_uninterrupted_project_run_next():
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i5"
     ]
     settings.set_cwd(os.getcwd())
+    settings.set_contfrom("ANI")
     initialise_fake_project("run_next 2")
     assert "All iterations are completed" in run_next_tester("2", "C")
     assert analysis_tester("i*", settings.get_cwd()) == [
@@ -516,6 +518,7 @@ def test_carbon_uninterrupted_project_single_run():
     set_fake_project("Carbon_uninterrupted")
     os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
     settings.set_cwd(os.getcwd())
+    settings.set_contfrom("ANI")
     assert make_directories_tester(5) == [
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i1",
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i2",
@@ -534,6 +537,7 @@ def test_carbon_project_run_interrupted():
     os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
     settings.set_cwd(os.getcwd())
     settings.set_cont("continue")
+    settings.set_contfrom("ANI")
     assert make_directories_tester(5) == [
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i1",
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i2",
@@ -559,6 +563,7 @@ def test_carbon_project_single_run_interrupted():
     set_fake_project("Carbon")
     os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
     settings.set_cwd(os.getcwd())
+    settings.set_contfrom("ANI")
     assert make_directories_tester(5) == [
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i1",
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i2",
