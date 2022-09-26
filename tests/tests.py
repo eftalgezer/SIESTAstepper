@@ -596,25 +596,25 @@ def test_main():
     os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
     settings.set_cwd(os.getcwd())
     print("***", os.getcwd())
-    assert ((expr in main_tester("SIESTAstepper make_directories 5")) for expr in [
-        "i1 is created",
-        "i2 is created",
-        "i3 is created",
-        "i4 is created",
-        "i5 is created"
-    ])
+    assert make_directories_tester(5) == [
+        f"{os.getcwd()}{os.sep}i1",
+        f"{os.getcwd()}{os.sep}i2",
+        f"{os.getcwd()}{os.sep}i3",
+        f"{os.getcwd()}{os.sep}i4",
+        f"{os.getcwd()}{os.sep}i5"
+    ]
     import glob
     print("***", glob.glob("i*"))
-    # assert len((main_tester(
-    #     "SIESTAstepper" +
-    #     " copy_files" +
-    #     " C" +
-    #     f" {mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}Carbon{os.sep}i1" +
-    #     f" {mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon{os.sep}i2" +
-    #     " psf" +
-    #     " XV" +
-    #     " DM"
-    # ) + "*").split("successfully")) == 3
+    assert len((main_tester(
+        "SIESTAstepper" +
+        " copy_files" +
+        " C" +
+        f" {mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}Carbon{os.sep}i1" +
+        f" {mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon{os.sep}i2" +
+        " psf" +
+        " XV" +
+        " DM"
+    ) + "*").split("successfully")) == 3
     settings.set_cwd(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}Carbon")
     os.chdir(settings.get_cwd())
     assert ((expr in main_tester("SIESTAstepper analysis log")) for expr in [
