@@ -31,9 +31,10 @@ def main(*, args):
                         "copy_files", "ani_to_fdf", "xyz_to_fdf", "xv_to_fdf",
                         "merge_ani", "analysis", "energy_diff"]:
         raise AttributeError(
-            """Command not found. Please use 'run', 'single_run', 'run_next', 'run_interrupted',
-            'single_run_interrupted', 'make_directories', 'copy_files', 'ani_to_fdf', 'xyz_to_fdf',
-            'xv_to_fdf', 'merge_ani', 'analysis', 'energy_diff'""".replace("           ", "").replace("\n", "")
+            """Command not found. Please use 'run', 'single_run', 'run_next',
+            'run_interrupted', 'single_run_interrupted', 'make_directories',
+            'copy_files', 'ani_to_fdf', 'xyz_to_fdf', 'xv_to_fdf', 'merge_ani',
+            'analysis', 'energy_diff'""".replace("           ", "").replace("\n", "")
         )
     if function == "run":
         settings.set_log(args[2])
