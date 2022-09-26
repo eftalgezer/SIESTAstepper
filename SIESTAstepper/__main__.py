@@ -107,6 +107,8 @@ def independents(arg):
         settings.set_conda(arg.split("=")[1])
     if arg.startswith("cont="):
         settings.set_cont(arg.split("=")[1])
+    if arg.startswith("contfrom="):
+        settings.set_contfrom(arg.split("=")[1])
     if arg.startswith("contfiles="):
         settings.contfiles.extend(arg.split("=")[1].split(","))
     if arg.startswith("contextensions="):
