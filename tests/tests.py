@@ -615,7 +615,7 @@ def test_main():
     ).split("successfully")) == 4
     settings.set_cwd(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}Carbon")
     os.chdir(settings.get_cwd())
-    assert ((expr in main_tester("SIESTAstepper analysis log")) for expr in [
+    assert ((expr in main_tester("SIESTAstepper analysis log cont=continue path=i*")) for expr in [
         "-297.982681",
         "-299.171055",
         "-299.791356",
@@ -657,7 +657,7 @@ def test_main_carbon_uninterrupted_project():
         " C.fdf" +
         f" i1{os.sep}C.fdf"
     )
-    assert "All iterations are completed" in main_tester("SIESTAstepper run log C")
+    assert "All iterations are completed" in main_tester("SIESTAstepper run log C mpirun=4 conda=envir siesta=siesta_p")
     assert ((expr in main_tester("SIESTAstepper analysis log")) for expr in [
         "-297.982681",
         "-299.171055",
