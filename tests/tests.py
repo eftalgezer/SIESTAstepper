@@ -595,7 +595,6 @@ def test_main():
     set_fake_project("Carbon")
     os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
     settings.set_cwd(os.getcwd())
-    print("***", os.getcwd())
     assert make_directories_tester(5) == [
         f"{os.getcwd()}{os.sep}i1",
         f"{os.getcwd()}{os.sep}i2",
@@ -604,8 +603,7 @@ def test_main():
         f"{os.getcwd()}{os.sep}i5"
     ]
     import glob
-    print("***", glob.glob("i*"))
-    assert len((main_tester(
+    assert len(main_tester(
         "SIESTAstepper" +
         " copy_files" +
         " C" +
@@ -614,7 +612,7 @@ def test_main():
         " psf" +
         " XV" +
         " DM"
-    ) + "*").split("successfully")) == 3
+    ).split("successfully")) == 3
     settings.set_cwd(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}Carbon")
     os.chdir(settings.get_cwd())
     assert ((expr in main_tester("SIESTAstepper analysis log")) for expr in [
@@ -631,27 +629,27 @@ def test_main():
     ])
 
 
-def main_carbon_uninterrupted_project():
+def test_main_carbon_uninterrupted_project():
     """Run tests based on Carbon_uninterrupted run with __main__.py"""
     set_fake_project("Carbon_uninterrupted")
     initialise_fake_project()
     os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
     settings.set_cwd(os.getcwd())
-    assert ((expr in main_tester("SIESTAstepper make_directories 5")) for expr in [
-        "i1 is created",
-        "i2 is created",
-        "i3 is created",
-        "i4 is created",
-        "i5 is created"
-    ])
-    assert len((main_tester(
+    assert make_directories_tester(5) == [
+        f"{os.getcwd()}{os.sep}i1",
+        f"{os.getcwd()}{os.sep}i2",
+        f"{os.getcwd()}{os.sep}i3",
+        f"{os.getcwd()}{os.sep}i4",
+        f"{os.getcwd()}{os.sep}i5"
+    ]
+    assert len(main_tester(
         "SIESTAstepper" +
         " copy_files" +
         " C" +
         " ." +
         " i1" +
         " psf"
-    ) + "*").split("successfully")) == 1
+    ).split("successfully")) == 1
     assert "is created" in main_tester(
         "SIESTAstepper" +
         " xyz_to_fdf" +
