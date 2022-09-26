@@ -629,7 +629,7 @@ def test_main():
         "-297.982681",
         "1.863276"
     ])
-
+    assert "Command not found" in main_tester("SIESTAstepper Foo")
 
 def test_main_carbon_uninterrupted_project():
     """Run tests based on Carbon_uninterrupted run with __main__.py"""
