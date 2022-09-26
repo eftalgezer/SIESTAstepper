@@ -780,7 +780,7 @@ class TestErrors(unittest.TestCase):
     def test_get_it(self):
         """Error tests for get_it"""
         with self.assertRaises(AttributeError):
-            get_it_tester("Foo", "Bar")
+            get_it_tester("", "")
 
     def test_copy_file(self):
         """Error tests for copy_file"""
