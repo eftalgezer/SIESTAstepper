@@ -612,7 +612,7 @@ def test_main():
         " psf" +
         " XV" +
         " DM"
-    ).split("successfully")) == 3
+    ).split("successfully")) == 4
     settings.set_cwd(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}Carbon")
     os.chdir(settings.get_cwd())
     assert ((expr in main_tester("SIESTAstepper analysis log")) for expr in [
