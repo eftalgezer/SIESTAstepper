@@ -617,7 +617,7 @@ def test_main():
     ).split("successfully")) == 4
     settings.set_cwd(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}Carbon")
     os.chdir(settings.get_cwd())
-    assert ((expr in main_tester("SIESTAstepper analysis log cont=continue path=i*")) for expr in [
+    assert ((expr in main_tester("SIESTAstepper analysis log cont=continue path=i* noplot")) for expr in [
         "-297.982681",
         "-299.171055",
         "-299.791356",
@@ -660,7 +660,7 @@ def test_main_carbon_uninterrupted_project():
         f" i1{os.sep}C.fdf"
     )
     assert "All iterations are completed" in main_tester("SIESTAstepper run log C mpirun=4 siesta=siesta_p")
-    assert ((expr in main_tester("SIESTAstepper analysis log")) for expr in [
+    assert ((expr in main_tester("SIESTAstepper analysis log noplot")) for expr in [
         "-297.982681",
         "-299.171055",
         "-299.791356",
@@ -689,7 +689,7 @@ def test_main_carbon_uninterrupted_project_run_next():
     ])
     initialise_fake_project("run_next 2")
     assert "All iterations are completed" in main_tester("SIESTAstepper run_next log 2 C")
-    assert ((expr in main_tester("SIESTAstepper analysis log")) for expr in [
+    assert ((expr in main_tester("SIESTAstepper analysis log noplot")) for expr in [
         "-297.982681",
         "-299.171055",
         "-299.791356",
@@ -735,7 +735,7 @@ def test_main_carbon_project_run_interrupted():
     ]
     initialise_fake_project("run_interrupted 3 2")
     assert "All iterations are completed" in main_tester("SIESTAstepper run_interrupted log 3 C cont=continue")
-    assert ((expr in main_tester("SIESTAstepper analysis log")) for expr in [
+    assert ((expr in main_tester("SIESTAstepper analysis log noplot")) for expr in [
         "-297.982681",
         "-299.171055",
         "-299.791356",
