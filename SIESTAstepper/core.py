@@ -23,7 +23,8 @@ from .helpers import (
     check_userbasis,
     copy_file,
     sort_,
-    remove_nones
+    remove_nones,
+    bohr_to_angstrom
 )
 
 
@@ -37,6 +38,7 @@ class Settings:
         self.cores = None
         self.conda = None
         self.cont = "continue"
+        self.contfrom = "XV"
         self.contfiles = []
         self.contextensions = ["psf", "fdf"]
         self.siesta = "siesta"
@@ -81,6 +83,14 @@ class Settings:
         """Set cont value"""
         self.cont = newcont
 
+    def get_contfrom(self):
+        """Get contfrom value"""
+        return self.contfrom
+
+    def set_contfrom(self, newcontfrom):
+        """Set cont value"""
+        self.contfrom = newcontfrom
+
     def get_siesta(self):
         """Get siesta value"""
         return self.siesta
@@ -101,11 +111,18 @@ def run_next(i, label):
     if logs and settings.get_cont() in logs[-1]:
         match = re.search(f"i{int(i) - 1}{os.sep}{settings.get_cont()}(_*[0-9]*)", logs[-1])
         if not os.path.isfile(f"{settings.get_cwd()}{os.sep}i{i}{os.sep}{label}.fdf"):
-            ani_to_fdf(
-                f"i{int(i) - 1}{os.sep}{settings.get_cont()}{match[1]}{os.sep}{label}.ANI",
-                f"i{int(i) - 1}{os.sep}{settings.get_cont()}{match[1]}{os.sep}{label}.fdf",
-                f"i{i}{os.sep}{label}.fdf"
-            )
+            if settings.get_contfrom() == "XV":
+                xv_to_fdf(
+                    f"i{int(i) - 1}{os.sep}{settings.get_cont()}{match[1]}{os.sep}{label}.XV",
+                    f"i{int(i) - 1}{os.sep}{settings.get_cont()}{match[1]}{os.sep}{label}.fdf",
+                    f"i{i}{os.sep}{label}.fdf"
+                )
+            elif settings.get_contfrom() == "ANI":
+                ani_to_fdf(
+                    f"i{int(i) - 1}{os.sep}{settings.get_cont()}{match[1]}{os.sep}{label}.ANI",
+                    f"i{int(i) - 1}{os.sep}{settings.get_cont()}{match[1]}{os.sep}{label}.fdf",
+                    f"i{i}{os.sep}{label}.fdf"
+                )
         copy_files(
             ["ion" if check_userbasis(f"i{i}{os.sep}{label}.fdf") else "psf"],
             label,
@@ -114,11 +131,18 @@ def run_next(i, label):
         )
     elif int(i) > 1:
         if not os.path.isfile(f"{settings.get_cwd()}{os.sep}i{str(int(i) + 1)}{os.sep}{label}.fdf"):
-            ani_to_fdf(
-                f"i{int(i) - 1}{os.sep}{label}.ANI",
-                f"i{int(i) - 1}{os.sep}{label}.fdf",
-                f"i{i}{os.sep}{label}.fdf"
-            )
+            if settings.get_contfrom() == "XV":
+                xv_to_fdf(
+                    f"i{int(i) - 1}{os.sep}{label}.XV",
+                    f"i{int(i) - 1}{os.sep}{label}.fdf",
+                    f"i{i}{os.sep}{label}.fdf"
+                )
+            elif settings.get_contfrom() == "ANI":
+                ani_to_fdf(
+                    f"i{int(i) - 1}{os.sep}{label}.ANI",
+                    f"i{int(i) - 1}{os.sep}{label}.fdf",
+                    f"i{i}{os.sep}{label}.fdf"
+                )
         copy_files(
             ["ion" if check_userbasis(f"i{i}{os.sep}{label}.fdf") else "psf"],
             label,
@@ -137,9 +161,9 @@ def single_run(i, label):
     os.chdir(f"{settings.get_cwd()}{os.sep}i{i}")
     print(f"Changed directory to {os.getcwd()}")
     with open(
-        f"{settings.get_cwd()}{os.sep}i{int(i) - 1}{os.sep}{settings.get_log()}",
-        "r",
-        encoding="utf-8"
+            f"{settings.get_cwd()}{os.sep}i{int(i) - 1}{os.sep}{settings.get_log()}",
+            "r",
+            encoding="utf-8"
     ) as file:
         lines = file.readlines()
         if lines[-1] == "Job completed\n":
@@ -147,11 +171,18 @@ def single_run(i, label):
         else:
             if int(i) > 1:
                 if not os.path.isfile(f"{settings.get_cwd()}{os.sep}i{i}{os.sep}{label}.fdf"):
-                    ani_to_fdf(
-                        f"{settings.get_cwd()}{os.sep}i{int(i) - 1}{os.sep}{label}.ANI",
-                        f"{settings.get_cwd()}{os.sep}i{int(i) - 1}{os.sep}{label}.fdf",
-                        f"{settings.get_cwd()}{os.sep}i{i}{os.sep}{label}.fdf"
-                    )
+                    if settings.get_contfrom() == "XV":
+                        xv_to_fdf(
+                            f"{settings.get_cwd()}{os.sep}i{int(i) - 1}{os.sep}{label}.XV",
+                            f"{settings.get_cwd()}{os.sep}i{int(i) - 1}{os.sep}{label}.fdf",
+                            f"{settings.get_cwd()}{os.sep}i{i}{os.sep}{label}.fdf"
+                        )
+                    elif settings.get_contfrom() == "ANI":
+                        ani_to_fdf(
+                            f"{settings.get_cwd()}{os.sep}i{int(i) - 1}{os.sep}{label}.ANI",
+                            f"{settings.get_cwd()}{os.sep}i{int(i) - 1}{os.sep}{label}.fdf",
+                            f"{settings.get_cwd()}{os.sep}i{i}{os.sep}{label}.fdf"
+                        )
                 copy_files(
                     ["ion" if check_userbasis(
                         f"{settings.get_cwd()}{os.sep}i{i}{os.sep}{label}.fdf"
@@ -189,6 +220,30 @@ def xyz_to_fdf(xyzpath, fdfpath, newfdfpath):
         xyzfile.close()
 
 
+def xv_to_fdf(xvpath, fdfpath, newfdfpath):
+    """Convert XV to FDF by using the previous FDF and XV files"""
+    print(f"Reading {xvpath}")
+    with open(xvpath, "r", encoding="utf-8") as xvfile:
+        lines = xvfile.readlines()
+        geo = []
+        lines.pop(0)
+        lines.pop(0)
+        lines.pop(0)
+        number = lines[0].strip()
+        lines.pop(0)
+        for line in lines:
+            parts = line.split("     ")
+            geo.append(
+                f"       {bohr_to_angstrom(float(parts[2].strip()))}" +
+                f"   {bohr_to_angstrom(float(parts[3].strip()))}" +
+                f"   {bohr_to_angstrom(float(parts[4].strip()))}" +
+                f"  {parts[0].strip()}\n"
+            )
+        fdf, geo = read_fdf(fdfpath, geo)
+        create_fdf(fdf, geo, newfdfpath, number)
+        xvfile.close()
+
+
 def merge_ani(label=None, path=None):
     """Merge ANI files"""
     if path is None:
@@ -205,9 +260,9 @@ def merge_ani(label=None, path=None):
         if [*set(it)] != list(range(min(it), max(it) + 1)):
             print("WARNING: There are missing ANI files!")
         with open(
-            f"{settings.get_cwd()}{os.sep}{label}-merged.ANI",
-            "w",
-            encoding="utf-8"
+                f"{settings.get_cwd()}{os.sep}{label}-merged.ANI",
+                "w",
+                encoding="utf-8"
         ) as outfile:
             print(f"{settings.get_cwd()}{os.sep}{label}-merged.ANI is opened")
             for f in files:
@@ -248,23 +303,43 @@ def run(label):
                             f"i([0-9]+){os.sep}{settings.get_cont()}(_*[0-9]*)",
                             logs[-1]
                         )
-                        ani_to_fdf(
-                            f"i{match[1]}{os.sep}{settings.get_cont()}{match[2]}" +
-                            f"{os.sep}{label}.ANI",
-                            f"i{match[1]}{os.sep}{settings.get_cont()}{match[2]}" +
-                            f"{os.sep}{label}.fdf",
-                            f"i{int(match[1]) + 1}{os.sep}{label}.fdf"
-                        )
+                        if settings.get_contfrom() == "XV":
+                            xv_to_fdf(
+                                f"i{match[1]}{os.sep}{settings.get_cont()}{match[2]}" +
+                                f"{os.sep}{label}.XV",
+                                f"i{match[1]}{os.sep}{settings.get_cont()}{match[2]}" +
+                                f"{os.sep}{label}.fdf",
+                                f"i{int(match[1]) + 1}{os.sep}{label}.fdf"
+                            )
+                        elif settings.get_contfrom() == "ANI":
+                            ani_to_fdf(
+                                f"i{match[1]}{os.sep}{settings.get_cont()}{match[2]}" +
+                                f"{os.sep}{label}.ANI",
+                                f"i{match[1]}{os.sep}{settings.get_cont()}{match[2]}" +
+                                f"{os.sep}{label}.fdf",
+                                f"i{int(match[1]) + 1}{os.sep}{label}.fdf"
+                            )
                     else:
-                        ani_to_fdf(
-                            logs[-1].rsplit(os.sep)[0] + os.sep + label + ".ANI",
-                            logs[-1].rsplit(os.sep)[0] + os.sep + label + ".fdf",
-                            "i" +
-                            str(int(logs[-1].split(os.sep)[0].strip("i")) + 1) +
-                            os.sep +
-                            label +
-                            ".fdf"
-                        )
+                        if settings.get_contfrom() == "XV":
+                            xv_to_fdf(
+                                logs[-1].rsplit(os.sep)[0] + os.sep + label + ".XV",
+                                logs[-1].rsplit(os.sep)[0] + os.sep + label + ".fdf",
+                                "i" +
+                                str(int(logs[-1].split(os.sep)[0].strip("i")) + 1) +
+                                os.sep +
+                                label +
+                                ".fdf"
+                            )
+                        elif settings.get_contfrom() == "ANI":
+                            ani_to_fdf(
+                                logs[-1].rsplit(os.sep)[0] + os.sep + label + ".ANI",
+                                logs[-1].rsplit(os.sep)[0] + os.sep + label + ".fdf",
+                                "i" +
+                                str(int(logs[-1].split(os.sep)[0].strip("i")) + 1) +
+                                os.sep +
+                                label +
+                                ".fdf"
+                            )
                 file.close()
                 if len(folders) > len(logs):
                     run_next(str(int(logs[-1].split(os.sep)[0].strip("i")) + 1), label)
@@ -415,12 +490,12 @@ def _command(label=None, issingle=False):
         )
     with open(settings.get_log(), "w", encoding="utf-8") as logger:
         with Popen(
-            shlex.split(
-                f"mpirun -np {settings.get_cores()} " if settings.get_cores() is not None else "" +
-                f"{settings.get_siesta()} {label}.fdf"
-            ),
-            shell=False,
-            stdout=logger
+                shlex.split(
+                    f"mpirun -np {settings.get_cores()} " if settings.get_cores() is not None else "" +
+                    f"{settings.get_siesta()} {label}.fdf"
+                ),
+                shell=False,
+                stdout=logger
         ) as job:
             print(f"PID is {job.pid}")
             for line in tail("-f", settings.get_log(), _iter=True):

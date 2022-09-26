@@ -13,6 +13,7 @@ from .core import (
     copy_files,
     ani_to_fdf,
     xyz_to_fdf,
+    xv_to_fdf,
     merge_ani,
     analysis,
     energy_diff,
@@ -27,12 +28,12 @@ def main(*, args):
         independents(arg)
     if function not in ["run", "single_run", "run_next", "run_interrupted",
                         "single_run_interrupted", "make_directories",
-                        "copy_files", "ani_to_fdf", "xyz_to_fdf", "merge_ani",
-                        "analysis", "energy_diff"]:
+                        "copy_files", "ani_to_fdf", "xyz_to_fdf", "xv_to_fdf",
+                        "merge_ani", "analysis", "energy_diff"]:
         raise AttributeError(
             """Command not found. Please use 'run', 'single_run', 'run_next', 'run_interrupted',
             'single_run_interrupted', 'make_directories', 'copy_files', 'ani_to_fdf', 'xyz_to_fdf',
-            'merge_ani', 'analysis', 'energy_diff'""".replace("\n", "").replace("            ", "")
+            'xv_to_fdf', 'merge_ani', 'analysis', 'energy_diff'""".replace("           ", "").replace("\n", "")
         )
     if function == "run":
         settings.set_log(args[2])
@@ -62,6 +63,8 @@ def main(*, args):
         ani_to_fdf(args[2], args[3], args[4])
     elif function == "xyz_to_fdf":
         xyz_to_fdf(args[2], args[3], args[4])
+    elif function == "xv_to_fdf":
+        xv_to_fdf(args[2], args[3], args[4])
     elif function == "merge_ani":
         path = "i*"
         if len(args) == 3:
