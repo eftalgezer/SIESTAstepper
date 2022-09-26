@@ -192,6 +192,8 @@ def test_read_energy():
 def test_print_run():
     """Tests for print_run"""
     assert print_run_tester("i1", None, None) == "Running SIESTA for i1\n"
+    assert print_run_tester("i1", 4, None)  == "Running SIESTA for i1 in parallel with 4 cores\n"
+    assert print_run_tester("i1", None, None) == "Running SIESTA for i1 in conda\n"
 
 
 def test_check_restart():
@@ -657,7 +659,7 @@ def test_main_carbon_uninterrupted_project():
         " C.fdf" +
         f" i1{os.sep}C.fdf"
     )
-    assert "All iterations are completed" in main_tester("SIESTAstepper run log C mpirun=4 conda=envir siesta=siesta_p")
+    assert "All iterations are completed" in main_tester("SIESTAstepper run log C mpirun=4 siesta=siesta_p")
     assert ((expr in main_tester("SIESTAstepper analysis log")) for expr in [
         "-297.982681",
         "-299.171055",
