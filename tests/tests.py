@@ -193,7 +193,7 @@ def test_print_run():
     """Tests for print_run"""
     assert print_run_tester("i1", None, None) == "Running SIESTA for i1\n"
     assert print_run_tester("i1", 4, None)  == "Running SIESTA for i1 in parallel with 4 cores\n"
-    assert print_run_tester("i1", None, None) == "Running SIESTA for i1 in conda\n"
+    assert print_run_tester("i1", None, "envir") == "Running SIESTA for i1 in conda\n"
 
 
 def test_check_restart():
