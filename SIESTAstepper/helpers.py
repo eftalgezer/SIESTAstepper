@@ -12,7 +12,9 @@ def get_it(files):
     try:
         return [int(re.search(f"{os.sep}i([0-9]+)", f).groups(0)[0]) for f in files]
     except AttributeError as e:
-        raise AttributeError(f"ERROR: The path must be in format of 'path{os.sep}to{os.sep}i1'") from e
+        raise AttributeError(
+            f"ERROR: The path must be in format of 'path{os.sep}to{os.sep}i1'"
+        ) from e
 
 
 def read_fdf(fdfpath, geo):
@@ -178,11 +180,17 @@ def copy_file(sourcefile, destinationfile):
         else:
             print(f"{destinationfile} exists")
     except shutil.SameFileError as e:
-        raise shutil.SameFileError(f"ERROR: {sourcefile} and {destinationfile} represents the same file") from e
+        raise shutil.SameFileError(
+            f"ERROR: {sourcefile} and {destinationfile} represents the same file"
+        ) from e
     except PermissionError as e:
-        raise PermissionError(f"ERROR: Permission denied while copying {sourcefile} to {destinationfile}") from e
+        raise PermissionError(
+            f"ERROR: Permission denied while copying {sourcefile} to {destinationfile}"
+        ) from e
     except (shutil.Error, OSError, IOError) as e:
-        raise f"ERROR: An error occurred while copying {sourcefile} to {destinationfile} ({e})" from e
+        raise (
+            f"ERROR: An error occurred while copying {sourcefile} to {destinationfile} ({e})"
+        ) from e
 
 
 def sort_(files, path, cont):
