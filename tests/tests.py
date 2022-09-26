@@ -665,7 +665,7 @@ def test_main_carbon_uninterrupted_project():
         " C.fdf" +
         f" i1{os.sep}C.fdf"
     )
-    assert "All iterations are completed" in main_tester("SIESTAstepper run log C mpirun=4 siesta=siesta_p")
+    assert "All iterations are completed" in main_tester("SIESTAstepper run log C mpirun=4 siesta=siesta_p contfrom=ANI")
     assert "All ANI files are merged" in main_tester("SIESTAstepper merge_ani C")
     assert ((expr in main_tester("SIESTAstepper analysis log noplot")) for expr in [
         "-297.982681",
@@ -695,7 +695,7 @@ def test_main_carbon_uninterrupted_project_run_next():
         "i5 is created"
     ])
     initialise_fake_project("run_next 2")
-    assert "All iterations are completed" in main_tester("SIESTAstepper run_next log 2 C")
+    assert "All iterations are completed" in main_tester("SIESTAstepper run_next log 2 C contfrom=ANI")
     assert "All ANI files are merged" in main_tester("SIESTAstepper merge_ani C")
     assert ((expr in main_tester("SIESTAstepper analysis log noplot")) for expr in [
         "-297.982681",
@@ -725,7 +725,7 @@ def test_main_carbon_uninterrupted_project_single_run():
         "i5 is created"
     ])
     initialise_fake_project("single_run 3")
-    assert "Job completed\n" in main_tester("SIESTAstepper single_run log 2 C")
+    assert "Job completed\n" in main_tester("SIESTAstepper single_run log 2 C contfrom=ANI")
 
 
 def test_main_carbon_project_run_interrupted():
@@ -742,7 +742,9 @@ def test_main_carbon_project_run_interrupted():
         f"{os.getcwd()}{os.sep}i5"
     ]
     initialise_fake_project("run_interrupted 3 2")
-    assert "All iterations are completed" in main_tester("SIESTAstepper run_interrupted log 3 C cont=continue")
+    assert "All iterations are completed" in main_tester(
+        "SIESTAstepper run_interrupted log 3 C cont=continue contfrom=ANI"
+    )
     assert "All ANI files are merged" in main_tester("SIESTAstepper merge_ani C")
     assert ((expr in main_tester("SIESTAstepper analysis log cont=continue noplot")) for expr in [
         "-297.982681",
@@ -772,7 +774,7 @@ def test_main_carbon_project_single_run_interrupted():
         "i5 created"
     ])
     initialise_fake_project("single_run_interrupted 3 2")
-    assert "Job completed\n" in main_tester("SIESTAstepper single_run_interrupted log 3 C")
+    assert "Job completed\n" in main_tester("SIESTAstepper single_run_interrupted log 3 C contfrom=ANI")
 
 
 class TestErrors(unittest.TestCase):
