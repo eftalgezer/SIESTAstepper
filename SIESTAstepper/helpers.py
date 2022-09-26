@@ -177,12 +177,12 @@ def copy_file(sourcefile, destinationfile):
             print(f"{sourcefile} is copied to {destinationfile} successfully")
         else:
             print(f"{destinationfile} exists")
-    except shutil.SameFileError:
-        print(f"ERROR: {sourcefile} and {destinationfile} represents the same file")
-    except PermissionError:
-        print(f"ERROR: Permission denied while copying {sourcefile} to {destinationfile}")
+    except shutil.SameFileError as e:
+        raise shutil.SameFileError(f"ERROR: {sourcefile} and {destinationfile} represents the same file") from e
+    except PermissionError as e:
+        raise PermissionError(f"ERROR: Permission denied while copying {sourcefile} to {destinationfile}") from e
     except (shutil.Error, OSError, IOError) as e:
-        print(f"ERROR: An error occurred while copying {sourcefile} to {destinationfile} ({e})")
+        raise f"ERROR: An error occurred while copying {sourcefile} to {destinationfile} ({e})" from e
 
 
 def sort_(files, path, cont):
