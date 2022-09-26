@@ -649,7 +649,7 @@ def test_main_carbon_uninterrupted_project():
         " ." +
         " i1" +
         " psf"
-    ).split("successfully")) == 1
+    ).split("successfully")) == 2
     assert "is created" in main_tester(
         "SIESTAstepper" +
         " xyz_to_fdf" +
@@ -718,19 +718,19 @@ def test_main_carbon_uninterrupted_project_single_run():
     assert "Job completed\n" in main_tester("SIESTAstepper single_run log 2 C")
 
 
-def main_carbon_project_run_interrupted():
+def test_main_carbon_project_run_interrupted():
     """Run tests based on Carbon_uninterrupted run run_interrupted function with __main__.py"""
     fake_command()
     set_fake_project("Carbon")
     os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
     settings.set_cwd(os.getcwd())
-    assert ((expr in main_tester("SIESTAstepper make_directories 5")) for expr in [
-        "i1 is created",
-        "i2 is created",
-        "i3 is created",
-        "i4 is created",
-        "i5 is created"
-    ])
+    assert make_directories_tester(5) == [
+        f"{os.getcwd()}{os.sep}i1",
+        f"{os.getcwd()}{os.sep}i2",
+        f"{os.getcwd()}{os.sep}i3",
+        f"{os.getcwd()}{os.sep}i4",
+        f"{os.getcwd()}{os.sep}i5"
+    ]
     assert "All iterations are completed" in main_tester("SIESTAstepper run_interrupted log 3 C cont=continue")
     assert ((expr in main_tester("SIESTAstepper analysis log")) for expr in [
         "-297.982681",
