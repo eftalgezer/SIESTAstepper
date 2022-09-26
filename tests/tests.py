@@ -731,6 +731,7 @@ def test_main_carbon_project_run_interrupted():
         f"{os.getcwd()}{os.sep}i4",
         f"{os.getcwd()}{os.sep}i5"
     ]
+    initialise_fake_project("run_interrupted 3 2")
     assert "All iterations are completed" in main_tester("SIESTAstepper run_interrupted log 3 C cont=continue")
     assert ((expr in main_tester("SIESTAstepper analysis log")) for expr in [
         "-297.982681",
@@ -759,5 +760,5 @@ def test_main_carbon_project_single_run_interrupted():
         "i4 created",
         "i5 created"
     ])
-    initialise_fake_project("single_run_interrupted 3 1")
-    # assert "Job completed\n" in main_tester("SIESTAstepper single_run_interrupted log 3 C")
+    initialise_fake_project("single_run_interrupted 3 2")
+    assert "Job completed\n" in main_tester("SIESTAstepper single_run_interrupted log 3 C")
