@@ -13,7 +13,6 @@ def get_it(files):
         return [int(re.search(f"{os.sep}i([0-9]+)", f).groups(0)[0]) for f in files]
     except AttributeError:
         print(f"ERROR: The path must be in format of 'path{os.sep}to{os.sep}i1'")
-        raise
 
 
 def read_fdf(fdfpath, geo):
