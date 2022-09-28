@@ -118,7 +118,8 @@ def run_next(i, label):
         if not os.path.isfile(f"{settings.get_cwd()}{os.sep}i{i}{os.sep}{label}.fdf"):
             if settings.get_contfrom() == "log":
                 log_to_fdf(
-                    f"i{int(i) - 1}{os.sep}{settings.get_cont()}{match[1]}{os.sep}{settings.get_log()}",
+                    f"i{int(i) - 1}{os.sep}{settings.get_cont()}{match[1]}{os.sep}" +
+                    f"{settings.get_log()}",
                     f"i{int(i) - 1}{os.sep}{settings.get_cont()}{match[1]}{os.sep}{label}.fdf",
                     f"i{i}{os.sep}{label}.fdf"
                 )
