@@ -520,7 +520,7 @@ def energy_analysis(energytype="total", path="i*", plot_=True, print_=True):
     energies = []
     it = []
     remove_nones(files, path, settings.get_cwd(), settings.get_cont(), settings.get_log())
-    read_energy(energytype=energytype, energies=energies, files=files, it=it, print_=print_)
+    read_energy(energies=energies, files=files, it=it, energytype=energytype, print_=print_)
     if sorted(it) != list(range(min(it), max(it) + 1)) or None in energies:
         print("WARNING: There are missing values!")
     if None in energies:

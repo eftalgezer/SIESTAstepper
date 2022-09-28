@@ -57,7 +57,7 @@ def create_fdf(fdf, geo, newfdfpath, number):
         newfdffile.close()
 
 
-def read_energy(energytype="total", energies=[], files=None, it=[], print_=True):
+def read_energy(energies=[], files=None, it=[], energytype="total", print_=True):
     """Read energy from log files"""
     energytypes = {
         "bandstruct": "siesta:  Band Struct. =",
