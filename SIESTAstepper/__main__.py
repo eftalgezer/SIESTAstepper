@@ -93,9 +93,9 @@ def main(*, args):
                     path = arg.split("=")[1]
                 if arg == "noplot":
                     plot_ = False
-            analysis(energytype=args[3], path=path, plot_=plot_)
+            energy_analysis(energytype=args[3], path=path, plot_=plot_)
         else:
-            analysis(energytype=args[3])
+            energy_analysis(energytype=args[3])
     elif function == "energy_diff":
         settings.set_log(args[2])
         path = "i*"

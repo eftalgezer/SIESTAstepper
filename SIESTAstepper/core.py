@@ -300,7 +300,7 @@ def log_to_fdf(logpath, fdfpath, newfdfpath):
                 f"  {part[3]}\n"
             ) for part in parts]
         fdf, geo = read_fdf(fdfpath, geo)
-        create_fdf(fdf, geo, newfdfpath, number)
+        create_fdf(fdf, geo, newfdfpath, len(geo))
         logfile.close()
 
 
@@ -535,7 +535,7 @@ def energy_analysis(energytype="total", path="i*", plot_=True, print_=True):
 
 def energy_diff(energytype="total", path="i*"):
     """Return energy differences between minima and maxima"""
-    data = analysis(energytype=energytype, path=path, plot_=False, print_=False)
+    data = energy_analysis(energytype=energytype, path=path, plot_=False, print_=False)
     energies = np.array([_[1] for _ in data])
     it = np.array([_[0] for _ in data])
     min_idx = np.where(energies == np.amin(energies)) \
@@ -600,7 +600,7 @@ def pair_correlation_function(label=None, path="i*", dr=0.1, plot_=True):
         g_average[i] = np.mean(g[:, i]) / (4.0 / 3.0 * np.pi * (router ** 3 - rinner ** 3))
     if plot_:
         plt.figure()
-        plt.plot(r, g_r, color='black')
+        plt.plot(radii, g_average, color='black')
         plt.xlabel('r')
         plt.ylabel('g(r)')
         plt.xlim((0, rmax))

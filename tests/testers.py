@@ -269,7 +269,7 @@ def energy_analysis_tester(energytype="total", path="i*", cwd=None):
     return energy_analysis(energytype=energytype, path=path)
 
 
-def energy_diff_tester(energytype=total, path="i*", cwd=None):
+def energy_diff_tester(energytype="total", path="i*", cwd=None):
     """Tester function for energy_diff"""
     settings.set_cwd(cwd)
     return energy_diff(energytype=energytype, path=path)
