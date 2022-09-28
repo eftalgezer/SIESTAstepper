@@ -2,6 +2,7 @@
 Module bundling all functions needed to run a SIESTA calculation or analyse SIESTA output files
 """
 from __future__ import absolute_import
+from __future__ import division
 import glob
 import os
 from subprocess import Popen
@@ -177,9 +178,9 @@ def single_run(i, label):
     os.chdir(f"{settings.get_cwd()}{os.sep}i{i}")
     print(f"Changed directory to {os.getcwd()}")
     with open(
-            f"{settings.get_cwd()}{os.sep}i{int(i) - 1}{os.sep}{settings.get_log()}",
-            "r",
-            encoding="utf-8"
+        f"{settings.get_cwd()}{os.sep}i{int(i) - 1}{os.sep}{settings.get_log()}",
+        "r",
+        encoding="utf-8"
     ) as file:
         lines = file.readlines()
         if lines[-1] == "Job completed\n":
@@ -189,7 +190,8 @@ def single_run(i, label):
                 if not os.path.isfile(f"{settings.get_cwd()}{os.sep}i{i}{os.sep}{label}.fdf"):
                     if settings.get_contfrom() == "log":
                         log_to_fdf(
-                            f"{settings.get_cwd()}{os.sep}i{int(i) - 1}{os.sep}{settings.get_log()}",
+                            f"{settings.get_cwd()}{os.sep}i{int(i) - 1}{os.sep}" +
+                            f"{settings.get_log()}",
                             f"{settings.get_cwd()}{os.sep}i{int(i) - 1}{os.sep}{label}.fdf",
                             f"{settings.get_cwd()}{os.sep}i{i}{os.sep}{label}.fdf"
                         )
@@ -267,7 +269,8 @@ def xv_to_fdf(xvpath, fdfpath, newfdfpath):
 
 
 def log_to_fdf(logpath, fdfpath, newfdfpath):
-    """Convert the last coordinates from a SIESTA log file to FDF by using previous log and FDF files"""
+    """Convert the last coordinates from a SIESTA log file to FDF by using previous log and FDF
+    files"""
     print(f"Reading {logpath}")
     with open(logpath, "r", encoding="utf-8") as logfile:
         content = logfile.read()
@@ -318,9 +321,9 @@ def merge_ani(label=None, path="i*"):
         if [*set(it)] != list(range(min(it), max(it) + 1)):
             print("WARNING: There are missing ANI files!")
         with open(
-                f"{settings.get_cwd()}{os.sep}{label}-merged.ANI",
-                "w",
-                encoding="utf-8"
+            f"{settings.get_cwd()}{os.sep}{label}-merged.ANI",
+            "w",
+            encoding="utf-8"
         ) as outfile:
             print(f"{settings.get_cwd()}{os.sep}{label}-merged.ANI is opened")
             for f in files:
@@ -590,7 +593,7 @@ def pair_correlation_function(label=None, path="i*", dr=0.1, plot_=True):
         index = interior_indices[p]
         d = np.sqrt((x[index] - x) ** 2 + (y[index] - y) ** 2 + (z[index] - z) ** 2)
         d[index] = 2 * rmax
-        result, bins = np.histogram(d, bins=edges, density=False)
+        result, _ = np.histogram(d, bins=edges, density=False)
         g[p, :] = result / numberdensity
     g_average = np.zeros(num_increments)
     for i in range(num_increments):
@@ -622,12 +625,12 @@ def _command(label=None, issingle=False):
         )
     with open(settings.get_log(), "w", encoding="utf-8") as logger:
         with Popen(
-                shlex.split(
-                    f"mpirun -np {settings.get_cores()} " if settings.get_cores() is not None else "" +
-                    f"{settings.get_siesta()} {label}.fdf"
-                ),
-                shell=False,
-                stdout=logger
+            shlex.split(
+                f"mpirun -np {settings.get_cores()} " if settings.get_cores() is not None else "" +
+                f"{settings.get_siesta()} {label}.fdf"
+            ),
+            shell=False,
+            stdout=logger
         ) as job:
             print(f"PID is {job.pid}")
             for line in tail("-f", settings.get_log(), _iter=True):
