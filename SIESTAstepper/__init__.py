@@ -21,8 +21,11 @@ from .core import (
     copy_files,
     ani_to_fdf,
     xyz_to_fdf,
+    xv_to_fdf,
+    log_to_fdf,
     merge_ani,
-    analysis,
+    energy_analysis,
     energy_diff,
+    pair_correlation_function,
     settings
 )

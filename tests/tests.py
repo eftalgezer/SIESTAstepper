@@ -24,7 +24,7 @@ from .testers import (
     single_run_interrupted_tester,
     make_directories_tester,
     copy_files_tester,
-    analysis_tester,
+    energy_analysis_tester,
     energy_diff_tester,
     get_it_tester,
     read_fdf_tester,
@@ -94,11 +94,11 @@ def test_copy_files():
            ]
 
 
-def test_analysis():
+def test_energy_analysis():
     """Tests for analysis"""
-    assert analysis_tester(
-        "i*",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}Carbon"
+    assert energy_analysis_tester(
+        path="i*",
+        cwd=f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}Carbon"
     ) == [
                (1, -297.982681),
                (2, -299.171055),
@@ -111,8 +111,8 @@ def test_analysis():
 def test_energy_diff():
     """Tests for energy_diff"""
     assert energy_diff_tester(
-        "i*",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}Carbon"
+        path="i*",
+        cwd=f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}Carbon"
     ) == [(-299.845957, -297.982681, 4, 1, 1.8632759999999848)]
 
 
@@ -476,14 +476,14 @@ def test_carbon_uninterrupted_project():
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}{get_fake_project()}{os.sep}i1{os.sep}C.fdf"
     )
     assert "All iterations are completed" in run_tester("C")
-    assert analysis_tester(None, settings.get_cwd()) == [
+    assert energy_analysis_tester(cwd=settings.get_cwd()) == [
         (1, -297.982681),
         (2, -299.171055),
         (3, -299.791356),
         (4, -299.845957),
         (5, -299.498399)
     ]
-    assert energy_diff_tester(None, settings.get_cwd()) == [(-299.845957, -297.982681, 4, 1, 1.8632759999999848)]
+    assert energy_diff_tester(cwd=settings.get_cwd()) == [(-299.845957, -297.982681, 4, 1, 1.8632759999999848)]
 
 
 def test_carbon_uninterrupted_project_run_next():
@@ -502,14 +502,14 @@ def test_carbon_uninterrupted_project_run_next():
     settings.set_contfrom("ANI")
     initialise_fake_project("run_next 2")
     assert "All iterations are completed" in run_next_tester("2", "C")
-    assert analysis_tester("i*", settings.get_cwd()) == [
+    assert energy_analysis_tester(path="i*", cwd=settings.get_cwd()) == [
         (1, -297.982681),
         (2, -299.171055),
         (3, -299.791356),
         (4, -299.845957),
         (5, -299.498399)
     ]
-    assert energy_diff_tester("i*", settings.get_cwd()) == [(-299.845957, -297.982681, 4, 1, 1.8632759999999848)]
+    assert energy_diff_tester(path="i*", cwd=settings.get_cwd()) == [(-299.845957, -297.982681, 4, 1, 1.8632759999999848)]
 
 
 def test_carbon_uninterrupted_project_single_run():
@@ -547,14 +547,14 @@ def test_carbon_project_run_interrupted():
     ]
     initialise_fake_project("run_interrupted 3 2")
     assert "All iterations are completed" in run_interrupted_tester("3", "C")
-    assert analysis_tester("i*", settings.get_cwd()) == [
+    assert energy_analysis_tester(path="i*", cwd=settings.get_cwd()) == [
         (1, -297.982681),
         (2, -299.171055),
         (3, -299.791356),
         (4, -299.845957),
         (5, -299.498399)
     ]
-    assert energy_diff_tester("i*", settings.get_cwd()) == [(-299.845957, -297.982681, 4, 1, 1.8632759999999848)]
+    assert energy_diff_tester(path="i*", cwd=settings.get_cwd()) == [(-299.845957, -297.982681, 4, 1, 1.8632759999999848)]
 
 
 def test_carbon_project_single_run_interrupted():
@@ -623,14 +623,14 @@ def test_main():
     ).split("successfully")) == 4
     settings.set_cwd(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}Carbon")
     os.chdir(settings.get_cwd())
-    assert ((expr in main_tester("SIESTAstepper analysis log cont=continue path=i* noplot")) for expr in [
+    assert ((expr in main_tester("SIESTAstepper energy_analysis log total cont=continue path=i* noplot")) for expr in [
         "-297.982681",
         "-299.171055",
         "-299.791356",
         "-299.845957",
         "-299.498399"
     ])
-    assert ((expr in main_tester("SIESTAstepper energy_diff log")) for expr in [
+    assert ((expr in main_tester("SIESTAstepper energy_diff log total")) for expr in [
         "-299.845957",
         "-297.982681",
         "1.863276"
@@ -667,14 +667,14 @@ def test_main_carbon_uninterrupted_project():
     )
     assert "All iterations are completed" in main_tester("SIESTAstepper run log C mpirun=4 siesta=siesta_p contfrom=ANI")
     assert "All ANI files are merged" in main_tester("SIESTAstepper merge_ani C")
-    assert ((expr in main_tester("SIESTAstepper analysis log noplot")) for expr in [
+    assert ((expr in main_tester("SIESTAstepper energy_analysis log total noplot")) for expr in [
         "-297.982681",
         "-299.171055",
         "-299.791356",
         "-299.845957",
         "-299.498399"
     ])
-    assert ((expr in main_tester("SIESTAstepper energy_diff log")) for expr in [
+    assert ((expr in main_tester("SIESTAstepper energy_diff log total")) for expr in [
         "-299.845957",
         "-297.982681",
         "1.863276"
@@ -697,14 +697,14 @@ def test_main_carbon_uninterrupted_project_run_next():
     initialise_fake_project("run_next 2")
     assert "All iterations are completed" in main_tester("SIESTAstepper run_next log 2 C contfrom=ANI")
     assert "All ANI files are merged" in main_tester("SIESTAstepper merge_ani C")
-    assert ((expr in main_tester("SIESTAstepper analysis log noplot")) for expr in [
+    assert ((expr in main_tester("SIESTAstepper energy_analysis log total noplot")) for expr in [
         "-297.982681",
         "-299.171055",
         "-299.791356",
         "-299.845957",
         "-299.498399"
     ])
-    assert ((expr in main_tester("SIESTAstepper energy_diff log")) for expr in [
+    assert ((expr in main_tester("SIESTAstepper energy_diff log total")) for expr in [
         "-299.845957",
         "-297.982681",
         "1.863276"
@@ -746,14 +746,14 @@ def test_main_carbon_project_run_interrupted():
         "SIESTAstepper run_interrupted log 3 C cont=continue contfrom=ANI"
     )
     assert "All ANI files are merged" in main_tester("SIESTAstepper merge_ani C")
-    assert ((expr in main_tester("SIESTAstepper analysis log cont=continue noplot")) for expr in [
+    assert ((expr in main_tester("SIESTAstepper energy_analysis log total cont=continue noplot")) for expr in [
         "-297.982681",
         "-299.171055",
         "-299.791356",
         "-299.845957",
         "-299.498399"
     ])
-    assert ((expr in main_tester("SIESTAstepper energy_diff log cont=continue")) for expr in [
+    assert ((expr in main_tester("SIESTAstepper energy_diff log total cont=continue")) for expr in [
         "-299.845957",
         "-297.982681",
         "1.863276"

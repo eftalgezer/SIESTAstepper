@@ -22,7 +22,7 @@ from SIESTAstepper.core import (
     ani_to_fdf,
     xyz_to_fdf,
     merge_ani,
-    analysis,
+    energy_analysis,
     energy_diff,
     _command,
     settings
@@ -61,10 +61,8 @@ def clear_temp():
         elif os.path.isdir(filepath):
             shutil.rmtree(filepath)
 
-def initialise_fake_project(function=None):
+def initialise_fake_project(function="run"):
     """Initialise fake project to test"""
-    if function is None:
-        function = "run"
     if function == "run":
         files = glob.glob(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}{fakeproject}{os.sep}*")
         for f in files:
@@ -193,10 +191,8 @@ def xyz_to_fdf_tester(xyzpath, fdfpath, newfdfpath):
     return read_file(newfdfpath)
 
 
-def merge_ani_tester(label=None, path=None, folder=None):
+def merge_ani_tester(label=None, path="i*", folder=None):
     """Tester function for merge_ani"""
-    if path is None:
-        path = "i*"
     if os.path.exists(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{folder}"):
         shutil.rmtree(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{folder}")
     shutil.copytree(
@@ -267,16 +263,16 @@ def copy_files_tester(extensions, label, source_, destination):
     return list(files)
 
 
-def analysis_tester(path, cwd):
-    """Tester function for analysis"""
+def energy_analysis_tester(energytype="total", path="i*", cwd=None):
+    """Tester function for energy_analysis"""
     settings.set_cwd(cwd)
-    return analysis(path)
+    return energy_analysis(energytype=energytype, path=path)
 
 
-def energy_diff_tester(path, cwd):
+def energy_diff_tester(energytype=total, path="i*", cwd=None):
     """Tester function for energy_diff"""
     settings.set_cwd(cwd)
-    return energy_diff(path)
+    return energy_diff(energytype=energytype, path=path)
 
 
 def get_it_tester(path, cont):

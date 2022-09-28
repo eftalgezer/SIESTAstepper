@@ -24,7 +24,11 @@ from .helpers import (
     copy_file,
     sort_,
     remove_nones,
-    bohr_to_angstrom
+    bohr_to_angstrom,
+    lattice_vectors_mag,
+    element_diameter,
+    coords,
+    species
 )
 
 
@@ -38,7 +42,7 @@ class Settings:
         self.cores = None
         self.conda = None
         self.cont = "continue"
-        self.contfrom = "XV"
+        self.contfrom = "log"
         self.contfiles = []
         self.contextensions = ["psf", "fdf"]
         self.siesta = "siesta"
@@ -111,7 +115,13 @@ def run_next(i, label):
     if logs and settings.get_cont() in logs[-1]:
         match = re.search(f"i{int(i) - 1}{os.sep}{settings.get_cont()}(_*[0-9]*)", logs[-1])
         if not os.path.isfile(f"{settings.get_cwd()}{os.sep}i{i}{os.sep}{label}.fdf"):
-            if settings.get_contfrom() == "XV":
+            if settings.get_contfrom() == "log":
+                log_to_fdf(
+                    f"i{int(i) - 1}{os.sep}{settings.get_cont()}{match[1]}{os.sep}{settings.get_log()}",
+                    f"i{int(i) - 1}{os.sep}{settings.get_cont()}{match[1]}{os.sep}{label}.fdf",
+                    f"i{i}{os.sep}{label}.fdf"
+                )
+            elif settings.get_contfrom() == "XV":
                 xv_to_fdf(
                     f"i{int(i) - 1}{os.sep}{settings.get_cont()}{match[1]}{os.sep}{label}.XV",
                     f"i{int(i) - 1}{os.sep}{settings.get_cont()}{match[1]}{os.sep}{label}.fdf",
@@ -131,7 +141,13 @@ def run_next(i, label):
         )
     elif int(i) > 1:
         if not os.path.isfile(f"{settings.get_cwd()}{os.sep}i{str(int(i) + 1)}{os.sep}{label}.fdf"):
-            if settings.get_contfrom() == "XV":
+            if settings.get_contfrom() == "log":
+                log_to_fdf(
+                    f"i{int(i) - 1}{os.sep}{settings.get_log()}",
+                    f"i{int(i) - 1}{os.sep}{label}.fdf",
+                    f"i{i}{os.sep}{label}.fdf"
+                )
+            elif settings.get_contfrom() == "XV":
                 xv_to_fdf(
                     f"i{int(i) - 1}{os.sep}{label}.XV",
                     f"i{int(i) - 1}{os.sep}{label}.fdf",
@@ -161,9 +177,9 @@ def single_run(i, label):
     os.chdir(f"{settings.get_cwd()}{os.sep}i{i}")
     print(f"Changed directory to {os.getcwd()}")
     with open(
-        f"{settings.get_cwd()}{os.sep}i{int(i) - 1}{os.sep}{settings.get_log()}",
-        "r",
-        encoding="utf-8"
+            f"{settings.get_cwd()}{os.sep}i{int(i) - 1}{os.sep}{settings.get_log()}",
+            "r",
+            encoding="utf-8"
     ) as file:
         lines = file.readlines()
         if lines[-1] == "Job completed\n":
@@ -171,7 +187,13 @@ def single_run(i, label):
         else:
             if int(i) > 1:
                 if not os.path.isfile(f"{settings.get_cwd()}{os.sep}i{i}{os.sep}{label}.fdf"):
-                    if settings.get_contfrom() == "XV":
+                    if settings.get_contfrom() == "log":
+                        log_to_fdf(
+                            f"{settings.get_cwd()}{os.sep}i{int(i) - 1}{os.sep}{settings.get_log()}",
+                            f"{settings.get_cwd()}{os.sep}i{int(i) - 1}{os.sep}{label}.fdf",
+                            f"{settings.get_cwd()}{os.sep}i{i}{os.sep}{label}.fdf"
+                        )
+                    elif settings.get_contfrom() == "XV":
                         xv_to_fdf(
                             f"{settings.get_cwd()}{os.sep}i{int(i) - 1}{os.sep}{label}.XV",
                             f"{settings.get_cwd()}{os.sep}i{int(i) - 1}{os.sep}{label}.fdf",
@@ -244,10 +266,46 @@ def xv_to_fdf(xvpath, fdfpath, newfdfpath):
         xvfile.close()
 
 
-def merge_ani(label=None, path=None):
+def log_to_fdf(logpath, fdfpath, newfdfpath):
+    """Convert the last coordinates from a SIESTA log file to FDF by using previous log and FDF files"""
+    print(f"Reading {logpath}")
+    with open(logpath, "r", encoding="utf-8") as logfile:
+        content = logfile.read()
+        match = re.search(
+            r"outcoor: Relaxed atomic coordinates \(Ang\): {18}\n" +
+            r"( {3,4}-?[0-9]+\.[0-9]+" +
+            r" {3,4}-?[0-9]+\.[0-9]+" +
+            r" {3,4}-?[0-9]+\.[0-9]+" +
+            r" {1,3}[0-9]+" +
+            r" {1,7}[0-9]+" +
+            r" {1,2} .+\n)+",
+            content
+        )
+        if match is None:
+            raise RuntimeError(f"ERROR: {logpath} is not converged")
+        parts = re.findall(
+            r" {3,4}(-?[0-9]+\.[0-9]+)" +
+            r" {3,4}(-?[0-9]+\.[0-9]+)" +
+            r" {3,4}(-?[0-9]+\.[0-9]+)" +
+            r" {1,3}([0-9]+)" +
+            r" {1,7}[0-9]+" +
+            r" {1,2} .+\n",
+            match[0]
+        )
+        geo = [
+            (
+                f"       {part[0]}" +
+                f"   {part[1]}" +
+                f"   {part[2]}" +
+                f"  {part[3]}\n"
+            ) for part in parts]
+        fdf, geo = read_fdf(fdfpath, geo)
+        create_fdf(fdf, geo, newfdfpath, number)
+        logfile.close()
+
+
+def merge_ani(label=None, path="i*"):
     """Merge ANI files"""
-    if path is None:
-        path = "i*"
     if label is None:
         raise ValueError("ERROR: Please set a label")
     files = glob.glob(f"{settings.get_cwd()}{os.sep}{path}{os.sep}{label}.ANI")
@@ -260,9 +318,9 @@ def merge_ani(label=None, path=None):
         if [*set(it)] != list(range(min(it), max(it) + 1)):
             print("WARNING: There are missing ANI files!")
         with open(
-            f"{settings.get_cwd()}{os.sep}{label}-merged.ANI",
-            "w",
-            encoding="utf-8"
+                f"{settings.get_cwd()}{os.sep}{label}-merged.ANI",
+                "w",
+                encoding="utf-8"
         ) as outfile:
             print(f"{settings.get_cwd()}{os.sep}{label}-merged.ANI is opened")
             for f in files:
@@ -303,7 +361,15 @@ def run(label):
                             f"i([0-9]+){os.sep}{settings.get_cont()}(_*[0-9]*)",
                             logs[-1]
                         )
-                        if settings.get_contfrom() == "XV":
+                        if settings.get_contfrom() == "log":
+                            log_to_fdf(
+                                f"i{match[1]}{os.sep}{settings.get_cont()}{match[2]}" +
+                                f"{os.sep}{settings.get_log()}",
+                                f"i{match[1]}{os.sep}{settings.get_cont()}{match[2]}" +
+                                f"{os.sep}{label}.fdf",
+                                f"i{int(match[1]) + 1}{os.sep}{label}.fdf"
+                            )
+                        elif settings.get_contfrom() == "XV":
                             xv_to_fdf(
                                 f"i{match[1]}{os.sep}{settings.get_cont()}{match[2]}" +
                                 f"{os.sep}{label}.XV",
@@ -320,7 +386,17 @@ def run(label):
                                 f"i{int(match[1]) + 1}{os.sep}{label}.fdf"
                             )
                     else:
-                        if settings.get_contfrom() == "XV":
+                        if settings.get_contfrom() == "log":
+                            log_to_fdf(
+                                logs[-1].rsplit(os.sep)[0] + os.sep + settings.get_log(),
+                                logs[-1].rsplit(os.sep)[0] + os.sep + label + ".fdf",
+                                "i" +
+                                str(int(logs[-1].split(os.sep)[0].strip("i")) + 1) +
+                                os.sep +
+                                label +
+                                ".fdf"
+                            )
+                        elif settings.get_contfrom() == "XV":
                             xv_to_fdf(
                                 logs[-1].rsplit(os.sep)[0] + os.sep + label + ".XV",
                                 logs[-1].rsplit(os.sep)[0] + os.sep + label + ".fdf",
@@ -433,10 +509,8 @@ def copy_files(extensions, label, source_, destination):
         copy_file(f"{source_}{os.sep}{cf}", f"{destination}{os.sep}{cf}")
 
 
-def analysis(path=None, plot_=True, print_=True):
+def energy_analysis(energytype="total", path="i*", plot_=True, print_=True):
     """Plot and return energies from log files"""
-    if path is None:
-        path = "i*"
     files = glob.glob(f"{settings.get_cwd()}{os.sep}{path}{os.sep}{settings.get_log()}")
     files += glob.glob(
         f"{settings.get_cwd()}{os.sep}{path}{os.sep}{settings.get_cont()}*" +
@@ -446,7 +520,7 @@ def analysis(path=None, plot_=True, print_=True):
     energies = []
     it = []
     remove_nones(files, path, settings.get_cwd(), settings.get_cont(), settings.get_log())
-    read_energy(energies=energies, files=files, it=it, print_=print_)
+    read_energy(energytype=energytype, energies=energies, files=files, it=it, print_=print_)
     if sorted(it) != list(range(min(it), max(it) + 1)) or None in energies:
         print("WARNING: There are missing values!")
     if None in energies:
@@ -459,11 +533,9 @@ def analysis(path=None, plot_=True, print_=True):
     return list(zip_longest(it, energies))
 
 
-def energy_diff(path=None):
+def energy_diff(energytype="total", path="i*"):
     """Return energy differences between minima and maxima"""
-    if path is None:
-        path = "i*"
-    data = analysis(path=path, plot_=False, print_=False)
+    data = analysis(energytype=energytype, path=path, plot_=False, print_=False)
     energies = np.array([_[1] for _ in data])
     it = np.array([_[0] for _ in data])
     min_idx = np.where(energies == np.amin(energies)) \
@@ -473,8 +545,68 @@ def energy_diff(path=None):
         if len(argrelmax(energies)) == 1 else argrelmax(energies)
     print(f"Maxima: {energies[max_idx]}")
     diff = np.absolute(energies[min_idx] - energies[max_idx])
-    print(f"Energy difference: {diff}")
+    print(f"{energytype.capitalize()} energy difference: {diff}")
     return list(zip_longest(energies[min_idx], energies[max_idx], it[min_idx], it[max_idx], diff))
+
+
+def pair_correlation_function(label=None, path="i*", dr=0.1, plot_=True):
+    """Compute the three-dimensional pair correlation function for a set of spherical particles
+    contained in the LatticeVectors. This simple function finds reference particles such that a
+    sphere of radius rmax drawn around the particle will fit entirely within the cube, eliminating
+    the need to compensate for edge effects.  If no such particles exist, an error is returned.
+    Returns a tuple: (g, radii, interior_indices)
+        g(r)            a numpy array containing the correlation function g(r)
+        radii           a numpy array containing the radii of the spherical shells used to compute
+                        g(r)
+        reference_indices   indices of reference particles
+    """
+    fdfpath = glob.glob(f"{path}{os.sep}{label}.fdf")[0]
+    x, y, z = coords(fdfpath)
+    x = np.array([_ * 0.1 for _ in x])
+    y = np.array([_ * 0.1 for _ in y])
+    z = np.array([_ * 0.1 for _ in z])
+    sx, sy, sz = lattice_vectors_mag(fdfpath)
+    sx = sx * 0.1
+    sy = sy * 0.1
+    sz = sz * 0.1
+    _, _, species_ = species(fdfpath)
+    rmax = max(element_diameter(specie) for specie in species_)
+    bools1 = x > rmax
+    bools2 = x < sx - rmax
+    bools3 = y > rmax
+    bools4 = y < sy - rmax
+    bools5 = z > rmax
+    bools6 = z < sz - rmax
+    (interior_indices,) = np.where(bools1 * bools2 * bools3 * bools4 * bools5 * bools6)
+    num_interior_particles = len(interior_indices)
+    if num_interior_particles < 1:
+        raise RuntimeError("No particles found. Increase the LatticeVectors.")
+    edges = np.arange(0.0, rmax + 1.1 * dr, dr)
+    num_increments = len(edges) - 1
+    g = np.zeros([num_interior_particles, num_increments])
+    radii = np.zeros(num_increments)
+    numberdensity = len(x) / (sx * sy * sz)
+    for p in range(num_interior_particles):
+        index = interior_indices[p]
+        d = np.sqrt((x[index] - x) ** 2 + (y[index] - y) ** 2 + (z[index] - z) ** 2)
+        d[index] = 2 * rmax
+        result, bins = np.histogram(d, bins=edges, density=False)
+        g[p, :] = result / numberdensity
+    g_average = np.zeros(num_increments)
+    for i in range(num_increments):
+        radii[i] = (edges[i] + edges[i + 1]) / 2.0
+        router = edges[i + 1]
+        rinner = edges[i]
+        g_average[i] = np.mean(g[:, i]) / (4.0 / 3.0 * np.pi * (router ** 3 - rinner ** 3))
+    if plot_:
+        plt.figure()
+        plt.plot(r, g_r, color='black')
+        plt.xlabel('r')
+        plt.ylabel('g(r)')
+        plt.xlim((0, rmax))
+        plt.ylim((0, 1.05 * g_average.max()))
+        plt.show()
+    return g_average, radii, interior_indices
 
 
 def _command(label=None, issingle=False):
@@ -490,12 +622,12 @@ def _command(label=None, issingle=False):
         )
     with open(settings.get_log(), "w", encoding="utf-8") as logger:
         with Popen(
-            shlex.split(
-                f"mpirun -np {settings.get_cores()} " if settings.get_cores() is not None else "" +
-                f"{settings.get_siesta()} {label}.fdf"
-            ),
-            shell=False,
-            stdout=logger
+                shlex.split(
+                    f"mpirun -np {settings.get_cores()} " if settings.get_cores() is not None else "" +
+                    f"{settings.get_siesta()} {label}.fdf"
+                ),
+                shell=False,
+                stdout=logger
         ) as job:
             print(f"PID is {job.pid}")
             for line in tail("-f", settings.get_log(), _iter=True):

@@ -14,9 +14,11 @@ from .core import (
     ani_to_fdf,
     xyz_to_fdf,
     xv_to_fdf,
+    log_to_fdf,
     merge_ani,
-    analysis,
+    energy_analysis,
     energy_diff,
+    pair_correlation_function,
     settings
 )
 
@@ -29,12 +31,16 @@ def main(*, args):
     if function not in ["run", "single_run", "run_next", "run_interrupted",
                         "single_run_interrupted", "make_directories",
                         "copy_files", "ani_to_fdf", "xyz_to_fdf", "xv_to_fdf",
-                        "merge_ani", "analysis", "energy_diff"]:
+                        "log_to_fdf", "merge_ani", "energy_analysis", "energy_diff",
+                        "pair_correlation_function"]:
         raise AttributeError(
-            """Command not found. Please use 'run', 'single_run', 'run_next',
-            'run_interrupted', 'single_run_interrupted', 'make_directories',
-            'copy_files', 'ani_to_fdf', 'xyz_to_fdf', 'xv_to_fdf', 'merge_ani',
-            'analysis', 'energy_diff'""".replace("           ", "").replace("\n", "")
+            """Command not found. Please use 'run',
+            'single_run', 'run_next', 'run_interrupted',
+            'single_run_interrupted', 'make_directories',
+            'copy_files', 'ani_to_fdf', 'xyz_to_fdf',
+            'xv_to_fdf', 'log_to_fdf', 'merge_ani',
+            'energy_analysis', 'energy_diff',
+            'pair_correlation_function'""".replace("           ", "").replace("\n", "")
         )
     if function == "run":
         settings.set_log(args[2])
@@ -66,6 +72,8 @@ def main(*, args):
         xyz_to_fdf(args[2], args[3], args[4])
     elif function == "xv_to_fdf":
         xv_to_fdf(args[2], args[3], args[4])
+    elif function == "log_to_fdf":
+        log_to_fdf(args[2], args[3], args[4])
     elif function == "merge_ani":
         path = "i*"
         if len(args) == 3:
@@ -75,29 +83,44 @@ def main(*, args):
                 if arg.startswith("path="):
                     path = arg.split("=")[1]
             merge_ani(label=args[2], path=path)
-    elif function == "analysis":
+    elif function == "energy_analysis":
         settings.set_log(args[2])
         plot_ = True
         path = "i*"
-        if len(args) > 4:
-            for arg in args[3:]:
+        if len(args) > 5:
+            for arg in args[4:]:
                 if arg.startswith("path="):
                     path = arg.split("=")[1]
                 if arg == "noplot":
                     plot_ = False
-            analysis(path=path, plot_=plot_)
+            analysis(energytype=args[3], path=path, plot_=plot_)
         else:
-            analysis()
+            analysis(energytype=args[3])
     elif function == "energy_diff":
         settings.set_log(args[2])
         path = "i*"
+        if len(args) > 5:
+            for arg in args[4:]:
+                if arg.startswith("path="):
+                    path = arg.split("=")[1]
+            energy_diff(energytype=args[3], path=path)
+        else:
+            energy_diff(energytype=args[3])
+    elif function == "pair_correlation_function":
+        path = "i*"
+        dr = 0.1
+        plot_ = True
         if len(args) > 4:
             for arg in args[3:]:
                 if arg.startswith("path="):
                     path = arg.split("=")[1]
-            energy_diff(path=path)
+                if arg.startswith("dr="):
+                    dr = arg.split("=")[1]
+                if arg == "noplot":
+                    plot_ = False
+            pair_correlation_function(label=args[2], path=path, dr=dr, plot_=plot_)
         else:
-            energy_diff()
+            pair_correlation_function(label=args[2])
 
 
 def independents(arg):

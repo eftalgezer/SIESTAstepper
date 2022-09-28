@@ -8,7 +8,7 @@ from .tests import (
     test_merge_ani,
     test_make_directories,
     test_copy_files,
-    test_analysis,
+    test_energy_analysis,
     test_energy_diff,
     test_get_it,
     test_read_fdf,
@@ -41,7 +41,7 @@ test_merge_ani()
 clear_temp()
 test_make_directories()
 test_copy_files()
-test_analysis()
+test_energy_analysis()
 test_energy_diff()
 test_get_it()
 test_read_fdf()
