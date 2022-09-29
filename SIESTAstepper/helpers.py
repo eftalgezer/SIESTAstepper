@@ -115,20 +115,16 @@ def read_force(*, forces=[], files=None, it=[], atomindex="Tot", forcetype="atom
             )
             for part in parts:
                 if part[0] == atomindex:
-                    forces.append(
-                        [
-                            float(part[1]),
-                            float(part[2]),
-                            float(part[3]),
-                            math.sqrt(float(part[1]) ** 2 + float(part[2]) ** 2 + float(part[3]) ** 2)
-                        ]
+                    resultant =math.sqrt(
+                        float(part[1]) ** 2 + float(part[2]) ** 2 + float(part[3]) ** 2
                     )
+                    forces.append([float(part[1]), float(part[2]), float(part[3]), resultant])
                     if print_:
                         print(
                             f"x: {part[1]}, " +
                             f"y: {part[2]}, " +
                             f"z: {part[3]}, " +
-                            f"Resultant: {math.sqrt(float(part[1]) ** 2 + float(part[2]) ** 2 + float(part[3]) ** 2)}"
+                            f"Resultant: {resultant}"
                         )
 
 

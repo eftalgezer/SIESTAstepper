@@ -179,9 +179,9 @@ def single_run(i, label):
     os.chdir(f"{settings.get_cwd()}{os.sep}i{i}")
     print(f"Changed directory to {os.getcwd()}")
     with open(
-            f"{settings.get_cwd()}{os.sep}i{int(i) - 1}{os.sep}{settings.get_log()}",
-            "r",
-            encoding="utf-8"
+        f"{settings.get_cwd()}{os.sep}i{int(i) - 1}{os.sep}{settings.get_log()}",
+        "r",
+        encoding="utf-8"
     ) as file:
         lines = file.readlines()
         if lines[-1] == "Job completed\n":
@@ -298,10 +298,10 @@ def log_to_fdf(logpath, fdfpath, newfdfpath):
         )
         geo = [
             (
-                    f"       {part[0]}" +
-                    f"   {part[1]}" +
-                    f"   {part[2]}" +
-                    f"  {part[3]}\n"
+                f"       {part[0]}" +
+                f"   {part[1]}" +
+                f"   {part[2]}" +
+                f"  {part[3]}\n"
             ) for part in parts]
         fdf, geo = read_fdf(fdfpath, geo)
         create_fdf(fdf, geo, newfdfpath, len(geo))
@@ -627,7 +627,7 @@ def force_analysis(atomindex="Tot", forcetype="atomic", path="i*", plot_=True, p
     if None in forces:
         print("WARNING: There are missing atomic force values!")
     if plot_:
-        fig, axs = plt.subplots(2, 2)
+        _, axs = plt.subplots(2, 2)
         axs[0, 0].scatter(it, [row[0] for row in forces])
         axs[0, 0].set_title("x")
         axs[0, 1].scatter(it, [row[1] for row in forces])
@@ -778,7 +778,7 @@ def pair_correlation_function(label=None, path="i*", dr=0.1, plot_=True):
         plt.xlabel('r')
         plt.ylabel('g(r)')
         plt.xlim((0, rmax))
-        plt.ylim((0, 1.05 * g_average.max(initial=None)))
+        plt.ylim((0, 1.05 * g_average.max()))
         plt.show()
     return g_average, radii, interior_indices
 
