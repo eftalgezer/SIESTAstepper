@@ -179,9 +179,9 @@ def single_run(i, label):
     os.chdir(f"{settings.get_cwd()}{os.sep}i{i}")
     print(f"Changed directory to {os.getcwd()}")
     with open(
-        f"{settings.get_cwd()}{os.sep}i{int(i) - 1}{os.sep}{settings.get_log()}",
-        "r",
-        encoding="utf-8"
+            f"{settings.get_cwd()}{os.sep}i{int(i) - 1}{os.sep}{settings.get_log()}",
+            "r",
+            encoding="utf-8"
     ) as file:
         lines = file.readlines()
         if lines[-1] == "Job completed\n":
@@ -298,10 +298,10 @@ def log_to_fdf(logpath, fdfpath, newfdfpath):
         )
         geo = [
             (
-                f"       {part[0]}" +
-                f"   {part[1]}" +
-                f"   {part[2]}" +
-                f"  {part[3]}\n"
+                    f"       {part[0]}" +
+                    f"   {part[1]}" +
+                    f"   {part[2]}" +
+                    f"  {part[3]}\n"
             ) for part in parts]
         fdf, geo = read_fdf(fdfpath, geo)
         create_fdf(fdf, geo, newfdfpath, len(geo))
@@ -322,9 +322,9 @@ def merge_ani(label=None, path="i*"):
         if [*set(it)] != list(range(min(it), max(it) + 1)):
             print("WARNING: There are missing ANI files!")
         with open(
-            f"{settings.get_cwd()}{os.sep}{label}-merged.ANI",
-            "w",
-            encoding="utf-8"
+                f"{settings.get_cwd()}{os.sep}{label}-merged.ANI",
+                "w",
+                encoding="utf-8"
         ) as outfile:
             print(f"{settings.get_cwd()}{os.sep}{label}-merged.ANI is opened")
             for f in files:
@@ -532,7 +532,7 @@ def energy_analysis(energytype="total", path="i*", plot_=True, print_=True):
     if plot_:
         plt.scatter(it, energies)
         plt.xlabel("Step")
-        plt.ylabel("Energy (eV)")
+        plt.ylabel(f"{energytype.capitalize()} energy (eV)")
         plt.show()
     return list(zip_longest(it, energies))
 
@@ -561,11 +561,29 @@ def force_analysis(atomindex="Tot", forcetype="atomic", path="i*", plot_=True, p
     if None in forces:
         print("WARNING: There are missing atomic force values!")
     if plot_:
-        plt.scatter(it, forces)
-        plt.xlabel("Step")
-        plt.ylabel("Atomic force (eV/Ang)")
-        plt.show()
-    return list(zip_longest(it, forces))
+        fig, axs = plt.subplots(2, 2)
+        axs[0, 0].scatter(it, [row[0] for row in forces])
+        axs[0, 0].set_title("x")
+        axs[0, 1].scatter(it, [row[1] for row in forces])
+        axs[0, 1].set_title("y")
+        axs[1, 0].scatter(it, [row[2] for row in forces])
+        axs[1, 0].set_title("z")
+        axs[1, 1].scatter(it, [row[3] for row in forces])
+        axs[1, 1].set_title("Resultant")
+        for ax in axs.flat:
+            ax.set(xlabel='Step', ylabel=f'{forcetype.capitalize()} force (eV/Ang)')
+        for ax in axs.flat:
+            ax.label_outer()
+    return list(
+        zip_longest(
+            it,
+            [row[0] for row in forces],
+            [row[1] for row in forces],
+            [row[2] for row in forces],
+            [row[3] for row in forces]
+        )
+    )
+
 
 def energy_diff(energytype="total", path="i*"):
     """Return energy differences between minima and maxima"""
@@ -581,6 +599,58 @@ def energy_diff(energytype="total", path="i*"):
     diff = np.absolute(energies[min_idx] - energies[max_idx])
     print(f"{energytype.capitalize()} energy difference: {diff}")
     return list(zip_longest(energies[min_idx], energies[max_idx], it[min_idx], it[max_idx], diff))
+
+
+def force_diff(atomindex="Tot", forcetype="atomic", path="i*"):
+    """Return force differences between minima and maxima"""
+    data = force_analysis(atomindex=atomindex, forcetype=forcetype, path=path, plot_=False, print_=False)
+    forcesx = np.array([_[1] for _ in data])
+    forcesy = np.array([_[2] for _ in data])
+    forcesz = np.array([_[3] for _ in data])
+    forcesr = np.array([_[4] for _ in data])
+    it = np.array([_[0] for _ in data])
+    print("x")
+    min_idxx = np.where(forcesx == np.amin(forcesx)) \
+        if len(argrelmin(forcesx)) == 1 else argrelmin(forcesx)
+    print(f"    Minima: {forcesx[min_idxx]}")
+    max_idxx = np.where(forcesx == np.amax(forcesx)) \
+        if len(argrelmax(forcesx)) == 1 else argrelmax(forcesx)
+    print(f"    Maxima: {forcesx[max_idxx]}")
+    diffx = np.absolute(forcesx[min_idxx] - forcesx[max_idxx])
+    print(f"    {forcetype.capitalize()} force difference: {diffx}")
+    print("y")
+    min_idxy = np.where(forcesy == np.amin(forcesy)) \
+        if len(argrelmin(forcesy)) == 1 else argrelmin(forcesy)
+    print(f"    Minima: {forcesy[min_idxy]}")
+    max_idxy = np.where(forcesy == np.amax(forcesy)) \
+        if len(argrelmax(forcesy)) == 1 else argrelmax(forcesy)
+    print(f"    Maxima: {forcesy[max_idxy]}")
+    diffy = np.absolute(forcesy[min_idxy] - forcesy[max_idxy])
+    print(f"    {forcetype.capitalize()} force difference: {diffy}")
+    print("z")
+    min_idxz = np.where(forcesz == np.amin(forcesz)) \
+        if len(argrelmin(forcesz)) == 1 else argrelmin(forcesz)
+    print(f"    Minima: {forcesz[min_idxz]}")
+    max_idxz = np.where(forcesz == np.amax(forcesz)) \
+        if len(argrelmax(forcesz)) == 1 else argrelmax(forcesz)
+    print(f"    Maxima: {forcesz[max_idxz]}")
+    diffz = np.absolute(forcesz[min_idxz] - forcesz[max_idxz])
+    print(f"    {forcetype.capitalize()} force difference: {diffz}")
+    print("Resultant")
+    min_idxr = np.where(forcesr == np.amin(forcesr)) \
+        if len(argrelmin(forcesr)) == 1 else argrelmin(forcesr)
+    print(f"    Minima: {forcesr[min_idxr]}")
+    max_idxr = np.where(forcesr == np.amax(forcesr)) \
+        if len(argrelmax(forcesr)) == 1 else argrelmax(forcesr)
+    print(f"    Maxima: {forcesr[max_idxr]}")
+    diffr = np.absolute(forcesr[min_idxr] - forcesr[max_idxr])
+    print(f"    {forcetype.capitalize()} force difference: {diffr}")
+    return [
+        list(zip_longest(forcesx[min_idxx], forcesx[max_idxx], it[min_idxx], it[max_idxx], diffx)),
+        list(zip_longest(forcesy[min_idxy], forcesy[max_idxy], it[min_idxy], it[max_idxy], diffy)),
+        list(zip_longest(forcesz[min_idxz], forcesz[max_idxz], it[min_idxz], it[max_idxz], diffz)),
+        list(zip_longest(forcesr[min_idxr], forcesr[max_idxr], it[min_idxr], it[max_idxr], diffr)),
+    ]
 
 
 def pair_correlation_function(label=None, path="i*", dr=0.1, plot_=True):
@@ -638,7 +708,7 @@ def pair_correlation_function(label=None, path="i*", dr=0.1, plot_=True):
         plt.xlabel('r')
         plt.ylabel('g(r)')
         plt.xlim((0, rmax))
-        plt.ylim((0, 1.05 * g_average.max()))
+        plt.ylim((0, 1.05 * g_average.max(initial=None)))
         plt.show()
     return g_average, radii, interior_indices
 
@@ -660,8 +730,8 @@ def _command(label=None, issingle=False):
                 f"mpirun -np {settings.get_cores()} " if settings.get_cores() is not None else "" +
                 f"{settings.get_siesta()} {label}.fdf"
             ),
-            shell=False,
-            stdout=logger
+                shell=False,
+                stdout=logger
         ) as job:
             print(f"PID is {job.pid}")
             for line in tail("-f", settings.get_log(), _iter=True):

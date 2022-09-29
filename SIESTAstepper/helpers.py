@@ -117,10 +117,10 @@ def read_force(*, forces=[], files=None, it=[], atomindex="Tot", forcetype="atom
                 if part[0] == atomindex:
                     forces.append(
                         [
-                            part[1],
-                            part[2],
-                            part[3],
-                            math.sqrt(part[1] ** 2 + part[2] ** 2 + part[3] ** 2)
+                            float(part[1]),
+                            float(part[2]),
+                            float(part[3]),
+                            math.sqrt(float(part[1]) ** 2 + float(part[2]) ** 2 + float(part[3]) ** 2)
                         ]
                     )
                     if print_:
@@ -128,7 +128,7 @@ def read_force(*, forces=[], files=None, it=[], atomindex="Tot", forcetype="atom
                             f"x: {part[1]}, " +
                             f"y: {part[2]}, " +
                             f"z: {part[3]}, " +
-                            f"Resultant: {math.sqrt(part[1] ** 2 + part[2] ** 2 + part[3] ** 2)}"
+                            f"Resultant: {math.sqrt(float(part[1]) ** 2 + float(part[2]) ** 2 + float(part[3]) ** 2)}"
                         )
 
 

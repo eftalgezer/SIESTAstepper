@@ -25,7 +25,9 @@ from .core import (
     log_to_fdf,
     merge_ani,
     energy_analysis,
+    force_analysis,
     energy_diff,
+    force_diff,
     pair_correlation_function,
     settings
 )

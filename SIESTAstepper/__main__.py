@@ -17,7 +17,9 @@ from .core import (
     log_to_fdf,
     merge_ani,
     energy_analysis,
+    force_analysis,
     energy_diff,
+    force_diff,
     pair_correlation_function,
     settings
 )
@@ -31,15 +33,16 @@ def main(*, args):
     if function not in ["run", "single_run", "run_next", "run_interrupted",
                         "single_run_interrupted", "make_directories",
                         "copy_files", "ani_to_fdf", "xyz_to_fdf", "xv_to_fdf",
-                        "log_to_fdf", "merge_ani", "energy_analysis", "energy_diff",
-                        "pair_correlation_function"]:
+                        "log_to_fdf", "merge_ani", "energy_analysis", "force_analysis",
+                        "energy_diff", "force_diff", "pair_correlation_function"]:
         raise AttributeError(
             """Command not found. Please use 'run',
             'single_run', 'run_next', 'run_interrupted',
             'single_run_interrupted', 'make_directories',
             'copy_files', 'ani_to_fdf', 'xyz_to_fdf',
             'xv_to_fdf', 'log_to_fdf', 'merge_ani',
-            'energy_analysis', 'energy_diff',
+            'energy_analysis', 'force_analysis',
+            'energy_diff', 'force_diff',
             'pair_correlation_function'""".replace("           ", "").replace("\n", "")
         )
     if function == "run":
@@ -96,6 +99,19 @@ def main(*, args):
             energy_analysis(energytype=args[3], path=path, plot_=plot_)
         else:
             energy_analysis(energytype=args[3])
+    elif function == "force_analysis":
+        settings.set_log(args[2])
+        plot_ = True
+        path = "i*"
+        if len(args) > 6:
+            for arg in args[5:]:
+                if arg.startswith("path="):
+                    path = arg.split("=")[1]
+                if arg == "noplot":
+                    plot_ = False
+            force_analysis(atomindex=args[4], forcetype=args[3], path=path, plot_=plot_)
+        else:
+            force_analysis(atomindex=args[4], forcetype=args[3])
     elif function == "energy_diff":
         settings.set_log(args[2])
         path = "i*"
@@ -106,6 +122,16 @@ def main(*, args):
             energy_diff(energytype=args[3], path=path)
         else:
             energy_diff(energytype=args[3])
+    elif function == "force_diff":
+        settings.set_log(args[2])
+        path = "i*"
+        if len(args) > 6:
+            for arg in args[5:]:
+                if arg.startswith("path="):
+                    path = arg.split("=")[1]
+            force_diff(atomindex=args[4], forcetype=args[3], path=path)
+        else:
+            force_diff(atomindex=args[4], forcetype=args[3])
     elif function == "pair_correlation_function":
         path = "i*"
         dr = 0.1
