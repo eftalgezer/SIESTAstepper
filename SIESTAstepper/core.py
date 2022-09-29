@@ -536,7 +536,7 @@ def energy_analysis(energytype="total", path="i*", plot_=True, print_=True):
     return list(zip_longest(it, energies))
 
 
-def force_analysis(atomindex="tot", forcetype="atomic", path="i*", plot_=True, print_=True):
+def force_analysis(atomindex="Tot", forcetype="atomic", path="i*", plot_=True, print_=True):
     """Plot and return atomic forces from log files"""
     files = glob.glob(f"{settings.get_cwd()}{os.sep}{path}{os.sep}{settings.get_log()}")
     files += glob.glob(
@@ -547,7 +547,7 @@ def force_analysis(atomindex="tot", forcetype="atomic", path="i*", plot_=True, p
     remove_nones(files, path, settings.get_cwd(), settings.get_cont(), settings.get_log())
     forces = []
     it = []
-    read_atomic_force(
+    read_force(
         forces=forces,
         files=files,
         it=it,

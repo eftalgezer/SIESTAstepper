@@ -86,7 +86,7 @@ def read_energy(energies=[], files=None, it=[], energytype="total", print_=True)
                         print(line.split("=  ")[1])
 
 
-def read_force(forces=[], files=None, it=[], atomindex="tot", forcetype="atomic", print_=print_):
+def read_force(forces=[], files=None, it=[], atomindex="Tot", forcetype="atomic", print_=True):
     """Read force from log files"""
     forcetypes = {
         "atomic": "siesta: Atomic forces (eV/Ang):",
@@ -97,12 +97,30 @@ def read_force(forces=[], files=None, it=[], atomindex="tot", forcetype="atomic"
         if print_:
             print(f)
         with open(f, "r", encoding="utf-8") as file:
-            lines = file.readlines()
-            for line in lines:
-                if line.startswith(forcetypes[forcetype]):
-                    ...
+            content = file.read()
+            match = re.search(
+                rf"{re.escape(forcetypes[forcetype])}\n" +
+                r"(siesta: +[0-9]+ +-?[0-9]+\.[0-9]+ +-?[0-9]+\.[0-9]+ +-?[0-9]+\.[0-9]+\n)" 
+                r"+siesta: ----------------------------------------\n" +
+                r"siesta: +Tot +-?[0-9]+\.[0-9]+ +-?[0-9]+\.[0-9]+ +-?[0-9]+\.[0-9]+\n",
+                content
+            )
+            parts = re.findall(
+                r"siesta: +([0-9]+|Tot) +(-?[0-9]+\.[0-9]+) +(-?[0-9]+\.[0-9]+) +(-?[0-9]+\.[0-9]+)\n",
+                match[0]
+            )
+            for part in parts:
+                if part[0] == atomindex:
+                    forces.append(
+                        [part[1], part[2], part[3], math.sqrt(part[1] ** 2 + part[2] ** 2 + part[3] ** 2)]
+                    )
                     if print_:
-                        ...
+                        print(
+                            f"x: {part[1]}, " +
+                            f"y: {part[2]}, " +
+                            f"z: {part[3]}, " +
+                            f"Resultant: {math.sqrt(part[1] ** 2 + part[2] ** 2 + part[3] ** 2)}"
+                        )
 
 
 def print_run(for_, cores, conda):
