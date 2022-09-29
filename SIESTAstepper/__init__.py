@@ -23,6 +23,7 @@ from .core import (
     xyz_to_fdf,
     xv_to_fdf,
     log_to_fdf,
+    xv_to_ani,
     merge_ani,
     energy_analysis,
     force_analysis,

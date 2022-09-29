@@ -308,6 +308,71 @@ def log_to_fdf(logpath, fdfpath, newfdfpath):
         logfile.close()
 
 
+def xv_to_ani(label=None, path="i*"):
+    if label is None:
+        raise ValueError("ERROR: Please set a label")
+    files = glob.glob(f"{settings.get_cwd()}{os.sep}{path}{os.sep}{label}.XV")
+    files += glob.glob(
+        f"{settings.get_cwd()}{os.sep}{path}{os.sep}{settings.get_cont()}*{os.sep}{label}.XV"
+    )
+    fdfpath = glob.glob(f"{settings.get_cwd()}{os.sep}{path}{os.sep}{label}.fdf")[-1]
+    files = sort_(files, path, settings.get_cont())
+    if files is not None:
+        ani = ""
+        inds = None
+        it = get_it(files)
+        if [*set(it)] != list(range(min(it), max(it) + 1)):
+            print("WARNING: There are missing XV files!")
+        print(f"Opening {fdfpath}")
+        with open(fdfpath, "r", encoding="utf-8") as fdffile:
+            fdf = fdffile.read()
+            inds = fdf.split(
+                "%block ChemicalSpeciesLabel\n"
+            )[1].split(
+                "%endblock ChemicalSpeciesLabel\n"
+            )[0]
+            inds = inds.splitlines()
+        for file in files:
+            print(f"Opening {file}")
+            with open(file, "r", encoding="utf-8") as f:
+                match = re.search(
+                    r" +([0-9]+)\n" +
+                    r"( +[0-9]+" +
+                    r" +[0-9]+" +
+                    r" +-?[0-9]+\.[0-9]+ +" +
+                    r"-?[0-9]+\.[0-9]+ +" +
+                    r"-?[0-9]+\.[0-9]+ +" +
+                    r"-?[0-9]+\.[0-9]+ +" +
+                    r"-?[0-9]+\.[0-9]+ +" +
+                    r"-?[0-9]+\.[0-9]+\n)+",
+                    f.read()
+                )
+                ani += f"    {match[1]}\n\n"
+                parts = re.findall(
+                    r" +([0-9]+) +" +
+                    r"[0-9]+ +" +
+                    r"(-?[0-9]+\.[0-9]+) +" +
+                    r"(-?[0-9]+\.[0-9]+) +" +
+                    r"(-?[0-9]+\.[0-9]+) +" +
+                    r"-?[0-9]+\.[0-9]+ +" +
+                    r"-?[0-9]+\.[0-9]+ +" +
+                    r"-?[0-9]+\.[0-9]+\n",
+                    match[0]
+                )
+                for part in parts:
+                    part0 = None
+                    for ind in inds:
+                        if ind.startswith(part[0]):
+                            part0 = ind.split(" ")[-1]
+                    ani += f"{part0}       {part[1]}    {part[2]}    {part[3]}\n"
+                f.close()
+        print(f"Writing to {label}-XV.ANI")
+        with open(f"{label}-XV.ANI", "w", encoding="utf-8") as anifile:
+            anifile.write(ani)
+            anifile.close()
+        print("All XV files converted to ANI")
+
+
 def merge_ani(label=None, path="i*"):
     """Merge ANI files"""
     if label is None:
@@ -664,7 +729,9 @@ def pair_correlation_function(label=None, path="i*", dr=0.1, plot_=True):
                         g(r)
         reference_indices   indices of reference particles
     """
-    fdfpath = glob.glob(f"{path}{os.sep}{label}.fdf")[0]
+    fdfpath = glob.glob(f"{path}{os.sep}{label}.fdf")
+    fdfpath += glob.glob(f"{path}{os.sep}{settings.get_cont()}*{os.sep}{label}.fdf")
+    fdfpath = sort_(fdfpath, path, settings.get_cont())
     x, y, z = coords(fdfpath)
     x = np.array([_ * 0.1 for _ in x])
     y = np.array([_ * 0.1 for _ in y])
@@ -675,6 +742,7 @@ def pair_correlation_function(label=None, path="i*", dr=0.1, plot_=True):
     sz = sz * 0.1
     _, _, species_ = species(fdfpath)
     rmax = max(element_diameter(specie) for specie in species_)
+    print("Calculating the pair correlation function")
     bools1 = x > rmax
     bools2 = x < sx - rmax
     bools3 = y > rmax
@@ -684,7 +752,7 @@ def pair_correlation_function(label=None, path="i*", dr=0.1, plot_=True):
     (interior_indices,) = np.where(bools1 * bools2 * bools3 * bools4 * bools5 * bools6)
     num_interior_particles = len(interior_indices)
     if num_interior_particles < 1:
-        raise RuntimeError("No particles found. Increase the LatticeVectors.")
+        raise RuntimeError("No particles found. Increase the LatticeVectors or add more atoms.")
     edges = np.arange(0.0, rmax + 1.1 * dr, dr)
     num_increments = len(edges) - 1
     g = np.zeros([num_interior_particles, num_increments])
@@ -702,6 +770,7 @@ def pair_correlation_function(label=None, path="i*", dr=0.1, plot_=True):
         router = edges[i + 1]
         rinner = edges[i]
         g_average[i] = np.mean(g[:, i]) / (4.0 / 3.0 * np.pi * (router ** 3 - rinner ** 3))
+    print("The pair correlation function is calculated")
     if plot_:
         plt.figure()
         plt.plot(radii, g_average, color='black')
@@ -730,8 +799,8 @@ def _command(label=None, issingle=False):
                 f"mpirun -np {settings.get_cores()} " if settings.get_cores() is not None else "" +
                 f"{settings.get_siesta()} {label}.fdf"
             ),
-                shell=False,
-                stdout=logger
+            shell=False,
+            stdout=logger
         ) as job:
             print(f"PID is {job.pid}")
             for line in tail("-f", settings.get_log(), _iter=True):

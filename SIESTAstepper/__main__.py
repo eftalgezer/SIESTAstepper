@@ -15,6 +15,7 @@ from .core import (
     xyz_to_fdf,
     xv_to_fdf,
     log_to_fdf,
+    xv_to_ani,
     merge_ani,
     energy_analysis,
     force_analysis,
@@ -33,15 +34,16 @@ def main(*, args):
     if function not in ["run", "single_run", "run_next", "run_interrupted",
                         "single_run_interrupted", "make_directories",
                         "copy_files", "ani_to_fdf", "xyz_to_fdf", "xv_to_fdf",
-                        "log_to_fdf", "merge_ani", "energy_analysis", "force_analysis",
-                        "energy_diff", "force_diff", "pair_correlation_function"]:
+                        "log_to_fdf", "xv_to_ani", "merge_ani", "energy_analysis",
+                        "force_analysis", "energy_diff", "force_diff",
+                        "pair_correlation_function"]:
         raise AttributeError(
             """Command not found. Please use 'run',
             'single_run', 'run_next', 'run_interrupted',
             'single_run_interrupted', 'make_directories',
             'copy_files', 'ani_to_fdf', 'xyz_to_fdf',
-            'xv_to_fdf', 'log_to_fdf', 'merge_ani',
-            'energy_analysis', 'force_analysis',
+            'xv_to_fdf', 'log_to_fdf', 'xv_to_ani',
+            'merge_ani', 'energy_analysis', 'force_analysis',
             'energy_diff', 'force_diff',
             'pair_correlation_function'""".replace("           ", "").replace("\n", "")
         )
@@ -77,6 +79,14 @@ def main(*, args):
         xv_to_fdf(args[2], args[3], args[4])
     elif function == "log_to_fdf":
         log_to_fdf(args[2], args[3], args[4])
+    elif function == "xv_to_ani":
+        if len(args) == 3:
+            xv_to_ani(label=args[2])
+        elif len(args) > 3:
+            for arg in args[3:]:
+                if arg.startswith("path="):
+                    path = arg.split("=")[1]
+            xv_to_ani(label=args[2], path=path)
     elif function == "merge_ani":
         path = "i*"
         if len(args) == 3:

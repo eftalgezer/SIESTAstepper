@@ -310,6 +310,7 @@ def lattice_vectors_mag(fdfpath):
     x = None
     y = None
     z = None
+    print(f"Opening {fdfpath}")
     with open(fdfpath, "r", encoding="utf-8") as fdffile:
         content = fdffile.read()
         match = re.search(
@@ -320,6 +321,7 @@ def lattice_vectors_mag(fdfpath):
             r"%endblock LatticeVectors\n",
             content
         )
+        print("Calculating LatticeVectors magnitude")
         x = math.sqrt(float(match[1]) ** 2 + float(match[2]) ** 2 + float(match[3]) ** 2)
         y = math.sqrt(float(match[4]) ** 2 + float(match[5]) ** 2 + float(match[6]) ** 2)
         z = math.sqrt(float(match[7]) ** 2 + float(match[8]) ** 2 + float(match[9]) ** 2)
@@ -354,6 +356,7 @@ def coords(fdfpath):
     xs = []
     ys = []
     zs = []
+    print(f"Opening {fdfpath}")
     with open(fdfpath, "r", encoding="utf-8") as fdffile:
         match = re.search(
             r"%block AtomicCoordinatesAndAtomicSpecies\n" +
@@ -368,6 +371,7 @@ def coords(fdfpath):
             r"[ \t]+[0-9]+[ \t]*\n",
             match[0]
         )
+        print(f"Getting coordinates from {fdfpath}")
         for part in parts:
             xs.append(float(part[0]))
             ys.append(float(part[1]))
@@ -381,6 +385,7 @@ def species(fdfpath):
     ids = []
     atomicweights = []
     labels = []
+    print(f"Opening {fdfpath}")
     with open(fdfpath, "r", encoding="utf-8") as fdffile:
         match = re.search(
             "%block ChemicalSpeciesLabel\n" +
@@ -389,6 +394,7 @@ def species(fdfpath):
             fdffile.read()
         )
         parts = re.findall("([0-9]+)[ \t]+([0-9]+)[ \t]+(.+)\n", match[0])
+        print(f"Getting species from {fdfpath}")
         for part in parts:
             ids.append(part[0])
             atomicweights.append(part[1])
