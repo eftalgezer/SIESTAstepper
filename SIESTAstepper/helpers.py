@@ -86,7 +86,7 @@ def read_energy(energies=[], files=None, it=[], energytype="total", print_=True)
                         print(line.split("=  ")[1])
 
 
-def read_force(forces=[], files=None, it=[], atomindex="Tot", forcetype="atomic", print_=True):
+def read_force(*, forces=[], files=None, it=[], atomindex="Tot", forcetype="atomic", print_=True):
     """Read force from log files"""
     forcetypes = {
         "atomic": "siesta: Atomic forces (eV/Ang):",
@@ -100,7 +100,7 @@ def read_force(forces=[], files=None, it=[], atomindex="Tot", forcetype="atomic"
             content = file.read()
             match = re.search(
                 rf"{re.escape(forcetypes[forcetype])}\n" +
-                r"(siesta: +[0-9]+ +-?[0-9]+\.[0-9]+ +-?[0-9]+\.[0-9]+ +-?[0-9]+\.[0-9]+\n)" 
+                r"(siesta: +[0-9]+ +-?[0-9]+\.[0-9]+ +-?[0-9]+\.[0-9]+ +-?[0-9]+\.[0-9]+\n)"
                 r"+siesta: ----------------------------------------\n" +
                 r"siesta: +Tot +-?[0-9]+\.[0-9]+ +-?[0-9]+\.[0-9]+ +-?[0-9]+\.[0-9]+\n",
                 content
@@ -112,7 +112,12 @@ def read_force(forces=[], files=None, it=[], atomindex="Tot", forcetype="atomic"
             for part in parts:
                 if part[0] == atomindex:
                     forces.append(
-                        [part[1], part[2], part[3], math.sqrt(part[1] ** 2 + part[2] ** 2 + part[3] ** 2)]
+                        [
+                            part[1],
+                            part[2],
+                            part[3],
+                            math.sqrt(part[1] ** 2 + part[2] ** 2 + part[3] ** 2)
+                        ]
                     )
                     if print_:
                         print(
