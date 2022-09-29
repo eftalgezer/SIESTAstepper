@@ -18,6 +18,7 @@ from .helpers import (
     create_fdf,
     read_fdf,
     read_energy,
+    read_force,
     get_it,
     print_run,
     check_restart,
@@ -555,16 +556,16 @@ def force_analysis(atomindex="Tot", forcetype="atomic", path="i*", plot_=True, p
         forcetype=forcetype,
         print_=print_
     )
-    if sorted(it) != list(range(min(it), max(it) + 1)) or None in energies:
+    if sorted(it) != list(range(min(it), max(it) + 1)) or None in forces:
         print("WARNING: There are missing values!")
-    if None in energies:
+    if None in forces:
         print("WARNING: There are missing atomic force values!")
     if plot_:
-        plt.scatter(it, energies)
+        plt.scatter(it, forces)
         plt.xlabel("Step")
         plt.ylabel("Atomic force (eV/Ang)")
         plt.show()
-    return list(zip_longest(it, energies))
+    return list(zip_longest(it, forces))
 
 def energy_diff(energytype="total", path="i*"):
     """Return energy differences between minima and maxima"""
