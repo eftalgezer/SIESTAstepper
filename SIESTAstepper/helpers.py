@@ -115,7 +115,7 @@ def read_force(*, forces=[], files=None, it=[], atomindex="Tot", forcetype="atom
             )
             for part in parts:
                 if part[0] == atomindex:
-                    resultant =math.sqrt(
+                    resultant = math.sqrt(
                         float(part[1]) ** 2 + float(part[2]) ** 2 + float(part[3]) ** 2
                     )
                     forces.append([float(part[1]), float(part[2]), float(part[3]), resultant])
