@@ -106,7 +106,11 @@ def read_force(*, forces=[], files=None, it=[], atomindex="Tot", forcetype="atom
                 content
             )
             parts = re.findall(
-                r"siesta: +([0-9]+|Tot) +(-?[0-9]+\.[0-9]+) +(-?[0-9]+\.[0-9]+) +(-?[0-9]+\.[0-9]+)\n",
+                r"siesta: +" +
+                r"([0-9]+|Tot) +" +
+                r"(-?[0-9]+\.[0-9]+) +" +
+                r"(-?[0-9]+\.[0-9]+) +" +
+                r"(-?[0-9]+\.[0-9]+)\n",
                 match[0]
             )
             for part in parts:
