@@ -167,7 +167,6 @@ def run_next(i, label):
             f"{settings.get_cwd()}{os.sep}i{int(i) - 1}",
             f"{settings.get_cwd()}{os.sep}i{i}"
         )
-
     os.chdir(f"{settings.get_cwd()}{os.sep}i{i}")
     print(f"Changed directory to {os.getcwd()}")
     print_run(f"i{i}", settings.get_cores(), settings.get_conda())
@@ -536,6 +535,36 @@ def energy_analysis(energytype="total", path="i*", plot_=True, print_=True):
         plt.show()
     return list(zip_longest(it, energies))
 
+
+def force_analysis(atomindex="tot", forcetype="atomic", path="i*", plot_=True, print_=True):
+    """Plot and return atomic forces from log files"""
+    files = glob.glob(f"{settings.get_cwd()}{os.sep}{path}{os.sep}{settings.get_log()}")
+    files += glob.glob(
+        f"{settings.get_cwd()}{os.sep}{path}{os.sep}{settings.get_cont()}*" +
+        f"{os.sep}{settings.get_log()}"
+    )
+    files = sort_(files, path, settings.get_cont())
+    remove_nones(files, path, settings.get_cwd(), settings.get_cont(), settings.get_log())
+    forces = []
+    it = []
+    read_atomic_force(
+        forces=forces,
+        files=files,
+        it=it,
+        atomindex=atomindex,
+        forcetype=forcetype,
+        print_=print_
+    )
+    if sorted(it) != list(range(min(it), max(it) + 1)) or None in energies:
+        print("WARNING: There are missing values!")
+    if None in energies:
+        print("WARNING: There are missing atomic force values!")
+    if plot_:
+        plt.scatter(it, energies)
+        plt.xlabel("Step")
+        plt.ylabel("Atomic force (eV/Ang)")
+        plt.show()
+    return list(zip_longest(it, energies))
 
 def energy_diff(energytype="total", path="i*"):
     """Return energy differences between minima and maxima"""

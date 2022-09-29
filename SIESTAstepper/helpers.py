@@ -86,6 +86,25 @@ def read_energy(energies=[], files=None, it=[], energytype="total", print_=True)
                         print(line.split("=  ")[1])
 
 
+def read_force(forces=[], files=None, it=[], atomindex="tot", forcetype="atomic", print_=print_):
+    """Read force from log files"""
+    forcetypes = {
+        "atomic": "siesta: Atomic forces (eV/Ang):",
+        "constrained": "siesta: Constrained forces (eV/Ang):"
+    }
+    it += get_it(files)
+    for f in files:
+        if print_:
+            print(f)
+        with open(f, "r", encoding="utf-8") as file:
+            lines = file.readlines()
+            for line in lines:
+                if line.startswith(forcetypes[forcetype]):
+                    ...
+                    if print_:
+                        ...
+
+
 def print_run(for_, cores, conda):
     """Print SIESTA's run information"""
     print(
