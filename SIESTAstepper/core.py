@@ -388,9 +388,9 @@ def merge_ani(label=None, path="i*"):
         if [*set(it)] != list(range(min(it), max(it) + 1)):
             print("WARNING: There are missing ANI files!")
         with open(
-                f"{settings.get_cwd()}{os.sep}{label}-merged.ANI",
-                "w",
-                encoding="utf-8"
+            f"{settings.get_cwd()}{os.sep}{label}-merged.ANI",
+            "w",
+            encoding="utf-8"
         ) as outfile:
             print(f"{settings.get_cwd()}{os.sep}{label}-merged.ANI is opened")
             for f in files:
@@ -669,7 +669,13 @@ def energy_diff(energytype="total", path="i*"):
 
 def force_diff(atomindex="Tot", forcetype="atomic", path="i*"):
     """Return force differences between minima and maxima"""
-    data = force_analysis(atomindex=atomindex, forcetype=forcetype, path=path, plot_=False, print_=False)
+    data = force_analysis(
+        atomindex=atomindex,
+        forcetype=forcetype,
+        path=path,
+        plot_=False,
+        print_=False
+    )
     forcesx = np.array([_[1] for _ in data])
     forcesy = np.array([_[2] for _ in data])
     forcesz = np.array([_[3] for _ in data])
