@@ -309,6 +309,7 @@ def log_to_fdf(logpath, fdfpath, newfdfpath):
 
 
 def xv_to_ani(label=None, path="i*"):
+    """Convert XV files to ANI"""
     if label is None:
         raise ValueError("ERROR: Please set a label")
     files = glob.glob(f"{settings.get_cwd()}{os.sep}{path}{os.sep}{label}.XV")
