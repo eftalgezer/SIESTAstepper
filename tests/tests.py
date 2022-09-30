@@ -678,10 +678,30 @@ def test_main():
         "-299.845957",
         "-299.498399"
     ])
+    assert ((expr in main_tester("SIESTAstepper force_analysis log atomic Tot cont=continue path=i* noplot")) for expr in [
+        "0.016003",
+        "0.010419",
+        "0.00139",
+        "0.00179",
+        "0.000604"
+    ])
     assert ((expr in main_tester("SIESTAstepper energy_diff log total")) for expr in [
         "-299.845957",
         "-297.982681",
         "1.863276"
+    ])
+    assert ((expr in main_tester("SIESTAstepper force_diff log atomic Tot")) for expr in [
+        "[-0.010419]",
+        "[0.016003]",
+        "[0.026422]",
+        "[ 0. -0.  0.  0.  0.]",
+        "[ 0. -0.  0.  0.  0.]",
+        "[0. 0. 0. 0. 0.]",
+        "[ 0. -0.  0. -0. -0.]",
+        "[ 0. -0.  0. -0. -0.]",
+        "[0. 0. 0. 0. 0.]",
+        "[0.000604]",
+        "[0.015399]"
     ])
 
 
@@ -724,10 +744,31 @@ def test_main_carbon_uninterrupted_project():
         "-299.845957",
         "-299.498399"
     ])
+    assert ((expr in main_tester("SIESTAstepper force_analysis log atomic Tot cont=continue path=i* noplot")) for expr
+            in [
+                "0.016003",
+                "0.010419",
+                "0.00139",
+                "0.00179",
+                "0.000604"
+            ])
     assert ((expr in main_tester("SIESTAstepper energy_diff log total")) for expr in [
         "-299.845957",
         "-297.982681",
         "1.863276"
+    ])
+    assert ((expr in main_tester("SIESTAstepper force_diff log atomic Tot")) for expr in [
+        "[-0.010419]",
+        "[0.016003]",
+        "[0.026422]",
+        "[ 0. -0.  0.  0.  0.]",
+        "[ 0. -0.  0.  0.  0.]",
+        "[0. 0. 0. 0. 0.]",
+        "[ 0. -0.  0. -0. -0.]",
+        "[ 0. -0.  0. -0. -0.]",
+        "[0. 0. 0. 0. 0.]",
+        "[0.000604]",
+        "[0.015399]"
     ])
 
 
@@ -754,10 +795,31 @@ def test_main_carbon_uninterrupted_project_run_next():
         "-299.845957",
         "-299.498399"
     ])
+    assert ((expr in main_tester("SIESTAstepper force_analysis log atomic Tot cont=continue path=i* noplot")) for expr
+            in [
+                "0.016003",
+                "0.010419",
+                "0.00139",
+                "0.00179",
+                "0.000604"
+            ])
     assert ((expr in main_tester("SIESTAstepper energy_diff log total")) for expr in [
         "-299.845957",
         "-297.982681",
         "1.863276"
+    ])
+    assert ((expr in main_tester("SIESTAstepper force_diff log atomic Tot")) for expr in [
+        "[-0.010419]",
+        "[0.016003]",
+        "[0.026422]",
+        "[ 0. -0.  0.  0.  0.]",
+        "[ 0. -0.  0.  0.  0.]",
+        "[0. 0. 0. 0. 0.]",
+        "[ 0. -0.  0. -0. -0.]",
+        "[ 0. -0.  0. -0. -0.]",
+        "[0. 0. 0. 0. 0.]",
+        "[0.000604]",
+        "[0.015399]"
     ])
 
 
@@ -803,10 +865,31 @@ def test_main_carbon_project_run_interrupted():
         "-299.845957",
         "-299.498399"
     ])
+    assert ((expr in main_tester("SIESTAstepper force_analysis log atomic Tot cont=continue path=i* noplot")) for expr
+            in [
+                "0.016003",
+                "0.010419",
+                "0.00139",
+                "0.00179",
+                "0.000604"
+            ])
     assert ((expr in main_tester("SIESTAstepper energy_diff log total cont=continue")) for expr in [
         "-299.845957",
         "-297.982681",
         "1.863276"
+    ])
+    assert ((expr in main_tester("SIESTAstepper force_diff log atomic Tot")) for expr in [
+        "[-0.010419]",
+        "[0.016003]",
+        "[0.026422]",
+        "[ 0. -0.  0.  0.  0.]",
+        "[ 0. -0.  0.  0.  0.]",
+        "[0. 0. 0. 0. 0.]",
+        "[ 0. -0.  0. -0. -0.]",
+        "[ 0. -0.  0. -0. -0.]",
+        "[0. 0. 0. 0. 0.]",
+        "[0.000604]",
+        "[0.015399]"
     ])
 
 
