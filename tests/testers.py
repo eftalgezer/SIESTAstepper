@@ -1,7 +1,9 @@
 """
 Unit testers for the SIESTAstepper library.
 """
+
 from __future__ import absolute_import
+import contextlib
 import glob
 import os
 import shutil
@@ -68,7 +70,6 @@ def initialise_fake_project(function="run"):
     """Initialise fake project to test"""
     if function == "run":
         files = glob.glob(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}{fakeproject}{os.sep}*")
-        files += glob.glob(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}{fakeproject}{os.sep}i*{os.sep}*")
         for f in files:
             if os.path.isfile(f):
                 shutil.copy(f, f.replace("runs", "temp"))
@@ -145,6 +146,8 @@ def fake_command(monkeypatch=MonkeyPatch()):
                 fakelog.write(content)
                 print(content)
                 copy_files(["ANI"], "C", realpath, os.getcwd())
+                with contextlib.suppress(FileNotFoundError):
+                    copy_files(["XV"], "C", realpath, os.getcwd())
                 if content.endswith("Job completed\n") and issingle is False:
                     run(label)
                 fakelog.close()
