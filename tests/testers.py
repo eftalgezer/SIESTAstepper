@@ -197,6 +197,12 @@ def xyz_to_fdf_tester(xyzpath, fdfpath, newfdfpath):
     return read_file(newfdfpath)
 
 
+def xv_to_fdf_tester(xvpath, fdfpath, newfdfpath):
+    """Tester function for xv_to_fdf"""
+    xv_to_fdf(xvpath, fdfpath, newfdfpath)
+    return read_file(newfdfpath)
+
+
 def merge_ani_tester(label=None, path="i*", folder=None):
     """Tester function for merge_ani"""
     if os.path.exists(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{folder}"):

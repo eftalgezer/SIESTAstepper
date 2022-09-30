@@ -18,6 +18,7 @@ from .testers import (
     single_run_tester,
     ani_to_fdf_tester,
     xyz_to_fdf_tester,
+    xv_to_fdf_tester,
     merge_ani_tester,
     run_tester,
     run_interrupted_tester,
@@ -61,6 +62,15 @@ def test_xyz_to_fdf():
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}fdf{os.sep}C-0.fdf",
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}C-1.fdf"
     ) == read_file(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}fdf{os.sep}C-1.fdf")
+
+
+def test_xv_to_fdf():
+    """Tests for xyz_to_fdf"""
+    assert xyz_to_fdf_tester(
+        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}XV{os.sep}C-XV-1.XV",
+        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}fdf{os.sep}C-XV-1.fdf",
+        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}C-XV-2.fdf"
+    ) == read_file(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}fdf{os.sep}C-XV-2.fdf")
 
 
 def test_merge_ani():
@@ -941,12 +951,12 @@ def test_main():
     ])
     assert (
         (expr in main_tester("SIESTAstepper force_analysis log atomic Tot cont=continue path=i* noplot")) for expr in [
-        "0.016003",
-        "0.010419",
-        "0.00139",
-        "0.00179",
-        "0.000604"
-    ]
+            "0.016003",
+            "0.010419",
+            "0.00139",
+            "0.00179",
+            "0.000604"
+        ]
     )
     assert ((expr in main_tester("SIESTAstepper energy_diff log total")) for expr in [
         "-299.845957",
