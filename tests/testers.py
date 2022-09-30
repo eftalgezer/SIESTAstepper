@@ -23,6 +23,7 @@ from SIESTAstepper.core import (
     copy_files,
     ani_to_fdf,
     xyz_to_fdf,
+    xv_to_fdf,
     merge_ani,
     energy_analysis,
     force_analysis,
