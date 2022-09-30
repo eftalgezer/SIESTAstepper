@@ -515,7 +515,28 @@ def test_carbon_uninterrupted_project():
         (4, -299.845957),
         (5, -299.498399)
     ]
+    assert force_analysis_tester(cwd=settings.get_cwd()) == [
+        (1, 0.016003, 0.0, 0.0, 0.016003),
+        (2, -0.010419, -0.0, -0.0, 0.010419),
+        (3, 0.00139, 0.0, 0.0, 0.00139),
+        (4, -0.00179, 0.0, -0.0, 0.00179),
+        (5, 0.000604, 0.0, -0.0, 0.000604)
+    ]
     assert energy_diff_tester(cwd=settings.get_cwd()) == [(-299.845957, -297.982681, 4, 1, 1.8632759999999848)]
+    assert force_diff_tester(cwd=settings.get_cwd()) == [
+        [(-0.010419, 0.016003, 2, 1, 0.026422)],
+        [(0.0, 0.0, 1, 1, 0.0),
+         (-0.0, -0.0, 2, 2, 0.0),
+         (0.0, 0.0, 3, 3, 0.0),
+         (0.0, 0.0, 4, 4, 0.0),
+         (0.0, 0.0, 5, 5, 0.0)],
+        [(0.0, 0.0, 1, 1, 0.0),
+         (-0.0, -0.0, 2, 2, 0.0),
+         (0.0, 0.0, 3, 3, 0.0),
+         (-0.0, -0.0, 4, 4, 0.0),
+         (-0.0, -0.0, 5, 5, 0.0)],
+        [(0.000604, 0.016003, 5, 1, 0.015399)]
+    ]
 
 
 def test_carbon_uninterrupted_project_run_next():
@@ -541,6 +562,13 @@ def test_carbon_uninterrupted_project_run_next():
         (4, -299.845957),
         (5, -299.498399)
     ]
+    assert force_analysis_tester(cwd=settings.get_cwd()) == [
+        (1, 0.016003, 0.0, 0.0, 0.016003),
+        (2, -0.010419, -0.0, -0.0, 0.010419),
+        (3, 0.00139, 0.0, 0.0, 0.00139),
+        (4, -0.00179, 0.0, -0.0, 0.00179),
+        (5, 0.000604, 0.0, -0.0, 0.000604)
+    ]
     assert energy_diff_tester(path="i*", cwd=settings.get_cwd()) == [
         (
             -299.845957,
@@ -549,6 +577,20 @@ def test_carbon_uninterrupted_project_run_next():
             1,
             1.8632759999999848
         )
+    ]
+    assert force_diff_tester(cwd=settings.get_cwd()) == [
+        [(-0.010419, 0.016003, 2, 1, 0.026422)],
+        [(0.0, 0.0, 1, 1, 0.0),
+         (-0.0, -0.0, 2, 2, 0.0),
+         (0.0, 0.0, 3, 3, 0.0),
+         (0.0, 0.0, 4, 4, 0.0),
+         (0.0, 0.0, 5, 5, 0.0)],
+        [(0.0, 0.0, 1, 1, 0.0),
+         (-0.0, -0.0, 2, 2, 0.0),
+         (0.0, 0.0, 3, 3, 0.0),
+         (-0.0, -0.0, 4, 4, 0.0),
+         (-0.0, -0.0, 5, 5, 0.0)],
+        [(0.000604, 0.016003, 5, 1, 0.015399)]
     ]
 
 
@@ -571,7 +613,7 @@ def test_carbon_uninterrupted_project_single_run():
 
 
 def test_carbon_project_run_interrupted():
-    """Run tests based on Carbon_uninterrupted run run_interrupted function"""
+    """Run tests based on Carbon run run_interrupted function"""
     fake_command()
     set_fake_project("Carbon")
     os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
@@ -594,6 +636,13 @@ def test_carbon_project_run_interrupted():
         (4, -299.845957),
         (5, -299.498399)
     ]
+    assert force_analysis_tester(cwd=settings.get_cwd()) == [
+        (1, 0.016003, 0.0, 0.0, 0.016003),
+        (2, -0.010419, -0.0, -0.0, 0.010419),
+        (3, 0.00139, 0.0, 0.0, 0.00139),
+        (4, -0.00179, 0.0, -0.0, 0.00179),
+        (5, 0.000604, 0.0, -0.0, 0.000604)
+    ]
     assert energy_diff_tester(path="i*", cwd=settings.get_cwd()) == [
         (
             -299.845957,
@@ -603,15 +652,227 @@ def test_carbon_project_run_interrupted():
             1.8632759999999848
         )
     ]
+    assert force_diff_tester(cwd=settings.get_cwd()) == [
+        [(-0.010419, 0.016003, 2, 1, 0.026422)],
+        [(0.0, 0.0, 1, 1, 0.0),
+         (-0.0, -0.0, 2, 2, 0.0),
+         (0.0, 0.0, 3, 3, 0.0),
+         (0.0, 0.0, 4, 4, 0.0),
+         (0.0, 0.0, 5, 5, 0.0)],
+        [(0.0, 0.0, 1, 1, 0.0),
+         (-0.0, -0.0, 2, 2, 0.0),
+         (0.0, 0.0, 3, 3, 0.0),
+         (-0.0, -0.0, 4, 4, 0.0),
+         (-0.0, -0.0, 5, 5, 0.0)],
+        [(0.000604, 0.016003, 5, 1, 0.015399)]
+    ]
 
 
 def test_carbon_project_single_run_interrupted():
-    """Run tests based on Carbon_uninterrupted run single_run_interrupted function"""
+    """Run tests based on Carbon run single_run_interrupted function"""
     fake_command()
     set_fake_project("Carbon")
     os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
     settings.set_cwd(os.getcwd())
     settings.set_contfrom("ANI")
+    assert make_directories_tester(5) == [
+        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i1",
+        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i2",
+        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i3",
+        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i4",
+        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i5"
+    ]
+    initialise_fake_project("single_run_interrupted 3 2")
+    assert "Job completed\n" in single_run_interrupted_tester("3", "C")
+
+
+def test_carbon_xv_uninterrupted_project():
+    """Run tests based on Carbon_XV_uninterrupted run"""
+    fake_command()
+    set_fake_project("Carbon_XV_uninterrupted")
+    initialise_fake_project()
+    os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
+    settings.set_cwd(os.getcwd())
+    settings.set_contfrom("XV")
+    assert make_directories_tester(5) == [
+        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i1",
+        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i2",
+        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i3",
+        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i4",
+        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i5"
+    ]
+    assert copy_files_tester(["psf"], "C", ".", "i1") == [f"i1{os.sep}C.psf"]
+    assert xyz_to_fdf_tester("C.xyz", "C.fdf", f"i1{os.sep}C.fdf") == read_file(
+        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}{get_fake_project()}{os.sep}i1{os.sep}C.fdf"
+    )
+    assert "All iterations are completed" in run_tester("C")
+    assert energy_analysis_tester(cwd=settings.get_cwd()) == [
+        (1, -297.982681),
+        (2, -299.171055),
+        (3, -299.791356),
+        (4, -299.845957),
+        (5, -299.498399)
+    ]
+    assert force_analysis_tester(cwd=settings.get_cwd()) == [
+        (1, 0.016003, 0.0, 0.0, 0.016003),
+        (2, -0.010419, -0.0, -0.0, 0.010419),
+        (3, 0.00139, 0.0, 0.0, 0.00139),
+        (4, -0.00179, 0.0, -0.0, 0.00179),
+        (5, 0.000604, 0.0, -0.0, 0.000604)
+    ]
+    assert energy_diff_tester(cwd=settings.get_cwd()) == [(-299.845957, -297.982681, 4, 1, 1.8632759999999848)]
+    assert force_diff_tester(cwd=settings.get_cwd()) == [
+        [(-0.010419, 0.016003, 2, 1, 0.026422)],
+        [(0.0, 0.0, 1, 1, 0.0),
+         (-0.0, -0.0, 2, 2, 0.0),
+         (0.0, 0.0, 3, 3, 0.0),
+         (0.0, 0.0, 4, 4, 0.0),
+         (0.0, 0.0, 5, 5, 0.0)],
+        [(0.0, 0.0, 1, 1, 0.0),
+         (-0.0, -0.0, 2, 2, 0.0),
+         (0.0, 0.0, 3, 3, 0.0),
+         (-0.0, -0.0, 4, 4, 0.0),
+         (-0.0, -0.0, 5, 5, 0.0)],
+        [(0.000604, 0.016003, 5, 1, 0.015399)]
+    ]
+
+
+def test_carbon_xv_uninterrupted_project_run_next():
+    """Run tests based on Carbon_XV_uninterrupted run run_next function"""
+    fake_command()
+    set_fake_project("Carbon_XV_uninterrupted")
+    os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
+    assert make_directories_tester(5) == [
+        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i1",
+        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i2",
+        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i3",
+        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i4",
+        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i5"
+    ]
+    settings.set_cwd(os.getcwd())
+    settings.set_contfrom("XV")
+    initialise_fake_project("run_next 2")
+    assert "All iterations are completed" in run_next_tester("2", "C")
+    assert energy_analysis_tester(path="i*", cwd=settings.get_cwd()) == [
+        (1, -297.982681),
+        (2, -299.171055),
+        (3, -299.791356),
+        (4, -299.845957),
+        (5, -299.498399)
+    ]
+    assert force_analysis_tester(cwd=settings.get_cwd()) == [
+        (1, 0.016003, 0.0, 0.0, 0.016003),
+        (2, -0.010419, -0.0, -0.0, 0.010419),
+        (3, 0.00139, 0.0, 0.0, 0.00139),
+        (4, -0.00179, 0.0, -0.0, 0.00179),
+        (5, 0.000604, 0.0, -0.0, 0.000604)
+    ]
+    assert energy_diff_tester(path="i*", cwd=settings.get_cwd()) == [
+        (
+            -299.845957,
+            -297.982681,
+            4,
+            1,
+            1.8632759999999848
+        )
+    ]
+    assert force_diff_tester(cwd=settings.get_cwd()) == [
+        [(-0.010419, 0.016003, 2, 1, 0.026422)],
+        [(0.0, 0.0, 1, 1, 0.0),
+         (-0.0, -0.0, 2, 2, 0.0),
+         (0.0, 0.0, 3, 3, 0.0),
+         (0.0, 0.0, 4, 4, 0.0),
+         (0.0, 0.0, 5, 5, 0.0)],
+        [(0.0, 0.0, 1, 1, 0.0),
+         (-0.0, -0.0, 2, 2, 0.0),
+         (0.0, 0.0, 3, 3, 0.0),
+         (-0.0, -0.0, 4, 4, 0.0),
+         (-0.0, -0.0, 5, 5, 0.0)],
+        [(0.000604, 0.016003, 5, 1, 0.015399)]
+    ]
+
+
+def test_carbon_xv_uninterrupted_project_single_run():
+    """Run tests based on Carbon_XV_uninterrupted run single_run function"""
+    fake_command()
+    set_fake_project("Carbon_uninterrupted")
+    os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
+    settings.set_cwd(os.getcwd())
+    settings.set_contfrom("XV")
+    assert make_directories_tester(5) == [
+        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i1",
+        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i2",
+        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i3",
+        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i4",
+        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i5"
+    ]
+    initialise_fake_project("single_run 3")
+    assert "Job completed\n" in single_run_tester("3", "C")
+
+
+def test_carbon_xv_project_run_interrupted():
+    """Run tests based on Carbon_XV run run_interrupted function"""
+    fake_command()
+    set_fake_project("Carbon_XV")
+    os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
+    settings.set_cwd(os.getcwd())
+    settings.set_cont("continue")
+    settings.set_contfrom("XV")
+    assert make_directories_tester(5) == [
+        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i1",
+        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i2",
+        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i3",
+        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i4",
+        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i5"
+    ]
+    initialise_fake_project("run_interrupted 3 2")
+    assert "All iterations are completed" in run_interrupted_tester("3", "C")
+    assert energy_analysis_tester(path="i*", cwd=settings.get_cwd()) == [
+        (1, -297.982681),
+        (2, -299.171055),
+        (3, -299.791356),
+        (4, -299.845957),
+        (5, -299.498399)
+    ]
+    assert force_analysis_tester(cwd=settings.get_cwd()) == [
+        (1, 0.016003, 0.0, 0.0, 0.016003),
+        (2, -0.010419, -0.0, -0.0, 0.010419),
+        (3, 0.00139, 0.0, 0.0, 0.00139),
+        (4, -0.00179, 0.0, -0.0, 0.00179),
+        (5, 0.000604, 0.0, -0.0, 0.000604)
+    ]
+    assert energy_diff_tester(path="i*", cwd=settings.get_cwd()) == [
+        (
+            -299.845957,
+            -297.982681,
+            4,
+            1,
+            1.8632759999999848
+        )
+    ]
+    assert force_diff_tester(cwd=settings.get_cwd()) == [
+        [(-0.010419, 0.016003, 2, 1, 0.026422)],
+        [(0.0, 0.0, 1, 1, 0.0),
+         (-0.0, -0.0, 2, 2, 0.0),
+         (0.0, 0.0, 3, 3, 0.0),
+         (0.0, 0.0, 4, 4, 0.0),
+         (0.0, 0.0, 5, 5, 0.0)],
+        [(0.0, 0.0, 1, 1, 0.0),
+         (-0.0, -0.0, 2, 2, 0.0),
+         (0.0, 0.0, 3, 3, 0.0),
+         (-0.0, -0.0, 4, 4, 0.0),
+         (-0.0, -0.0, 5, 5, 0.0)],
+        [(0.000604, 0.016003, 5, 1, 0.015399)]
+    ]
+
+
+def test_carbon_xv_project_single_run_interrupted():
+    """Run tests based on Carbon_XV run single_run_interrupted function"""
+    fake_command()
+    set_fake_project("Carbon_XV")
+    os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
+    settings.set_cwd(os.getcwd())
+    settings.set_contfrom("XV")
     assert make_directories_tester(5) == [
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i1",
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i2",
@@ -678,13 +939,15 @@ def test_main():
         "-299.845957",
         "-299.498399"
     ])
-    assert ((expr in main_tester("SIESTAstepper force_analysis log atomic Tot cont=continue path=i* noplot")) for expr in [
+    assert (
+        (expr in main_tester("SIESTAstepper force_analysis log atomic Tot cont=continue path=i* noplot")) for expr in [
         "0.016003",
         "0.010419",
         "0.00139",
         "0.00179",
         "0.000604"
-    ])
+    ]
+    )
     assert ((expr in main_tester("SIESTAstepper energy_diff log total")) for expr in [
         "-299.845957",
         "-297.982681",
@@ -841,7 +1104,7 @@ def test_main_carbon_uninterrupted_project_single_run():
 
 
 def test_main_carbon_project_run_interrupted():
-    """Run tests based on Carbon_uninterrupted run run_interrupted function with __main__.py"""
+    """Run tests based on Carbon run run_interrupted function with __main__.py"""
     fake_command()
     set_fake_project("Carbon")
     os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
@@ -894,7 +1157,7 @@ def test_main_carbon_project_run_interrupted():
 
 
 def test_main_carbon_project_single_run_interrupted():
-    """Run tests based on Carbon_uninterrupted run single_run_interrupted function with __main__.py"""
+    """Run tests based on Carbon run single_run_interrupted function with __main__.py"""
     fake_command()
     set_fake_project("Carbon")
     os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
@@ -908,6 +1171,211 @@ def test_main_carbon_project_single_run_interrupted():
     ])
     initialise_fake_project("single_run_interrupted 3 2")
     assert "Job completed\n" in main_tester("SIESTAstepper single_run_interrupted log 3 C contfrom=ANI")
+
+
+def test_main_carbon_xv_uninterrupted_project():
+    """Run tests based on Carbon_XV_uninterrupted run with __main__.py"""
+    set_fake_project("Carbon_XV_uninterrupted")
+    initialise_fake_project()
+    os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
+    settings.set_cwd(os.getcwd())
+    assert make_directories_tester(5) == [
+        f"{os.getcwd()}{os.sep}i1",
+        f"{os.getcwd()}{os.sep}i2",
+        f"{os.getcwd()}{os.sep}i3",
+        f"{os.getcwd()}{os.sep}i4",
+        f"{os.getcwd()}{os.sep}i5"
+    ]
+    assert len(main_tester(
+        "SIESTAstepper" +
+        " copy_files" +
+        " C" +
+        " ." +
+        " i1" +
+        " psf"
+    ).split("successfully")) == 2
+    assert "is created" in main_tester(
+        "SIESTAstepper" +
+        " xyz_to_fdf" +
+        " C.xyz" +
+        " C.fdf" +
+        f" i1{os.sep}C.fdf"
+    )
+    assert "All iterations are completed" in main_tester(
+        "SIESTAstepper run log C mpirun=4 siesta=siesta_p contfrom=XV"
+    )
+    assert "All ANI files are merged" in main_tester("SIESTAstepper merge_ani C")
+    assert ((expr in main_tester("SIESTAstepper energy_analysis log total noplot")) for expr in [
+        "-297.982681",
+        "-299.171055",
+        "-299.791356",
+        "-299.845957",
+        "-299.498399"
+    ])
+    assert ((expr in main_tester("SIESTAstepper force_analysis log atomic Tot cont=continue path=i* noplot")) for expr
+            in [
+                "0.016003",
+                "0.010419",
+                "0.00139",
+                "0.00179",
+                "0.000604"
+            ])
+    assert ((expr in main_tester("SIESTAstepper energy_diff log total")) for expr in [
+        "-299.845957",
+        "-297.982681",
+        "1.863276"
+    ])
+    assert ((expr in main_tester("SIESTAstepper force_diff log atomic Tot")) for expr in [
+        "[-0.010419]",
+        "[0.016003]",
+        "[0.026422]",
+        "[ 0. -0.  0.  0.  0.]",
+        "[ 0. -0.  0.  0.  0.]",
+        "[0. 0. 0. 0. 0.]",
+        "[ 0. -0.  0. -0. -0.]",
+        "[ 0. -0.  0. -0. -0.]",
+        "[0. 0. 0. 0. 0.]",
+        "[0.000604]",
+        "[0.015399]"
+    ])
+
+
+def test_main_carbon_xv_uninterrupted_project_run_next():
+    """Run tests based on Carbon_XV_uninterrupted run run_next function with __main__.py"""
+    fake_command()
+    set_fake_project("Carbon_XV_uninterrupted")
+    os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
+    settings.set_cwd(os.getcwd())
+    assert ((expr in main_tester("SIESTAstepper make_directories 5")) for expr in [
+        "i1 is created",
+        "i2 is created",
+        "i3 is created",
+        "i4 is created",
+        "i5 is created"
+    ])
+    initialise_fake_project("run_next 2")
+    assert "All iterations are completed" in main_tester("SIESTAstepper run_next log 2 C contfrom=XV")
+    assert "All ANI files are merged" in main_tester("SIESTAstepper merge_ani C")
+    assert ((expr in main_tester("SIESTAstepper energy_analysis log total noplot")) for expr in [
+        "-297.982681",
+        "-299.171055",
+        "-299.791356",
+        "-299.845957",
+        "-299.498399"
+    ])
+    assert ((expr in main_tester("SIESTAstepper force_analysis log atomic Tot cont=continue path=i* noplot")) for expr
+            in [
+                "0.016003",
+                "0.010419",
+                "0.00139",
+                "0.00179",
+                "0.000604"
+            ])
+    assert ((expr in main_tester("SIESTAstepper energy_diff log total")) for expr in [
+        "-299.845957",
+        "-297.982681",
+        "1.863276"
+    ])
+    assert ((expr in main_tester("SIESTAstepper force_diff log atomic Tot")) for expr in [
+        "[-0.010419]",
+        "[0.016003]",
+        "[0.026422]",
+        "[ 0. -0.  0.  0.  0.]",
+        "[ 0. -0.  0.  0.  0.]",
+        "[0. 0. 0. 0. 0.]",
+        "[ 0. -0.  0. -0. -0.]",
+        "[ 0. -0.  0. -0. -0.]",
+        "[0. 0. 0. 0. 0.]",
+        "[0.000604]",
+        "[0.015399]"
+    ])
+
+
+def test_main_carbon_xv_uninterrupted_project_single_run():
+    """Run tests based on Carbon_XV_uninterrupted run single_run function with __main__.py"""
+    fake_command()
+    set_fake_project("Carbon_uninterrupted")
+    os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
+    settings.set_cwd(os.getcwd())
+    assert ((expr in main_tester("SIESTAstepper make_directories 5")) for expr in [
+        "i1 is created",
+        "i2 is created",
+        "i3 is created",
+        "i4 is created",
+        "i5 is created"
+    ])
+    initialise_fake_project("single_run 3")
+    assert "Job completed\n" in main_tester("SIESTAstepper single_run log 2 C contfrom=XV")
+
+
+def test_main_carbon_xv_project_run_interrupted():
+    """Run tests based on Carbon_XV run run_interrupted function with __main__.py"""
+    fake_command()
+    set_fake_project("Carbon")
+    os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
+    settings.set_cwd(os.getcwd())
+    assert make_directories_tester(5) == [
+        f"{os.getcwd()}{os.sep}i1",
+        f"{os.getcwd()}{os.sep}i2",
+        f"{os.getcwd()}{os.sep}i3",
+        f"{os.getcwd()}{os.sep}i4",
+        f"{os.getcwd()}{os.sep}i5"
+    ]
+    initialise_fake_project("run_interrupted 3 2")
+    assert "All iterations are completed" in main_tester(
+        "SIESTAstepper run_interrupted log 3 C cont=continue contfrom=XV"
+    )
+    assert "All ANI files are merged" in main_tester("SIESTAstepper merge_ani C")
+    assert ((expr in main_tester("SIESTAstepper energy_analysis log total cont=continue noplot")) for expr in [
+        "-297.982681",
+        "-299.171055",
+        "-299.791356",
+        "-299.845957",
+        "-299.498399"
+    ])
+    assert ((expr in main_tester("SIESTAstepper force_analysis log atomic Tot cont=continue path=i* noplot")) for expr
+            in [
+                "0.016003",
+                "0.010419",
+                "0.00139",
+                "0.00179",
+                "0.000604"
+            ])
+    assert ((expr in main_tester("SIESTAstepper energy_diff log total cont=continue")) for expr in [
+        "-299.845957",
+        "-297.982681",
+        "1.863276"
+    ])
+    assert ((expr in main_tester("SIESTAstepper force_diff log atomic Tot")) for expr in [
+        "[-0.010419]",
+        "[0.016003]",
+        "[0.026422]",
+        "[ 0. -0.  0.  0.  0.]",
+        "[ 0. -0.  0.  0.  0.]",
+        "[0. 0. 0. 0. 0.]",
+        "[ 0. -0.  0. -0. -0.]",
+        "[ 0. -0.  0. -0. -0.]",
+        "[0. 0. 0. 0. 0.]",
+        "[0.000604]",
+        "[0.015399]"
+    ])
+
+
+def test_main_carbon_xv_project_single_run_interrupted():
+    """Run tests based on Carbon_XV run single_run_interrupted function with __main__.py"""
+    fake_command()
+    set_fake_project("Carbon")
+    os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
+    settings.set_cwd(os.getcwd())
+    assert ((expr in main_tester("SIESTAstepper make_directories 5")) for expr in [
+        "i1 created",
+        "i2 created",
+        "i3 created",
+        "i4 created",
+        "i5 created"
+    ])
+    initialise_fake_project("single_run_interrupted 3 2")
+    assert "Job completed\n" in main_tester("SIESTAstepper single_run_interrupted log 3 C contfrom=XV")
 
 
 class TestErrors(unittest.TestCase):

@@ -26,12 +26,22 @@ from .tests import (
     test_carbon_uninterrupted_project_single_run,
     test_carbon_project_run_interrupted,
     test_carbon_project_single_run_interrupted,
+    test_carbon_xv_uninterrupted_project,
+    test_carbon_xv_uninterrupted_project_run_next,
+    test_carbon_xv_uninterrupted_project_single_run,
+    test_carbon_xv_project_run_interrupted,
+    test_carbon_xv_project_single_run_interrupted,
     test_main,
     test_main_carbon_uninterrupted_project,
     test_main_carbon_uninterrupted_project_run_next,
     test_main_carbon_uninterrupted_project_single_run,
     test_main_carbon_project_run_interrupted,
     test_main_carbon_project_single_run_interrupted,
+    test_main_carbon_xv_uninterrupted_project,
+    test_main_carbon_xv_uninterrupted_project_run_next,
+    test_main_carbon_xv_uninterrupted_project_single_run,
+    test_main_carbon_xv_project_run_interrupted,
+    test_main_carbon_xv_project_single_run_interrupted,
     TestErrors
 )
 from .testers import clear_temp
@@ -67,6 +77,15 @@ test_carbon_project_run_interrupted()
 clear_temp()
 test_carbon_project_single_run_interrupted()
 clear_temp()
+test_carbon_xv_uninterrupted_project()
+clear_temp()
+test_carbon_xv_uninterrupted_project_run_next()
+clear_temp()
+test_carbon_xv_uninterrupted_project_single_run()
+clear_temp()
+test_carbon_xv_project_run_interrupted()
+clear_temp()
+test_carbon_xv_project_single_run_interrupted()
 test_main()
 clear_temp()
 test_main_carbon_uninterrupted_project()
@@ -78,6 +97,16 @@ clear_temp()
 test_main_carbon_project_run_interrupted()
 clear_temp()
 test_main_carbon_project_single_run_interrupted()
+clear_temp()
+test_main_carbon_xv_uninterrupted_project()
+clear_temp()
+test_main_carbon_xv_uninterrupted_project_run_next()
+clear_temp()
+test_main_carbon_xv_uninterrupted_project_single_run()
+clear_temp()
+test_main_carbon_xv_project_run_interrupted()
+clear_temp()
+test_main_carbon_xv_project_single_run_interrupted()
 clear_temp()
 testerrors = TestErrors()
 testerrors.test_main()
