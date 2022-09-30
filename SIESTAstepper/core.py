@@ -178,34 +178,38 @@ def single_run(i, label):
     """Run SIESTA for given step without continuing next step"""
     os.chdir(f"{settings.get_cwd()}{os.sep}i{i}")
     print(f"Changed directory to {os.getcwd()}")
-    with open(
-        f"{settings.get_cwd()}{os.sep}i{int(i) - 1}{os.sep}{settings.get_log()}",
-        "r",
-        encoding="utf-8"
-    ) as file:
-        lines = file.readlines()
-        if lines[-1] == "Job completed\n":
-            print(f"i{i}{os.sep}{settings.get_log()}: Job completed")
-        else:
+    if int(i) == 1:
+        _command(label=label, issingle=True)
+    else:
+        folder = glob.glob(f"{settings.get_cwd()}{os.sep}i{int(i) - 1}")
+        folder += glob.glob(f"{settings.get_cwd()}{os.sep}i{int(i) - 1}{os.sep}{settings.get_cont()}*")
+        folder = sort_(folder, "i*", settings.get_cont())[-1]
+        with open(
+            f"{folder}{os.sep}{settings.get_log()}",
+            "r",
+            encoding="utf-8"
+        ) as file:
+            lines = file.readlines()
+            if lines[-1] == "Job completed\n":
+                print(f"{folder}{os.sep}{settings.get_log()}: Job completed")
             if int(i) > 1:
                 if not os.path.isfile(f"{settings.get_cwd()}{os.sep}i{i}{os.sep}{label}.fdf"):
                     if settings.get_contfrom() == "log":
                         log_to_fdf(
-                            f"{settings.get_cwd()}{os.sep}i{int(i) - 1}{os.sep}" +
-                            f"{settings.get_log()}",
-                            f"{settings.get_cwd()}{os.sep}i{int(i) - 1}{os.sep}{label}.fdf",
+                            f"{folder}{os.sep}{settings.get_log()}",
+                            f"{folder}{os.sep}{label}.fdf",
                             f"{settings.get_cwd()}{os.sep}i{i}{os.sep}{label}.fdf"
                         )
                     elif settings.get_contfrom() == "XV":
                         xv_to_fdf(
-                            f"{settings.get_cwd()}{os.sep}i{int(i) - 1}{os.sep}{label}.XV",
-                            f"{settings.get_cwd()}{os.sep}i{int(i) - 1}{os.sep}{label}.fdf",
+                            f"{folder}{os.sep}{label}.XV",
+                            f"{folder}{os.sep}{label}.fdf",
                             f"{settings.get_cwd()}{os.sep}i{i}{os.sep}{label}.fdf"
                         )
                     elif settings.get_contfrom() == "ANI":
                         ani_to_fdf(
-                            f"{settings.get_cwd()}{os.sep}i{int(i) - 1}{os.sep}{label}.ANI",
-                            f"{settings.get_cwd()}{os.sep}i{int(i) - 1}{os.sep}{label}.fdf",
+                            f"{folder}{os.sep}{label}.ANI",
+                            f"{folder}{os.sep}{label}.fdf",
                             f"{settings.get_cwd()}{os.sep}i{i}{os.sep}{label}.fdf"
                         )
                 copy_files(
@@ -213,7 +217,7 @@ def single_run(i, label):
                         f"{settings.get_cwd()}{os.sep}i{i}{os.sep}{label}.fdf"
                     ) else "psf"],
                     label,
-                    f"{settings.get_cwd()}{os.sep}i{int(i) - 1}",
+                    folder,
                     f"{settings.get_cwd()}{os.sep}i{i}"
                 )
             print_run(f"i{i}", settings.get_cores(), settings.get_conda())
