@@ -1311,7 +1311,7 @@ def test_main_carbon_xv_uninterrupted_project_single_run():
 def test_main_carbon_xv_project_run_interrupted():
     """Run tests based on Carbon_XV run run_interrupted function with __main__.py"""
     fake_command()
-    set_fake_project("Carbon")
+    set_fake_project("Carbon_XV")
     os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
     settings.set_cwd(os.getcwd())
     assert make_directories_tester(5) == [
@@ -1364,7 +1364,7 @@ def test_main_carbon_xv_project_run_interrupted():
 def test_main_carbon_xv_project_single_run_interrupted():
     """Run tests based on Carbon_XV run single_run_interrupted function with __main__.py"""
     fake_command()
-    set_fake_project("Carbon")
+    set_fake_project("Carbon_XV")
     os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
     settings.set_cwd(os.getcwd())
     assert ((expr in main_tester("SIESTAstepper make_directories 5")) for expr in [
