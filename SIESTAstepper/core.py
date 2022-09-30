@@ -625,7 +625,7 @@ def force_analysis(atomindex="Tot", forcetype="atomic", path="i*", plot_=True, p
     if sorted(it) != list(range(min(it), max(it) + 1)) or None in forces:
         print("WARNING: There are missing values!")
     if None in forces:
-        print("WARNING: There are missing atomic force values!")
+        print("WARNING: There are missing force values!")
     if plot_:
         _, axs = plt.subplots(2, 2)
         axs[0, 0].scatter(it, [row[0] for row in forces])

@@ -9,7 +9,9 @@ from .tests import (
     test_make_directories,
     test_copy_files,
     test_energy_analysis,
+    test_force_analysis,
     test_energy_diff,
+    test_force_diff,
     test_get_it,
     test_read_fdf,
     test_create_fdf,
@@ -42,7 +44,9 @@ clear_temp()
 test_make_directories()
 test_copy_files()
 test_energy_analysis()
+test_force_analysis()
 test_energy_diff()
+test_force_diff()
 test_get_it()
 test_read_fdf()
 test_create_fdf()
@@ -77,5 +81,6 @@ test_main_carbon_project_single_run_interrupted()
 clear_temp()
 testerrors = TestErrors()
 testerrors.test_main()
+testerrors.test_pair_correlation_function()
 # testerrors.test_get_it()
 testerrors.test_copy_file()

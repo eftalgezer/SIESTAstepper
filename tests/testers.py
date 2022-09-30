@@ -23,7 +23,10 @@ from SIESTAstepper.core import (
     xyz_to_fdf,
     merge_ani,
     energy_analysis,
+    force_analysis,
     energy_diff,
+    force_diff,
+    pair_correlation_function,
     _command,
     settings
 )
@@ -269,10 +272,27 @@ def energy_analysis_tester(energytype="total", path="i*", cwd=None):
     return energy_analysis(energytype=energytype, path=path)
 
 
+def force_analysis_tester(atomindex="Tot", forcetype="atomic", path="i*", cwd=None):
+    """Tester function for test_analysis"""
+    settings.set_cwd(cwd)
+    return force_analysis(atomindex=atomindex, forcetype=forcetype, path=path)
+
+
 def energy_diff_tester(energytype="total", path="i*", cwd=None):
     """Tester function for energy_diff"""
     settings.set_cwd(cwd)
     return energy_diff(energytype=energytype, path=path)
+
+def force_diff_tester(atomindex="Tot", forcetype="atomic", path="i*", cwd=None):
+    """Tester function for force_diff"""
+    settings.set_cwd(cwd)
+    return force_diff(atomindex=atomindex, forcetype=forcetype, path=path)
+
+
+def pair_correlation_function_tester(label=None, path="i*", dr=0.1, plot_=True, cwd=None):
+    """Tester function for pair_correlation_function"""
+    settings.set_cwd(cwd)
+    return pair_correlation_function(label=label, path=path, dr=dr, plot_=plot_)
 
 
 def get_it_tester(path, cont):

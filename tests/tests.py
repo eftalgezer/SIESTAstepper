@@ -25,7 +25,10 @@ from .testers import (
     make_directories_tester,
     copy_files_tester,
     energy_analysis_tester,
+    force_analysis_tester,
     energy_diff_tester,
+    force_diff_tester,
+    pair_correlation_function_tester,
     get_it_tester,
     read_fdf_tester,
     create_fdf_tester,
@@ -95,7 +98,7 @@ def test_copy_files():
 
 
 def test_energy_analysis():
-    """Tests for analysis"""
+    """Tests for energy_analysis"""
     assert energy_analysis_tester(
         path="i*",
         cwd=f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}Carbon"
@@ -108,12 +111,41 @@ def test_energy_analysis():
            ]
 
 
+def test_force_analysis():
+    """Tests for force_analysis"""
+    assert force_analysis_tester(cwd=f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}Carbon") == [
+        (1, 0.016003, 0.0, 0.0, 0.016003),
+        (2, -0.010419, -0.0, -0.0, 0.010419),
+        (3, 0.00139, 0.0, 0.0, 0.00139),
+        (4, -0.00179, 0.0, -0.0, 0.00179),
+        (5, 0.000604, 0.0, -0.0, 0.000604)
+    ]
+
+
 def test_energy_diff():
     """Tests for energy_diff"""
     assert energy_diff_tester(
         path="i*",
         cwd=f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}Carbon"
     ) == [(-299.845957, -297.982681, 4, 1, 1.8632759999999848)]
+
+
+def test_force_diff():
+    """Tests for force_diff"""
+    assert force_diff_tester(cwd=f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}Carbon") == [
+        [(-0.010419, 0.016003, 2, 1, 0.026422)],
+        [(0.0, 0.0, 1, 1, 0.0),
+         (-0.0, -0.0, 2, 2, 0.0),
+         (0.0, 0.0, 3, 3, 0.0),
+         (0.0, 0.0, 4, 4, 0.0),
+         (0.0, 0.0, 5, 5, 0.0)],
+        [(0.0, 0.0, 1, 1, 0.0),
+         (-0.0, -0.0, 2, 2, 0.0),
+         (0.0, 0.0, 3, 3, 0.0),
+         (-0.0, -0.0, 4, 4, 0.0),
+         (-0.0, -0.0, 5, 5, 0.0)],
+        [(0.000604, 0.016003, 5, 1, 0.015399)]
+    ]
 
 
 def test_get_it():
@@ -509,7 +541,15 @@ def test_carbon_uninterrupted_project_run_next():
         (4, -299.845957),
         (5, -299.498399)
     ]
-    assert energy_diff_tester(path="i*", cwd=settings.get_cwd()) == [(-299.845957, -297.982681, 4, 1, 1.8632759999999848)]
+    assert energy_diff_tester(path="i*", cwd=settings.get_cwd()) == [
+        (
+            -299.845957,
+            -297.982681,
+            4,
+            1,
+            1.8632759999999848
+        )
+    ]
 
 
 def test_carbon_uninterrupted_project_single_run():
@@ -554,7 +594,15 @@ def test_carbon_project_run_interrupted():
         (4, -299.845957),
         (5, -299.498399)
     ]
-    assert energy_diff_tester(path="i*", cwd=settings.get_cwd()) == [(-299.845957, -297.982681, 4, 1, 1.8632759999999848)]
+    assert energy_diff_tester(path="i*", cwd=settings.get_cwd()) == [
+        (
+            -299.845957,
+            -297.982681,
+            4,
+            1,
+            1.8632759999999848
+        )
+    ]
 
 
 def test_carbon_project_single_run_interrupted():
@@ -665,7 +713,9 @@ def test_main_carbon_uninterrupted_project():
         " C.fdf" +
         f" i1{os.sep}C.fdf"
     )
-    assert "All iterations are completed" in main_tester("SIESTAstepper run log C mpirun=4 siesta=siesta_p contfrom=ANI")
+    assert "All iterations are completed" in main_tester(
+        "SIESTAstepper run log C mpirun=4 siesta=siesta_p contfrom=ANI"
+    )
     assert "All ANI files are merged" in main_tester("SIESTAstepper merge_ani C")
     assert ((expr in main_tester("SIESTAstepper energy_analysis log total noplot")) for expr in [
         "-297.982681",
@@ -779,10 +829,19 @@ def test_main_carbon_project_single_run_interrupted():
 
 class TestErrors(unittest.TestCase):
     """Unit testing of errors"""
+
     def test_main(self):
         """Error tests for __main__.py"""
         with self.assertRaises(AttributeError):
             main_tester("SIESTAstepper Foo")
+
+    def test_pair_correlation_function(self):
+        """Error tests for pair_correlation_function"""
+        with self.assertRaises(RuntimeError):
+            pair_correlation_function_tester(
+                label="C",
+                cwd=f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}Carbon"
+            )
 
     # def test_get_it(self):
     #     """Error tests for get_it"""
