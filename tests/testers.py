@@ -70,6 +70,7 @@ def initialise_fake_project(function="run"):
         files = glob.glob(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}{fakeproject}{os.sep}*")
         for f in files:
             fname = f.split(os.sep)[-1]
+            print("*", fname)
             if os.path.isfile(f):
                 shutil.copy(f, f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{fakeproject}{os.sep}{fname}")
     if function.startswith("run_next") or function.startswith("single_run"):
