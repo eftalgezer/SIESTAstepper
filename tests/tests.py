@@ -65,8 +65,8 @@ def test_xyz_to_fdf():
 
 
 def test_xv_to_fdf():
-    """Tests for xyz_to_fdf"""
-    assert xyz_to_fdf_tester(
+    """Tests for xv_to_fdf"""
+    assert xv_to_fdf_tester(
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}XV{os.sep}C-XV-1.XV",
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}fdf{os.sep}C-XV-1.fdf",
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}C-XV-2.fdf"
