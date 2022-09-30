@@ -738,7 +738,7 @@ def pair_correlation_function(label=None, path="i*", dr=0.1, plot_=True):
     """
     fdfpath = glob.glob(f"{path}{os.sep}{label}.fdf")
     fdfpath += glob.glob(f"{path}{os.sep}{settings.get_cont()}*{os.sep}{label}.fdf")
-    fdfpath = sort_(fdfpath, path, settings.get_cont())
+    fdfpath = sort_(fdfpath, path, settings.get_cont())[-1]
     x, y, z = coords(fdfpath)
     x = np.array([_ * 0.1 for _ in x])
     y = np.array([_ * 0.1 for _ in y])
