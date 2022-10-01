@@ -10,6 +10,7 @@ from subprocess import run as sprun
 import shlex
 from itertools import zip_longest
 import re
+from decimal import Decimal
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.signal import argrelmin, argrelmax
@@ -265,9 +266,9 @@ def xv_to_fdf(xvpath, fdfpath, newfdfpath):
         for line in lines:
             parts = line.split("     ")
             geo.append(
-                f"       {bohr_to_angstrom(float(parts[2].strip()))}" +
-                f"   {bohr_to_angstrom(float(parts[3].strip()))}" +
-                f"   {bohr_to_angstrom(float(parts[4].strip()))}" +
+                f"       {bohr_to_angstrom(Decimal(parts[2].strip()))}" +
+                f"   {bohr_to_angstrom(Decimal(parts[3].strip()))}" +
+                f"   {bohr_to_angstrom(Decimal(parts[4].strip()))}" +
                 f"  {parts[0].strip()}\n"
             )
         fdf, geo = read_fdf(fdfpath, geo)
