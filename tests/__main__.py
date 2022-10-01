@@ -5,6 +5,7 @@ from __future__ import absolute_import
 from .tests import (
     test_ani_to_fdf,
     test_xyz_to_fdf,
+    test_xv_to_fdf,
     test_merge_ani,
     test_make_directories,
     test_copy_files,
@@ -49,6 +50,7 @@ from .testers import clear_temp
 clear_temp()
 test_ani_to_fdf()
 test_xyz_to_fdf()
+test_xv_to_fdf()
 test_merge_ani()
 clear_temp()
 test_make_directories()
