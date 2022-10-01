@@ -182,7 +182,9 @@ def single_run(i, label):
         _command(label=label, issingle=True)
     else:
         folder = glob.glob(f"{settings.get_cwd()}{os.sep}i{int(i) - 1}")
-        folder += glob.glob(f"{settings.get_cwd()}{os.sep}i{int(i) - 1}{os.sep}{settings.get_cont()}*")
+        folder += glob.glob(
+            f"{settings.get_cwd()}{os.sep}i{int(i) - 1}{os.sep}{settings.get_cont()}*"
+            )
         folder = sort_(folder, "i*", settings.get_cont())[-1]
         with open(
             f"{folder}{os.sep}{settings.get_log()}",
