@@ -299,7 +299,7 @@ def remove_nones(files, path, cwd, cont, log):
 
 def bohr_to_angstrom(bohr):
     """Convert Bohr to Ångström"""
-    return Decimal(bohr * 0.529177249)
+    return Decimal(bohr) * Decimal(0.529177249)
 
 
 def lattice_vectors_mag(fdfpath):
