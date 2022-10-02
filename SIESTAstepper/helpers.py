@@ -16,13 +16,13 @@ def get_it(files):
         return [int(re.search("{0}i([0-9]+)".format(os.sep), f).groups(0)[0]) for f in files]
     except AttributeError as e:
         raise AttributeError(
-            f"ERROR: The path must be in format of 'path{os.sep}to{os.sep}i1'"
+            "ERROR: The path must be in format of 'path{0}to{0}i1'".format(os.sep)
         ) from e
 
 
 def read_fdf(fdfpath, geo):
     """Read FDF file"""
-    print(f"Reading {fdfpath}")
+    print("Reading {0}".format(fdfpath))
     with open(fdfpath, "r", encoding="utf-8") as fdffile:
         fdf = fdffile.read()
         ind = fdf.split(
@@ -34,15 +34,15 @@ def read_fdf(fdfpath, geo):
         for i in ind:
             for g in geo:
                 if g[0] == i[-1]:
-                    geo[geo.index(g)] = f"{g}  " + re.split(" +", i)[0]
-                    g = f"{g}  " + re.split(" +", i)[0]
+                    geo[geo.index(g)] = "{0}  ".format(g) + re.split(" +", i)[0]
+                    g = "{0}  ".format(g) + re.split(" +", i)[0]
                     geo[geo.index(g)] = geo[geo.index(g)].strip(i[-1])
     return fdf, geo
 
 
 def create_fdf(fdf, geo, newfdfpath, number):
     """Create new FDF file"""
-    print(f"Creating {newfdfpath}")
+    print("Creating {0}".format(newfdfpath))
     with open(newfdfpath, "w", encoding="utf-8") as newfdffile:
         newfdf = fdf.split("%block AtomicCoordinatesAndAtomicSpecies\n")[0]
         newfdf += "%block AtomicCoordinatesAndAtomicSpecies\n"
@@ -51,11 +51,11 @@ def create_fdf(fdf, geo, newfdfpath, number):
         newfdf += "%endblock AtomicCoordinatesAndAtomicSpecies\n"
         match = re.search("(NumberOfAtoms +[0-9]+)", newfdf)
         if match is not None:
-            newfdf.replace(match[0], f"NumberOfAtoms   {number}")
+            newfdf.replace(match[0], "NumberOfAtoms   {0}".format(number))
         else:
-            newfdf += f"\nNumberOfAtoms   {number}\n"
+            newfdf += "\nNumberOfAtoms   {0}\n".format(number)
         newfdffile.write(newfdf)
-        print(f"{newfdfpath} is created")
+        print("{0} is created".format(newfdfpath))
         newfdffile.close()
 
 
@@ -88,7 +88,7 @@ def read_energy(energies=[], files=None, it=[], energytype="total", print_=True)
                         print(line.split("=  ")[1])
 
 
-def read_force(*, forces=[], files=None, it=[], atomindex="Tot", forcetype="atomic", print_=True):
+def read_force(forces=[], files=None, it=[], atomindex="Tot", forcetype="atomic", print_=True):
     """Read force from log files"""
     forcetypes = {
         "atomic": "siesta: Atomic forces (eV/Ang):",
@@ -101,7 +101,7 @@ def read_force(*, forces=[], files=None, it=[], atomindex="Tot", forcetype="atom
         with open(f, "r", encoding="utf-8") as file:
             content = file.read()
             match = re.search(
-                rf"{re.escape(forcetypes[forcetype])}\n" +
+                r"{0}\n".format(re.escape(forcetypes[forcetype])) +
                 r"(siesta: +[0-9]+ +-?[0-9]+\.[0-9]+ +-?[0-9]+\.[0-9]+ +-?[0-9]+\.[0-9]+\n)"
                 r"+siesta: ----------------------------------------\n" +
                 r"siesta: +Tot +-?[0-9]+\.[0-9]+ +-?[0-9]+\.[0-9]+ +-?[0-9]+\.[0-9]+\n",
@@ -123,19 +123,21 @@ def read_force(*, forces=[], files=None, it=[], atomindex="Tot", forcetype="atom
                     forces.append([float(part[1]), float(part[2]), float(part[3]), resultant])
                     if print_:
                         print(
-                            f"x: {part[1]}, " +
-                            f"y: {part[2]}, " +
-                            f"z: {part[3]}, " +
-                            f"Resultant: {resultant}"
+                            "x: {0}, ".format(part[1]) +
+                            "y: {}, ".format(part[2]) +
+                            "z: {0}, ".format(part[3]) +
+                            "Resultant: {0}".format(resultant)
                         )
 
 
 def print_run(for_, cores, conda):
     """Print SIESTA's run information"""
     print(
-        f"""Running SIESTA for {for_}
-        {f' in parallel with {cores} cores' if cores is not None else ''}
-        {' in conda' if conda else ''}""".replace("\n", "").replace("        ", "")
+        "Running SIESTA for {0}{1}{2}".format(
+            for_,
+            " in parallel with {0} cores".format(cores) if cores is not None else '',
+            " in conda" if conda else ''
+        )
     )
 
 
@@ -204,17 +206,17 @@ def check_restart_ext(*, ext, fdf, match1, match2, repl, out, cwd, i, cont, labe
     if match is None:
         match = re.search(match2, fdf)
     if match is None:
-        print(f"Setting '{out}' as '.true.' in {cwd}{os.sep}i{i}{os.sep}{cont}{os.sep}{label}.fdf")
-        fdf += f"\n{repl}\n"
+        print("Setting '{0}' as '.true.' in {1}{2}i{3}{2}{4}{2}{5}.fdf".format(out, cwd, os.sep, i, cont, label))
+        fdf += "\n{0}\n".format(repl)
     else:
-        print(f"Setting '{out}' as '.true.' in {cwd}{os.sep}i{i}{os.sep}{cont}{os.sep}{label}.fdf")
+        print("Setting '{0}' as '.true.' in {1}{2}i{3}{2}{4}{2}{5}.fdf".format(out, cwd, os.sep, i, cont, label))
         fdf = fdf.replace(match[0], repl)
     if ext == "DM" and (re.search("WriteDM +.true.", fdf) is None
                         or re.search("# *WriteDM +.true.", fdf) is not None
                         or re.search("WriteDM +.false.", fdf) is not None):
         print(
-            f"WARNING: 'WriteDM .true.' not found in {cwd}{os.sep}i{i}{os.sep}{cont}" +
-            f"{os.sep}{label}.fdf"
+            "WARNING: 'WriteDM .true.' not found in {0}{1}i{2}{1}{3}".format(cwd, os.sep, i, cont) +
+            "{0}{1}.fdf".format(os.sep, label)
         )
 
 
@@ -230,25 +232,25 @@ def check_userbasis(fdffile):
 def copy_file(sourcefile, destinationfile):
     """Copy and paste a file"""
     if not os.path.isfile(sourcefile):
-        raise FileNotFoundError(f"ERROR: {sourcefile} is not found")
+        raise FileNotFoundError("ERROR: {0} is not found".format(sourcefile))
     try:
-        print(f"Copying {sourcefile} to {destinationfile}")
+        print("Copying {0} to {1}".format(sourcefile, destinationfile))
         if not os.path.exists(destinationfile):
             shutil.copy(sourcefile, destinationfile)
-            print(f"{sourcefile} is copied to {destinationfile} successfully")
+            print("{0} is copied to {1} successfully".format(sourcefile, destinationfile))
         else:
-            print(f"{destinationfile} exists")
+            print("{0} exists".format(destinationfile))
     except shutil.SameFileError as e:
         raise shutil.SameFileError(
-            f"ERROR: {sourcefile} and {destinationfile} represents the same file"
+            "ERROR: {0} and {1} represents the same file".format(sourcefile, destinationfile)
         ) from e
     except PermissionError as e:
         raise PermissionError(
-            f"ERROR: Permission denied while copying {sourcefile} to {destinationfile}"
+            "ERROR: Permission denied while copying {0} to {1}".format(sourcefile, destinationfile)
         ) from e
     except (shutil.Error, OSError, IOError) as e:
         raise (
-            f"ERROR: An error occurred while copying {sourcefile} to {destinationfile} ({e})"
+            "ERROR: An error occurred while copying {0} to {1} ({2})".format(sourcefile, destinationfile, e)
         ) from e
 
 
@@ -256,17 +258,17 @@ def sort_(files, path, cont):
     """Naive sort function for directories"""
     path = path.replace("*", "([0-9]+)")
     sortedfiles = []
-    match = [re.search(f"{path}({os.sep}{cont}_*([0-9]*))*", f) for f in files]
+    match = [re.search("{0}({1}{2}_*([0-9]*))*".format(path, os.sep, cont), f) for f in files]
     sortedmatch = [[m[0], m[1], m[2], m[3]] for m in match]
     sortedmatch = [x for _, x in sorted(zip(
-        [int(f"{m[1]}0") if m[3] is None else
-         int(f"{m[1]}1") if m[3] == "" else
+        [int("{0}0".format(m[1])) if m[3] is None else
+         int("{0}1".format(m[1])) if m[3] == "" else
          int(m[1] + m[3]) for m in sortedmatch
         ], sortedmatch
     ))]
     for s in sortedmatch:
         for f in files:
-            fmatch = re.search(f"{path}({os.sep}{cont}_*([0-9]*))*", f)
+            fmatch = re.search("{0}({1}{2}_*([0-9]*))*".format(path, os.sep, cont), f)
             if s[0] == fmatch[0] and f not in sortedfiles:
                 sortedfiles.append(f)
     return sortedfiles
@@ -279,7 +281,7 @@ def remove_nones(files, path, cwd, cont, log):
     to_remove = []
     for filename in files:
         logmatch = re.search(
-            f"({cwd}{os.sep}({path})({os.sep}{cont}(_([0-9]+))?)?{os.sep}{log})", filename
+            "({0}{1}({2})({1}{3}(_([0-9]+))?)?{1}{4})".format(cwd, os.sep, path, cont, log), filename
         )
         if not logmatch:
             continue
@@ -308,7 +310,7 @@ def lattice_vectors_mag(fdfpath):
     x = None
     y = None
     z = None
-    print(f"Opening {fdfpath}")
+    print("Opening {0}".format(fdfpath))
     with open(fdfpath, "r", encoding="utf-8") as fdffile:
         content = fdffile.read()
         match = re.search(
@@ -354,7 +356,7 @@ def coords(fdfpath):
     xs = []
     ys = []
     zs = []
-    print(f"Opening {fdfpath}")
+    print("Opening {0}".format(fdfpath))
     with open(fdfpath, "r", encoding="utf-8") as fdffile:
         match = re.search(
             r"%block AtomicCoordinatesAndAtomicSpecies\n" +
@@ -369,7 +371,7 @@ def coords(fdfpath):
             r"[ \t]+[0-9]+[ \t]*\n",
             match[0]
         )
-        print(f"Getting coordinates from {fdfpath}")
+        print("Getting coordinates from {0}".format(fdfpath))
         for part in parts:
             xs.append(float(part[0]))
             ys.append(float(part[1]))
@@ -383,7 +385,7 @@ def species(fdfpath):
     ids = []
     atomicweights = []
     labels = []
-    print(f"Opening {fdfpath}")
+    print("Opening {0}".format(fdfpath))
     with open(fdfpath, "r", encoding="utf-8") as fdffile:
         match = re.search(
             "%block ChemicalSpeciesLabel\n" +
@@ -392,7 +394,7 @@ def species(fdfpath):
             fdffile.read()
         )
         parts = re.findall("([0-9]+)[ \t]+([0-9]+)[ \t]+(.+)\n", match[0])
-        print(f"Getting species from {fdfpath}")
+        print("Getting species from {0}".format(fdfpath))
         for part in parts:
             ids.append(part[0])
             atomicweights.append(part[1])
