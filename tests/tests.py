@@ -49,7 +49,7 @@ mpath = mfile.replace("/SIESTAstepper/__init__.py", "")
 def test_ani_to_fdf():
     """Tests for ani_to_fdf"""
     assert ani_to_fdf_tester(
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}ANI{os.sep}C-4.ANI",
+        f"{0}{1}tests{1}assets{1}ANI{1}C-4.ANI".format(mpath, os.sep),
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}fdf{os.sep}C-0.fdf",
         f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}C-5.fdf"
     ) == read_file(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}fdf{os.sep}C-5.fdf")
