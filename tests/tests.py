@@ -67,10 +67,10 @@ def test_xyz_to_fdf():
 def test_xv_to_fdf():
     """Tests for xv_to_fdf"""
     assert xv_to_fdf_tester(
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}XV{os.sep}C-XV-1.XV",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}fdf{os.sep}C-XV-1.fdf",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}C-XV-2.fdf"
-    ) == read_file(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}fdf{os.sep}C-XV-2.fdf")
+        "{0}{1}tests{1}assets{1}XV{1}C-XV-1.XV".format(mpath, os.sep),
+        "{0}{1}tests{1}assets{1}fdf{1}C-XV-1.fdf".format(mpath, os.sep),
+        "{0}{1}tests{1}assets{1}temp{1}C-XV-2.fdf".format(mpath, os.sep)
+    ) == read_file("{0}{1}tests{1}assets{1}fdf{1}C-XV-2.fdf".format(mpath, os.sep))
 
 
 def test_merge_ani():
