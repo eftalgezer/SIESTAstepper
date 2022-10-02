@@ -910,6 +910,13 @@ def test_main():
         f" {mpath}{os.sep}tests{os.sep}assets{os.sep}fdf{os.sep}C-0.fdf" +
         f" {mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}C-1.fdf"
     )
+    assert "is created" in main_tester(
+        "SIESTAstepper" +
+        " xv_to_fdf" +
+        f" {mpath}{os.sep}tests{os.sep}assets{os.sep}XV{os.sep}C-XV-1.XV" +
+        f" {mpath}{os.sep}tests{os.sep}assets{os.sep}fdf{os.sep}C-XV-1.fdf" +
+        f" {mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}C-XV-2.fdf"
+    )
     if os.path.exists(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon"):
         shutil.rmtree(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon")
     shutil.copytree(
