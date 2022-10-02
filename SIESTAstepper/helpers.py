@@ -2,6 +2,8 @@
 Helper functions for SIESTA runs or analysis of SIESTA log files
 """
 from __future__ import absolute_import
+from __future__ import print_function
+from __future__ import with_statement
 import os
 import re
 import shutil
