@@ -204,6 +204,24 @@ def xv_to_fdf_tester(xvpath, fdfpath, newfdfpath):
     return read_file(newfdfpath)
 
 
+def log_to_fdf(logpath, fdfpath, newfdfpath):
+    """Tester function for log_to_fdf"""
+    log_to_fdf(logpath, fdfpath, newfdfpath)
+    return read_file(newfdfpath)
+
+def xv_to_ani(label=None, path="i*", folder=None):
+    """Tester function for xv_to_ani"""
+    if os.path.exists(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{folder}"):
+        shutil.rmtree(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{folder}")
+    shutil.copytree(
+        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}{folder}",
+        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{folder}"
+    )
+    settings.set_cwd(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{folder}")
+    xv_to_ani(label=label, path=path)
+    return read_file(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{folder}{os.sep}{label}-XV.ANI")
+
+
 def merge_ani_tester(label=None, path="i*", folder=None):
     """Tester function for merge_ani"""
     if os.path.exists(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{folder}"):

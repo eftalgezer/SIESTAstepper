@@ -894,7 +894,7 @@ def test_carbon_xv_project_single_run_interrupted():
     assert "Job completed\n" in single_run_interrupted_tester("3", "C")
 
 
-ef test_carbon_log_uninterrupted_project():
+def test_carbon_log_uninterrupted_project():
     """Run tests based on Carbon_log_uninterrupted run"""
     fake_command()
     set_fake_project("Carbon_log_uninterrupted")
