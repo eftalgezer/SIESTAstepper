@@ -840,8 +840,8 @@ def test_carbon_xv_project_run_interrupted():
     assert energy_analysis_tester(path="i*", cwd=settings.get_cwd()) == [
         (1, -297.982681),
         (2, -299.171055),
-        (3, -299.791356),
-        (4, -299.845957),
+        (3, -299.791357),
+        (4, -299.845956),
         (5, -299.498399)
     ]
     assert force_analysis_tester(cwd=settings.get_cwd()) == [
