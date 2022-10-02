@@ -916,10 +916,10 @@ def test_carbon_log_uninterrupted_project():
     assert "All iterations are completed" in run_tester("C")
     assert energy_analysis_tester(cwd=settings.get_cwd()) == [
         (1, -297.982681),
-        (2, -299.171055),
-        (3, -299.791356),
-        (4, -299.845957),
-        (5, -299.498399)
+        (2, -299.171087),
+        (3, -299.791357),
+        (4, -299.845956),
+        (5, -299.498398)
     ]
     assert force_analysis_tester(cwd=settings.get_cwd()) == [
         (1, 0.016003, 0.0, 0.0, 0.016003),
