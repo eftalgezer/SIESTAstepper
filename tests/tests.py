@@ -61,7 +61,7 @@ def test_xyz_to_fdf():
         "{0}{1}tests{1}assets{1}xyz{1}C.xyz".format(mpath, os.sep),
         "{0}{1}tests{1}assets{1}fdf{1}C-0.fdf".format(mpath, os.sep),
         "{0}{1}tests{1}assets{1}temp{1}C-1.fdf".format(mpath, os.sep)
-    ) == read_file("{0}{1}tests{0}assets{1}fdf{1}C-1.fdf".format(mpath, os.sep))
+    ) == read_file("{0}{1}tests{1}assets{1}fdf{1}C-1.fdf".format(mpath, os.sep))
 
 
 def test_xv_to_fdf():
