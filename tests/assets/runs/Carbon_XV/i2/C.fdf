@@ -71,6 +71,8 @@ NumberOfAtoms   2
 
 AtomicCoordinatesFormat  Ang
 %block AtomicCoordinatesAndAtomicSpecies
-       0.176136   -0.000000   -0.000000  1
-       1.842253    0.000000    0.000000  1
+       0.17613628219734817   -0.0   -0.0  1
+
+       1.8422542580461543   0.0   0.0  1
+
 %endblock AtomicCoordinatesAndAtomicSpecies
