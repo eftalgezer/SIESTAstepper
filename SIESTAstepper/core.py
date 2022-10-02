@@ -114,123 +114,123 @@ settings = Settings()
 def run_next(i, label):
     """Run SIESTA for given step"""
     logs = glob.glob("i{0}{1}{2}".format(int(i) - 1, os.sep, settings.get_log()))
-    logs += glob.glob(f"i{int(i) - 1}{os.sep}{settings.get_cont()}*{os.sep}{settings.get_log()}")
+    logs += glob.glob("i{}{}{}*{}{}".format(int(i) - 1, os.sep, settings.get_cont(), os.sep, settings.get_log()))
     logs = sort_(logs, "i*", settings.get_cont())
     if logs and settings.get_cont() in logs[-1]:
-        match = re.search(f"i{int(i) - 1}{os.sep}{settings.get_cont()}(_*[0-9]*)", logs[-1])
-        if not os.path.isfile(f"{settings.get_cwd()}{os.sep}i{i}{os.sep}{label}.fdf"):
+        match = re.search("i{}{}{}(_*[0-9]*)".format(int(i) - 1, os.sep, settings.get_cont()), logs[-1])
+        if not os.path.isfile("{}{}i{}{}{}.fdf".format(settings.get_cwd(), os.sep, i, os.sep, label)):
             if settings.get_contfrom() == "log":
                 log_to_fdf(
-                    f"i{int(i) - 1}{os.sep}{settings.get_cont()}{match[1]}{os.sep}" +
-                    f"{settings.get_log()}",
-                    f"i{int(i) - 1}{os.sep}{settings.get_cont()}{match[1]}{os.sep}{label}.fdf",
-                    f"i{i}{os.sep}{label}.fdf"
+                    "i{}{}{}{}{}".format(int(i) - 1, os.sep, settings.get_cont(), match[1], os.sep) +
+                    "{}".format(settings.get_log()),
+                    "i{}{}{}{}{}{}.fdf".format(int(i) - 1, os.sep, settings.get_cont(), match[1], os.sep, label),
+                    "i{}{}{}.fdf".format(i, os.sep, label)
                 )
             elif settings.get_contfrom() == "XV":
                 xv_to_fdf(
-                    f"i{int(i) - 1}{os.sep}{settings.get_cont()}{match[1]}{os.sep}{label}.XV",
-                    f"i{int(i) - 1}{os.sep}{settings.get_cont()}{match[1]}{os.sep}{label}.fdf",
-                    f"i{i}{os.sep}{label}.fdf"
+                    "i{}{}{}{}{}{}.XV".format(int(i) - 1, os.sep, settings.get_cont(), match[1], os.sep, label),
+                    "i{}{}{}{}{}{}.fdf".format(int(i) - 1, os.sep, settings.get_cont(), match[1], os.sep, label),
+                    "i{}{}{}.fdf".format(i, os.sep, label)
                 )
             elif settings.get_contfrom() == "ANI":
                 ani_to_fdf(
-                    f"i{int(i) - 1}{os.sep}{settings.get_cont()}{match[1]}{os.sep}{label}.ANI",
-                    f"i{int(i) - 1}{os.sep}{settings.get_cont()}{match[1]}{os.sep}{label}.fdf",
-                    f"i{i}{os.sep}{label}.fdf"
+                    "i{}{}{}{}{}{}.ANI".format(int(i) - 1, os.sep, settings.get_cont(), match[1], os.sep, label),
+                    "i{}{}{}{}{}{}.fdf".format(int(i) - 1, os.sep, settings.get_cont(), match[1], os.sep, label),
+                    "i{}{}{}.fdf".format(i, os.sep, label)
                 )
         copy_files(
-            ["ion" if check_userbasis(f"i{i}{os.sep}{label}.fdf") else "psf"],
+            ["ion" if check_userbasis("i{}{}{}.fdf".format(i, os.sep, label)) else "psf"],
             label,
-            f"{settings.get_cwd()}{os.sep}i{int(i) - 1}{os.sep}{settings.get_cont()}{match[1]}",
-            f"{settings.get_cwd()}{os.sep}i{i}"
+            "{}{}i{}{}{}{}".format(settings.get_cwd(), os.sep, int(i) - 1, os.sep, settings.get_cont(), match[1]),
+            "{}{}i{}".format(settings.get_cwd(), os.sep, i)
         )
     elif int(i) > 1:
-        if not os.path.isfile(f"{settings.get_cwd()}{os.sep}i{str(int(i) + 1)}{os.sep}{label}.fdf"):
+        if not os.path.isfile("{}{}i{}{}{}.fdf".format(settings.get_cwd(), os.sep, str(int(i) + 1), os.sep, label)):
             if settings.get_contfrom() == "log":
                 log_to_fdf(
-                    f"i{int(i) - 1}{os.sep}{settings.get_log()}",
-                    f"i{int(i) - 1}{os.sep}{label}.fdf",
-                    f"i{i}{os.sep}{label}.fdf"
+                    "i{}{}{}".format(int(i) - 1, os.sep, settings.get_log()),
+                    "i{}{}{}.fdf".format(int(i) - 1, os.sep, label),
+                    "i{}{}{}.fdf".format(i, os.sep, label)
                 )
             elif settings.get_contfrom() == "XV":
                 xv_to_fdf(
-                    f"i{int(i) - 1}{os.sep}{label}.XV",
-                    f"i{int(i) - 1}{os.sep}{label}.fdf",
-                    f"i{i}{os.sep}{label}.fdf"
+                    "i{}{}{}.XV".format(int(i) - 1, os.sep, label),
+                    "i{}{}{}.fdf".format(int(i) - 1, os.sep, label),
+                    "i{}{}{}.fdf".format(i, os.sep, label)
                 )
             elif settings.get_contfrom() == "ANI":
                 ani_to_fdf(
-                    f"i{int(i) - 1}{os.sep}{label}.ANI",
-                    f"i{int(i) - 1}{os.sep}{label}.fdf",
-                    f"i{i}{os.sep}{label}.fdf"
+                    "i{}{}{}.ANI".format(int(i) - 1, os.sep, label),
+                    "i{}{}{}.fdf".format(int(i) - 1, os.sep, label),
+                    "i{}{}{}.fdf".format(i, os.sep, label)
                 )
         copy_files(
-            ["ion" if check_userbasis(f"i{i}{os.sep}{label}.fdf") else "psf"],
+            ["ion" if check_userbasis("i{}{}{}.fdf".format(i, os.sep, label)) else "psf"],
             label,
-            f"{settings.get_cwd()}{os.sep}i{int(i) - 1}",
-            f"{settings.get_cwd()}{os.sep}i{i}"
+            "{}{}i{}".format(settings.get_cwd(), os.sep, int(i) - 1),
+            "{}{}i{}".format(settings.get_cwd(), os.sep, i)
         )
-    os.chdir(f"{settings.get_cwd()}{os.sep}i{i}")
-    print(f"Changed directory to {os.getcwd()}")
-    print_run(f"i{i}", settings.get_cores(), settings.get_conda())
+    os.chdir("{}{}i{}".format(settings.get_cwd(), os.sep, i))
+    print("Changed directory to {}".format(os.getcwd()))
+    print_run("i{}".format(i), settings.get_cores(), settings.get_conda())
     _command(label=label)
 
 
 def single_run(i, label):
     """Run SIESTA for given step without continuing next step"""
-    os.chdir(f"{settings.get_cwd()}{os.sep}i{i}")
-    print(f"Changed directory to {os.getcwd()}")
+    os.chdir("{}{}i{}".format(settings.get_cwd(), os.sep, i))
+    print("Changed directory to {}".format(os.getcwd()))
     if int(i) == 1:
         _command(label=label, issingle=True)
     else:
-        folder = glob.glob(f"{settings.get_cwd()}{os.sep}i{int(i) - 1}")
+        folder = glob.glob("{}{}i{}".format(settings.get_cwd(), os.sep, int(i) - 1))
         folder += glob.glob(
-            f"{settings.get_cwd()}{os.sep}i{int(i) - 1}{os.sep}{settings.get_cont()}*"
+            "{}{}i{}{}{}*".format(settings.get_cwd(), os.sep, int(i) - 1, os.sep, settings.get_cont())
             )
         folder = sort_(folder, "i*", settings.get_cont())[-1]
         with open(
-            f"{folder}{os.sep}{settings.get_log()}",
+            "{}{}{}".format(folder, os.sep, settings.get_log()),
             "r",
             encoding="utf-8"
         ) as file:
             lines = file.readlines()
             if lines[-1] == "Job completed\n":
-                print(f"{folder}{os.sep}{settings.get_log()}: Job completed")
+                print("{}{}{}: Job completed".format(folder, os.sep, settings.get_log()))
             if int(i) > 1:
-                if not os.path.isfile(f"{settings.get_cwd()}{os.sep}i{i}{os.sep}{label}.fdf"):
+                if not os.path.isfile("{}{}i{}{}{}.fdf".format(settings.get_cwd(), os.sep, i, os.sep, label)):
                     if settings.get_contfrom() == "log":
                         log_to_fdf(
-                            f"{folder}{os.sep}{settings.get_log()}",
-                            f"{folder}{os.sep}{label}.fdf",
-                            f"{settings.get_cwd()}{os.sep}i{i}{os.sep}{label}.fdf"
+                            "{}{}{}".format(folder, os.sep, settings.get_log()),
+                            "{}{}{}.fdf".format(folder, os.sep, label),
+                            "{}{}i{}{}{}.fdf".format(settings.get_cwd(), os.sep, i, os.sep, label)
                         )
                     elif settings.get_contfrom() == "XV":
                         xv_to_fdf(
-                            f"{folder}{os.sep}{label}.XV",
-                            f"{folder}{os.sep}{label}.fdf",
-                            f"{settings.get_cwd()}{os.sep}i{i}{os.sep}{label}.fdf"
+                            "{}{}{}.XV".format(folder, os.sep, label),
+                            "{}{}{}.fdf".format(folder, os.sep, label),
+                            "{}{}i{}{}{}.fdf".format(settings.get_cwd(), os.sep, i, os.sep, label)
                         )
                     elif settings.get_contfrom() == "ANI":
                         ani_to_fdf(
-                            f"{folder}{os.sep}{label}.ANI",
-                            f"{folder}{os.sep}{label}.fdf",
-                            f"{settings.get_cwd()}{os.sep}i{i}{os.sep}{label}.fdf"
+                            "{}{}{}.ANI".format(folder, os.sep, label),
+                            "{}{}{}.fdf".format(folder, os.sep, label),
+                            "{}{}i{}{}{}.fdf".format(settings.get_cwd(), os.sep, i, os.sep, label)
                         )
                 copy_files(
                     ["ion" if check_userbasis(
-                        f"{settings.get_cwd()}{os.sep}i{i}{os.sep}{label}.fdf"
+                        "{}{}i{}{}{}.fdf".format(settings.get_cwd(), os.sep, i, os.sep, label)
                     ) else "psf"],
                     label,
                     folder,
-                    f"{settings.get_cwd()}{os.sep}i{i}"
+                    "{}{}i{}".format(settings.get_cwd(), os.sep, i)
                 )
-            print_run(f"i{i}", settings.get_cores(), settings.get_conda())
+            print_run("i{}".format(i), settings.get_cores(), settings.get_conda())
             _command(label=label, issingle=True)
 
 
 def ani_to_fdf(anipath, fdfpath, newfdfpath):
     """Convert last geometry of an ANI to FDF by using the previous FDF and ANI files"""
-    print(f"Reading {anipath}")
+    print("Reading {}".format(anipath))
     with open(anipath, "r", encoding="utf-8") as anifile:
         geo = anifile.read()
         number = geo.split("\n", 1)[0].strip()
@@ -243,7 +243,7 @@ def ani_to_fdf(anipath, fdfpath, newfdfpath):
 
 def xyz_to_fdf(xyzpath, fdfpath, newfdfpath):
     """Convert XYZ to FDF by using the previous FDF and XYZ files"""
-    print(f"Reading {xyzpath}")
+    print("Reading {}".format(xyzpath))
     with open(xyzpath, "r", encoding="utf-8") as xyzfile:
         geo = xyzfile.read()
         number = geo.split("\n", 1)[0].strip()
@@ -255,7 +255,7 @@ def xyz_to_fdf(xyzpath, fdfpath, newfdfpath):
 
 def xv_to_fdf(xvpath, fdfpath, newfdfpath):
     """Convert XV to FDF by using the previous FDF and XV files"""
-    print(f"Reading {xvpath}")
+    print("Reading {}".format(xvpath))
     with open(xvpath, "r", encoding="utf-8") as xvfile:
         lines = xvfile.readlines()
         geo = []
@@ -267,10 +267,10 @@ def xv_to_fdf(xvpath, fdfpath, newfdfpath):
         for line in lines:
             parts = line.split("     ")
             geo.append(
-                f"       {bohr_to_angstrom(float(parts[2].strip()))}" +
-                f"   {bohr_to_angstrom(float(parts[3].strip()))}" +
-                f"   {bohr_to_angstrom(float(parts[4].strip()))}" +
-                f"  {parts[0].strip()}\n"
+                "       {}".format(bohr_to_angstrom(float(parts[2].strip()))) +
+                "   {}".format(bohr_to_angstrom(float(parts[3].strip()))) +
+                "   {}".format(bohr_to_angstrom(float(parts[4].strip()))) +
+                "  {}\n".format(parts[0].strip())
             )
         fdf, geo = read_fdf(fdfpath, geo)
         create_fdf(fdf, geo, newfdfpath, number)
@@ -280,7 +280,7 @@ def xv_to_fdf(xvpath, fdfpath, newfdfpath):
 def log_to_fdf(logpath, fdfpath, newfdfpath):
     """Convert the last coordinates from a SIESTA log file to FDF by using previous log and FDF
     files"""
-    print(f"Reading {logpath}")
+    print("Reading {}".format(logpath))
     with open(logpath, "r", encoding="utf-8") as logfile:
         content = logfile.read()
         match = re.search(
@@ -294,7 +294,7 @@ def log_to_fdf(logpath, fdfpath, newfdfpath):
             content
         )
         if match is None:
-            raise RuntimeError(f"ERROR: {logpath} is not converged")
+            raise RuntimeError("ERROR: {} is not converged".format(logpath))
         parts = re.findall(
             r" {3,4}(-?[0-9]+\.[0-9]+)" +
             r" {3,4}(-?[0-9]+\.[0-9]+)" +
@@ -306,10 +306,10 @@ def log_to_fdf(logpath, fdfpath, newfdfpath):
         )
         geo = [
             (
-                f"       {part[0]}" +
-                f"   {part[1]}" +
-                f"   {part[2]}" +
-                f"  {part[3]}\n"
+                "       {}".format(part[0]) +
+                "   {}".format(part[1]) +
+                "   {}".format(part[2]) +
+                "  {}\n".format(part[3])
             ) for part in parts]
         fdf, geo = read_fdf(fdfpath, geo)
         create_fdf(fdf, geo, newfdfpath, len(geo))
@@ -320,11 +320,11 @@ def xv_to_ani(label=None, path="i*"):
     """Convert XV files to ANI"""
     if label is None:
         raise ValueError("ERROR: Please set a label")
-    files = glob.glob(f"{settings.get_cwd()}{os.sep}{path}{os.sep}{label}.XV")
+    files = glob.glob("{}{}{}{}{}.XV".format(settings.get_cwd(), os.sep, path, os.sep, label))
     files += glob.glob(
-        f"{settings.get_cwd()}{os.sep}{path}{os.sep}{settings.get_cont()}*{os.sep}{label}.XV"
+        "{}{}{}{}{}*{}{}.XV".format(settings.get_cwd(), os.sep, path, os.sep, settings.get_cont(), os.sep, label)
     )
-    fdfpath = glob.glob(f"{settings.get_cwd()}{os.sep}{path}{os.sep}{label}.fdf")[-1]
+    fdfpath = glob.glob("{}{}{}{}{}.fdf".format(settings.get_cwd(), os.sep, path, os.sep, label))[-1]
     files = sort_(files, path, settings.get_cont())
     if files is not None:
         ani = ""
@@ -332,7 +332,7 @@ def xv_to_ani(label=None, path="i*"):
         it = get_it(files)
         if [*set(it)] != list(range(min(it), max(it) + 1)):
             print("WARNING: There are missing XV files!")
-        print(f"Opening {fdfpath}")
+        print("Opening {}".format(fdfpath))
         with open(fdfpath, "r", encoding="utf-8") as fdffile:
             fdf = fdffile.read()
             inds = fdf.split(
@@ -342,7 +342,7 @@ def xv_to_ani(label=None, path="i*"):
             )[0]
             inds = inds.splitlines()
         for file in files:
-            print(f"Opening {file}")
+            print("Opening {}".format(file))
             with open(file, "r", encoding="utf-8") as f:
                 match = re.search(
                     r" +([0-9]+)\n" +
@@ -356,7 +356,7 @@ def xv_to_ani(label=None, path="i*"):
                     r"-?[0-9]+\.[0-9]+\n)+",
                     f.read()
                 )
-                ani += f"    {match[1]}\n\n"
+                ani += "    {}\n\n".format(match[1])
                 parts = re.findall(
                     r" +([0-9]+) +" +
                     r"[0-9]+ +" +
@@ -373,10 +373,10 @@ def xv_to_ani(label=None, path="i*"):
                     for ind in inds:
                         if ind.startswith(part[0]):
                             part0 = ind.split(" ")[-1]
-                    ani += f"{part0}       {part[1]}    {part[2]}    {part[3]}\n"
+                    ani += "{}       {}    {}    {}\n".format(part0, part[1], part[2], part[3])
                 f.close()
-        print(f"Writing to {label}-XV.ANI")
-        with open(f"{label}-XV.ANI", "w", encoding="utf-8") as anifile:
+        print("Writing to {}-XV.ANI".format(label))
+        with open("{}-XV.ANI".format(label), "w", encoding="utf-8") as anifile:
             anifile.write(ani)
             anifile.close()
         print("All XV files converted to ANI")
@@ -386,9 +386,9 @@ def merge_ani(label=None, path="i*"):
     """Merge ANI files"""
     if label is None:
         raise ValueError("ERROR: Please set a label")
-    files = glob.glob(f"{settings.get_cwd()}{os.sep}{path}{os.sep}{label}.ANI")
+    files = glob.glob("{}{}{}{}{}.ANI".format(settings.get_cwd(), os.sep, path, os.sep, label))
     files += glob.glob(
-        f"{settings.get_cwd()}{os.sep}{path}{os.sep}{settings.get_cont()}*{os.sep}{label}.ANI"
+        "{}{}{}{}{}*{}{}.ANI".format(settings.get_cwd(), os.sep, path, os.sep, settings.get_cont(), os.sep, label)
     )
     files = sort_(files, path, settings.get_cont())
     if files is not None:
@@ -396,14 +396,14 @@ def merge_ani(label=None, path="i*"):
         if [*set(it)] != list(range(min(it), max(it) + 1)):
             print("WARNING: There are missing ANI files!")
         with open(
-            f"{settings.get_cwd()}{os.sep}{label}-merged.ANI",
+            "{}{}{}-merged.ANI".format(settings.get_cwd(), os.sep, label),
             "w",
             encoding="utf-8"
         ) as outfile:
-            print(f"{settings.get_cwd()}{os.sep}{label}-merged.ANI is opened")
+            print("{}{}{}-merged.ANI is opened".format(settings.get_cwd(), os.sep, label))
             for f in files:
                 with open(f, encoding="utf-8") as infile:
-                    print(f"Writing {f}")
+                    print("Writing {}".format(f))
                     content = infile.read()
                     outfile.write(content)
                     infile.close()
@@ -416,10 +416,10 @@ def merge_ani(label=None, path="i*"):
 def run(label):
     """Execute"""
     os.chdir(settings.get_cwd())
-    folders = glob.glob(f"i*{os.sep}")
-    logs = glob.glob(f"i*{os.sep}{settings.get_log()}")
-    folders += glob.glob(f"i*{os.sep}{settings.get_cont()}*")
-    logs += glob.glob(f"i*{os.sep}{settings.get_cont()}*{os.sep}{settings.get_log()}")
+    folders = glob.glob("i*{}".format(os.sep))
+    logs = glob.glob("i*{}{}".format(os.sep, settings.get_log()))
+    folders += glob.glob("i*{}{}*".format(os.sep, settings.get_cont()))
+    logs += glob.glob("i*{}{}*{}{}".format(os.sep, settings.get_cont(), os.sep, settings.get_log()))
     folders = sort_(folders, "i*", settings.get_cont())
     logs = sort_(logs, "i*", settings.get_cont())
     if not logs:
@@ -428,40 +428,40 @@ def run(label):
         with open(logs[-1], "r", encoding="utf-8") as file:
             lines = file.readlines()
             if lines[-1] == "Job completed\n":
-                print(f"{logs[-1]}: Job completed")
+                print("{}: Job completed".format(logs[-1]))
                 if len(folders) != len(logs) and not os.path.isfile(
-                        f"{settings.get_cwd()}" +
-                        f"{os.sep}i{str(int(logs[-1].split(os.sep)[0].strip('i')) + 1)}" +
-                        f"{os.sep}{label}.fdf"
+                        "{}".format(settings.get_cwd()) +
+                        "{}i{}".format(os.sep, str(int(logs[-1].split(os.sep)[0].strip('i')) + 1)) +
+                        "{}{}.fdf".format(os.sep, label)
                 ):
                     if settings.get_cont() in logs[-1]:
                         match = re.search(
-                            f"i([0-9]+){os.sep}{settings.get_cont()}(_*[0-9]*)",
+                            "i([0-9]+){}{}(_*[0-9]*)".format(os.sep, settings.get_cont()),
                             logs[-1]
                         )
                         if settings.get_contfrom() == "log":
                             log_to_fdf(
-                                f"i{match[1]}{os.sep}{settings.get_cont()}{match[2]}" +
-                                f"{os.sep}{settings.get_log()}",
-                                f"i{match[1]}{os.sep}{settings.get_cont()}{match[2]}" +
-                                f"{os.sep}{label}.fdf",
-                                f"i{int(match[1]) + 1}{os.sep}{label}.fdf"
+                                "i{}{}{}{}".format(match[1], os.sep, settings.get_cont(), match[2]) +
+                                "{}{}".format(os.sep, settings.get_log()),
+                                "i{}{}{}{}".format(match[1], os.sep, settings.get_cont(), match[2]) +
+                                "{}{}.fdf".format(os.sep, label),
+                                "i{}{}{}.fdf".format(int(match[1]) + 1, os.sep, label)
                             )
                         elif settings.get_contfrom() == "XV":
                             xv_to_fdf(
-                                f"i{match[1]}{os.sep}{settings.get_cont()}{match[2]}" +
-                                f"{os.sep}{label}.XV",
-                                f"i{match[1]}{os.sep}{settings.get_cont()}{match[2]}" +
-                                f"{os.sep}{label}.fdf",
-                                f"i{int(match[1]) + 1}{os.sep}{label}.fdf"
+                                "i{}{}{}{}".format(match[1], os.sep, settings.get_cont(), match[2]) +
+                                "{}{}.XV".format(os.sep, label),
+                                "i{}{}{}{}".format(match[1], os.sep, settings.get_cont(), match[2]) +
+                                "{}{}.fdf".format(os.sep, label),
+                                "i{}{}{}.fdf".format(int(match[1]) + 1, os.sep, label)
                             )
                         elif settings.get_contfrom() == "ANI":
                             ani_to_fdf(
-                                f"i{match[1]}{os.sep}{settings.get_cont()}{match[2]}" +
-                                f"{os.sep}{label}.ANI",
-                                f"i{match[1]}{os.sep}{settings.get_cont()}{match[2]}" +
-                                f"{os.sep}{label}.fdf",
-                                f"i{int(match[1]) + 1}{os.sep}{label}.fdf"
+                                "i{}{}{}{}".format(match[1], os.sep, settings.get_cont(), match[2]) +
+                                "{}{}.ANI".format(os.sep, label),
+                                "i{}{}{}{}".format(match[1], os.sep, settings.get_cont(), match[2]) +
+                                "{}{}.fdf".format(os.sep, label),
+                                "i{}{}{}.fdf".format(int(match[1]) + 1, os.sep, label)
                             )
                     else:
                         if settings.get_contfrom() == "log":
@@ -502,8 +502,8 @@ def run(label):
     print("All iterations are completed")
     if settings.get_conda():
         sprun(
-            [f"{os.sep}usr{os.sep}bin{os.sep}conda", "deactivate"] if os.name == "posix"
-            else [f"C:{os.sep}{os.sep}Anaconda3{os.sep}Scripts{os.sep}deactivate"],
+            ["{}usr{}bin{}conda".format(os.sep, os.sep, os.sep), "deactivate"] if os.name == "posix"
+            else ["C:{}{}Anaconda3{}Scripts{}deactivate".format(os.sep, os.sep, os.sep, os.sep)],
             check=True,
             shell=False
         )
@@ -511,44 +511,44 @@ def run(label):
 
 def run_interrupted(i, label):
     """Continue to an interrupted calculation"""
-    folders = glob.glob(f"i{i}{os.sep}{settings.get_cont()}*")
+    folders = glob.glob("i{}{}{}*".format(i, os.sep, settings.get_cont()))
     folders = sort_(folders, "i*", settings.get_cont())
     if folders:
-        with open(f"{folders[-1]}{os.sep}{settings.get_log()}", encoding="utf-8") as file:
+        with open("{}{}{}".format(folders[-1], os.sep, settings.get_log()), encoding="utf-8") as file:
             lines = file.readlines()
             if lines[-1] == "Job completed\n":
                 print(
-                    f"i{i}{os.sep}{settings.get_cont()}{os.sep}{settings.get_log()}: Job completed"
+                    "i{}{}{}{}{}: Job completed".format(i, os.sep, settings.get_cont(), os.sep, settings.get_log())
                 )
                 return False
-            match = re.search(f"i[0-9]+{os.sep}{settings.get_cont()}_*[0-9]*", folders[-1])
+            match = re.search("i[0-9]+{}{}_*[0-9]*".format(os.sep, settings.get_cont()), folders[-1])
             if match[0].endswith(settings.get_cont()):
-                _cont_step(f"{settings.get_cont()}_2", i, label)
+                _cont_step("{}_2".format(settings.get_cont()), i, label)
                 return True
-            contnum = re.search(f"{os.sep}{settings.get_cont()}_([0-9]+)", match[0])[1]
-            _cont_step(f"{settings.get_cont()}_{int(contnum) + 1}", i, label)
+            contnum = re.search("{}{}_([0-9]+)".format(os.sep, settings.get_cont()), match[0])[1]
+            _cont_step("{}_{}".format(settings.get_cont(), int(contnum) + 1), i, label)
     _cont_step(settings.get_cont(), i, label)
     return True
 
 
 def single_run_interrupted(i, label):
     """Continue to an interrupted calculation without continuing next step"""
-    folders = glob.glob(f"i*{os.sep}{settings.get_cont()}*")
+    folders = glob.glob("i*{}{}*".format(os.sep, settings.get_cont()))
     folders = sort_(folders, "i*", settings.get_cont())
     if folders:
-        with open(f"{folders[-1]}{os.sep}{settings.get_log()}", encoding="utf-8") as file:
+        with open("{}{}{}".format(folders[-1], os.sep, settings.get_log()), encoding="utf-8") as file:
             lines = file.readlines()
             if lines[-1] == "Job completed\n":
                 print(
-                    f"i{i}{os.sep}{settings.get_cont()}{os.sep}{settings.get_log()}: Job completed"
+                    "i{}{}{}{}{}: Job completed".format(i, os.sep, settings.get_cont(), os.sep, settings.get_log())
                 )
                 return False
-            match = re.search(f"i[0-9]+{os.sep}{settings.get_cont()}_*[0-9]*", folders[-1])
+            match = re.search("i[0-9]+{}{}_*[0-9]*".format(os.sep, settings.get_cont()), folders[-1])
             if match[0].endswith(settings.get_cont()):
-                _cont_step(f"{settings.get_cont()}_2", i, label, issingle=True)
+                _cont_step("{}_2".format(settings.get_cont()), i, label, issingle=True)
                 return True
-            contnum = re.search(f"{os.sep}{settings.get_cont()}_([0-9]+)", match[0])[1]
-            _cont_step(f"{settings.get_cont()}_{int(contnum) + 1}", i, label, issingle=True)
+            contnum = re.search("{}{}_([0-9]+)".format(os.sep, settings.get_cont()), match[0])[1]
+            _cont_step("{}_{}".format(settings.get_cont(), int(contnum) + 1), i, label, issingle=True)
     _cont_step(settings.get_cont(), i, label, issingle=True)
     return True
 
@@ -556,12 +556,12 @@ def single_run_interrupted(i, label):
 def make_directories(n):
     """Create given number of i* folders"""
     for i in range(1, n + 1):
-        if not os.path.exists(f"{settings.get_cwd()}{os.sep}i{i}"):
-            print(f"Making directory i{i} under {settings.get_cwd().split(os.sep)[-1]}")
-            os.mkdir(f"{settings.get_cwd()}{os.sep}i{i}")
-            print(f"Directory i{i} is created")
+        if not os.path.exists("{}{}i{}".format(settings.get_cwd(), os.sep, i)):
+            print("Making directory i{} under {}".format(i, settings.get_cwd().split(os.sep)[-1]))
+            os.mkdir("{}{}i{}".format(settings.get_cwd(), os.sep, i))
+            print("Directory i{} is created".format(i))
         else:
-            print(f"Directory i{i} exists")
+            print("Directory i{} exists".format(i))
 
 
 def copy_files(extensions, label, source_, destination):
@@ -569,30 +569,30 @@ def copy_files(extensions, label, source_, destination):
     if extensions is not None:
         for ext in extensions:
             if ext == "psf":
-                files = glob.glob(f"{source_}{os.sep}*.psf")
+                files = glob.glob("{}{}*.psf".format(source_, os.sep))
                 for f in files:
                     file = f.split(os.sep)[-1]
-                    copy_file(f, f"{destination}{os.sep}{file}")
+                    copy_file(f, "{}{}{}".format(destination, os.sep, file))
             elif ext == "ion":
-                files = glob.glob(f"{source_}{os.sep}*.ion")
+                files = glob.glob("{}{}*.ion".format(source_, os.sep))
                 for f in files:
                     file = f.split(os.sep)[-1]
-                    copy_file(f, f"{destination}{os.sep}{file}")
+                    copy_file(f, "{}{}{}".format(destination, os.sep, file))
             else:
                 copy_file(
-                    f"{source_}{os.sep}{label}.{ext}",
-                    f"{destination}{os.sep}{label}.{ext}"
+                    "{}{}{}.{}".format(source_, os.sep, label, ext),
+                    "{}{}{}.{}".format(destination, os.sep, label, ext)
                 )
     for cf in settings.contfiles:
-        copy_file(f"{source_}{os.sep}{cf}", f"{destination}{os.sep}{cf}")
+        copy_file("{}{}{}".format(source_, os.sep, cf), "{}{}{}".format(destination, os.sep, cf))
 
 
 def energy_analysis(energytype="total", path="i*", plot_=True, print_=True):
     """Plot and return energies from log files"""
-    files = glob.glob(f"{settings.get_cwd()}{os.sep}{path}{os.sep}{settings.get_log()}")
+    files = glob.glob("{}{}{}{}{}".format(settings.get_cwd(), os.sep, path, os.sep, settings.get_log()))
     files += glob.glob(
-        f"{settings.get_cwd()}{os.sep}{path}{os.sep}{settings.get_cont()}*" +
-        f"{os.sep}{settings.get_log()}"
+        "{}{}{}{}{}*".format(settings.get_cwd(), os.sep, path, os.sep, settings.get_cont()) +
+        "{}{}".format(os.sep, settings.get_log())
     )
     files = sort_(files, path, settings.get_cont())
     energies = []
@@ -606,17 +606,17 @@ def energy_analysis(energytype="total", path="i*", plot_=True, print_=True):
     if plot_:
         plt.scatter(it, energies)
         plt.xlabel("Step")
-        plt.ylabel(f"{energytype.capitalize()} energy (eV)")
+        plt.ylabel("{} energy (eV)".format(energytype.capitalize()))
         plt.show()
     return list(zip_longest(it, energies))
 
 
 def force_analysis(atomindex="Tot", forcetype="atomic", path="i*", plot_=True, print_=True):
     """Plot and return atomic forces from log files"""
-    files = glob.glob(f"{settings.get_cwd()}{os.sep}{path}{os.sep}{settings.get_log()}")
+    files = glob.glob("{}{}{}{}{}".format(settings.get_cwd(), os.sep, path, os.sep, settings.get_log()))
     files += glob.glob(
-        f"{settings.get_cwd()}{os.sep}{path}{os.sep}{settings.get_cont()}*" +
-        f"{os.sep}{settings.get_log()}"
+        "{}{}{}{}{}*".format(settings.get_cwd(), os.sep, path, os.sep, settings.get_cont()) +
+        "{}{}".format(os.sep, settings.get_log())
     )
     files = sort_(files, path, settings.get_cont())
     remove_nones(files, path, settings.get_cwd(), settings.get_cont(), settings.get_log())
@@ -645,7 +645,7 @@ def force_analysis(atomindex="Tot", forcetype="atomic", path="i*", plot_=True, p
         axs[1, 1].scatter(it, [row[3] for row in forces])
         axs[1, 1].set_title("Resultant")
         for ax in axs.flat:
-            ax.set(xlabel='Step', ylabel=f'{forcetype.capitalize()} force (eV/Ang)')
+            ax.set(xlabel='Step', ylabel='{} force (eV/Ang)'.format(forcetype.capitalize()))
         for ax in axs.flat:
             ax.label_outer()
     return list(
@@ -666,12 +666,12 @@ def energy_diff(energytype="total", path="i*"):
     it = np.array([_[0] for _ in data])
     min_idx = np.where(energies == np.amin(energies)) \
         if len(argrelmin(energies)) == 1 else argrelmin(energies)
-    print(f"Minima: {energies[min_idx]}")
+    print("Minima: {}".format(energies[min_idx]))
     max_idx = np.where(energies == np.amax(energies)) \
         if len(argrelmax(energies)) == 1 else argrelmax(energies)
-    print(f"Maxima: {energies[max_idx]}")
+    print("Maxima: {}".format(energies[max_idx]))
     diff = np.absolute(energies[min_idx] - energies[max_idx])
-    print(f"{energytype.capitalize()} energy difference: {diff}")
+    print("{} energy difference: {}".format(energytype.capitalize(), diff))
     return list(zip_longest(energies[min_idx], energies[max_idx], it[min_idx], it[max_idx], diff))
 
 
@@ -692,39 +692,39 @@ def force_diff(atomindex="Tot", forcetype="atomic", path="i*"):
     print("x")
     min_idxx = np.where(forcesx == np.amin(forcesx)) \
         if len(argrelmin(forcesx)) == 1 else argrelmin(forcesx)
-    print(f"    Minima: {forcesx[min_idxx]}")
+    print("    Minima: {}".format(forcesx[min_idxx]))
     max_idxx = np.where(forcesx == np.amax(forcesx)) \
         if len(argrelmax(forcesx)) == 1 else argrelmax(forcesx)
-    print(f"    Maxima: {forcesx[max_idxx]}")
+    print("    Maxima: {}".format(forcesx[max_idxx]))
     diffx = np.absolute(forcesx[min_idxx] - forcesx[max_idxx])
-    print(f"    {forcetype.capitalize()} force difference: {diffx}")
+    print("    {} force difference: {}".format(forcetype.capitalize(), diffx))
     print("y")
     min_idxy = np.where(forcesy == np.amin(forcesy)) \
         if len(argrelmin(forcesy)) == 1 else argrelmin(forcesy)
-    print(f"    Minima: {forcesy[min_idxy]}")
+    print("    Minima: {}".format(forcesy[min_idxy]))
     max_idxy = np.where(forcesy == np.amax(forcesy)) \
         if len(argrelmax(forcesy)) == 1 else argrelmax(forcesy)
-    print(f"    Maxima: {forcesy[max_idxy]}")
+    print("    Maxima: {}".format(forcesy[max_idxy]))
     diffy = np.absolute(forcesy[min_idxy] - forcesy[max_idxy])
-    print(f"    {forcetype.capitalize()} force difference: {diffy}")
+    print("    {} force difference: {}".format(forcetype.capitalize(), diffy))
     print("z")
     min_idxz = np.where(forcesz == np.amin(forcesz)) \
         if len(argrelmin(forcesz)) == 1 else argrelmin(forcesz)
-    print(f"    Minima: {forcesz[min_idxz]}")
+    print("    Minima: {}".format(forcesz[min_idxz]))
     max_idxz = np.where(forcesz == np.amax(forcesz)) \
         if len(argrelmax(forcesz)) == 1 else argrelmax(forcesz)
-    print(f"    Maxima: {forcesz[max_idxz]}")
+    print("    Maxima: {}".format(forcesz[max_idxz]))
     diffz = np.absolute(forcesz[min_idxz] - forcesz[max_idxz])
-    print(f"    {forcetype.capitalize()} force difference: {diffz}")
+    print("    {} force difference: {}".format(forcetype.capitalize(), diffz))
     print("Resultant")
     min_idxr = np.where(forcesr == np.amin(forcesr)) \
         if len(argrelmin(forcesr)) == 1 else argrelmin(forcesr)
-    print(f"    Minima: {forcesr[min_idxr]}")
+    print("    Minima: {}".format(forcesr[min_idxr]))
     max_idxr = np.where(forcesr == np.amax(forcesr)) \
         if len(argrelmax(forcesr)) == 1 else argrelmax(forcesr)
-    print(f"    Maxima: {forcesr[max_idxr]}")
+    print("    Maxima: {}".format(forcesr[max_idxr]))
     diffr = np.absolute(forcesr[min_idxr] - forcesr[max_idxr])
-    print(f"    {forcetype.capitalize()} force difference: {diffr}")
+    print("    {} force difference: {}".format(forcetype.capitalize(), diffr))
     return [
         list(zip_longest(forcesx[min_idxx], forcesx[max_idxx], it[min_idxx], it[max_idxx], diffx)),
         list(zip_longest(forcesy[min_idxy], forcesy[max_idxy], it[min_idxy], it[max_idxy], diffy)),
@@ -744,8 +744,8 @@ def pair_correlation_function(label=None, path="i*", dr=0.1, plot_=True):
                         g(r)
         reference_indices   indices of reference particles
     """
-    fdfpath = glob.glob(f"{path}{os.sep}{label}.fdf")
-    fdfpath += glob.glob(f"{path}{os.sep}{settings.get_cont()}*{os.sep}{label}.fdf")
+    fdfpath = glob.glob("{}{}{}.fdf".format(path, os.sep, label))
+    fdfpath += glob.glob("{}{}{}*{}{}.fdf".format(path, os.sep, settings.get_cont(), os.sep, label))
     fdfpath = sort_(fdfpath, path, settings.get_cont())[-1]
     x, y, z = coords(fdfpath)
     x = np.array([_ * 0.1 for _ in x])
@@ -801,23 +801,23 @@ def _command(label=None, issingle=False):
     """SIESTA's run command"""
     if settings.get_conda():
         sprun(
-            [f"{os.sep}usr{os.sep}bin{os.sep}conda", "activate", settings.get_conda()]
+            ["{}usr{}bin{}conda".format(os.sep, os.sep, os.sep), "activate", settings.get_conda()]
             if os.name == "posix"
             else
-            [f"C:{os.sep}{os.sep}Anaconda3{os.sep}Scripts{os.sep}activate", settings.get_conda()],
+            ["C:{}{}Anaconda3{}Scripts{}activate".format(os.sep, os.sep, os.sep, os.sep), settings.get_conda()],
             check=True,
             shell=False
         )
     with open(settings.get_log(), "w", encoding="utf-8") as logger:
         with Popen(
             shlex.split(
-                f"mpirun -np {settings.get_cores()} " if settings.get_cores() is not None else "" +
-                f"{settings.get_siesta()} {label}.fdf"
+                "mpirun -np {} ".format(settings.get_cores()) if settings.get_cores() is not None else "" +
+                "{} {}.fdf".format(settings.get_siesta(), label)
             ),
             shell=False,
             stdout=logger
         ) as job:
-            print(f"PID is {job.pid}")
+            print("PID is {}".format(job.pid))
             for line in tail("-f", settings.get_log(), _iter=True):
                 print(line.strip("\n"))
                 if line == "Job completed\n" and issingle is False:
@@ -825,35 +825,35 @@ def _command(label=None, issingle=False):
 
 
 def _cont_step(contfolder, i, label, issingle=False):
-    print(f"Making directory '{contfolder}' under i{i}")
-    os.mkdir(f"{settings.get_cwd()}{os.sep}i{i}{os.sep}{contfolder}")
-    contnummatch = re.search(f"{settings.get_cont()}_([0-9]+)", contfolder)
+    print("Making directory '{}' under i{}".format(contfolder, i))
+    os.mkdir("{}{}i{}{}{}".format(settings.get_cwd(), os.sep, i, os.sep, contfolder))
+    contnummatch = re.search("{}_([0-9]+)".format(settings.get_cont()), contfolder)
     contnum = contnummatch[1] if contnummatch is not None else "-1"
     if int(contnum) == 2:
         copy_files(
             settings.contextensions,
             label,
-            f"{settings.get_cwd()}{os.sep}i{i}{os.sep}{settings.get_cont()}",
-            f"{settings.get_cwd()}{os.sep}i{i}{os.sep}{contfolder}"
+            "{}{}i{}{}{}".format(settings.get_cwd(), os.sep, i, os.sep, settings.get_cont()),
+            "{}{}i{}{}{}".format(settings.get_cwd(), os.sep, i, os.sep, contfolder)
         )
     elif int(contnum) > 2:
         copy_files(
             settings.contextensions,
             label,
-            f"{settings.get_cwd()}{os.sep}i{i}{os.sep}{settings.get_cont()}_{int(contnum) - 1}",
-            f"{settings.get_cwd()}{os.sep}i{i}{os.sep}{contfolder}"
+            "{}{}i{}{}{}_{}".format(settings.get_cwd(), os.sep, i, os.sep, settings.get_cont(), int(contnum) - 1),
+            "{}{}i{}{}{}".format(settings.get_cwd(), os.sep, i, os.sep, contfolder)
         )
     elif contnummatch is None:
         copy_files(
             settings.contextensions,
             label,
-            f"{settings.get_cwd()}{os.sep}i{i}",
-            f"{settings.get_cwd()}{os.sep}i{i}{os.sep}{contfolder}"
+            "{}{}i{}".format(settings.get_cwd(), os.sep, i),
+            "{}{}i{}{}{}".format(settings.get_cwd(), os.sep, i, os.sep, contfolder)
         )
-    os.chdir(f"{settings.get_cwd()}{os.sep}i{i}{os.sep}{contfolder}")
-    print(f"Changed directory to {os.getcwd()}")
-    print(f"Opening {settings.get_cwd()}{os.sep}i{i}{os.sep}{contfolder}{os.sep}{label}.fdf")
-    with open(f"{label}.fdf", "r+", encoding="utf-8") as fdffile:
+    os.chdir("{}{}i{}{}{}".format(settings.get_cwd(), os.sep, i, os.sep, contfolder))
+    print("Changed directory to {}".format(os.getcwd()))
+    print("Opening {}{}i{}{}{}{}{}.fdf".format(settings.get_cwd(), os.sep, i, os.sep, contfolder, os.sep, label))
+    with open("{}.fdf".format(label), "r+", encoding="utf-8") as fdffile:
         check_restart(
             fdffile=fdffile,
             i=i,
@@ -863,5 +863,5 @@ def _cont_step(contfolder, i, label, issingle=False):
             contextensions=settings.contextensions
         )
         fdffile.close()
-    print_run(f"i{i}{os.sep}{contfolder}", settings.get_cores(), settings.get_conda())
+    print_run("i{}{}{}".format(i, os.sep, contfolder), settings.get_cores(), settings.get_conda())
     _command(label=label, issingle=issingle)
