@@ -49,19 +49,19 @@ mpath = mfile.replace("/SIESTAstepper/__init__.py", "")
 def test_ani_to_fdf():
     """Tests for ani_to_fdf"""
     assert ani_to_fdf_tester(
-        f"{0}{1}tests{1}assets{1}ANI{1}C-4.ANI".format(mpath, os.sep),
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}fdf{os.sep}C-0.fdf",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}C-5.fdf"
-    ) == read_file(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}fdf{os.sep}C-5.fdf")
+        "{0}{1}tests{1}assets{1}ANI{1}C-4.ANI".format(mpath, os.sep),
+        "{0}{1}tests{1}assets{1}fdf{1}C-0.fdf".format(mpath, os.sep),
+        "{0}{1}tests{1}assets{1}temp{1}C-5.fdf".format(mpath, os.sep)
+    ) == read_file("{0}{1}tests{1}assets{1}fdf{1}C-5.fdf".format(mpath, os.sep))
 
 
 def test_xyz_to_fdf():
     """Tests for xyz_to_fdf"""
     assert xyz_to_fdf_tester(
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}xyz{os.sep}C.xyz",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}fdf{os.sep}C-0.fdf",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}C-1.fdf"
-    ) == read_file(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}fdf{os.sep}C-1.fdf")
+        "{0}{1}tests{1}assets{1}xyz{1}C.xyz".format(mpath, os.sep),
+        "{0}{1}tests{1}assets{1}fdf{1}C-0.fdf".format(mpath, os.sep),
+        "{0}{1}tests{1}assets{1}temp{1}C-1.fdf".format(mpath, os.sep)
+    ) == read_file("{0}{1}tests{0}assets{1}fdf{1}C-1.fdf".format(mpath, os.sep))
 
 
 def test_xv_to_fdf():
