@@ -929,6 +929,7 @@ def test_carbon_log_uninterrupted_project():
         (5, 0.000605, 0.0, 0.0, 0.000605)
     ]
     assert energy_diff_tester(cwd=settings.get_cwd()) == [(-299.845956, -297.982681, 4, 1, 1.8632749999999874)]
+    print(force_diff_tester(cwd=settings.get_cwd()))
     assert force_diff_tester(cwd=settings.get_cwd()) == [
         [(-0.010419, 0.016003, 2, 1, 0.026422)],
         [(0.0, 0.0, 1, 1, 0.0),
