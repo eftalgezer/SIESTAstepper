@@ -61,7 +61,7 @@ def read_file(file):
 def clear_temp():
     """Clears the temp folder"""
     for filename in os.listdir("{0}{1}tests{1}assets{1}temp".format(mpath, os.sep)):
-        filepath = os.path.join("{}{}tests{}assets{}temp".format(mpath, os.sep, os.sep, os.sep), filename)
+        filepath = os.path.join(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp", filename)
         if os.path.isfile(filepath) or os.path.islink(filepath):
             os.unlink(filepath)
         elif os.path.isdir(filepath):
@@ -70,27 +70,27 @@ def clear_temp():
 def initialise_fake_project(function="run"):
     """Initialise fake project to test"""
     if function == "run":
-        files = glob.glob("{}{}tests{}assets{}runs{}{}{}*".format(mpath, os.sep, os.sep, os.sep, os.sep, fakeproject, os.sep))
+        files = glob.glob(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}{fakeproject}{os.sep}*")
         for f in files:
             if os.path.isfile(f):
                 shutil.copy(f, f.replace("runs", "temp"))
     if function.startswith("run_next") or function.startswith("single_run"):
         i = int(function.split(" ")[1])
         files = glob.glob(
-            "{}{}tests{}assets{}runs{}{}{}i*{}*".format(mpath, os.sep, os.sep, os.sep, os.sep, fakeproject, os.sep, os.sep)
+            f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}{fakeproject}{os.sep}i*{os.sep}*"
         )
         for f in files:
             fname = f.split(os.sep)[-1]
             match = re.search(
-                "{}{}tests{}assets{}runs{}{}{}i([0-9]+){}{}".format(mpath, os.sep, os.sep, os.sep, os.sep, fakeproject, os.sep, os.sep, fname),
+                f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}{fakeproject}{os.sep}i([0-9]+){os.sep}{fname}",
                 f
             )
             if int(match[1]) <= i and os.path.isfile(f):
                 if not os.path.exists(
-                        "{}{}tests{}assets{}temp{}{}{}i{}".format(mpath, os.sep, os.sep, os.sep, os.sep, fakeproject, os.sep, match[1])
+                        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{fakeproject}{os.sep}i{match[1]}"
                 ):
                     os.mkdir(
-                        "{}{}tests{}assets{}temp{}{}{}i{}".format(mpath, os.sep, os.sep, os.sep, os.sep, fakeproject, os.sep, match[1])
+                        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{fakeproject}{os.sep}i{match[1]}"
                     )
                 shutil.copy(f, f.replace("runs", "temp"))
     if function.startswith("run_interrupted") or function.startswith("single_run_interrupted"):
@@ -100,27 +100,27 @@ def initialise_fake_project(function="run"):
             c = int(function.split(" ")[2])
         except Exception:
             c = 1
-        files = glob.glob("{}{}tests{}assets{}runs{}{}{}i*{}*".format(mpath, os.sep, os.sep, os.sep, os.sep, fakeproject, os.sep, os.sep))
+        files = glob.glob(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}{fakeproject}{os.sep}i*{os.sep}*")
         files += glob.glob(
-            "{}{}tests{}assets{}runs{}{}{}".format(mpath, os.sep, os.sep, os.sep, os.sep, fakeproject, os.sep) +
-            "i*{}{}*{}*".format(os.sep, settings.get_cont(), os.sep)
+            f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}{fakeproject}{os.sep}" +
+            f"i*{os.sep}{settings.get_cont()}*{os.sep}*"
         )
         files = sort_([f for f in files if os.path.isfile(f)], "i*", settings.get_cont())
         for f in files:
             fname = f.split(os.sep)[-1]
             match = re.search(
-                "{}{}tests{}assets{}runs{}{}{}i([0-9]+)".format(mpath, os.sep, os.sep, os.sep, os.sep, fakeproject, os.sep) +
-                "({}{}_*[0-9]*)?{}{}".format(os.sep, settings.get_cont(), os.sep, fname),
+                f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}{fakeproject}{os.sep}i([0-9]+)" +
+                f"({os.sep}{settings.get_cont()}_*[0-9]*)?{os.sep}{fname}",
                 f
             )
             if int(match[1]) <= i and os.path.isfile(f):
                 if not os.path.exists(
-                        "{}{}tests{}assets{}temp{}{}{}i{}".format(mpath, os.sep, os.sep, os.sep, os.sep, fakeproject, os.sep, match[1]) +
-                        "{}".format(f'{match[2]}' if match[2] is not None else '')
+                        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{fakeproject}{os.sep}i{match[1]}" +
+                        f"{f'{match[2]}' if match[2] is not None else ''}"
                 ):
                     os.mkdir(
-                        "{}{}tests{}assets{}temp{}{}{}i{}".format(mpath, os.sep, os.sep, os.sep, os.sep, fakeproject, os.sep, match[1]) +
-                        "{}".format(f'{match[2]}' if match[2] is not None else '')
+                        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{fakeproject}{os.sep}i{match[1]}" +
+                        f"{f'{match[2]}' if match[2] is not None else ''}"
                     )
                 shutil.copy(f, f.replace("runs", "temp"))
                 if int(match[1]) == i and \
@@ -130,8 +130,8 @@ def initialise_fake_project(function="run"):
                             if settings.get_cont() + "_" in match[2] else
                             "1") > c - 1:
                     shutil.rmtree(
-                        "{}{}tests{}assets{}temp{}{}{}i{}".format(mpath, os.sep, os.sep, os.sep, os.sep, fakeproject, os.sep, match[1]) +
-                        "{}".format(f'{match[2]}' if match[2] is not None else '')
+                        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{fakeproject}{os.sep}i{match[1]}" +
+                        f"{f'{match[2]}' if match[2] is not None else ''}"
                     )
 
 
@@ -140,9 +140,9 @@ def fake_command(monkeypatch=MonkeyPatch()):
 
     def fake__command(label=None, issingle=False):
         """A fake SIESTA run command"""
-        realpath = os.getcwd().replace("{}temp{}".format(os.sep, os.sep), "{}runs{}".format(os.sep, os.sep))
-        with open("{}{}{}".format(realpath, os.sep, settings.get_log()), "r", encoding="utf-8") as reallog:
-            with open("{}{}{}".format(os.getcwd(), os.sep, settings.get_log()), "w", encoding="utf-8") as fakelog:
+        realpath = os.getcwd().replace(f"{os.sep}temp{os.sep}", f"{os.sep}runs{os.sep}")
+        with open(f"{realpath}{os.sep}{settings.get_log()}", "r", encoding="utf-8") as reallog:
+            with open(f"{os.getcwd()}{os.sep}{settings.get_log()}", "w", encoding="utf-8") as fakelog:
                 content = reallog.read()
                 fakelog.write(content)
                 print(content)
@@ -160,8 +160,8 @@ def fake_command(monkeypatch=MonkeyPatch()):
 def set_fake_project(newfakeproject):
     global fakeproject
     fakeproject = newfakeproject
-    if not os.path.exists("{}{}tests{}assets{}temp{}{}".format(mpath, os.sep, os.sep, os.sep, os.sep, fakeproject)):
-        os.mkdir("{}{}tests{}assets{}temp{}{}".format(mpath, os.sep, os.sep, os.sep, os.sep, fakeproject))
+    if not os.path.exists(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{fakeproject}"):
+        os.mkdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{fakeproject}")
 
 
 def get_fake_project():
@@ -211,28 +211,28 @@ def log_to_fdf(logpath, fdfpath, newfdfpath):
 
 def xv_to_ani(label=None, path="i*", folder=None):
     """Tester function for xv_to_ani"""
-    if os.path.exists("{}{}tests{}assets{}temp{}{}".format(mpath, os.sep, os.sep, os.sep, os.sep, folder)):
-        shutil.rmtree("{}{}tests{}assets{}temp{}{}".format(mpath, os.sep, os.sep, os.sep, os.sep, folder))
+    if os.path.exists(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{folder}"):
+        shutil.rmtree(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{folder}")
     shutil.copytree(
-        "{}{}tests{}assets{}runs{}{}".format(mpath, os.sep, os.sep, os.sep, os.sep, folder),
-        "{}{}tests{}assets{}temp{}{}".format(mpath, os.sep, os.sep, os.sep, os.sep, folder)
+        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}{folder}",
+        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{folder}"
     )
-    settings.set_cwd("{}{}tests{}assets{}temp{}{}".format(mpath, os.sep, os.sep, os.sep, os.sep, folder))
+    settings.set_cwd(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{folder}")
     xv_to_ani(label=label, path=path)
-    return read_file("{}{}tests{}assets{}temp{}{}{}{}-XV.ANI".format(mpath, os.sep, os.sep, os.sep, os.sep, folder, os.sep, label))
+    return read_file(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{folder}{os.sep}{label}-XV.ANI")
 
 
 def merge_ani_tester(label=None, path="i*", folder=None):
     """Tester function for merge_ani"""
-    if os.path.exists("{}{}tests{}assets{}temp{}{}".format(mpath, os.sep, os.sep, os.sep, os.sep, folder)):
-        shutil.rmtree("{}{}tests{}assets{}temp{}{}".format(mpath, os.sep, os.sep, os.sep, os.sep, folder))
+    if os.path.exists(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{folder}"):
+        shutil.rmtree(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{folder}")
     shutil.copytree(
-        "{}{}tests{}assets{}runs{}{}".format(mpath, os.sep, os.sep, os.sep, os.sep, folder),
-        "{}{}tests{}assets{}temp{}{}".format(mpath, os.sep, os.sep, os.sep, os.sep, folder)
+        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}{folder}",
+        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{folder}"
     )
-    settings.set_cwd("{}{}tests{}assets{}temp{}{}".format(mpath, os.sep, os.sep, os.sep, os.sep, folder))
+    settings.set_cwd(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{folder}")
     merge_ani(label=label, path=path)
-    return read_file("{}{}tests{}assets{}temp{}{}{}{}-merged.ANI".format(mpath, os.sep, os.sep, os.sep, os.sep, folder, os.sep, label))
+    return read_file(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{folder}{os.sep}{label}-merged.ANI")
 
 
 def run_tester(label):
@@ -271,8 +271,8 @@ def make_directories_tester(n):
     return sort_(
         list(
             glob.glob(
-                "{}{}i*".format(os.getcwd(), os.sep))),
-        "{}{}i*".format(os.getcwd(), os.sep),
+                f"{os.getcwd()}{os.sep}i*")),
+        f"{os.getcwd()}{os.sep}i*",
         ""
     )
 
@@ -284,13 +284,13 @@ def copy_files_tester(extensions, label, source_, destination):
     if extensions is not None:
         for ext in extensions:
             if ext == "psf":
-                files = glob.glob("{}{}*.psf".format(destination, os.sep))
+                files = glob.glob(f"{destination}{os.sep}*.psf")
             elif ext == "ion":
-                files += glob.glob("{}{}*.ion".format(destination, os.sep))
+                files += glob.glob(f"{destination}{os.sep}*.ion")
             else:
-                files += glob.glob("{}{}{}.{}".format(destination, os.sep, label, ext))
+                files += glob.glob(f"{destination}{os.sep}{label}.{ext}")
     for cf in settings.contfiles:
-        files += glob.glob("{}{}{}".format(destination, os.sep, cf))
+        files += glob.glob(f"{destination}{os.sep}{cf}")
     return list(files)
 
 
@@ -330,8 +330,8 @@ def pair_correlation_function_tester(label=None, path="i*", dr=0.1, plot_=True, 
 
 def get_it_tester(path, cont):
     """Tester function for get_it"""
-    files = glob.glob("{}{}i*".format(path, os.sep))
-    files += glob.glob("{}{}i*{}{}*".format(path, os.sep, os.sep, cont))
+    files = glob.glob(f"{path}{os.sep}i*")
+    files += glob.glob(f"{path}{os.sep}i*{os.sep}{cont}*")
     return get_it(files)
 
 
@@ -347,8 +347,8 @@ def create_fdf_tester(fdf, geo, newfdfpath, number):
 
 
 def read_energy_tester(energies=[], path=None, cont=None, it=[], energytype="total"):
-    files = glob.glob("{}{}i*{}{}".format(path, os.sep, os.sep, settings.get_log()))
-    files += glob.glob("{}{}i*{}{}*{}{}".format(path, os.sep, os.sep, cont, os.sep, settings.get_log()))
+    files = glob.glob(f"{path}{os.sep}i*{os.sep}{settings.get_log()}")
+    files += glob.glob(f"{path}{os.sep}i*{os.sep}{cont}*{os.sep}{settings.get_log()}")
     files = sort_(files, "i*", cont)
     read_energy(energies, files, it, energytype)
     return it, energies
@@ -366,8 +366,8 @@ def print_run_tester(for_, cores, conda):
 def check_restart_tester(fdffile, i, label, cwd, cont, context):
     """Tester function for check_restart"""
     file = fdffile.split(os.sep)[-1]
-    copy_file(fdffile, "{}{}tests{}assets{}temp{}{}".format(mpath, os.sep, os.sep, os.sep, os.sep, file))
-    fdffile = "{}{}tests{}assets{}temp{}{}".format(mpath, os.sep, os.sep, os.sep, os.sep, file)
+    copy_file(fdffile, f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{file}")
+    fdffile = f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{file}"
     with open(fdffile, "r+", encoding="utf-8") as f:
         check_restart(fdffile=f, i=i, label=label, cwd=cwd, cont=cont, contextensions=context)
         f.close()
