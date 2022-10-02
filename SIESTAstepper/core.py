@@ -113,7 +113,7 @@ settings = Settings()
 
 def run_next(i, label):
     """Run SIESTA for given step"""
-    logs = glob.glob(f"i{int(i) - 1}{os.sep}{settings.get_log()}")
+    logs = glob.glob("i{0}{1}{2}".format(int(i) - 1, os.sep, settings.get_log()))
     logs += glob.glob(f"i{int(i) - 1}{os.sep}{settings.get_cont()}*{os.sep}{settings.get_log()}")
     logs = sort_(logs, "i*", settings.get_cont())
     if logs and settings.get_cont() in logs[-1]:

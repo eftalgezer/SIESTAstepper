@@ -26,7 +26,7 @@ from .core import (
 )
 
 
-def main(*, args):
+def main(args):
     """Main function"""
     function = args[1]
     for arg in args:

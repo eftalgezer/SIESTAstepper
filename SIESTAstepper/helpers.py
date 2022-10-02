@@ -13,7 +13,7 @@ import math
 def get_it(files):
     """Get a list of iterations"""
     try:
-        return [int(re.search(f"{os.sep}i([0-9]+)", f).groups(0)[0]) for f in files]
+        return [int(re.search("{0}i([0-9]+)".format(os.sep), f).groups(0)[0]) for f in files]
     except AttributeError as e:
         raise AttributeError(
             f"ERROR: The path must be in format of 'path{os.sep}to{os.sep}i1'"
