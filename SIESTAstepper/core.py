@@ -114,7 +114,7 @@ settings = Settings()
 def run_next(i, label):
     """Run SIESTA for given step"""
     logs = glob.glob("i{0}{1}{2}".format(int(i) - 1, os.sep, settings.get_log()))
-    logs += glob.glob("i{3}{0}{1}*{0}{2}".format(os.sep, settings.get_cont(), settings.get_log()), int(i) - 1)
+    logs += glob.glob("i{0}{1}{2}*{1}{3}".format(int(i) - 1, os.sep, settings.get_cont(), settings.get_log()))
     logs = sort_(logs, "i*", settings.get_cont())
     if logs and settings.get_cont() in logs[-1]:
         match = re.search("i{3}{0}{1}(_*[0-9]*)".format(os.sep, settings.get_cont()), logs[-1], int(i) - 1)
