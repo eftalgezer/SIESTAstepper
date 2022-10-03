@@ -76,21 +76,21 @@ def test_xv_to_fdf():
 def test_merge_ani():
     """Tests for merge_ani"""
     assert merge_ani_tester(label="C", folder="Carbon") == read_file(
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}ANI{os.sep}C-merged.ANI"
+        "{0}{1}tests{1}assets{1}ANI{1}C-merged.ANI".format(mpath, os.sep)
     )
 
 
 def test_make_directories():
     """Tests for make_directories"""
-    if not os.path.isdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon"):
-        os.mkdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon")
-    os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon")
+    if not os.path.isdir("{0}{1}tests{1}assets{1}temp{1}Carbon".format(mpath, os.sep)):
+        os.mkdir("{0}{1}tests{1}assets{1}temp{1}Carbon".format(mpath, os.sep))
+    os.chdir("{0}{1}tests{1}assets{1}temp{1}Carbon".format(mpath, os.sep))
     assert make_directories_tester(5) == [
-        f"{os.getcwd()}{os.sep}i1",
-        f"{os.getcwd()}{os.sep}i2",
-        f"{os.getcwd()}{os.sep}i3",
-        f"{os.getcwd()}{os.sep}i4",
-        f"{os.getcwd()}{os.sep}i5"
+        "{0}{1}i1".format(os.getcwd(), os.sep),
+        "{0}{1}i2".format(os.getcwd(), os.sep),
+        "{0}{1}i3".format(os.getcwd(), os.sep),
+        "{0}{1}i4".format(os.getcwd(), os.sep),
+        "{0}{1}i5".format(os.getcwd(), os.sep)
     ]
 
 
@@ -98,12 +98,12 @@ def test_copy_files():
     """Tests for copy_files"""
     assert copy_files_tester(
         ["psf", "DM", "XV"], "C",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}Carbon{os.sep}i1",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon{os.sep}i2"
+        "{0}{1}tests{1}assets{1}runs{1}Carbon{1}i1".format(mpath, os.sep),
+        "{0}{1}tests{1}assets{1}temp{1}Carbon{1}i2".format(mpath, os.sep)
     ) == [
-               f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon{os.sep}i2{os.sep}C.psf",
-               f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon{os.sep}i2{os.sep}C.DM",
-               f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon{os.sep}i2{os.sep}C.XV"
+               "{0}{1}tests{1}assets{1}temp{1}Carbon{1}i2{1}C.psf".format(mpath, os.sep),
+               "{0}{1}tests{1}assets{1}temp{1}Carbon{1}i2{1}C.DM".format(mpath, os.sep),
+               "{0}{1}tests{1}assets{1}temp{1}Carbon{1}i2{1}C.XV".format(mpath, os.sep)
            ]
 
 
@@ -111,7 +111,7 @@ def test_energy_analysis():
     """Tests for energy_analysis"""
     assert energy_analysis_tester(
         path="i*",
-        cwd=f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}Carbon"
+        cwd="{0}{1}tests{1}assets{1}runs{1}Carbon".format(mpath, os.sep)
     ) == [
                (1, -297.982681),
                (2, -299.171055),
@@ -123,7 +123,7 @@ def test_energy_analysis():
 
 def test_force_analysis():
     """Tests for force_analysis"""
-    assert force_analysis_tester(cwd=f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}Carbon") == [
+    assert force_analysis_tester(cwd="{0}{1}tests{1}assets{1}runs{1}Carbon".format(mpath, os.sep)) == [
         (1, 0.016003, 0.0, 0.0, 0.016003),
         (2, -0.010419, -0.0, -0.0, 0.010419),
         (3, 0.00139, 0.0, 0.0, 0.00139),
@@ -136,13 +136,13 @@ def test_energy_diff():
     """Tests for energy_diff"""
     assert energy_diff_tester(
         path="i*",
-        cwd=f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}Carbon"
+        cwd="{0}{1}tests{1}assets{1}runs{1}Carbon".format(mpath, os.sep)
     ) == [(-299.845957, -297.982681, 4, 1, 1.8632759999999848)]
 
 
 def test_force_diff():
     """Tests for force_diff"""
-    assert force_diff_tester(cwd=f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}Carbon") == [
+    assert force_diff_tester(cwd="{0}{1}tests{1}assets{1}runs{1}Carbon".format(mpath, os.sep)) == [
         [(-0.010419, 0.016003, 2, 1, 0.026422)],
         [(0.0, 0.0, 1, 1, 0.0),
          (-0.0, -0.0, 2, 2, 0.0),
@@ -161,14 +161,14 @@ def test_force_diff():
 def test_get_it():
     """Tests for get_it"""
     assert sorted(get_it_tester(
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}Carbon", "continue"
+        "{0}{1}tests{1}assets{1}runs{1}Carbon".format(mpath, os.sep), "continue"
     )) == [1, 2, 3, 3, 3, 4, 5]
 
 
 def test_read_fdf():
     """Tests for read_fdf"""
     assert read_fdf_tester(
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}fdf{os.sep}C-4.fdf",
+        "{0}{1}tests{1}assets{1}fdf{1}C-4.fdf".format(mpath, os.sep),
         ['C       0.382434   -0.000000   -0.000000', 'C       1.636103   -0.000000   -0.000000']
     ) == ("SystemName          Carbon\nSystemLabel         C\nWriteMDXmol            .true.\n" +
           "SolutionMethod     diagonal\nNumberOfSpecies     1\n%block ChemicalSpeciesLabel\n1    6    C\n" +
@@ -217,16 +217,16 @@ def test_create_fdf():
         "       0.335673   -0.000000   -0.000000  1\n       1.683000   -0.000000   -0.000000  1\n" +
         "%endblock AtomicCoordinatesAndAtomicSpecies\n",
         ["       0.382434   -0.000000   -0.000000  1", "       1.636103   -0.000000   -0.000000  1"],
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}C-5.fdf",
+        "{0}{1}tests{1}assets{1}temp{1}C-5.fdf".format(mpath, os.sep),
         "2"
-    ) == read_file(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}fdf{os.sep}C-5.fdf")
+    ) == read_file("{0}{1}tests{1}assets{1}fdf{1}C-5.fdf".format(mpath, os.sep))
 
 
 def test_read_energy():
     """Tests for read_energy"""
     assert read_energy_tester(
         energies=[],
-        path=f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}Carbon",
+        path="{0}{1}tests{1}assets{1}runs{1}Carbon".format(mpath, os.sep),
         cont="continue",
         it=[]
     ) == ([1, 2, 3, 3, 3, 4, 5], [-297.982681, -299.171055, -299.791356, -299.845957, -299.498399])
@@ -242,143 +242,145 @@ def test_print_run():
 def test_check_restart():
     """Tests for check_restart"""
     assert check_restart_tester(
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}fdf{os.sep}H2O-1_continue.fdf",
+        "{0}{1}tests{1}assets{1}fdf{1}H2O-1_continue.fdf".format(mpath, os.sep),
         "1",
         "H2O",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}fdf",
+        "{0}{1}tests{1}assets{1}fdf".format(mpath, os.sep),
         "continue",
         ["DM", "XV"]
-    ) == read_file(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}fdf{os.sep}H2O-1_continue_2.fdf")
+    ) == read_file("{0}{1}tests{1}assets{1}fdf{1}H2O-1_continue_2.fdf".format(mpath, os.sep))
 
 
 def test_check_userbasis():
     """Tests for check_userbasis"""
-    assert check_userbasis_tester(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}fdf{os.sep}C-1.fdf") is False
-    assert check_userbasis_tester(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}fdf{os.sep}C_userbasis-1.fdf") is True
+    assert check_userbasis_tester("{0}{1}tests{1}assets{1}fdf{1}C-1.fdf".format(mpath, os.sep)) is False
+    assert check_userbasis_tester("{0}{1}tests{1}assets{1}fdf{1}C_userbasis-1.fdf") is True
 
 
 def test_copy_file():
     """Tests for copy_file"""
     assert copy_file_tester(
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}fdf{os.sep}C-1.fdf",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}C-1 (1).fdf"
-    ) == [f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}C-1 (1).fdf"]
+        "{0}{1}tests{1}assets{1}fdf{1}C-1.fdf".format(mpath, os.sep),
+        "{0}{1}tests{1}assets{1}temp{1}C-1 (1).fdf".format(mpath, os.sep)
+    ) == ["{0}{1}tests{1}assets{1}temp{1}C-1 (1).fdf".format(mpath, os.sep)]
 
 
 def test_sort_():
     """Tests for sort_"""
     assert sort__tester(
         [
-            f"i1{os.sep}log",
-            f"i2{os.sep}log",
-            f"i3{os.sep}log",
-            f"i4{os.sep}log",
-            f"i2{os.sep}continue{os.sep}log",
-            f"i2{os.sep}continue_2{os.sep}log"
+            "i1{0}log".format(os.sep),
+            "i2{0}log".format(os.sep),
+            "i3{0}log".format(os.sep),
+            "i4{0}log".format(os.sep),
+            "i2{0}continue{0}log".format(os.sep),
+            "i2{0}continue_2{0}log".format(os.sep)
         ],
         "i*",
         "continue"
     ) == [
-               f"i1{os.sep}log",
-               f"i2{os.sep}log",
-               f"i2{os.sep}continue{os.sep}log",
-               f"i2{os.sep}continue_2{os.sep}log",
-               f"i3{os.sep}log",
-               f"i4{os.sep}log"
+               "i1{0}log".format(os.sep),
+               "i2{0}log".format(os.sep),
+               "i2{0}continue{0}log".format(os.sep),
+               "i2{0}continue_2{0}log".format(os.sep),
+               "i3{0}log".format(os.sep),
+               "i4{0}log".format(os.sep)
            ]
     assert sort__tester(
         [
-            f"i1{os.sep}log",
-            f"i11{os.sep}log",
-            f"i12{os.sep}log",
-            f"i13{os.sep}log",
-            f"i10{os.sep}log",
-            f"i2{os.sep}log",
-            f"i3{os.sep}log",
-            f"i4{os.sep}log",
-            f"i5{os.sep}log",
-            f"i6{os.sep}log",
-            f"i7{os.sep}log",
-            f"i8{os.sep}log",
-            f"i9{os.sep}log",
-            f"i11{os.sep}continue{os.sep}log",
-            f"i2{os.sep}continue{os.sep}log",
-            f"i2{os.sep}continue_2{os.sep}log"],
+            "i1{0}log".format(os.sep),
+            "i11{0}log".format(os.sep),
+            "i12{0}log".format(os.sep),
+            "i13{0}log".format(os.sep),
+            "i10{0}log".format(os.sep),
+            "i2{0}log".format(os.sep),
+            "i3{0}log".format(os.sep),
+            "i4{0}log".format(os.sep),
+            "i5{0}log".format(os.sep),
+            "i6{0}log".format(os.sep),
+            "i7{0}log".format(os.sep),
+            "i8{0}log".format(os.sep),
+            "i9{0}log".format(os.sep),
+            "i11{0}continue{0}log".format(os.sep),
+            "i2{0}continue{0}log".format(os.sep),
+            "i2{0}continue_2{0}log".format(os.sep)],
         "i*",
         "continue"
     ) == [
-               f"i1{os.sep}log",
-               f"i2{os.sep}log",
-               f"i2{os.sep}continue{os.sep}log",
-               f"i2{os.sep}continue_2{os.sep}log",
-               f"i3{os.sep}log",
-               f"i4{os.sep}log",
-               f"i5{os.sep}log",
-               f"i6{os.sep}log",
-               f"i7{os.sep}log",
-               f"i8{os.sep}log",
-               f"i9{os.sep}log",
-               f"i10{os.sep}log",
-               f"i11{os.sep}log",
-               f"i11{os.sep}continue{os.sep}log",
-               f"i12{os.sep}log",
-               f"i13{os.sep}log",
+               "i1{0}log".format(os.sep),
+               "i2{0}log".format(os.sep),
+               "i2{0}continue{0}log".format(os.sep),
+               "i2{0}continue_2{0}log".format(os.sep),
+               "i3{0}log".format(os.sep),
+               "i4{0}log".format(os.sep),
+               "i5{0}log".format(os.sep),
+               "i6{0}log".format(os.sep),
+               "i7{0}log".format(os.sep),
+               "i8{0}log".format(os.sep),
+               "i9{0}log".format(os.sep),
+               "i10{0}log.format(os.sep)",
+               "i11{0}log".format(os.sep),
+               "i11{0}continue{0}log".format(os.sep),
+               "i12{0}log".format(os.sep),
+               "i13{0}log".format(os.sep),
            ]
     assert sort__tester(
         [
-            f"i1{os.sep}C.ANI",
-            f"i2{os.sep}C.ANI",
-            f"i3{os.sep}C.ANI",
-            f"i4{os.sep}C.ANI",
-            f"i2{os.sep}continue{os.sep}C.ANI",
-            f"i2{os.sep}continue_2{os.sep}C.ANI"],
+            "i1{0}C.ANI".format(os.sep),
+            "i2{0}C.ANI".format(os.sep),
+            "i3{0}C.ANI".format(os.sep),
+            "i4{0}C.ANI".format(os.sep),
+            "i2{0}continue{0}C.ANI".format(os.sep),
+            "i2{0}continue_2{0}C.ANI".format(os.sep)
+        ],
         "i*",
         "continue"
     ) == [
-               f"i1{os.sep}C.ANI",
-               f"i2{os.sep}C.ANI",
-               f"i2{os.sep}continue{os.sep}C.ANI",
-               f"i2{os.sep}continue_2{os.sep}C.ANI",
-               f"i3{os.sep}C.ANI",
-               f"i4{os.sep}C.ANI"
+               "i1{0}C.ANI".format(os.sep),
+               "i2{0}C.ANI".format(os.sep),
+               "i2{0}continue{0}C.ANI".format(os.sep),
+               "i2{0}continue_2{0}C.ANI".format(os.sep),
+               "i3{0}C.ANI".format(os.sep),
+               "i4{0}C.ANI".format(os.sep)
            ]
     assert sort__tester(
         [
-            f"i1{os.sep}C.ANI",
-            f"i11{os.sep}C.ANI",
-            f"i12{os.sep}C.ANI",
-            f"i13{os.sep}C.ANI",
-            f"i10{os.sep}C.ANI",
-            f"i2{os.sep}C.ANI",
-            f"i3{os.sep}C.ANI",
-            f"i4{os.sep}C.ANI",
-            f"i5{os.sep}C.ANI",
-            f"i6{os.sep}C.ANI",
-            f"i7{os.sep}C.ANI",
-            f"i8{os.sep}C.ANI",
-            f"i9{os.sep}C.ANI",
-            f"i11{os.sep}continue{os.sep}C.ANI",
-            f"i2{os.sep}continue{os.sep}C.ANI",
-            f"i2{os.sep}continue_2{os.sep}C.ANI"],
+            "i1{0}C.ANI".format(os.sep),
+            "i11{0}C.ANI".format(os.sep),
+            "i12{0}C.ANI".format(os.sep),
+            "i13{0}C.ANI".format(os.sep),
+            "i10{0}C.ANI".format(os.sep),
+            "i2{0}C.ANI".format(os.sep),
+            "i3{0}C.ANI".format(os.sep),
+            "i4{0}C.ANI".format(os.sep),
+            "i5{0}C.ANI".format(os.sep),
+            "i6{0}C.ANI".format(os.sep),
+            "i7{0}C.ANI".format(os.sep),
+            "i8{0}C.ANI".format(os.sep),
+            "i9{0}C.ANI".format(os.sep),
+            "i11{0}continue{0}C.ANI".format(os.sep),
+            "i2{0}continue{0}C.ANI".format(os.sep),
+            "i2{0}continue_2{0}C.ANI".format(os.sep)
+        ],
         "i*",
         "continue"
     ) == [
-               f"i1{os.sep}C.ANI",
-               f"i2{os.sep}C.ANI",
-               f"i2{os.sep}continue{os.sep}C.ANI",
-               f"i2{os.sep}continue_2{os.sep}C.ANI",
-               f"i3{os.sep}C.ANI",
-               f"i4{os.sep}C.ANI",
-               f"i5{os.sep}C.ANI",
-               f"i6{os.sep}C.ANI",
-               f"i7{os.sep}C.ANI",
-               f"i8{os.sep}C.ANI",
-               f"i9{os.sep}C.ANI",
-               f"i10{os.sep}C.ANI",
-               f"i11{os.sep}C.ANI",
-               f"i11{os.sep}continue{os.sep}C.ANI",
-               f"i12{os.sep}C.ANI",
-               f"i13{os.sep}C.ANI"
+               "i1{0}C.ANI".format(os.sep),
+               "i2{0}C.ANI".format(os.sep),
+               "i2{0}continue{0}C.ANI".format(os.sep),
+               "i2{0}continue_2{0}C.ANI".format(os.sep),
+               "i3{0}C.ANI".format(os.sep),
+               "i4{0}C.ANI".format(os.sep),
+               "i5{0}C.ANI".format(os.sep),
+               "i6{0}C.ANI".format(os.sep),
+               "i7{0}C.ANI".format(os.sep),
+               "i8{0}C.ANI".format(os.sep),
+               "i9{0}C.ANI".format(os.sep),
+               "i10{0}C.ANI".format(os.sep),
+               "i11{0}C.ANI".format(os.sep),
+               "i11{0}continue{0}C.ANI".format(os.sep),
+               "i12{0}C.ANI".format(os.sep),
+               "i13{0}C.ANI".format(os.sep)
            ]
     assert sort__tester(
         [
@@ -386,15 +388,16 @@ def test_sort_():
             "i2",
             "i3",
             "i4",
-            f"i2{os.sep}continue",
-            f"i2{os.sep}continue_2"],
+            "i2{0}continue".format(os.sep),
+            "i2{0}continue_2".format(os.sep)
+        ],
         "i*",
         "continue"
     ) == [
                "i1",
                "i2",
-               f"i2{os.sep}continue",
-               f"i2{os.sep}continue_2",
+               "i2{0}continue".format(os.sep),
+               "i2{0}continue_2".format(os.sep),
                "i3",
                "i4"
            ]
@@ -413,16 +416,16 @@ def test_sort_():
             "i7",
             "i8",
             "i9",
-            f"i11{os.sep}continue",
-            f"i2{os.sep}continue",
-            f"i2{os.sep}continue_2"],
+            "i11{0}continue".format(os.sep),
+            "i2{0}continue".format(os.sep),
+            "i2{0}continue_2".format(os.sep)],
         "i*",
         "continue"
     ) == [
                "i1",
                "i2",
-               f"i2{os.sep}continue",
-               f"i2{os.sep}continue_2",
+               "i2{0}continue".format(os.sep),
+               "i2{0}continue_2".format(os.sep),
                "i3",
                "i4",
                "i5",
@@ -432,7 +435,7 @@ def test_sort_():
                "i9",
                "i10",
                "i11",
-               f"i11{os.sep}continue",
+               "i11{0}continue".format(os.sep),
                "i12",
                "i13"
            ]
@@ -442,59 +445,59 @@ def test_remove_nones():
     """Tests for remove_nones"""
     assert remove_nones_tester(
         [
-            f"{os.sep}home{os.sep}user{os.sep}compound{os.sep}i1{os.sep}log",
-            f"{os.sep}home{os.sep}user{os.sep}compound{os.sep}i2{os.sep}log",
-            f"{os.sep}home{os.sep}user{os.sep}compound{os.sep}i2{os.sep}continue{os.sep}log",
-            f"{os.sep}home{os.sep}user{os.sep}compound{os.sep}i2{os.sep}continue_2{os.sep}log",
-            f"{os.sep}home{os.sep}user{os.sep}compound{os.sep}i3{os.sep}log",
-            f"{os.sep}home{os.sep}user{os.sep}compound{os.sep}i4{os.sep}log"
+            "{0}home{0}user{0}compound{0}i1{0}log".format(os.sep),
+            "{0}home{0}user{0}compound{0}i2{0}log".format(os.sep),
+            "{0}home{0}user{0}compound{0}i2{0}continue{0}log".format(os.sep),
+            "{0}home{0}user{0}compound{0}i2{0}continue_2{0}log".format(os.sep),
+            "{0}home{0}user{0}compound{0}i3{0}log".format(os.sep),
+            "{0}home{0}user{0}compound{0}i4{0}log".format(os.sep)
         ],
         "i*",
-        f"{os.sep}home{os.sep}user{os.sep}compound",
+        "{0}home{0}user{0}compound".format(os.sep),
         "continue",
         "log"
     ) == [
-               f"{os.sep}home{os.sep}user{os.sep}compound{os.sep}i1{os.sep}log",
-               f"{os.sep}home{os.sep}user{os.sep}compound{os.sep}i2{os.sep}continue_2{os.sep}log",
-               f"{os.sep}home{os.sep}user{os.sep}compound{os.sep}i3{os.sep}log",
-               f"{os.sep}home{os.sep}user{os.sep}compound{os.sep}i4{os.sep}log"
+               "{0}home{0}user{0}compound{0}i1{0}log".format(os.sep),
+               "{0}home{0}user{0}compound{0}i2{0}continue_2{0}log".format(os.sep),
+               "{0}home{0}user{0}compound{0}i3{0}log".format(os.sep),
+               "{0}home{0}user{0}compound{0}i4{0}log".format(os.sep)
            ]
     assert remove_nones_tester([
-        f"{os.sep}home{os.sep}user{os.sep}compound{os.sep}i1{os.sep}log",
-        f"{os.sep}home{os.sep}user{os.sep}compound{os.sep}i2{os.sep}log",
-        f"{os.sep}home{os.sep}user{os.sep}compound{os.sep}i2{os.sep}continue{os.sep}log",
-        f"{os.sep}home{os.sep}user{os.sep}compound{os.sep}i2{os.sep}continue_2{os.sep}log",
-        f"{os.sep}home{os.sep}user{os.sep}compound{os.sep}i3{os.sep}log",
-        f"{os.sep}home{os.sep}user{os.sep}compound{os.sep}i4{os.sep}log",
-        f"{os.sep}home{os.sep}user{os.sep}compound{os.sep}i5{os.sep}log",
-        f"{os.sep}home{os.sep}user{os.sep}compound{os.sep}i6{os.sep}log",
-        f"{os.sep}home{os.sep}user{os.sep}compound{os.sep}i7{os.sep}log",
-        f"{os.sep}home{os.sep}user{os.sep}compound{os.sep}i8{os.sep}log",
-        f"{os.sep}home{os.sep}user{os.sep}compound{os.sep}i9{os.sep}log",
-        f"{os.sep}home{os.sep}user{os.sep}compound{os.sep}i10{os.sep}log",
-        f"{os.sep}home{os.sep}user{os.sep}compound{os.sep}i11{os.sep}log",
-        f"{os.sep}home{os.sep}user{os.sep}compound{os.sep}i11{os.sep}continue{os.sep}log",
-        f"{os.sep}home{os.sep}user{os.sep}compound{os.sep}i12{os.sep}log",
-        f"{os.sep}home{os.sep}user{os.sep}compound{os.sep}i13{os.sep}log"
+        "{0}home{0}user{0}compound{0}i1{0}log".format(os.sep),
+        "{0}home{0}user{0}compound{0}i2{0}log".format(os.sep),
+        "{0}home{0}user{0}compound{0}i2{0}continue{0}log".format(os.sep),
+        "{0}home{0}user{0}compound{0}i2{0}continue_2{0}log".format(os.sep),
+        "{0}home{0}user{0}compound{0}i3{0}log".format(os.sep),
+        "{0}home{0}user{0}compound{0}i4{0}log".format(os.sep),
+        "{0}home{0}user{0}compound{0}i5{0}log".format(os.sep),
+        "{0}home{0}user{0}compound{0}i6{0}log".format(os.sep),
+        "{0}home{0}user{0}compound{0}i7{0}log".format(os.sep),
+        "{0}home{0}user{0}compound{0}i8{0}log".format(os.sep),
+        "{0}home{0}user{0}compound{0}i9{0}log".format(os.sep),
+        "{0}home{0}user{0}compound{0}i10{0}log".format(os.sep),
+        "{0}home{0}user{0}compound{0}i11{0}log".format(os.sep),
+        "{0}home{0}user{0}compound{0}i11{0}continue{0}log".format(os.sep),
+        "{0}home{0}user{0}compound{0}i12{0}log".format(os.sep),
+        "{0}home{0}user{0}compound{0}i13{0}log".format(os.sep)
     ],
         "i*",
-        f"{os.sep}home{os.sep}user{os.sep}compound",
+        "{0}home{0}user{0}compound".format(os.sep),
         "continue",
         "log"
     ) == [
-               f"{os.sep}home{os.sep}user{os.sep}compound{os.sep}i1{os.sep}log",
-               f"{os.sep}home{os.sep}user{os.sep}compound{os.sep}i2{os.sep}continue_2{os.sep}log",
-               f"{os.sep}home{os.sep}user{os.sep}compound{os.sep}i3{os.sep}log",
-               f"{os.sep}home{os.sep}user{os.sep}compound{os.sep}i4{os.sep}log",
-               f"{os.sep}home{os.sep}user{os.sep}compound{os.sep}i5{os.sep}log",
-               f"{os.sep}home{os.sep}user{os.sep}compound{os.sep}i6{os.sep}log",
-               f"{os.sep}home{os.sep}user{os.sep}compound{os.sep}i7{os.sep}log",
-               f"{os.sep}home{os.sep}user{os.sep}compound{os.sep}i8{os.sep}log",
-               f"{os.sep}home{os.sep}user{os.sep}compound{os.sep}i9{os.sep}log",
-               f"{os.sep}home{os.sep}user{os.sep}compound{os.sep}i10{os.sep}log",
-               f"{os.sep}home{os.sep}user{os.sep}compound{os.sep}i11{os.sep}continue{os.sep}log",
-               f"{os.sep}home{os.sep}user{os.sep}compound{os.sep}i12{os.sep}log",
-               f"{os.sep}home{os.sep}user{os.sep}compound{os.sep}i13{os.sep}log"
+               "{0}home{0}user{0}compound{0}i1{0}log".format(os.sep),
+               "{0}home{0}user{0}compound{0}i2{0}continue_2{0}log".format(os.sep),
+               "{0}home{0}user{0}compound{0}i3{0}log".format(os.sep),
+               "{0}home{0}user{0}compound{0}i4{0}log".format(os.sep),
+               "{0}home{0}user{0}compound{0}i5{0}log".format(os.sep),
+               "{0}home{0}user{0}compound{0}i6{0}log".format(os.sep),
+               "{0}home{0}user{0}compound{0}i7{0}log".format(os.sep),
+               "{0}home{0}user{0}compound{0}i8{0}log".format(os.sep),
+               "{0}home{0}user{0}compound{0}i9{0}log".format(os.sep),
+               "{0}home{0}user{0}compound{0}i10{0}log".format(os.sep),
+               "{0}home{0}user{0}compound{0}i11{0}continue{0}log".format(os.sep),
+               "{0}home{0}user{0}compound{0}i12{0}log".format(os.sep),
+               "{0}home{0}user{0}compound{0}i13{0}log".format(os.sep)
            ]
 
 
@@ -503,19 +506,19 @@ def test_carbon_uninterrupted_project():
     fake_command()
     set_fake_project("Carbon_uninterrupted")
     initialise_fake_project()
-    os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
+    os.chdir("{0}{1}tests{1}assets{1}temp{1}{2}".format(mpath, os.sep, get_fake_project()))
     settings.set_cwd(os.getcwd())
     settings.set_contfrom("ANI")
     assert make_directories_tester(5) == [
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i1",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i2",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i3",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i4",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i5"
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i1".format(mpath, os.sep, get_fake_project()),
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i2".format(mpath, os.sep, get_fake_project()),
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i3".format(mpath, os.sep, get_fake_project()),
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i4".format(mpath, os.sep, get_fake_project()),
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i5".format(mpath, os.sep, get_fake_project())
     ]
-    assert copy_files_tester(["psf"], "C", ".", "i1") == [f"i1{os.sep}C.psf"]
-    assert xyz_to_fdf_tester("C.xyz", "C.fdf", f"i1{os.sep}C.fdf") == read_file(
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}{get_fake_project()}{os.sep}i1{os.sep}C.fdf"
+    assert copy_files_tester(["psf"], "C", ".", "i1") == ["i1{0}C.psf".format(os.sep)]
+    assert xyz_to_fdf_tester("C.xyz", "C.fdf", "i1{0}C.fdf".format(os.sep)) == read_file(
+        "{0}{1}tests{1}assets{1}runs{1}{2}{1}i1{1}C.fdf".format(mpath, os.sep, get_fake_project())
     )
     assert "All iterations are completed" in run_tester("C")
     assert energy_analysis_tester(cwd=settings.get_cwd()) == [
@@ -553,13 +556,13 @@ def test_carbon_uninterrupted_project_run_next():
     """Run tests based on Carbon_uninterrupted run run_next function"""
     fake_command()
     set_fake_project("Carbon_uninterrupted")
-    os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
+    os.chdir("{0}{1}tests{1}assets{1}temp{1}{2}".format(mpath, os.sep, get_fake_project()))
     assert make_directories_tester(5) == [
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i1",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i2",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i3",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i4",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i5"
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i1".format(mpath, os.sep, get_fake_project()),
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i2".format(mpath, os.sep, get_fake_project()),
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i3".format(mpath, os.sep, get_fake_project()),
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i4".format(mpath, os.sep, get_fake_project()),
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i5".format(mpath, os.sep, get_fake_project())
     ]
     settings.set_cwd(os.getcwd())
     settings.set_contfrom("ANI")
@@ -608,15 +611,15 @@ def test_carbon_uninterrupted_project_single_run():
     """Run tests based on Carbon_uninterrupted run single_run function"""
     fake_command()
     set_fake_project("Carbon_uninterrupted")
-    os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
+    os.chdir("{0}{1}tests{1}assets{1}temp{1}{2}".format(mpath, os.sep, get_fake_project()))
     settings.set_cwd(os.getcwd())
     settings.set_contfrom("ANI")
     assert make_directories_tester(5) == [
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i1",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i2",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i3",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i4",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i5"
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i1".format(mpath, os.sep, get_fake_project()),
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i2".format(mpath, os.sep, get_fake_project()),
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i3".format(mpath, os.sep, get_fake_project()),
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i4".format(mpath, os.sep, get_fake_project()),
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i5".format(mpath, os.sep, get_fake_project())
     ]
     initialise_fake_project("single_run 3")
     assert "Job completed\n" in single_run_tester("3", "C")
@@ -626,16 +629,16 @@ def test_carbon_project_run_interrupted():
     """Run tests based on Carbon run run_interrupted function"""
     fake_command()
     set_fake_project("Carbon")
-    os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
+    os.chdir("{0}{1}tests{1}assets{1}temp{1}{2}".format(mpath, os.sep, get_fake_project()))
     settings.set_cwd(os.getcwd())
     settings.set_cont("continue")
     settings.set_contfrom("ANI")
     assert make_directories_tester(5) == [
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i1",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i2",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i3",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i4",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i5"
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i1".format(mpath, os.sep, get_fake_project()),
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i2".format(mpath, os.sep, get_fake_project()),
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i3".format(mpath, os.sep, get_fake_project()),
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i4".format(mpath, os.sep, get_fake_project()),
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i5".format(mpath, os.sep, get_fake_project())
     ]
     initialise_fake_project("run_interrupted 3 2")
     assert "All iterations are completed" in run_interrupted_tester("3", "C")
@@ -682,15 +685,15 @@ def test_carbon_project_single_run_interrupted():
     """Run tests based on Carbon run single_run_interrupted function"""
     fake_command()
     set_fake_project("Carbon")
-    os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
+    os.chdir("{0}{1}tests{1}assets{1}temp{1}{2}".format(mpath, os.sep, get_fake_project()))
     settings.set_cwd(os.getcwd())
     settings.set_contfrom("ANI")
     assert make_directories_tester(5) == [
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i1",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i2",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i3",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i4",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i5"
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i1".format(mpath, os.sep, get_fake_project()),
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i2".format(mpath, os.sep, get_fake_project()),
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i3".format(mpath, os.sep, get_fake_project()),
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i4".format(mpath, os.sep, get_fake_project()),
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i5".format(mpath, os.sep, get_fake_project())
     ]
     initialise_fake_project("single_run_interrupted 3 2")
     assert "Job completed\n" in single_run_interrupted_tester("3", "C")
@@ -701,19 +704,19 @@ def test_carbon_xv_uninterrupted_project():
     fake_command()
     set_fake_project("Carbon_XV_uninterrupted")
     initialise_fake_project()
-    os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
+    os.chdir("{0}{1}tests{1}assets{1}temp{1}{2}".format(mpath, os.sep, get_fake_project()))
     settings.set_cwd(os.getcwd())
     settings.set_contfrom("XV")
     assert make_directories_tester(5) == [
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i1",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i2",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i3",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i4",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i5"
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i1".format(mpath, os.sep, get_fake_project()),
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i2".format(mpath, os.sep, get_fake_project()),
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i3".format(mpath, os.sep, get_fake_project()),
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i4".format(mpath, os.sep, get_fake_project()),
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i5".format(mpath, os.sep, get_fake_project())
     ]
-    assert copy_files_tester(["psf"], "C", ".", "i1") == [f"i1{os.sep}C.psf"]
-    assert xyz_to_fdf_tester("C.xyz", "C.fdf", f"i1{os.sep}C.fdf") == read_file(
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}{get_fake_project()}{os.sep}i1{os.sep}C.fdf"
+    assert copy_files_tester(["psf"], "C", ".", "i1") == ["i1{0}C.psf".format(os.sep)]
+    assert xyz_to_fdf_tester("C.xyz", "C.fdf", "i1{0}C.fdf".format(os.sep)) == read_file(
+        "{0}{1}tests{1}assets{1}runs{1}{2}{1}i1{1}C.fdf".format(mpath, os.sep, get_fake_project())
     )
     assert "All iterations are completed" in run_tester("C")
     assert energy_analysis_tester(cwd=settings.get_cwd()) == [
@@ -751,13 +754,13 @@ def test_carbon_xv_uninterrupted_project_run_next():
     """Run tests based on Carbon_XV_uninterrupted run run_next function"""
     fake_command()
     set_fake_project("Carbon_XV_uninterrupted")
-    os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
+    os.chdir("{0}{1}tests{1}assets{1}temp{1}{2}".format(mpath, os.sep, get_fake_project()))
     assert make_directories_tester(5) == [
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i1",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i2",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i3",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i4",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i5"
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i1".format(mpath, os.sep, get_fake_project()),
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i2".format(mpath, os.sep, get_fake_project()),
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i3".format(mpath, os.sep, get_fake_project()),
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i4".format(mpath, os.sep, get_fake_project()),
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i5".format(mpath, os.sep, get_fake_project())
     ]
     settings.set_cwd(os.getcwd())
     settings.set_contfrom("XV")
@@ -806,15 +809,15 @@ def test_carbon_xv_uninterrupted_project_single_run():
     """Run tests based on Carbon_XV_uninterrupted run single_run function"""
     fake_command()
     set_fake_project("Carbon_uninterrupted")
-    os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
+    os.chdir("{0}{1}tests{1}assets{1}temp{1}{2}".format(mpath, os.sep, get_fake_project()))
     settings.set_cwd(os.getcwd())
     settings.set_contfrom("XV")
     assert make_directories_tester(5) == [
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i1",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i2",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i3",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i4",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i5"
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i1".format(mpath, os.sep, get_fake_project()),
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i2".format(mpath, os.sep, get_fake_project()),
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i3".format(mpath, os.sep, get_fake_project()),
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i4".format(mpath, os.sep, get_fake_project()),
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i5".format(mpath, os.sep, get_fake_project())
     ]
     initialise_fake_project("single_run 3")
     assert "Job completed\n" in single_run_tester("3", "C")
@@ -824,16 +827,16 @@ def test_carbon_xv_project_run_interrupted():
     """Run tests based on Carbon_XV run run_interrupted function"""
     fake_command()
     set_fake_project("Carbon_XV")
-    os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
+    os.chdir("{0}{1}tests{1}assets{1}temp{1}{2}".format(mpath, os.sep, get_fake_project()))
     settings.set_cwd(os.getcwd())
     settings.set_cont("continue")
     settings.set_contfrom("XV")
     assert make_directories_tester(5) == [
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i1",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i2",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i3",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i4",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i5"
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i1".format(mpath, os.sep, get_fake_project()),
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i2".format(mpath, os.sep, get_fake_project()),
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i3".format(mpath, os.sep, get_fake_project()),
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i4".format(mpath, os.sep, get_fake_project()),
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i5".format(mpath, os.sep, get_fake_project())
     ]
     initialise_fake_project("run_interrupted 3 2")
     assert "All iterations are completed" in run_interrupted_tester("3", "C")
@@ -880,15 +883,15 @@ def test_carbon_xv_project_single_run_interrupted():
     """Run tests based on Carbon_XV run single_run_interrupted function"""
     fake_command()
     set_fake_project("Carbon_XV")
-    os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
+    os.chdir("{0}{1}tests{1}assets{1}temp{1}{2}".format(mpath, os.sep, get_fake_project()))
     settings.set_cwd(os.getcwd())
     settings.set_contfrom("XV")
     assert make_directories_tester(5) == [
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i1",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i2",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i3",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i4",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i5"
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i1".format(mpath, os.sep, get_fake_project()),
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i2".format(mpath, os.sep, get_fake_project()),
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i3".format(mpath, os.sep, get_fake_project()),
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i4".format(mpath, os.sep, get_fake_project()),
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i5".format(mpath, os.sep, get_fake_project())
     ]
     initialise_fake_project("single_run_interrupted 3 2")
     assert "Job completed\n" in single_run_interrupted_tester("3", "C")
@@ -899,19 +902,19 @@ def test_carbon_log_uninterrupted_project():
     fake_command()
     set_fake_project("Carbon_log_uninterrupted")
     initialise_fake_project()
-    os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
+    os.chdir("{0}{1}tests{1}assets{1}temp{1}{2}".format(mpath, os.sep, get_fake_project()))
     settings.set_cwd(os.getcwd())
     settings.set_contfrom("log")
     assert make_directories_tester(5) == [
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i1",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i2",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i3",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i4",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i5"
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i1".format(mpath, os.sep, get_fake_project()),
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i2".format(mpath, os.sep, get_fake_project()),
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i3".format(mpath, os.sep, get_fake_project()),
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i4".format(mpath, os.sep, get_fake_project()),
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i5".format(mpath, os.sep, get_fake_project())
     ]
-    assert copy_files_tester(["psf"], "C", ".", "i1") == [f"i1{os.sep}C.psf"]
-    assert xyz_to_fdf_tester("C.xyz", "C.fdf", f"i1{os.sep}C.fdf") == read_file(
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}{get_fake_project()}{os.sep}i1{os.sep}C.fdf"
+    assert copy_files_tester(["psf"], "C", ".", "i1") == ["i1{0}C.psf".format(os.sep)]
+    assert xyz_to_fdf_tester("C.xyz", "C.fdf", "i1{0}C.fdf".format(os.sep)) == read_file(
+        "{0}{1}tests{1}assets{1}runs{1}{2}{1}i1{1}C.fdf".format(mpath, os.sep, get_fake_project())
     )
     assert "All iterations are completed" in run_tester("C")
     assert energy_analysis_tester(cwd=settings.get_cwd()) == [
@@ -949,13 +952,13 @@ def test_carbon_log_uninterrupted_project_run_next():
     """Run tests based on Carbon_log_uninterrupted run run_next function"""
     fake_command()
     set_fake_project("Carbon_log_uninterrupted")
-    os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
+    os.chdir("{0}{1}tests{1}assets{1}temp{1}{2}".format(mpath, os.sep, get_fake_project()))
     assert make_directories_tester(5) == [
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i1",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i2",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i3",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i4",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i5"
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i1".format(mpath, os.sep, get_fake_project()),
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i2".format(mpath, os.sep, get_fake_project()),
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i3".format(mpath, os.sep, get_fake_project()),
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i4".format(mpath, os.sep, get_fake_project()),
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i5".format(mpath, os.sep, get_fake_project())
     ]
     settings.set_cwd(os.getcwd())
     settings.set_contfrom("log")
@@ -996,15 +999,15 @@ def test_carbon_log_uninterrupted_project_single_run():
     """Run tests based on Carbon_log_uninterrupted run single_run function"""
     fake_command()
     set_fake_project("Carbon_uninterrupted")
-    os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
+    os.chdir("{0}{1}tests{1}assets{1}temp{1}{2}".format(mpath, os.sep, get_fake_project()))
     settings.set_cwd(os.getcwd())
     settings.set_contfrom("log")
     assert make_directories_tester(5) == [
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i1",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i2",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i3",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i4",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i5"
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i1".format(mpath, os.sep, get_fake_project()),
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i2".format(mpath, os.sep, get_fake_project()),
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i3".format(mpath, os.sep, get_fake_project()),
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i4".format(mpath, os.sep, get_fake_project()),
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i5".format(mpath, os.sep, get_fake_project())
     ]
     initialise_fake_project("single_run 3")
     assert "Job completed\n" in single_run_tester("3", "C")
@@ -1014,16 +1017,16 @@ def test_carbon_log_project_run_interrupted():
     """Run tests based on Carbon_log run run_interrupted function"""
     fake_command()
     set_fake_project("Carbon_log")
-    os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
+    os.chdir("{0}{1}tests{1}assets{1}temp{1}{2}".format(mpath, os.sep, get_fake_project()))
     settings.set_cwd(os.getcwd())
     settings.set_cont("continue")
     settings.set_contfrom("log")
     assert make_directories_tester(5) == [
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i1",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i2",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i3",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i4",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i5"
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i1".format(mpath, os.sep, get_fake_project()),
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i2".format(mpath, os.sep, get_fake_project()),
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i3".format(mpath, os.sep, get_fake_project()),
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i4".format(mpath, os.sep, get_fake_project()),
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i5".format(mpath, os.sep, get_fake_project())
     ]
     initialise_fake_project("run_interrupted 3 2")
     assert "All iterations are completed" in run_interrupted_tester("3", "C")
@@ -1062,15 +1065,15 @@ def test_carbon_log_project_single_run_interrupted():
     """Run tests based on Carbon_log run single_run_interrupted function"""
     fake_command()
     set_fake_project("Carbon_log")
-    os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
+    os.chdir("{0}{1}tests{1}assets{1}temp{1}{2}".format(mpath, os.sep, get_fake_project()))
     settings.set_cwd(os.getcwd())
     settings.set_contfrom("log")
     assert make_directories_tester(5) == [
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i1",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i2",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i3",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i4",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}{os.sep}i5"
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i1".format(mpath, os.sep, get_fake_project()),
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i2".format(mpath, os.sep, get_fake_project()),
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i3".format(mpath, os.sep, get_fake_project()),
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i4".format(mpath, os.sep, get_fake_project()),
+        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i5".format(mpath, os.sep, get_fake_project())
     ]
     initialise_fake_project("single_run_interrupted 3 2")
     assert "Job completed\n" in single_run_interrupted_tester("3", "C")
@@ -1099,24 +1102,24 @@ def test_main():
         f" {mpath}{os.sep}tests{os.sep}assets{os.sep}fdf{os.sep}C-XV-1.fdf" +
         f" {mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}C-XV-2.fdf"
     )
-    if os.path.exists(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon"):
-        shutil.rmtree(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon")
+    if os.path.exists("{0}{1}tests{1}assets{1}temp{1}Carbon".format(0, 1)).format(mpath, os.sep):
+        shutil.rmtree("{0}{1}tests{1}assets{1}temp{1}Carbon".format(0, 1)).format(mpath, os.sep)
     shutil.copytree(
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}Carbon",
-        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon"
+        "{0}{1}tests{1}assets{1}runs{1}Carbon".format(mpath, os.sep),
+        "{0}{1}tests{1}assets{1}temp{1}Carbon".format(mpath, os.sep)
     )
-    settings.set_cwd(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon")
+    settings.set_cwd("{0}{1}tests{1}assets{1}temp{1}Carbon".format(0, 1)).format(mpath, os.sep)
     assert "All ANI files are merged" in main_tester("SIESTAstepper merge_ani C path=i*")
     clear_temp()
     set_fake_project("Carbon")
-    os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
+    os.chdir("{0}{1}tests{1}assets{1}temp{1}{2}".format(mpath, os.sep, get_fake_project()))
     settings.set_cwd(os.getcwd())
     assert make_directories_tester(5) == [
-        f"{os.getcwd()}{os.sep}i1",
-        f"{os.getcwd()}{os.sep}i2",
-        f"{os.getcwd()}{os.sep}i3",
-        f"{os.getcwd()}{os.sep}i4",
-        f"{os.getcwd()}{os.sep}i5"
+        "{0}{1}i1".format(os.getcwd(), os.sep),
+        "{0}{1}i2".format(os.getcwd(), os.sep),
+        "{0}{1}i3".format(os.getcwd(), os.sep),
+        "{0}{1}i4".format(os.getcwd(), os.sep),
+        "{0}{1}i5".format(os.getcwd(), os.sep)
     ]
     import glob
     assert len(main_tester(
@@ -1129,7 +1132,7 @@ def test_main():
         " XV" +
         " DM"
     ).split("successfully")) == 4
-    settings.set_cwd(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}Carbon")
+    settings.set_cwd("{0}{1}tests{1}assets{1}runs{1}Carbon".format(0, 1)).format(mpath, os.sep)
     os.chdir(settings.get_cwd())
     assert ((expr in main_tester("SIESTAstepper energy_analysis log total cont=continue path=i* noplot")) for expr in [
         "-297.982681",
@@ -1171,14 +1174,14 @@ def test_main_carbon_uninterrupted_project():
     """Run tests based on Carbon_uninterrupted run with __main__.py"""
     set_fake_project("Carbon_uninterrupted")
     initialise_fake_project()
-    os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
+    os.chdir("{0}{1}tests{1}assets{1}temp{1}{2}".format(mpath, os.sep, get_fake_project()))
     settings.set_cwd(os.getcwd())
     assert make_directories_tester(5) == [
-        f"{os.getcwd()}{os.sep}i1",
-        f"{os.getcwd()}{os.sep}i2",
-        f"{os.getcwd()}{os.sep}i3",
-        f"{os.getcwd()}{os.sep}i4",
-        f"{os.getcwd()}{os.sep}i5"
+        "{0}{1}i1".format(os.getcwd(), os.sep),
+        "{0}{1}i2".format(os.getcwd(), os.sep),
+        "{0}{1}i3".format(os.getcwd(), os.sep),
+        "{0}{1}i4".format(os.getcwd(), os.sep),
+        "{0}{1}i5".format(os.getcwd(), os.sep)
     ]
     assert len(main_tester(
         "SIESTAstepper" +
@@ -1238,7 +1241,7 @@ def test_main_carbon_uninterrupted_project_run_next():
     """Run tests based on Carbon_uninterrupted run run_next function with __main__.py"""
     fake_command()
     set_fake_project("Carbon_uninterrupted")
-    os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
+    os.chdir("{0}{1}tests{1}assets{1}temp{1}{2}".format(mpath, os.sep, get_fake_project()))
     settings.set_cwd(os.getcwd())
     assert ((expr in main_tester("SIESTAstepper make_directories 5")) for expr in [
         "i1 is created",
@@ -1289,7 +1292,7 @@ def test_main_carbon_uninterrupted_project_single_run():
     """Run tests based on Carbon_uninterrupted run single_run function with __main__.py"""
     fake_command()
     set_fake_project("Carbon_uninterrupted")
-    os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
+    os.chdir("{0}{1}tests{1}assets{1}temp{1}{2}".format(mpath, os.sep, get_fake_project()))
     settings.set_cwd(os.getcwd())
     assert ((expr in main_tester("SIESTAstepper make_directories 5")) for expr in [
         "i1 is created",
@@ -1306,14 +1309,14 @@ def test_main_carbon_project_run_interrupted():
     """Run tests based on Carbon run run_interrupted function with __main__.py"""
     fake_command()
     set_fake_project("Carbon")
-    os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
+    os.chdir("{0}{1}tests{1}assets{1}temp{1}{2}".format(mpath, os.sep, get_fake_project()))
     settings.set_cwd(os.getcwd())
     assert make_directories_tester(5) == [
-        f"{os.getcwd()}{os.sep}i1",
-        f"{os.getcwd()}{os.sep}i2",
-        f"{os.getcwd()}{os.sep}i3",
-        f"{os.getcwd()}{os.sep}i4",
-        f"{os.getcwd()}{os.sep}i5"
+        "{0}{1}i1".format(os.getcwd(), os.sep),
+        "{0}{1}i2".format(os.getcwd(), os.sep),
+        "{0}{1}i3".format(os.getcwd(), os.sep),
+        "{0}{1}i4".format(os.getcwd(), os.sep),
+        "{0}{1}i5".format(os.getcwd(), os.sep)
     ]
     initialise_fake_project("run_interrupted 3 2")
     assert "All iterations are completed" in main_tester(
@@ -1359,7 +1362,7 @@ def test_main_carbon_project_single_run_interrupted():
     """Run tests based on Carbon run single_run_interrupted function with __main__.py"""
     fake_command()
     set_fake_project("Carbon")
-    os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
+    os.chdir("{0}{1}tests{1}assets{1}temp{1}{2}".format(mpath, os.sep, get_fake_project()))
     settings.set_cwd(os.getcwd())
     assert ((expr in main_tester("SIESTAstepper make_directories 5")) for expr in [
         "i1 created",
@@ -1376,14 +1379,14 @@ def test_main_carbon_xv_uninterrupted_project():
     """Run tests based on Carbon_XV_uninterrupted run with __main__.py"""
     set_fake_project("Carbon_XV_uninterrupted")
     initialise_fake_project()
-    os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
+    os.chdir("{0}{1}tests{1}assets{1}temp{1}{2}".format(mpath, os.sep, get_fake_project()))
     settings.set_cwd(os.getcwd())
     assert make_directories_tester(5) == [
-        f"{os.getcwd()}{os.sep}i1",
-        f"{os.getcwd()}{os.sep}i2",
-        f"{os.getcwd()}{os.sep}i3",
-        f"{os.getcwd()}{os.sep}i4",
-        f"{os.getcwd()}{os.sep}i5"
+        "{0}{1}i1".format(os.getcwd(), os.sep),
+        "{0}{1}i2".format(os.getcwd(), os.sep),
+        "{0}{1}i3".format(os.getcwd(), os.sep),
+        "{0}{1}i4".format(os.getcwd(), os.sep),
+        "{0}{1}i5".format(os.getcwd(), os.sep)
     ]
     assert len(main_tester(
         "SIESTAstepper" +
@@ -1443,7 +1446,7 @@ def test_main_carbon_xv_uninterrupted_project_run_next():
     """Run tests based on Carbon_XV_uninterrupted run run_next function with __main__.py"""
     fake_command()
     set_fake_project("Carbon_XV_uninterrupted")
-    os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
+    os.chdir("{0}{1}tests{1}assets{1}temp{1}{2}".format(mpath, os.sep, get_fake_project()))
     settings.set_cwd(os.getcwd())
     assert ((expr in main_tester("SIESTAstepper make_directories 5")) for expr in [
         "i1 is created",
@@ -1494,7 +1497,7 @@ def test_main_carbon_xv_uninterrupted_project_single_run():
     """Run tests based on Carbon_XV_uninterrupted run single_run function with __main__.py"""
     fake_command()
     set_fake_project("Carbon_uninterrupted")
-    os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
+    os.chdir("{0}{1}tests{1}assets{1}temp{1}{2}".format(mpath, os.sep, get_fake_project()))
     settings.set_cwd(os.getcwd())
     assert ((expr in main_tester("SIESTAstepper make_directories 5")) for expr in [
         "i1 is created",
@@ -1511,14 +1514,14 @@ def test_main_carbon_xv_project_run_interrupted():
     """Run tests based on Carbon_XV run run_interrupted function with __main__.py"""
     fake_command()
     set_fake_project("Carbon_XV")
-    os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
+    os.chdir("{0}{1}tests{1}assets{1}temp{1}{2}".format(mpath, os.sep, get_fake_project()))
     settings.set_cwd(os.getcwd())
     assert make_directories_tester(5) == [
-        f"{os.getcwd()}{os.sep}i1",
-        f"{os.getcwd()}{os.sep}i2",
-        f"{os.getcwd()}{os.sep}i3",
-        f"{os.getcwd()}{os.sep}i4",
-        f"{os.getcwd()}{os.sep}i5"
+        "{0}{1}i1".format(os.getcwd(), os.sep),
+        "{0}{1}i2".format(os.getcwd(), os.sep),
+        "{0}{1}i3".format(os.getcwd(), os.sep),
+        "{0}{1}i4".format(os.getcwd(), os.sep),
+        "{0}{1}i5".format(os.getcwd(), os.sep)
     ]
     initialise_fake_project("run_interrupted 3 2")
     assert "All iterations are completed" in main_tester(
@@ -1564,7 +1567,7 @@ def test_main_carbon_xv_project_single_run_interrupted():
     """Run tests based on Carbon_XV run single_run_interrupted function with __main__.py"""
     fake_command()
     set_fake_project("Carbon_XV")
-    os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
+    os.chdir("{0}{1}tests{1}assets{1}temp{1}{2}".format(mpath, os.sep, get_fake_project()))
     settings.set_cwd(os.getcwd())
     assert ((expr in main_tester("SIESTAstepper make_directories 5")) for expr in [
         "i1 created",
@@ -1581,14 +1584,14 @@ def test_main_carbon_log_uninterrupted_project():
     """Run tests based on Carbon_log_uninterrupted run with __main__.py"""
     set_fake_project("Carbon_log_uninterrupted")
     initialise_fake_project()
-    os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
+    os.chdir("{0}{1}tests{1}assets{1}temp{1}{2}".format(mpath, os.sep, get_fake_project()))
     settings.set_cwd(os.getcwd())
     assert make_directories_tester(5) == [
-        f"{os.getcwd()}{os.sep}i1",
-        f"{os.getcwd()}{os.sep}i2",
-        f"{os.getcwd()}{os.sep}i3",
-        f"{os.getcwd()}{os.sep}i4",
-        f"{os.getcwd()}{os.sep}i5"
+        "{0}{1}i1".format(os.getcwd(), os.sep),
+        "{0}{1}i2".format(os.getcwd(), os.sep),
+        "{0}{1}i3".format(os.getcwd(), os.sep),
+        "{0}{1}i4".format(os.getcwd(), os.sep),
+        "{0}{1}i5".format(os.getcwd(), os.sep)
     ]
     assert len(main_tester(
         "SIESTAstepper" +
@@ -1648,7 +1651,7 @@ def test_main_carbon_log_uninterrupted_project_run_next():
     """Run tests based on Carbon_log_uninterrupted run run_next function with __main__.py"""
     fake_command()
     set_fake_project("Carbon_log_uninterrupted")
-    os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
+    os.chdir("{0}{1}tests{1}assets{1}temp{1}{2}".format(mpath, os.sep, get_fake_project()))
     settings.set_cwd(os.getcwd())
     assert ((expr in main_tester("SIESTAstepper make_directories 5")) for expr in [
         "i1 is created",
@@ -1699,7 +1702,7 @@ def test_main_carbon_log_uninterrupted_project_single_run():
     """Run tests based on Carbon_log_uninterrupted run single_run function with __main__.py"""
     fake_command()
     set_fake_project("Carbon_uninterrupted")
-    os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
+    os.chdir("{0}{1}tests{1}assets{1}temp{1}{2}".format(mpath, os.sep, get_fake_project()))
     settings.set_cwd(os.getcwd())
     assert ((expr in main_tester("SIESTAstepper make_directories 5")) for expr in [
         "i1 is created",
@@ -1716,14 +1719,14 @@ def test_main_carbon_log_project_run_interrupted():
     """Run tests based on Carbon_log run run_interrupted function with __main__.py"""
     fake_command()
     set_fake_project("Carbon_log")
-    os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
+    os.chdir("{0}{1}tests{1}assets{1}temp{1}{2}".format(mpath, os.sep, get_fake_project()))
     settings.set_cwd(os.getcwd())
     assert make_directories_tester(5) == [
-        f"{os.getcwd()}{os.sep}i1",
-        f"{os.getcwd()}{os.sep}i2",
-        f"{os.getcwd()}{os.sep}i3",
-        f"{os.getcwd()}{os.sep}i4",
-        f"{os.getcwd()}{os.sep}i5"
+        "{0}{1}i1".format(os.getcwd(), os.sep),
+        "{0}{1}i2".format(os.getcwd(), os.sep),
+        "{0}{1}i3".format(os.getcwd(), os.sep),
+        "{0}{1}i4".format(os.getcwd(), os.sep),
+        "{0}{1}i5".format(os.getcwd(), os.sep)
     ]
     initialise_fake_project("run_interrupted 3 2")
     assert "All iterations are completed" in main_tester(
@@ -1769,7 +1772,7 @@ def test_main_carbon_log_project_single_run_interrupted():
     """Run tests based on Carbon_log run single_run_interrupted function with __main__.py"""
     fake_command()
     set_fake_project("Carbon_log")
-    os.chdir(f"{mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}{get_fake_project()}")
+    os.chdir("{0}{1}tests{1}assets{1}temp{1}{2}".format(mpath, os.sep, get_fake_project()))
     settings.set_cwd(os.getcwd())
     assert ((expr in main_tester("SIESTAstepper make_directories 5")) for expr in [
         "i1 created",
@@ -1795,7 +1798,7 @@ class TestErrors(unittest.TestCase):
         with self.assertRaises(RuntimeError):
             pair_correlation_function_tester(
                 label="C",
-                cwd=f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}Carbon"
+                cwd="{0}{1}tests{1}assets{1}runs{1}Carbon".format(mpath, os.sep)
             )
 
     # def test_get_it(self):
@@ -1807,8 +1810,8 @@ class TestErrors(unittest.TestCase):
         """Error tests for copy_file"""
         # with self.assertRaises(shutil.SameFileError):
         #    copy_file_tester(
-        #        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}{get_fake_project()}{os.sep}i1{os.sep}C.fdf",
-        #        f"{mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}{get_fake_project()}{os.sep}i1{os.sep}C.fdf"
+        #        "{0}{1}tests{1}assets{1}runs{1}{2}{1}i1{1}C.fdf".format(mpath, os.sep, get_fake_project()),
+        #        "{0}{1}tests{1}assets{1}runs{1}{2}{1}i1{1}C.fdf".format(mpath, os.sep, get_fake_project())
         #    )
         with self.assertRaises(FileNotFoundError):
             copy_file_tester("Foo", "Bar")
