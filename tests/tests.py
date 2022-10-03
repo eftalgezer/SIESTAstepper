@@ -43,6 +43,12 @@ from .testers import (
     main_tester
 )
 
+try:
+    FileNotFoundError
+except NameError:
+    FileNotFoundError = IOError
+
+
 mpath = mfile.replace("/SIESTAstepper/__init__.py", "")
 
 
