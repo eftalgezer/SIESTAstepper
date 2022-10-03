@@ -118,7 +118,7 @@ def read_force(forces=[], files=None, it=[], atomindex="Tot", forcetype="atomic"
                 r"(-?[0-9]+\.[0-9]+) +" +
                 r"(-?[0-9]+\.[0-9]+) +" +
                 r"(-?[0-9]+\.[0-9]+)\n",
-                match[0]
+                match.group(0)
             )
             for part in parts:
                 if part[0] == atomindex:
@@ -215,7 +215,7 @@ def check_restart_ext(ext, fdf, match1, match2, repl, out, cwd, i, cont, label):
         fdf += "\n{0}\n".format(repl)
     else:
         print("Setting '{0}' as '.true.' in {1}{2}i{3}{2}{4}{2}{5}.fdf".format(out, cwd, os.sep, i, cont, label))
-        fdf = fdf.replace(match[0], repl)
+        fdf = fdf.replace(match.group(0), repl)
     if ext == "DM" and (re.search("WriteDM +.true.", fdf) is None
                         or re.search("# *WriteDM +.true.", fdf) is not None
                         or re.search("WriteDM +.false.", fdf) is not None):
@@ -264,7 +264,7 @@ def sort_(files, path, cont):
     path = path.replace("*", "([0-9]+)")
     sortedfiles = []
     match = [re.search("{0}({1}{2}_*([0-9]*))*".format(path, os.sep, cont), f) for f in files]
-    sortedmatch = [[m[0], m[1], m[2], m[3]] for m in match]
+    sortedmatch = [[m.group(0), mgroup(1), m.group(2), m.group(3)] for m in match]
     sortedmatch = [x for _, x in sorted(zip(
         [int("{0}0".format(m[1])) if m[3] is None else
          int("{0}1".format(m[1])) if m[3] == "" else
@@ -274,7 +274,7 @@ def sort_(files, path, cont):
     for s in sortedmatch:
         for f in files:
             fmatch = re.search("{0}({1}{2}_*([0-9]*))*".format(path, os.sep, cont), f)
-            if s[0] == fmatch[0] and f not in sortedfiles:
+            if s[0] == fmatch.group(0) and f not in sortedfiles:
                 sortedfiles.append(f)
     return sortedfiles
 
@@ -374,7 +374,7 @@ def coords(fdfpath):
             r"[ \t]*(-?[0-9]+\.[0-9]+)" +
             r"[ \t]*(-?[0-9]+\.[0-9]+)" +
             r"[ \t]+[0-9]+[ \t]*\n",
-            match[0]
+            match.group(0)
         )
         print("Getting coordinates from {0}".format(fdfpath))
         for part in parts:
@@ -398,7 +398,7 @@ def species(fdfpath):
             "%endblock ChemicalSpeciesLabel\n",
             fdffile.read()
         )
-        parts = re.findall("([0-9]+)[ \t]+([0-9]+)[ \t]+(.+)\n", match[0])
+        parts = re.findall("([0-9]+)[ \t]+([0-9]+)[ \t]+(.+)\n", match.group(0))
         print("Getting species from {0}".format(fdfpath))
         for part in parts:
             ids.append(part[0])
