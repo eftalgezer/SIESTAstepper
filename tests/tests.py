@@ -254,7 +254,7 @@ def test_check_restart():
 def test_check_userbasis():
     """Tests for check_userbasis"""
     assert check_userbasis_tester("{0}{1}tests{1}assets{1}fdf{1}C-1.fdf".format(mpath, os.sep)) is False
-    assert check_userbasis_tester("{0}{1}tests{1}assets{1}fdf{1}C_userbasis-1.fdf") is True
+    assert check_userbasis_tester("{0}{1}tests{1}assets{1}fdf{1}C_userbasis-1.fdf".format(mpath, os.sep)) is True
 
 
 def test_copy_file():
