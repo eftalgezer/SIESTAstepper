@@ -117,51 +117,51 @@ def run_next(i, label):
     logs += glob.glob("i{0}{1}{2}*{1}{3}".format(int(i) - 1, os.sep, settings.get_cont(), settings.get_log()))
     logs = sort_(logs, "i*", settings.get_cont())
     if logs and settings.get_cont() in logs[-1]:
-        match = re.search("i{3}{0}{1}(_*[0-9]*)".format(os.sep, settings.get_cont()), logs[-1], int(i) - 1)
+        match = re.search("i{0}{1}{2}(_*[0-9]*)".format(int(i) - 1, os.sep, settings.get_cont()), logs[-1])
         if not os.path.isfile("{0}{1}i{2}{1}{3}.fdf".format(settings.get_cwd(), os.sep, i, label)):
             if settings.get_contfrom() == "log":
                 log_to_fdf(
-                    "i{3}{0}{1}{2}{0}".format(os.sep, settings.get_cont(), match[1], int(i) - 1) +
+                    "i{0}{1}{2}{3}{1}".format(int(i) - 1, os.sep, settings.get_cont(), match[1]) +
                     "{0}".format(settings.get_log()),
-                    "i{4}{0}{1}{2}{0}{3}.fdf".format(os.sep, settings.get_cont(), match[1], label, int(i) - 1),
+                    "i{0}{1}{2}{3}{1}{4}.fdf".format(int(i) - 1, os.sep, settings.get_cont(), match[1], label),
                     "i{0}{1}{2}.fdf".format(i, os.sep, label)
                 )
             elif settings.get_contfrom() == "XV":
                 xv_to_fdf(
-                    "i{4}{0}{1}{2}{0}{3}.XV".format(os.sep, settings.get_cont(), match[1], label, int(i) - 1),
-                    "i{4}{0}{1}{2}{0}{3}.fdf".format(os.sep, settings.get_cont(), match[1], label, int(i) - 1),
+                    "i{0}{1}{2}{3}{1}{4}.XV".format(int(i) - 1, os.sep, settings.get_cont(), match[1], label),
+                    "i{0}{1}{2}{3}{1}{4}.fdf".format(int(i) - 1, os.sep, settings.get_cont(), match[1], label,),
                     "i{0}{1}{2}.fdf".format(i, os.sep, label)
                 )
             elif settings.get_contfrom() == "ANI":
                 ani_to_fdf(
-                    "i{4}{0}{1}{2}{0}{3}.ANI".format(os.sep, settings.get_cont(), match[1], label, int(i) - 1),
-                    "i{4}{0}{1}{2}{0}{3}.fdf".format(os.sep, settings.get_cont(), match[1], label, int(i) - 1),
+                    "i{0}{1}{2}{3}{1}{4}.ANI".format(int(i) - 1, os.sep, settings.get_cont(), match[1], label),
+                    "i{0}{1}{2}{3}{1}{4}.fdf".format(int(i) - 1, os.sep, settings.get_cont(), match[1], label),
                     "i{0}{1}{2}.fdf".format(i, os.sep, label)
                 )
         copy_files(
             ["ion" if check_userbasis("i{0}{1}{2}.fdf".format(i, os.sep, label)) else "psf"],
             label,
-            "{0}{1}i{4}{1}{2}{3}".format(settings.get_cwd(), os.sep, settings.get_cont(), match[1], int(i) - 1),
+            "{0}{1}i{2}{1}{3}{4}".format(settings.get_cwd(), os.sep, int(i) - 1, settings.get_cont(), match[1]),
             "{0}{1}i{2}".format(settings.get_cwd(), os.sep, i)
         )
     elif int(i) > 1:
-        if not os.path.isfile("{0}{1}i{4}{1}{2}.fdf".format(settings.get_cwd(), os.sep, label, int(i) - 1)):
+        if not os.path.isfile("{0}{1}i{2}{1}{3}.fdf".format(settings.get_cwd(), os.sep, int(i) - 1, label)):
             if settings.get_contfrom() == "log":
                 log_to_fdf(
-                    "i{2{0}{1}".format(os.sep, settings.get_log(), int(i) - 1),
-                    "i{2}{0}{1}.fdf".format(os.sep, label, int(i) - 1),
+                    "i{0}{1}{2}".format(int(i) - 1, os.sep, settings.get_log()),
+                    "i{0}{1}{2}.fdf".format(int(i) - 1, os.sep, label),
                     "i{0}{1}{2}.fdf".format(i, os.sep, label)
                 )
             elif settings.get_contfrom() == "XV":
                 xv_to_fdf(
-                    "i{2}{0}{1}.XV".format(os.sep, label, int(i) - 1),
-                    "i{2}{0}{1}.fdf".format(os.sep, label, int(i) - 1),
+                    "i{0}{1}{2}.XV".format(int(i) - 1, os.sep, label),
+                    "i{0}{1}{2}.fdf".format(int(i) - 1, os.sep, label),
                     "i{0}{1}{2}.fdf".format(i, os.sep, label)
                 )
             elif settings.get_contfrom() == "ANI":
                 ani_to_fdf(
-                    "i{2}{0}{1}.ANI".format(os.sep, label, int(i) - 1),
-                    "i{2}{0}{1}.fdf".format(os.sep, label, int(i) - 1),
+                    "i{0}{1}{2}.ANI".format(int(i) - 1, os.sep, label),
+                    "i{0}{1}{2}.fdf".format(int(i) - 1, os.sep, label),
                     "i{0}{1}{2}.fdf".format(i, os.sep, label)
                 )
         copy_files(
@@ -185,7 +185,7 @@ def single_run(i, label):
     else:
         folder = glob.glob("{0}{1}i{2}".format(settings.get_cwd(), os.sep, int(i) - 1))
         folder += glob.glob(
-            "{0}{1}i{3}{1}{2}*".format(settings.get_cwd(), os.sep, settings.get_cont(), int(i) - 1)
+            "{0}{1}i{2}{1}{3}*".format(settings.get_cwd(), os.sep, int(i) - 1, settings.get_cont())
             )
         folder = sort_(folder, "i*", settings.get_cont())[-1]
         with open(
@@ -445,7 +445,7 @@ def run(label):
                                 "{0}{1}".format(os.sep, settings.get_log()),
                                 "i{0}{1}{2}{3}".format(match[1], os.sep, settings.get_cont(), match[2]) +
                                 "{0}{1}.fdf".format(os.sep, label),
-                                "i{int(match[1]) + 1}{0}{1}.fdf".format(os.sep, label)
+                                "i{0}{1}{2}.fdf".format(int(match[1]) + 1, os.sep, label)
                             )
                         elif settings.get_contfrom() == "XV":
                             xv_to_fdf(
@@ -453,7 +453,7 @@ def run(label):
                                 "{0}{1}.XV".format(os.sep, label),
                                 "i{0}{1}{2}{3}".format(match[1], os.sep, settings.get_cont(), match[2]) +
                                 "{0}{1}.fdf".format(os.sep, label),
-                                "i{int(match[1]) + 1}{0}{1}.fdf".format(os.sep, label)
+                                "i{0}{1}{2}.fdf".format(int(match[1]) + 1, os.sep, label)
                             )
                         elif settings.get_contfrom() == "ANI":
                             ani_to_fdf(
@@ -461,7 +461,7 @@ def run(label):
                                 "{0}{1}.ANI".format(os.sep, label),
                                 "i{0}{1}{2}{3}".format(match[1], os.sep, settings.get_cont(), match[2]) +
                                 "{0}{1}.fdf".format(os.sep, label),
-                                "i{int(match[1]) + 1}{0}{1}.fdf".format(os.sep, label)
+                                "i{0}{1}{2}.fdf".format(int(match[1]) + 1, os.sep, label)
                             )
                     else:
                         if settings.get_contfrom() == "log":
@@ -526,7 +526,7 @@ def run_interrupted(i, label):
                 _cont_step("{0}_2".format(settings.get_cont()), i, label)
                 return True
             contnum = re.search("{0}{1}_([0-9]+)".format(os.sep, settings.get_cont()), match[0])[1]
-            _cont_step("{0}_{int(contnum) + 1}".format(settings.get_cont()), i, label)
+            _cont_step("{0}_{1}".format(settings.get_cont(), int(contnum) + 1), i, label)
     _cont_step(settings.get_cont(), i, label)
     return True
 
@@ -548,7 +548,7 @@ def single_run_interrupted(i, label):
                 _cont_step("{0}_2".format(settings.get_cont()), i, label, issingle=True)
                 return True
             contnum = re.search("{0}{1}_([0-9]+)".format(os.sep, settings.get_cont()), match[0])[1]
-            _cont_step("{0}_{int(contnum) + 1}".format(settings.get_cont()), i, label, issingle=True)
+            _cont_step("{0}_{1}".format(settings.get_cont(), int(contnum) + 1), i, label, issingle=True)
     _cont_step(settings.get_cont(), i, label, issingle=True)
     return True
 
@@ -841,7 +841,7 @@ def _cont_step(contfolder, i, label, issingle=False):
         copy_files(
             settings.contextensions,
             label,
-            "{0}{1}i{2}{1}{3}_{int(contnum) - 1}".format(settings.get_cwd(), os.sep, i, settings.get_cont()),
+            "{0}{1}i{2}{1}{3}_{4}".format(settings.get_cwd(), os.sep, i, settings.get_cont(), int(contnum) - 1),
             "{0}{1}i{2}{1}{3}".format(settings.get_cwd(), os.sep, i, contfolder)
         )
     elif contnummatch is None:
