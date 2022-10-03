@@ -56,7 +56,7 @@ def create_fdf(fdf, geo, newfdfpath, number):
         newfdf += "%endblock AtomicCoordinatesAndAtomicSpecies\n"
         match = re.search("(NumberOfAtoms +[0-9]+)", newfdf)
         if match is not None:
-            newfdf.replace(match[0], "NumberOfAtoms   {0}".format(number))
+            newfdf.replace(match.group(0), "NumberOfAtoms   {0}".format(number))
         else:
             newfdf += "\nNumberOfAtoms   {0}\n".format(number)
         newfdffile.write(newfdf)
