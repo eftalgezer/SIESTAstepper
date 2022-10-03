@@ -141,7 +141,7 @@ def print_run(for_, cores, conda):
     )
 
 
-def check_restart(*, fdffile, i, label, cwd, cont, contextensions):
+def check_restart(fdffile, i, label, cwd, cont, contextensions):
     """Check DM, XV, CG, and LWF parameters in an FDF file"""
     fdf = fdffile.read()
     if "DM" in contextensions:
@@ -200,7 +200,7 @@ def check_restart(*, fdffile, i, label, cwd, cont, contextensions):
     fdffile.write(fdf)
 
 
-def check_restart_ext(*, ext, fdf, match1, match2, repl, out, cwd, i, cont, label):
+def check_restart_ext(ext, fdf, match1, match2, repl, out, cwd, i, cont, label):
     """Check DM, XV, CG, and LWF parameters in an FDF file individually"""
     match = re.search(match1, fdf)
     if match is None:
@@ -401,3 +401,11 @@ def species(fdfpath):
             labels.append(part[2].strip())
         fdffile.close()
     return ids, atomicweights, labels
+
+
+def unique(list1):
+    unique_list = []
+    for x in list1:
+        if x not in unique_list:
+            unique_list.append(x)
+    return unique_list

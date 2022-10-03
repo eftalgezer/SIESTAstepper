@@ -330,7 +330,7 @@ def xv_to_ani(label=None, path="i*"):
         ani = ""
         inds = None
         it = get_it(files)
-        if [*set(it)] != list(range(min(it), max(it) + 1)):
+        if unique(it) != list(range(min(it), max(it) + 1)):
             print("WARNING: There are missing XV files!")
         print("Opening {0}".format(fdfpath))
         with open(fdfpath, "r", encoding="utf-8") as fdffile:
@@ -393,7 +393,7 @@ def merge_ani(label=None, path="i*"):
     files = sort_(files, path, settings.get_cont())
     if files is not None:
         it = get_it(files)
-        if [*set(it)] != list(range(min(it), max(it) + 1)):
+        if unique(it) != list(range(min(it), max(it) + 1)):
             print("WARNING: There are missing ANI files!")
         with open(
             "{0}{1}{2}-merged.ANI".format(settings.get_cwd(), os.sep, label),
