@@ -522,7 +522,7 @@ def test_carbon_uninterrupted_project():
         "{0}{1}tests{1}assets{1}temp{1}{2}{1}i4".format(mpath, os.sep, get_fake_project()),
         "{0}{1}tests{1}assets{1}temp{1}{2}{1}i5".format(mpath, os.sep, get_fake_project())
     ]
-    assert copy_files_tester(["ps"], "C", ".", "i1") == ["i1{0}C.psf".format(os.sep)]
+    assert copy_files_tester(["psf"], "C", ".", "i1") == ["i1{0}C.psf".format(os.sep)]
     assert xyz_to_fdf_tester("C.xyz", "C.fdf", "i1{0}C.fdf".format(os.sep)) == read_file(
         "{0}{1}tests{1}assets{1}runs{1}{2}{1}i1{1}C.fdf".format(mpath, os.sep, get_fake_project())
     )
@@ -720,7 +720,7 @@ def test_carbon_xv_uninterrupted_project():
         "{0}{1}tests{1}assets{1}temp{1}{2}{1}i4".format(mpath, os.sep, get_fake_project()),
         "{0}{1}tests{1}assets{1}temp{1}{2}{1}i5".format(mpath, os.sep, get_fake_project())
     ]
-    assert copy_files_tester(["ps"], "C", ".", "i1") == ["i1{0}C.psf".format(os.sep)]
+    assert copy_files_tester(["psf"], "C", ".", "i1") == ["i1{0}C.psf".format(os.sep)]
     assert xyz_to_fdf_tester("C.xyz", "C.fdf", "i1{0}C.fdf".format(os.sep)) == read_file(
         "{0}{1}tests{1}assets{1}runs{1}{2}{1}i1{1}C.fdf".format(mpath, os.sep, get_fake_project())
     )
@@ -918,7 +918,7 @@ def test_carbon_log_uninterrupted_project():
         "{0}{1}tests{1}assets{1}temp{1}{2}{1}i4".format(mpath, os.sep, get_fake_project()),
         "{0}{1}tests{1}assets{1}temp{1}{2}{1}i5".format(mpath, os.sep, get_fake_project())
     ]
-    assert copy_files_tester(["ps"], "C", ".", "i1") == ["i1{0}C.psf".format(os.sep)]
+    assert copy_files_tester(["psf"], "C", ".", "i1") == ["i1{0}C.psf".format(os.sep)]
     assert xyz_to_fdf_tester("C.xyz", "C.fd", "i1{0}C.fdf".format(os.sep)) == read_file(
         "{0}{1}tests{1}assets{1}runs{1}{2}{1}i1{1}C.fdf".format(mpath, os.sep, get_fake_project())
     )
