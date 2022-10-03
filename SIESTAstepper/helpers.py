@@ -264,7 +264,7 @@ def sort_(files, path, cont):
     path = path.replace("*", "([0-9]+)")
     sortedfiles = []
     match = [re.search("{0}({1}{2}_*([0-9]*))*".format(path, os.sep, cont), f) for f in files]
-    sortedmatch = [[m.group(0), mgroup(1), m.group(2), m.group(3)] for m in match]
+    sortedmatch = [[m.group(0), m.group(1), m.group(2), m.group(3)] for m in match]
     sortedmatch = [x for _, x in sorted(zip(
         [int("{0}0".format(m[1])) if m[3] is None else
          int("{0}1".format(m[1])) if m[3] == "" else
