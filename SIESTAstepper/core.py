@@ -8,7 +8,10 @@ from __future__ import with_statement
 import glob
 import os
 from subprocess import Popen
-from subprocess import run as sprun
+try:
+    from subprocess import run as sprun
+except ImportError:
+    from subprocess import call as sprun
 import shlex
 from itertools import zip_longest
 import re
