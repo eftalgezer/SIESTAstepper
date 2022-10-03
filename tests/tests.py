@@ -1102,13 +1102,13 @@ def test_main():
         f" {mpath}{os.sep}tests{os.sep}assets{os.sep}fdf{os.sep}C-XV-1.fdf" +
         f" {mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}C-XV-2.fdf"
     )
-    if os.path.exists("{0}{1}tests{1}assets{1}temp{1}Carbon".format(0, 1)).format(mpath, os.sep):
-        shutil.rmtree("{0}{1}tests{1}assets{1}temp{1}Carbon".format(0, 1)).format(mpath, os.sep)
+    if os.path.exists("{0}{1}tests{1}assets{1}temp{1}Carbon".format(mpath, os.sep)):
+        shutil.rmtree("{0}{1}tests{1}assets{1}temp{1}Carbon".format(mpath, os.sep))
     shutil.copytree(
         "{0}{1}tests{1}assets{1}runs{1}Carbon".format(mpath, os.sep),
         "{0}{1}tests{1}assets{1}temp{1}Carbon".format(mpath, os.sep)
     )
-    settings.set_cwd("{0}{1}tests{1}assets{1}temp{1}Carbon".format(0, 1)).format(mpath, os.sep)
+    settings.set_cwd("{0}{1}tests{1}assets{1}temp{1}Carbon".format(mpath, os.sep))
     assert "All ANI files are merged" in main_tester("SIESTAstepper merge_ani C path=i*")
     clear_temp()
     set_fake_project("Carbon")
@@ -1132,7 +1132,7 @@ def test_main():
         " XV" +
         " DM"
     ).split("successfully")) == 4
-    settings.set_cwd("{0}{1}tests{1}assets{1}runs{1}Carbon".format(0, 1)).format(mpath, os.sep)
+    settings.set_cwd("{0}{1}tests{1}assets{1}runs{1}Carbon".format(mpath, os.sep))
     os.chdir(settings.get_cwd())
     assert ((expr in main_tester("SIESTAstepper energy_analysis log total cont=continue path=i* noplot")) for expr in [
         "-297.982681",
