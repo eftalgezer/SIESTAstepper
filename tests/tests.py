@@ -318,7 +318,7 @@ def test_sort_():
                "i7{0}log".format(os.sep),
                "i8{0}log".format(os.sep),
                "i9{0}log".format(os.sep),
-               "i10{0}log.format(os.sep)",
+               "i10{0}log".format(os.sep),
                "i11{0}log".format(os.sep),
                "i11{0}continue{0}log".format(os.sep),
                "i12{0}log".format(os.sep),
