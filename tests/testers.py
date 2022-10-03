@@ -91,12 +91,12 @@ def initialise_fake_project(function="run"):
                 "{0}{1}tests{1}assets{1}runs{1}{2}{1}i([0-9]+){1}{3}".format(mpath, os.sep, fakeproject, fname),
                 f
             )
-            if int(match[1]) <= i and os.path.isfile(f):
+            if int(match.group(1)) <= i and os.path.isfile(f):
                 if not os.path.exists(
-                        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i{3}".format(mpath, os.sep, fakeproject, match[1])
+                        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i{3}".format(mpath, os.sep, fakeproject, match.group(1))
                 ):
                     os.mkdir(
-                        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i{3}".format(mpath, os.sep, fakeproject, match[1])
+                        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i{3}".format(mpath, os.sep, fakeproject, match.group(1))
                     )
                 shutil.copy(f, f.replace("runs", "temp"))
     if function.startswith("run_interrupted") or function.startswith("single_run_interrupted"):
@@ -119,27 +119,39 @@ def initialise_fake_project(function="run"):
                 "({0}{1}_*[0-9]*)?{0}{2}".format(os.sep, settings.get_cont(), fname),
                 f
             )
-            if int(match[1]) <= i and os.path.isfile(f):
+            if int(match.group(1)) <= i and os.path.isfile(f):
                 if not os.path.exists(
                         "{0}{1}tests{1}assets{1}temp{1}{2}{1}i{3}{4}".format(
-                            mpath, os.sep, fakeproject, match[1], match[2] if match[2] is not None else ""
+                            mpath,
+                            os.sep,
+                            fakeproject,
+                            match.group(1),
+                            match.group(2) if match.group(2) is not None else ""
                         )
                 ):
                     os.mkdir(
                         "{0}{1}tests{1}assets{1}temp{1}{2}{1}i{3}{4}".format(
-                            mpath, os.sep, fakeproject, match[1], match[2] if match[2] is not None else ""
+                            mpath,
+                            os.sep,
+                            fakeproject,
+                            match.group(1),
+                            match.group(2) if match.group(2) is not None else ""
                         )
                     )
                 shutil.copy(f, f.replace("runs", "temp"))
-                if int(match[1]) == i and \
+                if int(match.group(1)) == i and \
                         int("-1"
-                            if match[2] is None else
-                            match[2].split("_")[1]
-                            if settings.get_cont() + "_" in match[2] else
+                            if match.group(2) is None else
+                            match.group(2).split("_")[1]
+                            if settings.get_cont() + "_" in match.group(2) else
                             "1") > c - 1:
                     shutil.rmtree(
                         "{0}{1}tests{1}assets{1}temp{1}{2}{1}i{3}{4}".format(
-                            mpath, os.sep, fakeproject, match[1], match[2] if match[2] is not None else ""
+                            mpath,
+                            os.sep,
+                            fakeproject,
+                            match.group(1),
+                            match.group(2) if match.group(2) is not None else ""
                         )
                     )
 
