@@ -11,7 +11,10 @@ import io
 import sys
 import re
 from _pytest.monkeypatch import MonkeyPatch
-from unittest.mock import MagicMock, patch
+try:
+    from unittest.mock import MagicMock, patch
+except ImportError:
+    from mock import MagicMock, patch
 from SIESTAstepper import __file__ as mfile
 from SIESTAstepper.core import (
     run,
