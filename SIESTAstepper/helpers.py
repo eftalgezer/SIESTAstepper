@@ -327,9 +327,9 @@ def lattice_vectors_mag(fdfpath):
             content
         )
         print("Calculating LatticeVectors magnitude")
-        x = math.sqrt(float(match[1]) ** 2 + float(match[2]) ** 2 + float(match[3]) ** 2)
-        y = math.sqrt(float(match[4]) ** 2 + float(match[5]) ** 2 + float(match[6]) ** 2)
-        z = math.sqrt(float(match[7]) ** 2 + float(match[8]) ** 2 + float(match[9]) ** 2)
+        x = math.sqrt(float(match.group(1)) ** 2 + float(match.group(2)) ** 2 + float(match.group(3)) ** 2)
+        y = math.sqrt(float(match.group(4)) ** 2 + float(match.group(5)) ** 2 + float(match.group(6)) ** 2)
+        z = math.sqrt(float(match.group(7)) ** 2 + float(match.group(8)) ** 2 + float(match.group(9)) ** 2)
         fdffile.close()
     return x, y, z
 
