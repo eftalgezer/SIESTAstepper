@@ -133,7 +133,7 @@ def initialise_fake_project(function="run"):
                             if settings.get_cont() + "_" in match[2] else
                             "1") > c - 1:
                     shutil.rmtree(
-                        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i{3}{4}".format(0, 1, 2, 3, 4).format(
+                        "{0}{1}tests{1}assets{1}temp{1}{2}{1}i{3}{4}".format(
                             mpath, os.sep, fakeproject, match[1], match[2] if match[2] is not None else ""
                         )
                     )
