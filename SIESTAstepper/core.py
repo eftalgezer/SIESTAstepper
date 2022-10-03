@@ -114,60 +114,60 @@ settings = Settings()
 def run_next(i, label):
     """Run SIESTA for given step"""
     logs = glob.glob("i{0}{1}{2}".format(int(i) - 1, os.sep, settings.get_log()))
-    logs += glob.glob("i{int(i) - 1}{0}{1}*{0}{2}".format(os.sep, settings.get_cont(), settings.get_log()))
+    logs += glob.glob("i{3}{0}{1}*{0}{2}".format(os.sep, settings.get_cont(), settings.get_log()), int(i) - 1)
     logs = sort_(logs, "i*", settings.get_cont())
     if logs and settings.get_cont() in logs[-1]:
-        match = re.search("i{int(i) - 1}{0}{1}(_*[0-9]*)".format(os.sep, settings.get_cont()), logs[-1])
+        match = re.search("i{3}{0}{1}(_*[0-9]*)".format(os.sep, settings.get_cont()), logs[-1], int(i) - 1)
         if not os.path.isfile("{0}{1}i{2}{1}{3}.fdf".format(settings.get_cwd(), os.sep, i, label)):
             if settings.get_contfrom() == "log":
                 log_to_fdf(
-                    "i{int(i) - 1}{0}{1}{2}{0}".format(os.sep, settings.get_cont(), match[1]) +
+                    "i{3}{0}{1}{2}{0}".format(os.sep, settings.get_cont(), match[1], int(i) - 1) +
                     "{0}".format(settings.get_log()),
-                    "i{int(i) - 1}{0}{1}{2}{0}{3}.fdf".format(os.sep, settings.get_cont(), match[1], label),
+                    "i{4}{0}{1}{2}{0}{3}.fdf".format(os.sep, settings.get_cont(), match[1], label, int(i) - 1),
                     "i{0}{1}{2}.fdf".format(i, os.sep, label)
                 )
             elif settings.get_contfrom() == "XV":
                 xv_to_fdf(
-                    "i{int(i) - 1}{0}{1}{2}{0}{3}.XV".format(os.sep, settings.get_cont(), match[1], label),
-                    "i{int(i) - 1}{0}{1}{2}{0}{3}.fdf".format(os.sep, settings.get_cont(), match[1], label),
+                    "i{4}{0}{1}{2}{0}{3}.XV".format(os.sep, settings.get_cont(), match[1], label, int(i) - 1),
+                    "i{4}{0}{1}{2}{0}{3}.fdf".format(os.sep, settings.get_cont(), match[1], label, int(i) - 1),
                     "i{0}{1}{2}.fdf".format(i, os.sep, label)
                 )
             elif settings.get_contfrom() == "ANI":
                 ani_to_fdf(
-                    "i{int(i) - 1}{0}{1}{2}{0}{3}.ANI".format(os.sep, settings.get_cont(), match[1], label),
-                    "i{int(i) - 1}{0}{1}{2}{0}{3}.fdf".format(os.sep, settings.get_cont(), match[1], label),
+                    "i{4}{0}{1}{2}{0}{3}.ANI".format(os.sep, settings.get_cont(), match[1], label, int(i) - 1),
+                    "i{4}{0}{1}{2}{0}{3}.fdf".format(os.sep, settings.get_cont(), match[1], label, int(i) - 1),
                     "i{0}{1}{2}.fdf".format(i, os.sep, label)
                 )
         copy_files(
             ["ion" if check_userbasis("i{0}{1}{2}.fdf".format(i, os.sep, label)) else "psf"],
             label,
-            "{0}{1}i{int(i) - 1}{1}{2}{3}".format(settings.get_cwd(), os.sep, settings.get_cont(), match[1]),
+            "{0}{1}i{4}{1}{2}{3}".format(settings.get_cwd(), os.sep, settings.get_cont(), match[1], int(i) - 1),
             "{0}{1}i{2}".format(settings.get_cwd(), os.sep, i)
         )
     elif int(i) > 1:
-        if not os.path.isfile("{0}{1}i{str(int(i) + 1)}{1}{2}.fdf".format(settings.get_cwd(), os.sep, label)):
+        if not os.path.isfile("{0}{1}i{4}{1}{2}.fdf".format(settings.get_cwd(), os.sep, label, int(i) - 1)):
             if settings.get_contfrom() == "log":
                 log_to_fdf(
-                    "i{int(i) - 1}{0}{1}".format(os.sep, settings.get_log()),
-                    "i{int(i) - 1}{0}{1}.fdf".format(os.sep, label),
+                    "i{2{0}{1}".format(os.sep, settings.get_log(), int(i) - 1),
+                    "i{2}{0}{1}.fdf".format(os.sep, label, int(i) - 1),
                     "i{0}{1}{2}.fdf".format(i, os.sep, label)
                 )
             elif settings.get_contfrom() == "XV":
                 xv_to_fdf(
-                    "i{int(i) - 1}{0}{1}.XV".format(os.sep, label),
-                    "i{int(i) - 1}{0}{1}.fdf".format(os.sep, label),
+                    "i{2}{0}{1}.XV".format(os.sep, label, int(i) - 1),
+                    "i{2}{0}{1}.fdf".format(os.sep, label, int(i) - 1),
                     "i{0}{1}{2}.fdf".format(i, os.sep, label)
                 )
             elif settings.get_contfrom() == "ANI":
                 ani_to_fdf(
-                    "i{int(i) - 1}{0}{1}.ANI".format(os.sep, label),
-                    "i{int(i) - 1}{0}{1}.fdf".format(os.sep, label),
+                    "i{2}{0}{1}.ANI".format(os.sep, label, int(i) - 1),
+                    "i{2}{0}{1}.fdf".format(os.sep, label, int(i) - 1),
                     "i{0}{1}{2}.fdf".format(i, os.sep, label)
                 )
         copy_files(
             ["ion" if check_userbasis("i{0}{1}{2}.fdf".format(i, os.sep, label)) else "psf"],
             label,
-            "{0}{1}i{int(i) - 1}".format(settings.get_cwd(), os.sep),
+            "{0}{1}i{2}".format(settings.get_cwd(), os.sep, int(i) - 1),
             "{0}{1}i{2}".format(settings.get_cwd(), os.sep, i)
         )
     os.chdir("{0}{1}i{2}".format(settings.get_cwd(), os.sep, i))
@@ -183,9 +183,9 @@ def single_run(i, label):
     if int(i) == 1:
         _command(label=label, issingle=True)
     else:
-        folder = glob.glob("{0}{1}i{int(i) - 1}".format(settings.get_cwd(), os.sep))
+        folder = glob.glob("{0}{1}i{2}".format(settings.get_cwd(), os.sep, int(i) - 1))
         folder += glob.glob(
-            "{0}{1}i{int(i) - 1}{1}{2}*".format(settings.get_cwd(), os.sep, settings.get_cont())
+            "{0}{1}i{3}{1}{2}*".format(settings.get_cwd(), os.sep, settings.get_cont(), int(i) - 1)
             )
         folder = sort_(folder, "i*", settings.get_cont())[-1]
         with open(
