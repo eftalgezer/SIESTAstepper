@@ -13,6 +13,10 @@ try:
     FileNotFoundError
 except NameError:
     FileNotFoundError = IOError
+try:
+    PermissionError
+except NameError:
+    PermissionError = OSError
 
 
 def get_it(files):
