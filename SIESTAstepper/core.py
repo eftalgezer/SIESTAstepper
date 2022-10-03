@@ -32,7 +32,8 @@ from .helpers import (
     lattice_vectors_mag,
     element_diameter,
     coords,
-    species
+    species,
+    unique
 )
 
 

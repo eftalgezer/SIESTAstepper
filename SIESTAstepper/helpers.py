@@ -9,6 +9,11 @@ import re
 import shutil
 import math
 
+try:
+    FileNotFoundError
+except NameError:
+    FileNotFoundError = IOError
+
 
 def get_it(files):
     """Get a list of iterations"""
