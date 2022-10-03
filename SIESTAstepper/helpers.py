@@ -14,10 +14,10 @@ def get_it(files):
     """Get a list of iterations"""
     try:
         return [int(re.search("{0}i([0-9]+)".format(os.sep), f).groups(0)[0]) for f in files]
-    except AttributeError as e:
+    except AttributeError:
         raise AttributeError(
             "ERROR: The path must be in format of 'path{0}to{0}i1'".format(os.sep)
-        ) from e
+        )
 
 
 def read_fdf(fdfpath, geo):
@@ -240,18 +240,18 @@ def copy_file(sourcefile, destinationfile):
             print("{0} is copied to {1} successfully".format(sourcefile, destinationfile))
         else:
             print("{0} exists".format(destinationfile))
-    except shutil.SameFileError as e:
+    except shutil.SameFileError:
         raise shutil.SameFileError(
             "ERROR: {0} and {1} represents the same file".format(sourcefile, destinationfile)
-        ) from e
-    except PermissionError as e:
+        )
+    except PermissionError:
         raise PermissionError(
             "ERROR: Permission denied while copying {0} to {1}".format(sourcefile, destinationfile)
-        ) from e
+        )
     except (shutil.Error, OSError, IOError) as e:
         raise (
             "ERROR: An error occurred while copying {0} to {1} ({2})".format(sourcefile, destinationfile, e)
-        ) from e
+        )
 
 
 def sort_(files, path, cont):
