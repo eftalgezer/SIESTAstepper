@@ -46,6 +46,11 @@ from SIESTAstepper.helpers import (
     remove_nones
 )
 
+try:
+    FileNotFoundError
+except NameError:
+    FileNotFoundError = IOError
+
 mpath = mfile.replace("/SIESTAstepper/__init__.py", "")
 fakeproject = None
 

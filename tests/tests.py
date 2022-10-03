@@ -516,7 +516,7 @@ def test_carbon_uninterrupted_project():
         "{0}{1}tests{1}assets{1}temp{1}{2}{1}i4".format(mpath, os.sep, get_fake_project()),
         "{0}{1}tests{1}assets{1}temp{1}{2}{1}i5".format(mpath, os.sep, get_fake_project())
     ]
-    assert copy_files_tester(["psf"], "C", ".", "i1") == ["i1{0}C.psf".format(os.sep)]
+    assert copy_files_tester(["ps"], "C", ".", "i1") == ["i1{0}C.psf".format(os.sep)]
     assert xyz_to_fdf_tester("C.xyz", "C.fdf", "i1{0}C.fdf".format(os.sep)) == read_file(
         "{0}{1}tests{1}assets{1}runs{1}{2}{1}i1{1}C.fdf".format(mpath, os.sep, get_fake_project())
     )
@@ -714,7 +714,7 @@ def test_carbon_xv_uninterrupted_project():
         "{0}{1}tests{1}assets{1}temp{1}{2}{1}i4".format(mpath, os.sep, get_fake_project()),
         "{0}{1}tests{1}assets{1}temp{1}{2}{1}i5".format(mpath, os.sep, get_fake_project())
     ]
-    assert copy_files_tester(["psf"], "C", ".", "i1") == ["i1{0}C.psf".format(os.sep)]
+    assert copy_files_tester(["ps"], "C", ".", "i1") == ["i1{0}C.psf".format(os.sep)]
     assert xyz_to_fdf_tester("C.xyz", "C.fdf", "i1{0}C.fdf".format(os.sep)) == read_file(
         "{0}{1}tests{1}assets{1}runs{1}{2}{1}i1{1}C.fdf".format(mpath, os.sep, get_fake_project())
     )
@@ -912,8 +912,8 @@ def test_carbon_log_uninterrupted_project():
         "{0}{1}tests{1}assets{1}temp{1}{2}{1}i4".format(mpath, os.sep, get_fake_project()),
         "{0}{1}tests{1}assets{1}temp{1}{2}{1}i5".format(mpath, os.sep, get_fake_project())
     ]
-    assert copy_files_tester(["psf"], "C", ".", "i1") == ["i1{0}C.psf".format(os.sep)]
-    assert xyz_to_fdf_tester("C.xyz", "C.fdf", "i1{0}C.fdf".format(os.sep)) == read_file(
+    assert copy_files_tester(["ps"], "C", ".", "i1") == ["i1{0}C.psf".format(os.sep)]
+    assert xyz_to_fdf_tester("C.xyz", "C.fd", "i1{0}C.fdf".format(os.sep)) == read_file(
         "{0}{1}tests{1}assets{1}runs{1}{2}{1}i1{1}C.fdf".format(mpath, os.sep, get_fake_project())
     )
     assert "All iterations are completed" in run_tester("C")
@@ -1084,23 +1084,23 @@ def test_main():
     assert "is created" in main_tester(
         "SIESTAstepper" +
         " ani_to_fdf" +
-        f" {mpath}{os.sep}tests{os.sep}assets{os.sep}ANI{os.sep}C-4.ANI" +
-        f" {mpath}{os.sep}tests{os.sep}assets{os.sep}fdf{os.sep}C-0.fdf" +
-        f" {mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}C-5.fdf"
+        " {0}{1}tests{1}assets{1}ANI{1}C-4.ANI".format(mpath, os.sep) +
+        " {0}{1}tests{1}assets{1}fdf{1}C-0.fdf".format(mpath, os.sep) +
+        " {0}{1}tests{1}assets{1}temp{1}C-5.fdf".format(mpath, os.sep)
     )
     assert "is created" in main_tester(
         "SIESTAstepper" +
         " xyz_to_fdf" +
-        f" {mpath}{os.sep}tests{os.sep}assets{os.sep}xyz{os.sep}C.xyz" +
-        f" {mpath}{os.sep}tests{os.sep}assets{os.sep}fdf{os.sep}C-0.fdf" +
-        f" {mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}C-1.fdf"
+        " {0}{1}tests{1}assets{1}xyz{1}C.xyz".format(mpath, os.sep) +
+        " {0}{1}tests{1}assets{1}fdf{1}C-0.fdf".format(mpath, os.sep) +
+        " {0}{1}tests{1}assets{1}temp{1}C-1.fdf".format(mpath, os.sep)
     )
     assert "is created" in main_tester(
         "SIESTAstepper" +
         " xv_to_fdf" +
-        f" {mpath}{os.sep}tests{os.sep}assets{os.sep}XV{os.sep}C-XV-1.XV" +
-        f" {mpath}{os.sep}tests{os.sep}assets{os.sep}fdf{os.sep}C-XV-1.fdf" +
-        f" {mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}C-XV-2.fdf"
+        " {0}{1}tests{1}assets{1}XV{1}C-XV-1.XV".format(mpath, os.sep) +
+        " {0}{1}tests{1}assets{1}fdf{1}C-XV-1.fdf".format(mpath, os.sep) +
+        " {0}{1}tests{1}assets{1}temp{1}C-XV-2.fdf".format(mpath, os.sep)
     )
     if os.path.exists("{0}{1}tests{1}assets{1}temp{1}Carbon".format(mpath, os.sep)):
         shutil.rmtree("{0}{1}tests{1}assets{1}temp{1}Carbon".format(mpath, os.sep))
@@ -1126,8 +1126,8 @@ def test_main():
         "SIESTAstepper" +
         " copy_files" +
         " C" +
-        f" {mpath}{os.sep}tests{os.sep}assets{os.sep}runs{os.sep}Carbon{os.sep}i1" +
-        f" {mpath}{os.sep}tests{os.sep}assets{os.sep}temp{os.sep}Carbon{os.sep}i2" +
+        " {0}{1}tests{1}assets{1}runs{1}Carbon{1}i1".format(mpath, os.sep) +
+        " {0}{1}tests{1}assets{1}temp{1}Carbon{1}i2".format(mpath, os.sep) +
         " psf" +
         " XV" +
         " DM"
@@ -1196,7 +1196,7 @@ def test_main_carbon_uninterrupted_project():
         " xyz_to_fdf" +
         " C.xyz" +
         " C.fdf" +
-        f" i1{os.sep}C.fdf"
+        " i1{0}C.fdf".format(os.sep)
     )
     assert "All iterations are completed" in main_tester(
         "SIESTAstepper run log C mpirun=4 siesta=siesta_p contfrom=ANI"
@@ -1401,7 +1401,7 @@ def test_main_carbon_xv_uninterrupted_project():
         " xyz_to_fdf" +
         " C.xyz" +
         " C.fdf" +
-        f" i1{os.sep}C.fdf"
+        " i1{0}C.fdf".format(os.sep)
     )
     assert "All iterations are completed" in main_tester(
         "SIESTAstepper run log C mpirun=4 siesta=siesta_p contfrom=XV"
@@ -1606,7 +1606,7 @@ def test_main_carbon_log_uninterrupted_project():
         " xyz_to_fdf" +
         " C.xyz" +
         " C.fdf" +
-        f" i1{os.sep}C.fdf"
+        " i1{0}C.fdf".format(os.sep)
     )
     assert "All iterations are completed" in main_tester(
         "SIESTAstepper run log C mpirun=4 siesta=siesta_p contfrom=log"
