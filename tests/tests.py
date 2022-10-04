@@ -72,6 +72,10 @@ def test_xyz_to_fdf():
 
 def test_xv_to_fdf():
     """Tests for xv_to_fdf"""
+    print(xv_to_fdf_tester(
+        "{0}{1}tests{1}assets{1}XV{1}C-XV-1.XV".format(mpath, os.sep),
+        "{0}{1}tests{1}assets{1}fdf{1}C-XV-1.fdf".format(mpath, os.sep),
+        "{0}{1}tests{1}assets{1}temp{1}C-XV-2.fdf".format(mpath, os.sep))
     assert xv_to_fdf_tester(
         "{0}{1}tests{1}assets{1}XV{1}C-XV-1.XV".format(mpath, os.sep),
         "{0}{1}tests{1}assets{1}fdf{1}C-XV-1.fdf".format(mpath, os.sep),
