@@ -9,6 +9,7 @@ import os
 import re
 import shutil
 import math
+import io
 
 try:
     FileNotFoundError
@@ -33,7 +34,7 @@ def get_it(files):
 def read_fdf(fdfpath, geo):
     """Read FDF file"""
     print("Reading {0}".format(fdfpath))
-    with open(fdfpath, "r", encoding="utf-8") as fdffile:
+    with io.open(fdfpath, "r", encoding="utf-8") as fdffile:
         fdf = fdffile.read()
         ind = fdf.split(
             "%block ChemicalSpeciesLabel\n"
@@ -53,7 +54,7 @@ def read_fdf(fdfpath, geo):
 def create_fdf(fdf, geo, newfdfpath, number):
     """Create new FDF file"""
     print("Creating {0}".format(newfdfpath))
-    with open(newfdfpath, "w", encoding="utf-8") as newfdffile:
+    with io.open(newfdfpath, "w", encoding="utf-8") as newfdffile:
         newfdf = fdf.split("%block AtomicCoordinatesAndAtomicSpecies\n")[0]
         newfdf += "%block AtomicCoordinatesAndAtomicSpecies\n"
         for g in geo:
@@ -89,7 +90,7 @@ def read_energy(energies=[], files=None, it=[], energytype="total", print_=True)
     for f in files:
         if print_:
             print(f)
-        with open(f, "r", encoding="utf-8") as file:
+        with io.open(f, "r", encoding="utf-8") as file:
             lines = file.readlines()
             for line in lines:
                 if line.startswith(energytypes[energytype]):
@@ -108,7 +109,7 @@ def read_force(forces=[], files=None, it=[], atomindex="Tot", forcetype="atomic"
     for f in files:
         if print_:
             print(f)
-        with open(f, "r", encoding="utf-8") as file:
+        with io.open(f, "r", encoding="utf-8") as file:
             content = file.read()
             match = re.search(
                 r"{0}\n".format(re.escape(forcetypes[forcetype])) +
@@ -232,7 +233,7 @@ def check_restart_ext(ext, fdf, match1, match2, repl, out, cwd, i, cont, label):
 
 def check_userbasis(fdffile):
     """Check if the Userbasis parameter in the fdf file is either true or false"""
-    with open(fdffile, "r", encoding="utf-8") as f:
+    with io.open(fdffile, "r", encoding="utf-8") as f:
         if re.search(r"Userbasis *(\.true\.|T)", f.read()):
             return True
         f.close()
@@ -321,7 +322,7 @@ def lattice_vectors_mag(fdfpath):
     y = None
     z = None
     print("Opening {0}".format(fdfpath))
-    with open(fdfpath, "r", encoding="utf-8") as fdffile:
+    with io.open(fdfpath, "r", encoding="utf-8") as fdffile:
         content = fdffile.read()
         match = re.search(
             r"%block LatticeVectors\n" +
@@ -367,7 +368,7 @@ def coords(fdfpath):
     ys = []
     zs = []
     print("Opening {0}".format(fdfpath))
-    with open(fdfpath, "r", encoding="utf-8") as fdffile:
+    with io.open(fdfpath, "r", encoding="utf-8") as fdffile:
         match = re.search(
             r"%block AtomicCoordinatesAndAtomicSpecies\n" +
             r"((([ \t]*-?[0-9]+\.[0-9]+){3})[ \t]+[0-9]+[ \t]*\n)+" +
@@ -396,7 +397,7 @@ def species(fdfpath):
     atomicweights = []
     labels = []
     print("Opening {0}".format(fdfpath))
-    with open(fdfpath, "r", encoding="utf-8") as fdffile:
+    with io.open(fdfpath, "r", encoding="utf-8") as fdffile:
         match = re.search(
             "%block ChemicalSpeciesLabel\n" +
             "([0-9]+[ \t]+[0-9]+[ \t]+.+\n)+" +

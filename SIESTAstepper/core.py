@@ -18,6 +18,7 @@ try:
 except ImportError:
     from itertools import izip_longest as zip_longest
 import re
+import io
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.signal import argrelmin, argrelmax
@@ -195,7 +196,7 @@ def single_run(i, label):
             "{0}{1}i{2}{1}{3}*".format(settings.get_cwd(), os.sep, int(i) - 1, settings.get_cont())
             )
         folder = sort_(folder, "i*", settings.get_cont())[-1]
-        with open(
+        with io.open(
             "{0}{1}{2}".format(folder, os.sep, settings.get_log()),
             "r",
             encoding="utf-8"
@@ -238,7 +239,7 @@ def single_run(i, label):
 def ani_to_fdf(anipath, fdfpath, newfdfpath):
     """Convert last geometry of an ANI to FDF by using the previous FDF and ANI files"""
     print("Reading {0}".format(anipath))
-    with open(anipath, "r", encoding="utf-8") as anifile:
+    with io.open(anipath, "r", encoding="utf-8") as anifile:
         geo = anifile.read()
         number = geo.split("\n", 1)[0].strip()
         geo = geo.split(number + "\n \n")[-1]
@@ -251,7 +252,7 @@ def ani_to_fdf(anipath, fdfpath, newfdfpath):
 def xyz_to_fdf(xyzpath, fdfpath, newfdfpath):
     """Convert XYZ to FDF by using the previous FDF and XYZ files"""
     print("Reading {0}".format(xyzpath))
-    with open(xyzpath, "r", encoding="utf-8") as xyzfile:
+    with io.open(xyzpath, "r", encoding="utf-8") as xyzfile:
         geo = xyzfile.read()
         number = geo.split("\n", 1)[0].strip()
         geo = geo.splitlines()[2:]
@@ -263,7 +264,7 @@ def xyz_to_fdf(xyzpath, fdfpath, newfdfpath):
 def xv_to_fdf(xvpath, fdfpath, newfdfpath):
     """Convert XV to FDF by using the previous FDF and XV files"""
     print("Reading {0}".format(xvpath))
-    with open(xvpath, "r", encoding="utf-8") as xvfile:
+    with io.open(xvpath, "r", encoding="utf-8") as xvfile:
         lines = xvfile.readlines()
         geo = []
         lines.pop(0)
@@ -288,7 +289,7 @@ def log_to_fdf(logpath, fdfpath, newfdfpath):
     """Convert the last coordinates from a SIESTA log file to FDF by using previous log and FDF
     files"""
     print("Reading {0}".format(logpath))
-    with open(logpath, "r", encoding="utf-8") as logfile:
+    with io.open(logpath, "r", encoding="utf-8") as logfile:
         content = logfile.read()
         match = re.search(
             r"outcoor: Relaxed atomic coordinates \(Ang\): {18}\n" +
@@ -340,7 +341,7 @@ def xv_to_ani(label=None, path="i*"):
         if unique(it) != list(range(min(it), max(it) + 1)):
             print("WARNING: There are missing XV files!")
         print("Opening {0}".format(fdfpath))
-        with open(fdfpath, "r", encoding="utf-8") as fdffile:
+        with io.open(fdfpath, "r", encoding="utf-8") as fdffile:
             fdf = fdffile.read()
             inds = fdf.split(
                 "%block ChemicalSpeciesLabel\n"
@@ -350,7 +351,7 @@ def xv_to_ani(label=None, path="i*"):
             inds = inds.splitlines()
         for file in files:
             print("Opening {0}".format(file))
-            with open(file, "r", encoding="utf-8") as f:
+            with io.open(file, "r", encoding="utf-8") as f:
                 match = re.search(
                     r" +([0-9]+)\n" +
                     r"( +[0-9]+" +
@@ -383,7 +384,7 @@ def xv_to_ani(label=None, path="i*"):
                     ani += "{0}       {1}    {2}    {3}\n".format(part0, part[1], part[2], part[3])
                 f.close()
         print("Writing to {0}-XV.ANI".format(label))
-        with open("{0}-XV.ANI".format(label), "w", encoding="utf-8") as anifile:
+        with io.open("{0}-XV.ANI".format(label), "w", encoding="utf-8") as anifile:
             anifile.write(ani)
             anifile.close()
         print("All XV files converted to ANI")
@@ -402,14 +403,14 @@ def merge_ani(label=None, path="i*"):
         it = get_it(files)
         if unique(it) != list(range(min(it), max(it) + 1)):
             print("WARNING: There are missing ANI files!")
-        with open(
+        with io.open(
             "{0}{1}{2}-merged.ANI".format(settings.get_cwd(), os.sep, label),
             "w",
             encoding="utf-8"
         ) as outfile:
             print("{0}{1}{2}-merged.ANI is opened".format(settings.get_cwd(), os.sep, label))
             for f in files:
-                with open(f, encoding="utf-8") as infile:
+                with io.open(f, encoding="utf-8") as infile:
                     print("Writing {0}".format(f))
                     content = infile.read()
                     outfile.write(content)
@@ -432,7 +433,7 @@ def run(label):
     if not logs:
         run_next("1", label)
     else:
-        with open(logs[-1], "r", encoding="utf-8") as file:
+        with io.open(logs[-1], "r", encoding="utf-8") as file:
             lines = file.readlines()
             if lines[-1] == "Job completed\n":
                 print("{0}: Job completed".format(logs[-1]))
@@ -521,7 +522,7 @@ def run_interrupted(i, label):
     folders = glob.glob("i{0}{1}{2}*".format(i, os.sep, settings.get_cont()))
     folders = sort_(folders, "i*", settings.get_cont())
     if folders:
-        with open("{0}{1}{2}".format(folders[-1], os.sep, settings.get_log()), encoding="utf-8") as file:
+        with io.open("{0}{1}{2}".format(folders[-1], os.sep, settings.get_log()), encoding="utf-8") as file:
             lines = file.readlines()
             if lines[-1] == "Job completed\n":
                 print(
@@ -543,7 +544,7 @@ def single_run_interrupted(i, label):
     folders = glob.glob("i*{0}{1}*".format(os.sep, settings.get_cont()))
     folders = sort_(folders, "i*", settings.get_cont())
     if folders:
-        with open("{0}{1}{2}".format(folders[-1], os.sep, settings.get_log()), encoding="utf-8") as file:
+        with io.open("{0}{1}{2}".format(folders[-1], os.sep, settings.get_log()), encoding="utf-8") as file:
             lines = file.readlines()
             if lines[-1] == "Job completed\n":
                 print(
@@ -815,8 +816,8 @@ def _command(label=None, issingle=False):
             check=True,
             shell=False
         )
-    with open(settings.get_log(), "w", encoding="utf-8") as logger:
-        with Popen(
+    with io.open(settings.get_log(), "w", encoding="utf-8") as logger:
+        with Pio.open(
             shlex.split("{0}{1} {2}.fdf".format(
                 "mpirun -np {0} ".format(settings.get_cores()) if settings.get_cores() is not None else "",
                 settings.get_siesta(),
@@ -861,7 +862,7 @@ def _cont_step(contfolder, i, label, issingle=False):
     os.chdir("{0}{1}i{2}{1}{3}".format(settings.get_cwd(), os.sep, i, contfolder))
     print("Changed directory to {0}".format(os.getcwd()))
     print("Opening {0}{1}i{2}{1}{3}{1}{4}.fdf".format(settings.get_cwd(), os.sep, i, contfolder, label))
-    with open("{0}.fdf".format(label), "r+", encoding="utf-8") as fdffile:
+    with io.open("{0}.fdf".format(label), "r+", encoding="utf-8") as fdffile:
         check_restart(
             fdffile=fdffile,
             i=i,
