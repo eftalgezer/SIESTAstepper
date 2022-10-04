@@ -817,7 +817,7 @@ def _command(label=None, issingle=False):
             shell=False
         )
     with io.open(settings.get_log(), "w", encoding="utf-8") as logger:
-        with Pio.open(
+        with Popen(
             shlex.split("{0}{1} {2}.fdf".format(
                 "mpirun -np {0} ".format(settings.get_cores()) if settings.get_cores() is not None else "",
                 settings.get_siesta(),
