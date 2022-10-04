@@ -33,6 +33,10 @@ jobs:
         python -m pip install scipy
         python -m pip install numpy
         python -m pip install mock
+    - name: MacOS matplotlib
+      run: |
+        mkdir ~/.matplotlib
+        echo "backend : WXAgg" >>~/.matplotlib/matplotlibrc
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names
