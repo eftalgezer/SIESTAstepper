@@ -13,7 +13,10 @@ try:
 except ImportError:
     from subprocess import call as sprun
 import shlex
-from itertools import zip_longest
+try:
+    from itertools import zip_longest
+except ImportError:
+    from itertools import izip_longest as zip_longest
 import re
 import matplotlib.pyplot as plt
 import numpy as np
