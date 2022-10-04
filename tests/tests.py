@@ -2,6 +2,7 @@
 Unit tests for the SIESTAstepper library.
 """
 from __future__ import absolute_import
+import sys
 import unittest
 import os
 import shutil
