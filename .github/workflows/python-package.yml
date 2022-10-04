@@ -34,6 +34,7 @@ jobs:
         python -m pip install numpy
         python -m pip install mock
         python -m pip install wxPython
+        python -m pip install attrdict
     - name: MacOS matplotlib
       run: |
         mkdir ~/.matplotlib
