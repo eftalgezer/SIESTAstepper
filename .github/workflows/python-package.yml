@@ -33,6 +33,7 @@ jobs:
         python -m pip install scipy
         python -m pip install numpy
         python -m pip install mock
+        python -m pip install wxPython
     - name: MacOS matplotlib
       run: |
         mkdir ~/.matplotlib
