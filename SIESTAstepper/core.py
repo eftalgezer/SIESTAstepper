@@ -137,7 +137,12 @@ def run_next(i, label):
             settings.get_cont()),
             logs[-1]
         )
-        if not os.path.isfile("{0}{1}i{2}{1}{3}.fdf".format(settings.get_cwd(), os.sep, i, label)):
+        if not os.path.isfile("{0}{1}i{2}{1}{3}.fdf".format(
+                settings.get_cwd(),
+                os.sep,
+                i,
+                label
+        )):
             if settings.get_contfrom() == "log":
                 log_to_fdf(
                     "i{0}{1}{2}{3}{1}{4}".format(
@@ -385,8 +390,13 @@ def xv_to_ani(label=None, path="i*"):
     if label is None:
         raise ValueError("ERROR: Please set a label")
     files = glob.glob("{0}{1}{2}{1}{3}.XV".format(settings.get_cwd(), os.sep, path, label))
-    files += glob.glob(
-        "{0}{1}{2}{1}{3}*{1}{4}.XV".format(settings.get_cwd(), os.sep, path, settings.get_cont(), label)
+    files += glob.glob("{0}{1}{2}{1}{3}*{1}{4}.XV".format(
+        settings.get_cwd(),
+        os.sep,
+        path,
+        settings.get_cont(),
+        label
+    )
     )
     fdfpath = glob.glob("{0}{1}{2}{1}{3}.fdf".format(settings.get_cwd(), os.sep, path, label))[-1]
     files = sort_(files, path, settings.get_cont())
@@ -452,7 +462,13 @@ def merge_ani(label=None, path="i*"):
         raise ValueError("ERROR: Please set a label")
     files = glob.glob("{0}{1}{2}{1}{3}.ANI".format(settings.get_cwd(), os.sep, path, label))
     files += glob.glob(
-        "{0}{1}{2}{1}{3}*{1}{4}.ANI".format(settings.get_cwd(), os.sep, path, settings.get_cont(), label)
+        "{0}{1}{2}{1}{3}*{1}{4}.ANI".format(
+            settings.get_cwd(),
+            os.sep,
+            path,
+            settings.get_cont(),
+            label
+        )
     )
     files = sort_(files, path, settings.get_cont())
     if files is not None:
@@ -505,26 +521,56 @@ def run(label):
                         )
                         if settings.get_contfrom() == "log":
                             log_to_fdf(
-                                "i{0}{1}{2}{3}".format(match.group(1), os.sep, settings.get_cont(), match.group(2)) +
-                                "{0}{1}".format(os.sep, settings.get_log()),
-                                "i{0}{1}{2}{3}".format(match.group(1), os.sep, settings.get_cont(), match.group(2)) +
-                                "{0}{1}.fdf".format(os.sep, label),
+                                "i{0}{1}{2}{3}{1}{4}".format(
+                                    match.group(1),
+                                    os.sep,
+                                    settings.get_cont(),
+                                    match.group(2),
+                                    settings.get_log()
+                                ),
+                                "i{0}{1}{2}{3}{1}{4}.fdf".format(
+                                    match.group(1),
+                                    os.sep,
+                                    settings.get_cont(),
+                                    match.group(2),
+                                    label
+                                ),
                                 "i{0}{1}{2}.fdf".format(int(match.group(1)) + 1, os.sep, label)
                             )
                         elif settings.get_contfrom() == "XV":
                             xv_to_fdf(
-                                "i{0}{1}{2}{3}".format(match.group(1), os.sep, settings.get_cont(), match.group(2)) +
-                                "{0}{1}.XV".format(os.sep, label),
-                                "i{0}{1}{2}{3}".format(match.group(1), os.sep, settings.get_cont(), match.group(2)) +
-                                "{0}{1}.fdf".format(os.sep, label),
+                                "i{0}{1}{2}{3}{1}{4}.XV".format(
+                                    match.group(1),
+                                    os.sep,
+                                    settings.get_cont(),
+                                    match.group(2),
+                                    label
+                                ),
+                                "i{0}{1}{2}{3}{1}{4}.fdf".format(
+                                    match.group(1),
+                                    os.sep,
+                                    settings.get_cont(),
+                                    match.group(2),
+                                    label
+                                ),
                                 "i{0}{1}{2}.fdf".format(int(match.group(1)) + 1, os.sep, label)
                             )
                         elif settings.get_contfrom() == "ANI":
                             ani_to_fdf(
-                                "i{0}{1}{2}{3}".format(match.group(1), os.sep, settings.get_cont(), match.group(2)) +
-                                "{0}{1}.ANI".format(os.sep, label),
-                                "i{0}{1}{2}{3}".format(match.group(1), os.sep, settings.get_cont(), match.group(2)) +
-                                "{0}{1}.fdf".format(os.sep, label),
+                                "i{0}{1}{2}{3}[1}{4}.ANI".format(
+                                    match.group(1),
+                                    os.sep,
+                                    settings.get_cont(),
+                                    match.group(2),
+                                    label
+                                ),
+                                "i{0}{1}{2}{3}{1}{4}.fdf".format(
+                                    match.group(1),
+                                    os.sep,
+                                    settings.get_cont(),
+                                    match.group(2),
+                                    label
+                                ),
                                 "i{0}{1}{2}.fdf".format(int(match.group(1)) + 1, os.sep, label)
                             )
                     else:
@@ -579,9 +625,9 @@ def run_interrupted(i, label):
     folders = sort_(folders, "i*", settings.get_cont())
     if folders:
         with io.open(
-                "{0}{1}{2}".format(folders[-1], os.sep, settings.get_log()),
-                "r",
-                encoding="utf-8"
+            "{0}{1}{2}".format(folders[-1], os.sep, settings.get_log()),
+            "r",
+            encoding="utf-8"
         ) as file:
             lines = file.readlines()
             if lines[-1] == "Job completed\n":
@@ -612,19 +658,39 @@ def single_run_interrupted(i, label):
     folders = glob.glob("i*{0}{1}*".format(os.sep, settings.get_cont()))
     folders = sort_(folders, "i*", settings.get_cont())
     if folders:
-        with io.open("{0}{1}{2}".format(folders[-1], os.sep, settings.get_log()), encoding="utf-8") as file:
+        with io.open(
+                "{0}{1}{2}".format(folders[-1], os.sep, settings.get_log()),
+                "r",
+                encoding="utf-8") as file:
             lines = file.readlines()
             if lines[-1] == "Job completed\n":
                 print(
-                    "i{0}{1}{2}{1}{3}: Job completed".format(i, os.sep, settings.get_cont(), settings.get_log())
+                    "i{0}{1}{2}{1}{3}: Job completed".format(
+                        i,
+                        os.sep,
+                        settings.get_cont(),
+                        settings.get_log()
+                    )
                 )
                 return False
-            match = re.search("i[0-9]+{0}{1}_*[0-9]*".format(os.sep, settings.get_cont()), folders[-1])
+            match = re.search(
+                "i[0-9]+{0}{1}_*[0-9]*".format(os.sep, settings.get_cont()),
+                folders[-1]
+            )
             if match.group(0).endswith(settings.get_cont()):
                 _cont_step("{0}_2".format(settings.get_cont()), i, label, issingle=True)
                 return True
-            contnum = re.search("{0}{1}_([0-9]+)".format(os.sep, settings.get_cont()), match.group(0))[1]
-            _cont_step("{0}_{1}".format(settings.get_cont(), int(contnum) + 1), i, label, issingle=True)
+            contnum = re.search(
+                "{0}{1}_([0-9]+)".format(os.sep, settings.get_cont()),
+                match.group(0)
+            )[1]
+            _cont_step("{0}_{1}".format(
+                settings.get_cont(),
+                int(contnum) + 1),
+                i,
+                label,
+                issingle=True
+            )
     _cont_step(settings.get_cont(), i, label, issingle=True)
     return True
 
@@ -660,7 +726,10 @@ def copy_files(extensions, label, source_, destination):
                     "{0}{1}{2}.{3}".format(destination, os.sep, label, ext)
                 )
     for cf in settings.contfiles:
-        copy_file("{0}{1}{2}".format(source_, os.sep, cf), "{0}{1}{2}".format(destination, os.sep, cf))
+        copy_file(
+            "{0}{1}{2}".format(source_, os.sep, cf),
+            "{0}{1}{2}".format(destination, os.sep, cf)
+        )
 
 
 def energy_analysis(energytype="total", path="i*", plot_=True, print_=True):
@@ -694,7 +763,12 @@ def energy_analysis(energytype="total", path="i*", plot_=True, print_=True):
 
 def force_analysis(atomindex="Tot", forcetype="atomic", path="i*", plot_=True, print_=True):
     """Plot and return atomic forces from log files"""
-    files = glob.glob("{0}{1}{2}{1}{3}".format(settings.get_cwd(), os.sep, path, settings.get_log()))
+    files = glob.glob("{0}{1}{2}{1}{3}".format(
+        settings.get_cwd(),
+        os.sep,
+        path,
+        settings.get_log()
+    ))
     files += glob.glob(
         "{0}{1}{2}{1}{3}*".format(settings.get_cwd(), os.sep, path, settings.get_cont()) +
         "{0}{1}".format(os.sep, settings.get_log())
@@ -892,7 +966,9 @@ def _command(label=None, issingle=False):
     with io.open(settings.get_log(), "w", encoding="utf-8") as logger:
         with Popen(
             shlex.split("{0}{1} {2}.fdf".format(
-                "mpirun -np {0} ".format(settings.get_cores()) if settings.get_cores() is not None else "",
+                "mpirun -np {0} ".format(
+                    settings.get_cores()
+                ) if settings.get_cores() is not None else "",
                 settings.get_siesta(),
                 label
             )),
@@ -922,7 +998,13 @@ def _cont_step(contfolder, i, label, issingle=False):
         copy_files(
             settings.contextensions,
             label,
-            "{0}{1}i{2}{1}{3}_{4}".format(settings.get_cwd(), os.sep, i, settings.get_cont(), int(contnum) - 1),
+            "{0}{1}i{2}{1}{3}_{4}".format(
+                settings.get_cwd(),
+                os.sep,
+                i,
+                settings.get_cont(),
+                int(contnum) - 1
+            ),
             "{0}{1}i{2}{1}{3}".format(settings.get_cwd(), os.sep, i, contfolder)
         )
     elif contnummatch is None:
@@ -934,7 +1016,13 @@ def _cont_step(contfolder, i, label, issingle=False):
         )
     os.chdir("{0}{1}i{2}{1}{3}".format(settings.get_cwd(), os.sep, i, contfolder))
     print("Changed directory to {0}".format(os.getcwd()))
-    print("Opening {0}{1}i{2}{1}{3}{1}{4}.fdf".format(settings.get_cwd(), os.sep, i, contfolder, label))
+    print("Opening {0}{1}i{2}{1}{3}{1}{4}.fdf".format(
+        settings.get_cwd(),
+        os.sep,
+        i,
+        contfolder,
+        label
+    ))
     with io.open("{0}.fdf".format(label), "r+", encoding="utf-8") as fdffile:
         check_restart(
             fdffile=fdffile,
@@ -945,5 +1033,9 @@ def _cont_step(contfolder, i, label, issingle=False):
             contextensions=settings.contextensions
         )
         fdffile.close()
-    print_run("i{0}{1}{2}".format(i, os.sep, contfolder), settings.get_cores(), settings.get_conda())
+    print_run(
+        "i{0}{1}{2}".format(i, os.sep, contfolder),
+        settings.get_cores(),
+        settings.get_conda()
+    )
     _command(label=label, issingle=issingle)
