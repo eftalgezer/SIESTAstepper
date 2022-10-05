@@ -224,7 +224,7 @@ def ani_to_fdf_tester(anipath, fdfpath, newfdfpath):
         fdfpath.replace("SIESTAstepperc", "SIESTAstepper"),
         newfdfpath.replace("SIESTAstepperc", "SIESTAstepper")
     )
-    return read_file(newfdfpath)
+    return read_file(newfdfpath.replace("SIESTAstepperc", "SIESTAstepper"))
 
 
 def xyz_to_fdf_tester(xyzpath, fdfpath, newfdfpath):
