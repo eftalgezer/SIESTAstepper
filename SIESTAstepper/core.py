@@ -266,7 +266,12 @@ def single_run(i, label):
             if lines[-1] == "Job completed\n":
                 print("{0}{1}{2}: Job completed".format(folder, os.sep, settings.get_log()))
             if int(i) > 1:
-                if not os.path.isfile("{0}{1}i{2}{1}{3}.fdf".format(settings.get_cwd(), os.sep, i, label)):
+                if not os.path.isfile("{0}{1}i{2}{1}{3}.fdf".format(
+                        settings.get_cwd(),
+                        os.sep,
+                        i,
+                        label
+                )):
                     if settings.get_contfrom() == "log":
                         log_to_fdf(
                             "{0}{1}{2}".format(folder, os.sep, settings.get_log()),
