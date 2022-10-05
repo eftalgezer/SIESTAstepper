@@ -1804,6 +1804,7 @@ class TestErrors(unittest.TestCase):
 
     def __init__(self, methodName='runTest'):
         """Initialise"""
+        self._testMethodName = methodName
 
     def test_main(self):
         """Error tests for __main__.py"""
