@@ -417,6 +417,7 @@ def species(fdfpath):
 
 
 def unique(list1):
+    """Return the distinct values of a list"""
     unique_list = []
     for x in list1:
         if x not in unique_list:
