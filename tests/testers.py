@@ -63,7 +63,7 @@ fakeproject = None
 
 def read_file(file):
     """Read a given file and return its content"""
-    with io.open(file.replace("SIESTAstepperc", "SIESTAstepper"), "r", encoding="utf-8") as f:
+    with io.open(file, "r", encoding="utf-8") as f:
         content = f.read()
         f.close()
     return content
@@ -220,9 +220,9 @@ def single_run_tester(i, label):
 def ani_to_fdf_tester(anipath, fdfpath, newfdfpath):
     """Tester function for ani_to_fdf"""
     ani_to_fdf(
-        anipath.replace("SIESTAstepperc", "SIESTAstepper"),
-        fdfpath.replace("SIESTAstepperc", "SIESTAstepper"),
-        newfdfpath.replace("SIESTAstepperc", "SIESTAstepper")
+        anipath,
+        fdfpath,
+        newfdfpath
     )
     return read_file(newfdfpath)
 
@@ -231,8 +231,8 @@ def xyz_to_fdf_tester(xyzpath, fdfpath, newfdfpath):
     """Tester function for xyz_to_fdf"""
     xyz_to_fdf(xyzpath.replace(
         "SIESTAstepperc", "SIESTAstepper"),
-        fdfpath.replace("SIESTAstepperc", "SIESTAstepper"),
-        newfdfpath.replace("SIESTAstepperc", "SIESTAstepper")
+        fdfpath,
+        newfdfpath
     )
     return read_file(newfdfpath)
 
@@ -241,8 +241,8 @@ def xv_to_fdf_tester(xvpath, fdfpath, newfdfpath):
     """Tester function for xv_to_fdf"""
     xv_to_fdf(xvpath.replace(
         "SIESTAstepperc", "SIESTAstepper"),
-        fdfpath.replace("SIESTAstepperc", "SIESTAstepper"),
-        newfdfpath.replace("SIESTAstepperc", "SIESTAstepper")
+        fdfpath,
+        newfdfpath
     )
     return read_file(newfdfpath)
 
@@ -250,9 +250,9 @@ def xv_to_fdf_tester(xvpath, fdfpath, newfdfpath):
 def log_to_fdf(logpath, fdfpath, newfdfpath):
     """Tester function for log_to_fdf"""
     log_to_fdf(
-        logpath.replace("SIESTAstepperc", "SIESTAstepper"),
-        fdfpath.replace("SIESTAstepperc", "SIESTAstepper"),
-        newfdfpath.replace("SIESTAstepperc", "SIESTAstepper")
+        logpath,
+        fdfpath,
+        newfdfpath
     )
     return read_file(newfdfpath)
 
@@ -281,8 +281,8 @@ def merge_ani_tester(label=None, path="i*", folder=None):
             "SIESTAstepper"
         ))
     shutil.copytree(
-        "{0}{1}tests{1}assets{1}runs{1}{2}".format(mpath, os.sep, folder).replace("SIESTAstepperc", "SIESTAstepper"),
-        "{0}{1}tests{1}assets{1}temp{1}{2}".format(mpath, os.sep, folder).replace("SIESTAstepperc", "SIESTAstepper")
+        "{0}{1}tests{1}assets{1}runs{1}{2}".format(mpath, os.sep, folder),
+        "{0}{1}tests{1}assets{1}temp{1}{2}".format(mpath, os.sep, folder)
     )
     settings.set_cwd("{0}{1}tests{1}assets{1}temp{1}{2}".format(mpath, os.sep, folder).replace(
         "SIESTAstepperc",
@@ -337,8 +337,8 @@ def make_directories_tester(n):
 def copy_files_tester(extensions, label, source_, destination):
     """Tester function for copy_files"""
     files = None
-    source_ = source_.replace("SIESTAstepperc", "SIESTAstepper")
-    destination = destination.replace("SIESTAstepperc", "SIESTAstepper")
+    source_ = source_
+    destination = destination
     copy_files(extensions, label, source_, destination)
     if extensions is not None:
         for ext in extensions:
