@@ -131,7 +131,12 @@ def run_next(i, label):
     ))
     logs = sort_(logs, "i*", settings.get_cont())
     if logs and settings.get_cont() in logs[-1]:
-        match = re.search("i{0}{1}{2}(_*[0-9]*)".format(int(i) - 1, os.sep, settings.get_cont()), logs[-1])
+        match = re.search("i{0}{1}{2}(_*[0-9]*)".format(
+            int(i) - 1,
+            os.sep,
+            settings.get_cont()),
+            logs[-1]
+        )
         if not os.path.isfile("{0}{1}i{2}{1}{3}.fdf".format(settings.get_cwd(), os.sep, i, label)):
             if settings.get_contfrom() == "log":
                 log_to_fdf(
@@ -573,14 +578,26 @@ def run_interrupted(i, label):
     folders = glob.glob("i{0}{1}{2}*".format(i, os.sep, settings.get_cont()))
     folders = sort_(folders, "i*", settings.get_cont())
     if folders:
-        with io.open("{0}{1}{2}".format(folders[-1], os.sep, settings.get_log()), encoding="utf-8") as file:
+        with io.open(
+                "{0}{1}{2}".format(folders[-1], os.sep, settings.get_log()),
+                "r",
+                encoding="utf-8"
+        ) as file:
             lines = file.readlines()
             if lines[-1] == "Job completed\n":
                 print(
-                    "i{0}{1}{2}{1}{3}: Job completed".format(i, os.sep, settings.get_cont(), settings.get_log())
+                    "i{0}{1}{2}{1}{3}: Job completed".format(
+                        i,
+                        os.sep,
+                        settings.get_cont(),
+                        settings.get_log()
+                    )
                 )
                 return False
-            match = re.search("i[0-9]+{0}{1}_*[0-9]*".format(os.sep, settings.get_cont()), folders[-1])
+            match = re.search(
+                "i[0-9]+{0}{1}_*[0-9]*".format(os.sep, settings.get_cont()),
+                folders[-1]
+            )
             if match.group(0).endswith(settings.get_cont()):
                 _cont_step("{0}_2".format(settings.get_cont()), i, label)
                 return True
@@ -648,7 +665,12 @@ def copy_files(extensions, label, source_, destination):
 
 def energy_analysis(energytype="total", path="i*", plot_=True, print_=True):
     """Plot and return energies from log files"""
-    files = glob.glob("{0}{1}{2}{1}{3}".format(settings.get_cwd(), os.sep, path, settings.get_log()))
+    files = glob.glob("{0}{1}{2}{1}{3}".format(
+        settings.get_cwd(),
+        os.sep,
+        path,
+        settings.get_log()
+    ))
     files += glob.glob(
         "{0}{1}{2}{1}{3}*".format(settings.get_cwd(), os.sep, path, settings.get_cont()) +
         "{0}{1}".format(os.sep, settings.get_log())
