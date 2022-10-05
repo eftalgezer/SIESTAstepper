@@ -337,6 +337,8 @@ def make_directories_tester(n):
 def copy_files_tester(extensions, label, source_, destination):
     """Tester function for copy_files"""
     files = None
+    source_ = source_.replace("SIESTAstepperc", "SIESTAstepper")
+    destination = destination.replace("SIESTAstepperc", "SIESTAstepper")
     copy_files(extensions, label, source_, destination)
     if extensions is not None:
         for ext in extensions:
