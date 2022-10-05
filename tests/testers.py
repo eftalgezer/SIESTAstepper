@@ -272,8 +272,14 @@ def xv_to_ani(label=None, path="i*", folder=None):
 
 def merge_ani_tester(label=None, path="i*", folder=None):
     """Tester function for merge_ani"""
-    if os.path.exists("{0}{1}tests{1}assets{1}temp{1}{2}".format(mpath, os.sep, folder)):
-        shutil.rmtree("{0}{1}tests{1}assets{1}temp{1}{2}".format(mpath, os.sep, folder))
+    if os.path.exists("{0}{1}tests{1}assets{1}temp{1}{2}".format(mpath, os.sep, folder).replace(
+            "SIESTAstepperc",
+            "SIESTAstepper"
+    )):
+        shutil.rmtree("{0}{1}tests{1}assets{1}temp{1}{2}".format(mpath, os.sep, folder).replace(
+            "SIESTAstepperc",
+            "SIESTAstepper"
+        ))
     shutil.copytree(
         "{0}{1}tests{1}assets{1}runs{1}{2}".format(mpath, os.sep, folder).replace("SIESTAstepperc", "SIESTAstepper"),
         "{0}{1}tests{1}assets{1}temp{1}{2}".format(mpath, os.sep, folder).replace("SIESTAstepperc", "SIESTAstepper")
