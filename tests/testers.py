@@ -275,8 +275,8 @@ def merge_ani_tester(label=None, path="i*", folder=None):
     if os.path.exists("{0}{1}tests{1}assets{1}temp{1}{2}".format(mpath, os.sep, folder)):
         shutil.rmtree("{0}{1}tests{1}assets{1}temp{1}{2}".format(mpath, os.sep, folder))
     shutil.copytree(
-        "{0}{1}tests{1}assets{1}runs{1}{2}".format(mpath, os.sep, folder),
-        "{0}{1}tests{1}assets{1}temp{1}{2}".format(mpath, os.sep, folder)
+        "{0}{1}tests{1}assets{1}runs{1}{2}".format(mpath, os.sep, folder).replace("SIESTAstepperc", "SIESTAstepper"),
+        "{0}{1}tests{1}assets{1}temp{1}{2}".format(mpath, os.sep, folder).replace("SIESTAstepperc", "SIESTAstepper")
     )
     settings.set_cwd("{0}{1}tests{1}assets{1}temp{1}{2}".format(mpath, os.sep, folder))
     merge_ani(label=label, path=path)
