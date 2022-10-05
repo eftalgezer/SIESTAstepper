@@ -1805,7 +1805,7 @@ class TestErrors(unittest.TestCase):
     def __init__(self, methodName='runTest'):
         """Initialise"""
         self._testMethodName = methodName
-        self._cleanups = True
+        self._cleanups = False
 
     def test_main(self):
         """Error tests for __main__.py"""
