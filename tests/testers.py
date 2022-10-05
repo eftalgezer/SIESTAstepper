@@ -284,7 +284,10 @@ def merge_ani_tester(label=None, path="i*", folder=None):
         "{0}{1}tests{1}assets{1}runs{1}{2}".format(mpath, os.sep, folder).replace("SIESTAstepperc", "SIESTAstepper"),
         "{0}{1}tests{1}assets{1}temp{1}{2}".format(mpath, os.sep, folder).replace("SIESTAstepperc", "SIESTAstepper")
     )
-    settings.set_cwd("{0}{1}tests{1}assets{1}temp{1}{2}".format(mpath, os.sep, folder))
+    settings.set_cwd("{0}{1}tests{1}assets{1}temp{1}{2}".format(mpath, os.sep, folder).replace(
+        "SIESTAstepperc",
+        "SIESTAstepper"
+    ))
     merge_ani(label=label, path=path)
     return read_file("{0}{1}tests{1}assets{1}temp{1}{2}{1}{3}-merged.ANI".format(mpath, os.sep, folder, label))
 
