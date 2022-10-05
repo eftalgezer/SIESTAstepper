@@ -71,7 +71,9 @@ def read_file(file):
 
 def clear_temp():
     """Clears the temp folder"""
-    for filename in os.listdir("{0}{1}tests{1}assets{1}temp".format(mpath, os.sep)):
+    for filename in os.listdir("{0}{1}tests{1}assets{1}temp".format(mpath, os.sep).replace(
+            "SIESTAstepperc", "SIESTAstepper"
+    )):
         filepath = os.path.join("{0}{1}tests{1}assets{1}temp".format(mpath, os.sep), filename)
         if os.path.isfile(filepath) or os.path.islink(filepath):
             os.unlink(filepath)
