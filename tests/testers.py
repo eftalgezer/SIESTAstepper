@@ -224,24 +224,36 @@ def ani_to_fdf_tester(anipath, fdfpath, newfdfpath):
         fdfpath.replace("SIESTAstepperc", "SIESTAstepper"),
         newfdfpath.replace("SIESTAstepperc", "SIESTAstepper")
     )
-    return read_file(newfdfpath.replace("SIESTAstepperc", "SIESTAstepper"))
+    return read_file(newfdfpath)
 
 
 def xyz_to_fdf_tester(xyzpath, fdfpath, newfdfpath):
     """Tester function for xyz_to_fdf"""
-    xyz_to_fdf(xyzpath, fdfpath, newfdfpath)
+    xyz_to_fdf(xyzpath.replace(
+        "SIESTAstepperc", "SIESTAstepper"),
+        fdfpath.replace("SIESTAstepperc", "SIESTAstepper"),
+        newfdfpath.replace("SIESTAstepperc", "SIESTAstepper")
+    )
     return read_file(newfdfpath)
 
 
 def xv_to_fdf_tester(xvpath, fdfpath, newfdfpath):
     """Tester function for xv_to_fdf"""
-    xv_to_fdf(xvpath, fdfpath, newfdfpath)
+    xv_to_fdf(xvpath.replace(
+        "SIESTAstepperc", "SIESTAstepper"),
+        fdfpath.replace("SIESTAstepperc", "SIESTAstepper"),
+        newfdfpath.replace("SIESTAstepperc", "SIESTAstepper")
+    )
     return read_file(newfdfpath)
 
 
 def log_to_fdf(logpath, fdfpath, newfdfpath):
     """Tester function for log_to_fdf"""
-    log_to_fdf(logpath, fdfpath, newfdfpath)
+    log_to_fdf(
+        logpath.replace("SIESTAstepperc", "SIESTAstepper"),
+        fdfpath.replace("SIESTAstepperc", "SIESTAstepper"),
+        newfdfpath.replace("SIESTAstepperc", "SIESTAstepper")
+    )
     return read_file(newfdfpath)
 
 
