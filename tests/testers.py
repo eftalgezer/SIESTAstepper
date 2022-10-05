@@ -219,7 +219,11 @@ def single_run_tester(i, label):
 
 def ani_to_fdf_tester(anipath, fdfpath, newfdfpath):
     """Tester function for ani_to_fdf"""
-    ani_to_fdf(anipath.replace("SIESTAstepperc", "SIESTAstepper"), fdfpath, newfdfpath)
+    ani_to_fdf(
+        anipath.replace("SIESTAstepperc", "SIESTAstepper"),
+        fdfpath.replace("SIESTAstepperc", "SIESTAstepper"),
+        newfdfpath.replace("SIESTAstepperc", "SIESTAstepper")
+    )
     return read_file(newfdfpath)
 
 
