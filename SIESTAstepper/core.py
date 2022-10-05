@@ -557,7 +557,7 @@ def run(label):
                             )
                         elif settings.get_contfrom() == "ANI":
                             ani_to_fdf(
-                                "i{0}{1}{2}{3}[1}{4}.ANI".format(
+                                "i{0}{1}{2}{3}{1}{4}.ANI".format(
                                     match.group(1),
                                     os.sep,
                                     settings.get_cont(),
@@ -659,9 +659,9 @@ def single_run_interrupted(i, label):
     folders = sort_(folders, "i*", settings.get_cont())
     if folders:
         with io.open(
-                "{0}{1}{2}".format(folders[-1], os.sep, settings.get_log()),
-                "r",
-                encoding="utf-8") as file:
+            "{0}{1}{2}".format(folders[-1], os.sep, settings.get_log()),
+            "r",
+            encoding="utf-8") as file:
             lines = file.readlines()
             if lines[-1] == "Job completed\n":
                 print(
@@ -684,9 +684,8 @@ def single_run_interrupted(i, label):
                 "{0}{1}_([0-9]+)".format(os.sep, settings.get_cont()),
                 match.group(0)
             )[1]
-            _cont_step("{0}_{1}".format(
-                settings.get_cont(),
-                int(contnum) + 1),
+            _cont_step(
+                "{0}_{1}".format(settings.get_cont(), int(contnum) + 1),
                 i,
                 label,
                 issingle=True
