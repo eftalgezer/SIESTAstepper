@@ -132,11 +132,11 @@ def run_next(i, label):
     logs = sort_(logs, "i*", settings.get_cont())
     if logs and settings.get_cont() in logs[-1]:
         match = re.search("i{0}{1}{2}(_*[0-9]*)".format(
-            int(i) - 1,
-            os.sep,
-            settings.get_cont()),
-            logs[-1]
-        )
+                          int(i) - 1,
+                          os.sep,
+                          settings.get_cont()),
+                          logs[-1]
+                         )
         if not os.path.isfile("{0}{1}i{2}{1}{3}.fdf".format(
                 settings.get_cwd(),
                 os.sep,
@@ -666,7 +666,8 @@ def single_run_interrupted(i, label):
         with io.open(
             "{0}{1}{2}".format(folders[-1], os.sep, settings.get_log()),
             "r",
-            encoding="utf-8") as file:
+            encoding="utf-8"
+        ) as file:
             lines = file.readlines()
             if lines[-1] == "Job completed\n":
                 print(
