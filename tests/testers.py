@@ -174,8 +174,10 @@ def fake_command(monkeypatch=MonkeyPatch()):
                 fakelog.write(content)
                 print(content)
                 copy_files(["ANI"], "C", realpath, os.getcwd())
-                with contextlib.suppress(FileNotFoundError):
+                try:
                     copy_files(["XV"], "C", realpath, os.getcwd())
+                except FileNotFoundError:
+                    pass
                 if content.endswith("Job completed\n") and issingle is False:
                     run(label)
                 fakelog.close()
