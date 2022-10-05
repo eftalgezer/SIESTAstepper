@@ -32,6 +32,8 @@ jobs:
         python -m pip install scipy
         python -m pip install numpy
         python -m pip install mock
+    - name: Python 2.7 matplotlib
+      run: |
         mkdir ~/.config/matplotlib/
         echo "backend: Agg" > ~/.config/matplotlib/matplotlibrc
     - name: Lint with flake8
