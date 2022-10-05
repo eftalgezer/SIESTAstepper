@@ -1802,6 +1802,9 @@ def test_main_carbon_log_project_single_run_interrupted():
 class TestErrors(unittest.TestCase):
     """Unit testing of errors"""
 
+    def __init__(self, methodName='runTest'):
+        """Initialise"""
+
     def test_main(self):
         """Error tests for __main__.py"""
         with self.assertRaises(AttributeError):
