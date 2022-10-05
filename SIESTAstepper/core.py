@@ -131,12 +131,10 @@ def run_next(i, label):
     ))
     logs = sort_(logs, "i*", settings.get_cont())
     if logs and settings.get_cont() in logs[-1]:
-        match = re.search("i{0}{1}{2}(_*[0-9]*)".format(
-                          int(i) - 1,
-                          os.sep,
-                          settings.get_cont()),
-                          logs[-1]
-                         )
+        match = re.search(
+            "i{0}{1}{2}(_*[0-9]*)".format(int(i) - 1, os.sep, settings.get_cont()),
+            logs[-1]
+        )
         if not os.path.isfile("{0}{1}i{2}{1}{3}.fdf".format(
                 settings.get_cwd(),
                 os.sep,
@@ -652,7 +650,10 @@ def run_interrupted(i, label):
             if match.group(0).endswith(settings.get_cont()):
                 _cont_step("{0}_2".format(settings.get_cont()), i, label)
                 return True
-            contnum = re.search("{0}{1}_([0-9]+)".format(os.sep, settings.get_cont()), match.group(0))[1]
+            contnum = re.search(
+                "{0}{1}_([0-9]+)".format(os.sep, settings.get_cont()),
+                match.group(0)
+            )[1]
             _cont_step("{0}_{1}".format(settings.get_cont(), int(contnum) + 1), i, label)
     _cont_step(settings.get_cont(), i, label)
     return True
