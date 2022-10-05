@@ -57,7 +57,7 @@ try:
 except NameError:
     FileNotFoundError = IOError
 
-mpath = mfile.replace("/SIESTAstepper/__init__.py", "")
+mpath = mfile.replace("/SIESTAstepper/__init__.py", "").replace("SIESTAstepperc", "SIESTAstepper")
 fakeproject = None
 
 

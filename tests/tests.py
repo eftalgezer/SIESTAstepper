@@ -50,7 +50,7 @@ except NameError:
     FileNotFoundError = IOError
 
 
-mpath = mfile.replace("/SIESTAstepper/__init__.py", "")
+mpath = mfile.replace("/SIESTAstepper/__init__.py", "").replace("SIESTAstepperc", "SIESTAstepper")
 
 
 def test_ani_to_fdf():
