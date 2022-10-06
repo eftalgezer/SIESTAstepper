@@ -455,7 +455,7 @@ def xv_to_ani(label=None, path="i*"):
         with io.open("{0}-XV.ANI".format(label), "w", encoding="utf-8") as anifile:
             anifile.write(ani)
             anifile.close()
-        print("All XV files converted to ANI")
+        print("All XV files are converted to ANI")
 
 
 def merge_ani(label=None, path="i*"):
