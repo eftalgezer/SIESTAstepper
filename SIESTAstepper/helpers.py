@@ -261,9 +261,13 @@ def copy_file(sourcefile, destinationfile):
         raise PermissionError(
             "ERROR: Permission denied while copying {0} to {1}".format(sourcefile, destinationfile)
         )
-    except (shutil.Error, OSError, IOError) as e:
+    except (OSError, IOError, shutil.Error) as e:
         raise (
-            "ERROR: An error occurred while copying {0} to {1} ({2})".format(sourcefile, destinationfile, e)
+            "ERROR: An error occurred while copying {0} to {1} ({2})".format(
+                sourcefile,
+                destinationfile,
+                e
+            )
         )
 
 
@@ -294,7 +298,8 @@ def remove_nones(files, path, cwd, cont, log):
     to_remove = []
     for filename in files:
         logmatch = re.search(
-            "({0}{1}({2})({1}{3}(_([0-9]+))?)?{1}{4})".format(cwd, os.sep, path, cont, log), filename
+            "({0}{1}({2})({1}{3}(_([0-9]+))?)?{1}{4})".format(cwd, os.sep, path, cont, log),
+            filename
         )
         if not logmatch:
             continue
@@ -335,9 +340,21 @@ def lattice_vectors_mag(fdfpath):
             content
         )
         print("Calculating LatticeVectors magnitude")
-        x = math.sqrt(float(match.group(1)) ** 2 + float(match.group(2)) ** 2 + float(match.group(3)) ** 2)
-        y = math.sqrt(float(match.group(4)) ** 2 + float(match.group(5)) ** 2 + float(match.group(6)) ** 2)
-        z = math.sqrt(float(match.group(7)) ** 2 + float(match.group(8)) ** 2 + float(match.group(9)) ** 2)
+        x = math.sqrt(
+            float(match.group(1)) ** 2 +
+            float(match.group(2)) ** 2 +
+            float(match.group(3)) ** 2
+        )
+        y = math.sqrt(
+            float(match.group(4)) ** 2 +
+            float(match.group(5)) ** 2 +
+            float(match.group(6)) ** 2
+        )
+        z = math.sqrt(
+            float(match.group(7)) ** 2 +
+            float(match.group(8)) ** 2 +
+            float(match.group(9)) ** 2
+        )
         fdffile.close()
     return x, y, z
 

@@ -399,8 +399,7 @@ def xv_to_ani(label=None, path="i*"):
         path,
         settings.get_cont(),
         label
-    )
-    )
+    ))
     fdfpath = glob.glob("{0}{1}{2}{1}{3}.fdf".format(settings.get_cwd(), os.sep, path, label))[-1]
     files = sort_(files, path, settings.get_cont())
     if files is not None:
