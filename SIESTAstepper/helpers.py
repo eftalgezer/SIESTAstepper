@@ -262,7 +262,7 @@ def copy_file(sourcefile, destinationfile):
             "ERROR: Permission denied while copying {0} to {1}".format(sourcefile, destinationfile)
         )
     except (shutil.Error, IOError, OSError) as e:
-        raise (
+        raise e(
             "ERROR: An error occurred while copying {0} to {1} ({2})".format(
                 sourcefile,
                 destinationfile,
