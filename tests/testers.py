@@ -237,7 +237,7 @@ def xv_to_fdf_tester(xvpath, fdfpath, newfdfpath):
     return read_file(newfdfpath)
 
 
-def log_to_fdf(logpath, fdfpath, newfdfpath):
+def log_to_fdf_tester(logpath, fdfpath, newfdfpath):
     """Tester function for log_to_fdf"""
     log_to_fdf(
         logpath,
@@ -247,7 +247,7 @@ def log_to_fdf(logpath, fdfpath, newfdfpath):
     return read_file(newfdfpath)
 
 
-def xv_to_ani(label=None, path="i*", folder=None):
+def xv_to_ani_tester(label=None, path="i*", folder=None):
     """Tester function for xv_to_ani"""
     if os.path.exists("{0}{1}tests{1}assets{1}temp{1}{2}".format(mpath, os.sep, folder)):
         shutil.rmtree("{0}{1}tests{1}assets{1}temp{1}{2}".format(mpath, os.sep, folder))
