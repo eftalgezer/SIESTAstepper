@@ -96,18 +96,9 @@ def test_merge_ani():
 
 def test_make_directories():
     """Tests for make_directories"""
-    if not os.path.isdir("{0}{1}tests{1}assets{1}temp{1}Carbon".format(mpath, os.sep).replace(
-            "SIESTAstepperc",
-            "SIESTAstepper"
-    )):
-        os.mkdir("{0}{1}tests{1}assets{1}temp{1}Carbon".format(mpath, os.sep).replace(
-            "SIESTAstepperc",
-            "SIESTAstepper")
-        )
-    os.chdir("{0}{1}tests{1}assets{1}temp{1}Carbon".format(mpath, os.sep).replace(
-        "SIESTAstepperc",
-        "SIESTAstepper"
-    ))
+    if not os.path.isdir("{0}{1}tests{1}assets{1}temp{1}Carbon".format(mpath, os.sep)):
+        os.mkdir("{0}{1}tests{1}assets{1}temp{1}Carbon".format(mpath, os.sep))
+    os.chdir("{0}{1}tests{1}assets{1}temp{1}Carbon".format(mpath, os.sep))
     assert make_directories_tester(5) == [
         "{0}{1}i1".format(os.getcwd(), os.sep),
         "{0}{1}i2".format(os.getcwd(), os.sep),

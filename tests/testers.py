@@ -71,9 +71,7 @@ def read_file(file):
 
 def clear_temp():
     """Clears the temp folder"""
-    for filename in os.listdir("{0}{1}tests{1}assets{1}temp".format(mpath, os.sep).replace(
-            "SIESTAstepperc", "SIESTAstepper"
-    )):
+    for filename in os.listdir("{0}{1}tests{1}assets{1}temp".format(mpath, os.sep)):
         filepath = os.path.join("{0}{1}tests{1}assets{1}temp".format(mpath, os.sep), filename)
         if os.path.isfile(filepath) or os.path.islink(filepath):
             os.unlink(filepath)
@@ -229,21 +227,13 @@ def ani_to_fdf_tester(anipath, fdfpath, newfdfpath):
 
 def xyz_to_fdf_tester(xyzpath, fdfpath, newfdfpath):
     """Tester function for xyz_to_fdf"""
-    xyz_to_fdf(xyzpath.replace(
-        "SIESTAstepperc", "SIESTAstepper"),
-        fdfpath,
-        newfdfpath
-    )
+    xyz_to_fdf(xyzpath, fdfpath, newfdfpath)
     return read_file(newfdfpath)
 
 
 def xv_to_fdf_tester(xvpath, fdfpath, newfdfpath):
     """Tester function for xv_to_fdf"""
-    xv_to_fdf(xvpath.replace(
-        "SIESTAstepperc", "SIESTAstepper"),
-        fdfpath,
-        newfdfpath
-    )
+    xv_to_fdf(xvpath, fdfpath, newfdfpath)
     return read_file(newfdfpath)
 
 
@@ -272,22 +262,13 @@ def xv_to_ani(label=None, path="i*", folder=None):
 
 def merge_ani_tester(label=None, path="i*", folder=None):
     """Tester function for merge_ani"""
-    if os.path.exists("{0}{1}tests{1}assets{1}temp{1}{2}".format(mpath, os.sep, folder).replace(
-            "SIESTAstepperc",
-            "SIESTAstepper"
-    )):
-        shutil.rmtree("{0}{1}tests{1}assets{1}temp{1}{2}".format(mpath, os.sep, folder).replace(
-            "SIESTAstepperc",
-            "SIESTAstepper"
-        ))
+    if os.path.exists("{0}{1}tests{1}assets{1}temp{1}{2}".format(mpath, os.sep, folder)):
+        shutil.rmtree("{0}{1}tests{1}assets{1}temp{1}{2}".format(mpath, os.sep, folder))
     shutil.copytree(
         "{0}{1}tests{1}assets{1}runs{1}{2}".format(mpath, os.sep, folder),
         "{0}{1}tests{1}assets{1}temp{1}{2}".format(mpath, os.sep, folder)
     )
-    settings.set_cwd("{0}{1}tests{1}assets{1}temp{1}{2}".format(mpath, os.sep, folder).replace(
-        "SIESTAstepperc",
-        "SIESTAstepper"
-    ))
+    settings.set_cwd("{0}{1}tests{1}assets{1}temp{1}{2}".format(mpath, os.sep, folder))
     merge_ani(label=label, path=path)
     return read_file("{0}{1}tests{1}assets{1}temp{1}{2}{1}{3}-merged.ANI".format(mpath, os.sep, folder, label))
 
