@@ -23,6 +23,7 @@ import io
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.signal import argrelmin, argrelmax
+import ANIAnimator
 from sh import tail
 from .helpers import (
     create_fdf,
@@ -493,6 +494,17 @@ def merge_ani(label=None, path="i*"):
         print("All ANI files are merged")
     else:
         print("No ANI files found")
+
+
+def ani_to_gif(anifile=None, width=None, height=None, bonds_param=None, camera=None):
+    """Convert ANI to GIF"""
+    ANIAnimator.animate(
+        anifile=anifile,
+        width=width,
+        height=height,
+        bonds_param=bonds_param,
+        camera=camera
+    )
 
 
 def run(label):
