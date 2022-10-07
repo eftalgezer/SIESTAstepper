@@ -29,6 +29,7 @@ jobs:
         python -m pip install flake8 pytest
         python -m pip install sh
         python -m pip install matplotlib
+        python -m pip install ANIAnimator
         python -m pip install scipy
         python -m pip install numpy
         python -m pip install mock
