@@ -258,6 +258,7 @@ def xv_to_ani_tester(label=None, path="i*", folder=None):
         "{0}{1}tests{1}assets{1}temp{1}{2}".format(mpath, os.sep, folder)
     )
     settings.set_cwd("{0}{1}tests{1}assets{1}temp{1}{2}".format(mpath, os.sep, folder))
+    os.chdir(settings.get_cwd())
     xv_to_ani(label=label, path=path)
     return read_file("{0}{1}tests{1}assets{1}temp{1}{2}{1}{3}-XV.ANI".format(mpath, os.sep, folder, label))
 
@@ -271,6 +272,7 @@ def merge_ani_tester(label=None, path="i*", folder=None):
         "{0}{1}tests{1}assets{1}temp{1}{2}".format(mpath, os.sep, folder)
     )
     settings.set_cwd("{0}{1}tests{1}assets{1}temp{1}{2}".format(mpath, os.sep, folder))
+    os.chdir(settings.get_cwd())
     merge_ani(label=label, path=path)
     return read_file("{0}{1}tests{1}assets{1}temp{1}{2}{1}{3}-merged.ANI".format(mpath, os.sep, folder, label))
 
