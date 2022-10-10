@@ -8,9 +8,12 @@ from setuptools import setup
 import io
 
 
-HERE = pathlib.Path(__file__).parent.resolve()
+HERE = os.getcwd().replace("{0}setup.py".format(os.sep), "")
 
-LONG_DESCRIPTION = (HERE / "README.md").read_text(encoding="utf-8")
+LONG_DESCRIPTION = None
+
+with io.open("{0}{1}README.md".format(HERE, os.sep), "r", encoding="utf-8") as readme:
+    LONG_DESCRIPTION = readme.read()
 
 setup(
     name="SIESTAstepper",
