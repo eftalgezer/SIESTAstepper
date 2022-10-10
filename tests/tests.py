@@ -1146,8 +1146,8 @@ def test_main():
         "{0}{1}tests{1}assets{1}temp{1}Carbon".format(mpath, os.sep)
     )
     settings.set_cwd("{0}{1}tests{1}assets{1}temp{1}Carbon".format(mpath, os.sep))
-    assert "All ANI files are merged" in main_tester("SIESTAstepper merge_ani C path=i*")
     assert "All XV files are converted to ANI" in main_tester("SIESTAstepper xv_to_ani C")
+    assert "All ANI files are merged" in main_tester("SIESTAstepper merge_ani C path=i*")
     clear_temp()
     set_fake_project("Carbon")
     os.chdir("{0}{1}tests{1}assets{1}temp{1}{2}".format(mpath, os.sep, get_fake_project()))
@@ -1180,12 +1180,12 @@ def test_main():
     ])
     assert (
         (expr in main_tester("SIESTAstepper force_analysis log atomic Tot cont=continue path=i* noplot")) for expr in [
-        "0.016003",
-        "0.010419",
-        "0.00139",
-        "0.00179",
-        "0.000604"
-    ]
+            "0.016003",
+            "0.010419",
+            "0.00139",
+            "0.00179",
+            "0.000604"
+        ]
     )
     assert ((expr in main_tester("SIESTAstepper energy_diff log total")) for expr in [
         "-299.845957",
