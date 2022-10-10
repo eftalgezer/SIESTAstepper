@@ -94,7 +94,7 @@ def test_log_to_fdf():
         "{0}{1}tests{1}assets{1}log{1}C-log-1-log".format(mpath, os.sep),
         "{0}{1}tests{1}assets{1}fdf{1}C-log-1.fdf".format(mpath, os.sep),
         "{0}{1}tests{1}assets{1}temp{1}C-log-2.fdf".format(mpath, os.sep)
-    ) == read_file("{0}{1}tests{1}assets{1}fdf{1}C-log-1.fdf".format(mpath, os.sep))
+    ) == read_file("{0}{1}tests{1}assets{1}fdf{1}C-log-2.fdf".format(mpath, os.sep))
 
 
 def test_xv_to_ani():
