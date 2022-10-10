@@ -2,8 +2,10 @@
 Setup file for SIESTAstepper
 """
 from __future__ import absolute_import
-import pathlib
+from __future__ import with_statement
+import os
 from setuptools import setup
+import io
 
 
 HERE = pathlib.Path(__file__).parent.resolve()
@@ -33,13 +35,19 @@ setup(
         "Operating System :: MacOS :: MacOS X",
         "Operating System :: Microsoft :: Windows",
         "Operating System :: POSIX :: Linux",
+        "Programming Language :: Python :: 2",
+        "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.1",
+        "Programming Language :: Python :: 3.2",
+        "Programming Language :: Python :: 3.3",
+        "Programming Language :: Python :: 3.4",
+        "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
-        "Programming Language :: Python :: 3 :: Only",
     ],
     keywords="SIESTA, DFT, molecular calculations, chemistry, physics",
     packages=["SIESTAstepper"],
@@ -48,6 +56,7 @@ setup(
         "matplotlib",
         "scipy",
         "numpy",
+        "ANIAnimator"
         ],
     project_urls={
         "Bug Reports": "https://github.com/eftalgezer/SIESTAstepper/issues",
