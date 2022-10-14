@@ -113,7 +113,7 @@ def test_merge_ani():
 
 def test_ani_to_gif():
     """Tests for ani_to_gif"""
-    assert ani_to_gif_tester(anifile="{0}{1}tests{1}assets{1}ANI{1}C-merged.ANI".format(mpath, os.sep)) == read_file(
+    assert ani_to_gif_tester(anifile="C-merged.ANI") == read_file(
         "{0}{1}tests{1}assets{1}GIF{1}C-merged.gif".format(mpath, os.sep)
     )
 
