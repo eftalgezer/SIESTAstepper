@@ -140,7 +140,7 @@ def main(args):
                 (int(cameraparams[3]), int(cameraparams[4]), int(cameraparams[5])),
                 (int(cameraparams[6]), int(cameraparams[7]), int(cameraparams[8]))
             )
-        animate(args[3], width, height, loop, bonds_param, camera)
+        ani_to_gif(args[3], width, height, loop, bonds_param, camera)
     elif function == "energy_analysis":
         settings.set_log(args[2])
         plot_ = True
