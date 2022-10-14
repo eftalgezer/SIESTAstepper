@@ -17,6 +17,7 @@ from .core import (
     log_to_fdf,
     xv_to_ani,
     merge_ani,
+    ani_to_gif,
     energy_analysis,
     force_analysis,
     energy_diff,
@@ -34,17 +35,17 @@ def main(args):
     if function not in ["run", "single_run", "run_next", "run_interrupted",
                         "single_run_interrupted", "make_directories",
                         "copy_files", "ani_to_fdf", "xyz_to_fdf", "xv_to_fdf",
-                        "log_to_fdf", "xv_to_ani", "merge_ani", "energy_analysis",
-                        "force_analysis", "energy_diff", "force_diff",
-                        "pair_correlation_function"]:
+                        "log_to_fdf", "xv_to_ani", "merge_ani", "ani_to_gif",
+                        "energy_analysis", "force_analysis", "energy_diff",
+                        "force_diff", "pair_correlation_function"]:
         raise AttributeError(
             """Command not found. Please use 'run',
             'single_run', 'run_next', 'run_interrupted',
             'single_run_interrupted', 'make_directories',
             'copy_files', 'ani_to_fdf', 'xyz_to_fdf',
             'xv_to_fdf', 'log_to_fdf', 'xv_to_ani',
-            'merge_ani', 'energy_analysis', 'force_analysis',
-            'energy_diff', 'force_diff',
+            'merge_ani', 'ani_to_gif', 'energy_analysis',
+            'force_analysis', 'energy_diff', 'force_diff',
             'pair_correlation_function'""".replace("           ", "").replace("\n", "")
         )
     if function == "run":
@@ -96,6 +97,50 @@ def main(args):
                 if arg.startswith("path="):
                     path = arg.split("=")[1]
             merge_ani(label=args[2], path=path)
+    elif function == "ani_to_gif":
+        width = None
+        height = None
+        loop = None
+        bonds_param = None
+        camera = None
+        try:
+            width = args[3]
+        except IndexError:
+            pass
+        try:
+            height = args[4]
+        except IndexError:
+            pass
+        try:
+            loop = args[5]
+        except IndexError:
+            pass
+        try:
+            bonds_param = args[6]
+        except IndexError:
+            pass
+        try:
+            camera = args[7]
+        except IndexError:
+            pass
+        if width is None:
+            width = 1920
+        if height is None:
+            height = 1080
+        if loop is None:
+            loop = 1
+        if bonds_param is None:
+            bonds_param = 1.3
+        if camera == "default":
+            camera = None
+        elif camera is not None:
+            cameraparams = camera.split(",")
+            camera = (
+                (int(cameraparams[0]), int(cameraparams[1]), int(cameraparams[2])),
+                (int(cameraparams[3]), int(cameraparams[4]), int(cameraparams[5])),
+                (int(cameraparams[6]), int(cameraparams[7]), int(cameraparams[8]))
+            )
+        animate(args[3], width, height, loop, bonds_param, camera)
     elif function == "energy_analysis":
         settings.set_log(args[2])
         plot_ = True
