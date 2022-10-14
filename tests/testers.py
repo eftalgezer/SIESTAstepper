@@ -66,7 +66,7 @@ fakeproject = None
 
 def read_file(file):
     """Read a given file and return its content"""
-    with io.open(file, "r", encoding="utf-8") as f:
+    with io.open(file, "rb", encoding="utf-8") as f:
         content = f.read()
         f.close()
     return content
