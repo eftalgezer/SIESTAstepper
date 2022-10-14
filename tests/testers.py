@@ -277,6 +277,19 @@ def merge_ani_tester(label=None, path="i*", folder=None):
     return read_file("{0}{1}tests{1}assets{1}temp{1}{2}{1}{3}-merged.ANI".format(mpath, os.sep, folder, label))
 
 
+def ani_to_gif_tester(anifile=None, width=None, height=None, bonds_param=None, camera=None):
+    """Tester function for ani_to_gif"""
+    settings.set_cwd("{0}{1}tests{1}assets{1}temp".format(mpath, os.sep))
+    os.chdir(settings.get_cwd())
+    if not os.path.exists("{0}{1}{2}".format(settings.get_cwd(), os.sep, anifile)):
+        shutil.copy(
+            "{0}{1}tests{1}assets{1}ANI{1}{2}".format(mpath, os.sep, anifile),
+            "{0}{1}{2}".format(settings.get_cwd(), os.sep, anifile)
+        )
+    ani_to_gif(anifile=anifile, width=width, height=height, bonds_param=bonds_param, camera=camera)
+    return "{0}.gif".format(anifile.split(os.sep)[-1].split(".")[0])
+
+
 def run_tester(label):
     """Tester function for run"""
     capturedoutput = io.StringIO()

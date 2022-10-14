@@ -7,6 +7,7 @@ from .tests import (
     test_xyz_to_fdf,
     test_xv_to_fdf,
     test_merge_ani,
+    test_ani_to_gif,
     test_make_directories,
     test_copy_files,
     test_energy_analysis,
@@ -67,6 +68,7 @@ test_ani_to_fdf()
 test_xyz_to_fdf()
 test_xv_to_fdf()
 test_merge_ani()
+test_ani_to_gif()
 clear_temp()
 test_make_directories()
 test_copy_files()
