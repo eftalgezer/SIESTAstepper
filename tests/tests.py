@@ -23,6 +23,7 @@ from .testers import (
     log_to_fdf_tester,
     xv_to_ani_tester,
     merge_ani_tester,
+    ani_to_gif_tester,
     run_tester,
     run_interrupted_tester,
     single_run_interrupted_tester,
@@ -107,6 +108,13 @@ def test_merge_ani():
     """Tests for merge_ani"""
     assert merge_ani_tester(label="C", folder="Carbon") == read_file(
         "{0}{1}tests{1}assets{1}ANI{1}C-merged.ANI".format(mpath, os.sep)
+    )
+
+
+def test_ani_to_gif():
+    """Tests for ani_to_gif"""
+    assert ani_to_gif_tester(anifile="{0}{1}tests{1}assets{1}ANI{1}C-merged.ANI".format(mpath, os.sep)) == read_file(
+        "{0}{1}tests{1}assets{1}GIF{1}C-merged.gif".format(mpath, os.sep)
     )
 
 
