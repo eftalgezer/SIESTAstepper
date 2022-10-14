@@ -66,7 +66,7 @@ fakeproject = None
 
 def read_file(file):
     """Read a given file and return its content"""
-    with io.open(file, "rb") as f:
+    with io.open(file, "r", encoding="utf-8") as f:
         content = f.read()
         f.close()
     return content
@@ -288,7 +288,11 @@ def ani_to_gif_tester(anifile=None, width=None, height=None, bonds_param=None, c
             "{0}{1}{2}".format(settings.get_cwd(), os.sep, anifile)
         )
     ani_to_gif(anifile=anifile, width=width, height=height, bonds_param=bonds_param, camera=camera)
-    return read_file("{0}.gif".format(anifile.split(os.sep)[-1].split(".")[0]))
+    return glob.glob("{0}{1}{2}.gif".format(
+        settings.get_cwd(),
+        os.sep,
+        anifile.split(os.sep)[-1].split(".")[0]
+    ))
 
 
 def run_tester(label):
