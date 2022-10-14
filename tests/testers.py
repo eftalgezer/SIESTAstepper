@@ -33,6 +33,7 @@ from SIESTAstepper.core import (
     log_to_fdf,
     xv_to_ani,
     merge_ani,
+    ani_to_gif,
     energy_analysis,
     force_analysis,
     energy_diff,
