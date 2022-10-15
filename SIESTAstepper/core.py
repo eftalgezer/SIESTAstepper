@@ -779,7 +779,7 @@ def energy_analysis(energytype="total", path="i*", plot_=True, print_=True):
 
 
 def force_analysis(atomindex="Tot", forcetype="atomic", path="i*", plot_=True, print_=True):
-    """Plot and return atomic forces from log files"""
+    """Plot and return forces from log files"""
     files = glob.glob("{0}{1}{2}{1}{3}".format(
         settings.get_cwd(),
         os.sep,
