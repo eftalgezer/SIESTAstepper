@@ -156,8 +156,8 @@ SIESTAstepper.force_analysis(plot_ = False)
 # Plots and returns forces from log files by setting a path
 SIESTAstepper.force_analysis(path = "path/to/i*/log/files")
 
-# Calculates the force differences between minima and maxima (default is "Tot")
-SIESTAstepper.force_diff(atomindex="Tot")
+# Calculates the force differences between minima and maxima (defaults are "Tot" and "atomic", respectively)
+SIESTAstepper.force_diff(atomindex="Tot", forcetype="atomic")
 
 # Calculates the force differences between minima and maxima by setting a path
 SIESTAstepper.force_diff(path = "path/to/i*/log/files")
