@@ -104,19 +104,19 @@ def main(args):
         bonds_param = None
         camera = None
         try:
-            width = args[3]
+            width = int(args[3])
         except IndexError:
             pass
         try:
-            height = args[4]
+            height = int(args[4])
         except IndexError:
             pass
         try:
-            loop = args[5]
+            loop = int(args[5])
         except IndexError:
             pass
         try:
-            bonds_param = args[6]
+            bonds_param = float(args[6])
         except IndexError:
             pass
         try:
