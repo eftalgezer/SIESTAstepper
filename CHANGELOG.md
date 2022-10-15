@@ -1,5 +1,15 @@
 # Changelog
 
+## [v2.1.0](https://github.com/eftalgezer/SIESTAstepper/tree/v2.1.0) (2022-10-16)
+
+- Backwards compatibility
+- `analysis` is renamed as `energy_analysis`
+- `force_analysis`, `force_diff`, `pair_correlation_function`, and `ani_to_gif` functions are added.
+
+**Full Changelog**: https://github.com/eftalgezer/SIESTAstepper/compare/v2.0.0...v2.1.0
+
+Eftal Gezer. (2022). eftalgezer/ANIAnimator: v0.2.1 (v0.2.1). Zenodo. https://doi.org/10.5281/zenodo.7182193
+
 ## [v2.0.0](https://github.com/eftalgezer/SIESTAstepper/tree/v2.0.0) (2022-09-23)
 
 - Bug fix

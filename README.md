@@ -97,6 +97,23 @@ SIESTAstepper.merge_ani(label = "graphene")
 # Merges ANI files by setting a path
 SIESTAstepper.merge_ani(label = "graphene", path = "path/to/i*/ANI/files")
 
+# Creates GIF file from a given ANI
+SIESTAstepper.ani_to_gif(anifile="graphene.ANI")
+
+# Creates GIF file from a given ANI by setting width and height (defaults are 1920 and 1080, respectively)
+SIESTAstepper.ani_to_gif(anifile="graphene.ANI", width=1920, height=1080)
+
+# Creates GIF file from a given ANI by setting the bonds between atoms (default is 1.3)
+SIESTAstepper.ani_to_gif(anifile="graphene.ANI", bonds_param=1.3)
+
+# Creates GIF file from a given ANI by setting loop (default is 0; 0 means loop, 1 means no loop)
+SIESTAstepper.ani_to_gif(anifile="graphene.ANI", loop=1)
+
+# Creates GIF file from a given ANI by setting camera
+SIESTAstepper.ani_to_gif(anifile="graphene.ANI", camera=((40, 0, 0),
+                                                        (0, 0, 0),
+                                                        (0, 1, 0)))
+
 # Runs SIESTA for a given step
 SIESTAstepper.run_next("1", "graphene")
 
@@ -231,6 +248,10 @@ $ python -m SIESTAstepper merge_ani graphene cont=continue
 
 $ python -m SIESTAstepper merge_ani graphene path=path/to/i*/ANI/files
 
+$ python -m SIESTAstepper ani_to_gif graphene.ANI 1920 1080 1 1.3
+
+$ python -m SIESTAstepper ani_to_gif graphene.ANI 1920 1080 1 1.3 camera=40,0,0,0,0,0,0,1,0
+
 $ python -m SIESTAstepper energy_analysis log
 
 $ python -m SIESTAstepper energy_analysis log cont=continue
@@ -284,3 +305,11 @@ If you are using SIESTAstepper, please citate relevant version. You can find the
 
 ## License
 [GNU General Public License v3.0](https://github.com/eftalgezer/SIESTAstepper/blob/master/LICENSE) 
+
+## Acknowledgments
+
+`ani_to_gif` function uses [ANIAnimator](https://github.com/eftalgezer/ANIAnimator).
+
+## References
+
+Eftal Gezer. (2022). eftalgezer/ANIAnimator: v0.2.1 (v0.2.1). Zenodo. https://doi.org/10.5281/zenodo.7182193
