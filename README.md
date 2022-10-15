@@ -73,6 +73,9 @@ SIESTAstepper.settings.set_cont("continue")
 # Sets the SIESTA command name (default is "siesta")
 SIESTAstepper.settings.set_siesta("siesta_p")
 
+#Sets the file type to continue next step (default is "log", possible values are "log", "XV", "ANI")
+SIESTAstepper.settings.set_contfrom("ANI")
+
 # Sets the filenames to copy (useful for interrupted calculations)
 SIESTAstepper.settings.contfiles.extend(["file1", "file2"])
 
@@ -113,19 +116,46 @@ SIESTAstepper.make_directories(5)
 SIESTAstepper.copy_files(["psf", "fdf", "XV", "DM"], "graphene", "path/to/i1", "path/to/i2")
 
 # Plots and returns energies from log files
-SIESTAstepper.analysis()
+SIESTAstepper.energy_analysis()
 
 # Returns energies from log files without plotting
-SIESTAstepper.analysis(plot_ = False)
+SIESTAstepper.energy_analysis(plot_ = False)
 
 # Plots and returns energies from log files by setting a path
-SIESTAstepper.analysis(path = "path/to/i*/log/files")
+SIESTAstepper.energy_analysis(path = "path/to/i*/log/files")
 
 # Calculates the energy differences between minima and maxima
 SIESTAstepper.energy_diff()
 
 # Calculates the energy differences between minima and maxima by setting a path
 SIESTAstepper.energy_diff(path = "path/to/i*/log/files")
+
+# Plots and returns forces from log files (defaults are "Tot" and "atomic", respectively)
+SIESTAstepper.force_analysis(atomindex="Tot", forcetype="atomic")
+
+# Returns forces from log files without plotting
+SIESTAstepper.force_analysis(plot_ = False)
+
+# Plots and returns forces from log files by setting a path
+SIESTAstepper.force_analysis(path = "path/to/i*/log/files")
+
+# Calculates the force differences between minima and maxima (default is "Tot")
+SIESTAstepper.force_diff(atomindex="Tot")
+
+# Calculates the force differences between minima and maxima by setting a path
+SIESTAstepper.force_diff(path = "path/to/i*/log/files")
+
+# Calculates the pair correlation function
+SIESTAstepper.pair_correlation_function(label="graphene")
+
+# Calculates the pair correlation function without plotting
+SIESTAstepper.pair_correlation_function(label="graphene", plot_=True)
+
+# Calculates the pair correlation function by setting a path
+SIESTAstepper.pair_correlation_function(label="graphene", path="path/to/i*")
+
+# Calculates the pair correlation function by setting infinitesimal dr parameter
+SIESTAstepper.pair_correlation_function(label="graphene", dr=0.1)
 ```
 
 ### In terminal
@@ -201,19 +231,33 @@ $ python -m SIESTAstepper merge_ani graphene cont=continue
 
 $ python -m SIESTAstepper merge_ani graphene path=path/to/i*/ANI/files
 
-$ python -m SIESTAstepper analysis log
+$ python -m SIESTAstepper energy_analysis log
 
-$ python -m SIESTAstepper analysis log cont=continue
+$ python -m SIESTAstepper energy_analysis log cont=continue
 
-$ python -m SIESTAstepper analysis log noplot
+$ python -m SIESTAstepper energy_analysis log noplot
 
-$ python -m SIESTAstepper analysis log path=path/to/i*/log/files
+$ python -m SIESTAstepper energy_analysis log path=path/to/i*/log/files
 
 $ python -m SIESTAstepper energy_diff log
 
 $ python -m SIESTAstepper energy_diff log cont=continue
 
 $ python -m SIESTAstepper energy_diff log path=path/to/i*/log/files
+
+$ python -m SIESTAstepper force_analysis log atomic Tot
+
+$ python -m SIESTAstepper force_analysis log atomic Tot cont=continue
+
+$ python -m SIESTAstepper force_analysis log atomic Tot noplot
+
+$ python -m SIESTAstepper force_analysis log atomic Tot path=path/to/i*/log/files
+
+$ python -m SIESTAstepper force_diff log atomic Tot
+
+$ python -m SIESTAstepper energy_diff log atomic Tot cont=continue
+
+$ python -m SIESTAstepper energy_diff log atomic Tot path=path/to/i*/log/files
 
 ```
 
