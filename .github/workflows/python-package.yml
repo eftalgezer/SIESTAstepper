@@ -37,6 +37,10 @@ jobs:
         sudo apt-get install python3-opengl
         mkdir ~/.config/matplotlib/
         echo "backend: Agg" > ~/.config/matplotlib/matplotlibrc
+    - name: Install dependencies (Python 3.13)
+      if: "startsWith(matrix.python-version, '3.13')"
+      run: |
+            sudo apt-get install libopenblas-dev
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names
