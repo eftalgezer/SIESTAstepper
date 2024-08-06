@@ -49,7 +49,6 @@ jobs:
     - name: Install dependencies (macOS)
       if: "startsWith(matrix.os, 'macos')"
       run: |
-        sudo apt-get install python3-opengl
         mkdir ~/.config/matplotlib/
         echo "backend: Agg" > ~/.config/matplotlib/matplotlibrc
     - name: Lint with flake8
