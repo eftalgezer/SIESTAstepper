@@ -27,8 +27,8 @@ jobs:
       uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python-version }}
-    - name: Install dependencies (Python 3.13, scipy)
-      if: "startsWith(matrix.python-version, '3.13')"
+    - name: Install dependencies (Linux, Python 3.13, scipy)
+      if: "startsWith(matrix.python-version, '3.13') and startsWith(matrix.os, 'ubuntu')"
       run: |
             sudo apt-get install libopenblas-dev
     - name: Install dependencies
@@ -42,6 +42,10 @@ jobs:
         python -m pip install scipy
         python -m pip install numpy
         python -m pip install mock
+    - name: Install dependencies (Linux)
+      if: "startsWith(matrix.os, 'ubuntu')"
+      run: |
+        sudo apt-get install python3-opengl
     - name: Install dependencies (macOS)
       if: "startsWith(matrix.os, 'macos')"
       run: |
