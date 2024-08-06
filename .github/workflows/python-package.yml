@@ -28,7 +28,7 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
     - name: Install dependencies (Linux, Python 3.13, scipy)
-      if: "startsWith(matrix.python-version, '3.13') and startsWith(matrix.os, 'ubuntu')"
+      if: "startsWith(matrix.python-version, '3.13') & startsWith(matrix.os, 'ubuntu')"
       run: |
             sudo apt-get install libopenblas-dev
     - name: Install dependencies
